@@ -1,0 +1,306 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="12.0">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F52AA97E-180A-40ED-8F2B-09080171D6C7}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ApplicationIcon>
+    </ApplicationIcon>
+    <AssemblyKeyContainerName>
+    </AssemblyKeyContainerName>
+    <AssemblyName>Log2CyclePrototype</AssemblyName>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+    <DefaultClientScript>JScript</DefaultClientScript>
+    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
+    <DefaultTargetSchema>IE50</DefaultTargetSchema>
+    <DelaySign>false</DelaySign>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>Log2CyclePrototype</RootNamespace>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+    <StartupObject>Log2CyclePrototype.MainClass</StartupObject>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <TargetFrameworkProfile />
+    <PublishUrl>http://localhost/GlobalHookDemo/</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Web</InstallFrom>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>2.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DocumentationFile>bin\Debug\Log2CyclePrototype.xml</DocumentationFile>
+    <DebugSymbols>true</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>false</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>full</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>TRACE</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>false</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>none</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="GAF, Version=2.1.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\GAF.2.1.1\lib\net40\GAF.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Knob, Version=1.0.4986.25349, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLLs\Knob.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>packages\Newtonsoft.Json.8.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.Data">
+      <Name>System.Data</Name>
+    </Reference>
+    <Reference Include="System.Drawing">
+      <Name>System.Drawing</Name>
+    </Reference>
+    <Reference Include="System.Management" />
+    <Reference Include="System.Windows.Forms">
+      <Name>System.Windows.Forms</Name>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Name>System.XML</Name>
+    </Reference>
+    <Reference Include="ToggleSwitch">
+      <HintPath>DLLs\ToggleSwitch.dll</HintPath>
+    </Reference>
+    <Reference Include="Winamp.Components">
+      <HintPath>DLLs\Winamp.Components.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsInput, Version=1.0.4.0, Culture=neutral, PublicKeyToken=9b287f7dc5073cad, processorArchitecture=MSIL">
+      <HintPath>packages\InputSimulator.1.0.4.0\lib\net20\WindowsInput.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Algorithm\AlgorithmTest.cs" />
+    <Compile Include="Algorithm\CrossoverType.cs" />
+    <Compile Include="Algorithm\CustomCrossover.cs" />
+    <Compile Include="Algorithm\CustomSwapMutate.cs" />
+    <Compile Include="Algorithm\InnovationAlgorithm.cs" />
+    <Compile Include="Algorithm\MazeSolver.cs" />
+    <Compile Include="Algorithm\MonsterCrossover.cs" />
+    <Compile Include="Algorithm\NoveltyAlgorithmTestClass.cs" />
+    <Compile Include="Algorithm\ObjectiveAlgorithmTestClass.cs" />
+    <Compile Include="Algorithm\SearchUtils.cs" />
+    <Compile Include="Controls\TrianglePicker.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\TrianglePicker.Designer.cs">
+      <DependentUpon>TrianglePicker.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Core.cs" />
+    <Compile Include="Draw.cs" />
+    <Compile Include="Exceptions\CurrentMapNullException.cs" />
+    <Compile Include="FileWatcher.cs" />
+    <Compile Include="Hook.cs" />
+    <Compile Include="LoG2API\Elements\Alcove.cs" />
+    <Compile Include="LoG2API\Elements\Button.cs" />
+    <Compile Include="LoG2API\Elements\Connector.cs" />
+    <Compile Include="LoG2API\Elements\EndingPoint.cs" />
+    <Compile Include="LoG2API\Elements\Lock.cs" />
+    <Compile Include="LoG2API\Elements\Monster.cs" />
+    <Compile Include="LoG2API\Elements\PressurePlate.cs" />
+    <Compile Include="LoG2API\Elements\StartingPoint.cs" />
+    <Compile Include="LoG2API\Elements\Text.cs" />
+    <Compile Include="LoG2API\Elements\TorchHolder.cs" />
+    <Compile Include="MainClass.cs" />
+    <Compile Include="MonstersForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MonstersForm.Designer.cs">
+      <DependentUpon>MonstersForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="UserSelection.cs" />
+    <Compile Include="Settings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Settings.Designer.cs">
+      <DependentUpon>Settings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Utilities\DirectoryManager.cs" />
+    <Compile Include="Utilities\ProgramResources.cs" />
+    <Compile Include="Utilities\Prompt.cs" />
+    <Compile Include="Utilities\Utilities.cs" />
+    <Compile Include="LoG2API\Cell.cs" />
+    <Compile Include="AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LoG2API\Map.cs" />
+    <Compile Include="Logger.cs" />
+    <Compile Include="LoG2API\Elements\Door.cs" />
+    <Compile Include="LoG2API\Elements\Lever.cs" />
+    <Compile Include="LoG2API\APIClass.cs" />
+    <Compile Include="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LoG2API\Elements\MapElement.cs" />
+    <Compile Include="WinAPI\CursorManager.cs" />
+    <Compile Include="WinAPI\MouseSpeedController.cs" />
+    <Compile Include="WinAPI\ProcessMonitor.cs" />
+    <Compile Include="WinAPI\UserActivityHook.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <EmbeddedResource Include="Controls\TrianglePicker.resx">
+      <DependentUpon>TrianglePicker.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MonstersForm.resx">
+      <DependentUpon>MonstersForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Settings.resx">
+      <DependentUpon>Settings.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 2.0</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\wrench_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\wrench_icon_small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\previous_icon_small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\next_icon_small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\hitme_icon_small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\apply_icon_small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\undo_icon_small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cursor_minus.cur" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cursor_plus.cur" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\eraser_blank.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\eraser_filled.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\invert_selection.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\visibility_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\info_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\info_icon_small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\control.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\green_back.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\red_back.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>
