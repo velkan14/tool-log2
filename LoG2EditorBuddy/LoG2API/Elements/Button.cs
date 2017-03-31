@@ -53,10 +53,7 @@ namespace Log2CyclePrototype.LoG2API.Elements
 
             sb.AppendLine(String.Format(@"spawn(""{0}"",{1},{2},{3},{4},""{5}"")", type, x, y, (int)orientation, h, uniqueID));
             sb.AppendLine(String.Format(@"{0}.button:setDisableSelf({1})", uniqueID, DisableSelf ? "true" : "false"));
-            if (connectors.Count > 0)
-            {
-                sb.AppendLine(PrintConnectors());
-            }
+
             return sb.ToString();
         }
 

@@ -5,23 +5,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Log2CyclePrototype
+namespace Log2CyclePrototype.LoG2API.Elements
 {
-    public class EndingPoint : MapElement
+    public class Item : MapElement
     {
-
-        public string Type { get; set; }
-
-        public EndingPoint(string id, int x, int y, int o, int h, string uniqueID) : base(x,y,o,h,uniqueID)
+        string type;
+        public Item(string type, int x, int y, int orientation, int h, string uniqueID) : base(x,y,orientation,h,uniqueID)
         {
-            Type = id;   
+            this.type = type;
         }
 
         public override string ElementType
         {
             get
             {
-                return Type;
+                return type;
             }
         }
 
@@ -32,7 +30,7 @@ namespace Log2CyclePrototype
 
         public override string PrintElement()
         {
-            return String.Format(@"spawn(""{0}"",{1},{2},{3},{4},""{5}"")", Type, x, y, orientation, h, uniqueID);
+            throw new NotImplementedException();
         }
     }
 }

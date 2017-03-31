@@ -105,11 +105,7 @@ namespace Log2CyclePrototype
         /// <param name="disableSelf"> True if the lever should only work once, false if otherwise </param>
         public Lever(string type, int x, int y, int orientation, int h, string uniqueID) : base(x,y,orientation,h,uniqueID)
         {
-            if(Enum.TryParse(type, true, out _type))
-            {
-                Logger.AppendText("true!!!!!!!!!11");
-            }
-            else Logger.AppendText("false!!!!!!!!!11");
+            Enum.TryParse(type, true, out _type);
             //Enum.TryParse(state, true, out _state);
             _disableSelf = false; //true = works only once
             _state = State.deactivated;

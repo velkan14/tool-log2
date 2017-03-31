@@ -12,6 +12,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 //using Log2CyclePrototype.LoG2API.Lever.LeverType;
 
@@ -29,7 +30,7 @@ namespace Log2CyclePrototype
         public static Map CurrentMap { get; set; }
         //Needed to distinguish map changes by user or algorithm
         public static bool _mapSaved = false;
-        public static ArrayList DifferentMapTiles { get { return CurrentMap.DifferentTiles; } }
+        public static ArrayList DifferentMapTiles { get { return CurrentMap.Tiles; } }
 
         private static Tuple<string, int> _walkableTile = new Tuple<string, int>("dungeon_floor", 1);
         private static Tuple<string, int> _unwalkableTile = new Tuple<string, int>("dungeon_wall", 2);
@@ -55,9 +56,9 @@ namespace Log2CyclePrototype
                     difference++;
             }
             //if the different tiles array is different, means the difference will be = (CurrentMap.Width * CurrentMap.Height) because all cell indexes will increase/decrease
-            if (prevMap.DifferentTiles.Count != prevMap.DifferentTiles.Count) 
+            if (prevMap.Tiles.Count != prevMap.Tiles.Count) 
             {
-                difference -= (CurrentMap.Width * CurrentMap.Height) * System.Math.Abs(prevMap.DifferentTiles.Count - prevMap.DifferentTiles.Count);
+                difference -= (CurrentMap.Width * CurrentMap.Height) * System.Math.Abs(prevMap.Tiles.Count - prevMap.Tiles.Count);
             }
             //comparar elementos de puzzle
             //difference += System.Math.Abs(prevMap.MapElements.Count - currMap.MapElements.Count);
@@ -88,21 +89,19 @@ namespace Log2CyclePrototype
         /// Parses the dungeon.lua file in the current project directory
         /// </summary>
         /// <returns> A Map object representing the current dungeon.lua file contents </returns>
-        public static Map ParseMapFile()
+        public static Map ParseMapFile2()
         {
 
             Map localMap = null;
             string name = "", ambientTrack = "";
             int[] levelCoord = null;
             int width = 0, height = 0;
+
             StartingPoint startingPoint = null;
             List<EndingPoint> endingPoints = null;
             List<Cell> localCells = new List<Cell>();
             ArrayList localT = new ArrayList(32 * 32);
             ArrayList localDifferentTiles = new ArrayList();
-            Hashtable localMapElements = new Hashtable();
-            Hashtable localPuzzleConnections = new Hashtable();
-            List<string> localMapObjects = new List<string>();
             int stage = -1;
             int tileStartingLine = 0;
 
@@ -111,7 +110,9 @@ namespace Log2CyclePrototype
             Door.DoorType tmpDoortype;
             Lever.LeverType tmpLeverType;
             Lock.LockType tmpLockType;
-            Button.ButtonType tmpButtonType; 
+            Button.ButtonType tmpButtonType;
+
+            Dictionary<string, MapElement> uniqueIDElement = new Dictionary<string, MapElement>();
             string id = "";
             int x = 0;
             int y = 0;
@@ -127,7 +128,7 @@ namespace Log2CyclePrototype
                 {
                     string currentLine = lines[i];
 
-                    Logger.AppendText("[" + i + "]" + currentLine);
+
                     if (currentLine.Contains("name"))
                     {
                         name = lines[i].Split(new char[] { '"' }, StringSplitOptions.RemoveEmptyEntries)[1];
@@ -203,7 +204,7 @@ namespace Log2CyclePrototype
                                 for (int j = 0; j < width; j++)
                                 {
 
-                                    int cVal = Convert.ToInt32(cellLine[j]);
+                                    int cVal = Convert.ToInt32(cellLine[j]); 
                                     
                                     //get tile name
                                     string tileName = (string)localDifferentTiles[cVal - 1];
@@ -234,14 +235,16 @@ namespace Log2CyclePrototype
                             h = Convert.ToInt32(splitString[5]);
                             uniqueId = splitString[6];
 
-                            var tmpC = localCells[(y * localMap.Height) + x];
-
+                            var tmpCell = localCells[(y * localMap.Height) + x];
+                            
                             if (id.Contains("starting"))
                             {                            
                                 startingPoint = new StartingPoint(id, x, y, o, h, uniqueId);
       
-                                tmpC.IsStartingPoint = true;
-                                tmpC.StartPoint = startingPoint;
+                                tmpCell.IsStartingPoint = true;
+                                tmpCell.StartPoint = startingPoint;
+
+                                uniqueIDElement.Add(uniqueId, startingPoint);
                             }
                             else if (id.Contains("exit") || id.Contains("stairs") || id.Contains("healing_crystal"))
                             {
@@ -251,9 +254,11 @@ namespace Log2CyclePrototype
 
                                 var newEndingPoint = new EndingPoint(id, x, y, o, h, uniqueId);
                
-                                tmpC.IsEndingPoint = true;
-                                tmpC.EndPoint = newEndingPoint;
+                                tmpCell.IsEndingPoint = true;
+                                tmpCell.EndPoint = newEndingPoint;
                                 endingPoints.Add(newEndingPoint);
+                                
+                                uniqueIDElement.Add(uniqueId, newEndingPoint);
                             }
                             else if (id.Contains("torch_holder"))
                             {
@@ -276,13 +281,13 @@ namespace Log2CyclePrototype
                                     i++;
                                 }
 
-                                tmpC.AddElement(newTorchHolder);
+                                tmpCell.AddElement(newTorchHolder);
                             }
                             else if (Monster.MonsterType.TryParse(id, true, out tmpMonstertype))
                             {
                                 var newMonster = new Monster(id, x, y, o, h, uniqueId);
 
-                                tmpC.Monster = newMonster;
+                                tmpCell.Monster = newMonster;
                             }
                             else if (Text.TextType.TryParse(id, true, out tmpTexttype))
                             {
@@ -296,7 +301,7 @@ namespace Log2CyclePrototype
                                     }
                                     i++;
                                 }
-                                tmpC.AddElement(newText);
+                                tmpCell.AddElement(newText);
                             }
                             else if(Door.DoorType.TryParse(id, true, out tmpDoortype))
                             {
@@ -311,7 +316,7 @@ namespace Log2CyclePrototype
                                     }
                                     i++;
                                 }
-                                tmpC.AddElement(newDoor);
+                                tmpCell.AddElement(newDoor);
                             }
                             else if(Lever.LeverType.TryParse(id, true, out tmpLeverType))
                             {
@@ -330,7 +335,7 @@ namespace Log2CyclePrototype
                                     }
                                     i++;
                                 }
-                                tmpC.AddElement(newLever);
+                                tmpCell.AddElement(newLever);
                             }
                             else if(Lock.LockType.TryParse(id, true, out tmpLockType))
                             {
@@ -349,7 +354,7 @@ namespace Log2CyclePrototype
                                     }
                                     i++;
                                 }
-                                tmpC.AddElement(newLock);
+                                tmpCell.AddElement(newLock);
                             }
                             else if (Button.ButtonType.TryParse(id, true, out tmpButtonType))
                             {
@@ -369,11 +374,11 @@ namespace Log2CyclePrototype
                                     }
                                     i++;
                                 }
-                                tmpC.AddElement(newElement);
+                                tmpCell.AddElement(newElement);
                             }
                             else //any other object
                             {
-                                localMapObjects.Add(currentLine);
+
                             }
 
                             break;
@@ -394,11 +399,7 @@ namespace Log2CyclePrototype
                 localMap.AmbientTrack = ambientTrack;
                 localMap.LevelCoord = levelCoord;
                 localMap.Cells = localCells;
-                localMap.WalkableCells = wc;
-                localMap.MapElements = localMapElements;
-                localMap.PuzzleConnections = localPuzzleConnections;
-                localMap.DifferentTiles = localDifferentTiles;
-                localMap.MapObjects = localMapObjects;
+                localMap.Tiles = localDifferentTiles;
                 localMap.Id = -1; //testing
 
                 CurrentMap = localMap;
@@ -407,6 +408,183 @@ namespace Log2CyclePrototype
             catch (Exception e) { DebugUtilities.DebugException(e); }
 
             return localMap;
+        }
+
+        public static Map ParseMapFile()
+        {
+            Char[] delimiters = { '=', ' ', ',', '"', '{', '}' , '\r', '\n', '\t' , ')', '(' };
+
+            Monster.MonsterType tmpMonstertype;
+            Text.TextType tmpTextType;
+            Door.DoorType tmpDoorType;
+            Lever.LeverType tmpLeverType;
+            Lock.LockType tmpLockType;
+            Button.ButtonType tmpButtonType;
+            Alcove.AlcoveType tmpAlcoveType;
+            PressurePlate.PressurePlateType tmpPressurePlateType;
+           
+            string fileText = System.IO.File.ReadAllText(DirectoryManager.DungeonFilePath);
+
+            string patternSpawn = @"spawn\(.*\)";
+            string patternParameter = @"\w+\.\w+\:\w+\(.*\)";
+            string patternLoadLayer = @"loadLayer\(([^)]+)\)";
+            string patternMap = @"\w+ = .*,";
+            string patternTiles = @"tiles = {(\n|\t|[^{])*(?=})";
+
+
+            MatchCollection matchsSpawn = Regex.Matches(fileText, patternSpawn, RegexOptions.IgnoreCase);
+            MatchCollection matchsParameters = Regex.Matches(fileText, patternParameter, RegexOptions.IgnoreCase);
+            MatchCollection matchsMap = Regex.Matches(fileText, patternMap, RegexOptions.IgnoreCase);
+            Match matchLayer = Regex.Match(fileText, patternLoadLayer, RegexOptions.IgnoreCase);
+            Match matchTiles = Regex.Match(fileText, patternTiles, RegexOptions.IgnoreCase);
+
+            string name = "", ambientTrack = "";
+            int width = 0, height = 0;
+            int[] levelCoord = null;
+            List<string> tiles = new List<string>();
+            List<Cell> cells = new List<Cell>();
+            List<EndingPoint> endingPoints = new List<EndingPoint>();
+            StartingPoint startingPoint = null;
+
+            foreach (Match m in matchsMap)
+            {           
+                string[] split = m.Value.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
+
+                if (split[0].Contains("name"))
+                {
+                    name = split[1]; 
+                }
+                else if (split[0].Contains("width"))
+                {
+                    width = Convert.ToInt32(split[1]);
+                }
+                else if (split[0].Contains("height"))
+                {
+                    height = Convert.ToInt32(split[1]);
+                }
+                else if (split[0].Contains("levelCoord"))
+                {
+                    levelCoord = new int[] { Convert.ToInt32(split[1]), Convert.ToInt32(split[2]), Convert.ToInt32(split[3]) };
+                }
+                else if (split[0].Contains("ambientTrack"))
+                {
+                    ambientTrack = split[1];
+                }
+            }
+
+            string[] splitTiles = matchTiles.Value.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
+
+            for(int i = 1; i < splitTiles.Length; i++)
+            {
+                tiles.Add(splitTiles[i]);
+            }
+
+            string[] splitLayer = matchLayer.Value.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
+
+            for (int i = 2; i < splitLayer.Length; i++)
+            {
+                int x = (i - 2) % width;
+                int y = (i - 2) / width;
+                int type = Convert.ToInt32(splitLayer[i]);
+                Cell c = new Cell(x, y, type);
+                if (type == 1) c.IsWalkable = true;
+                else if (type == 2) c.IsWalkable = false; //FIXME: Se houverem mais tipos esta comparação pode não chegar.
+                cells.Add(c);
+            }
+
+            foreach(Match m in matchsSpawn)
+            {
+                string[] splitString = m.Value.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
+
+                string id = splitString[1];
+                int  x = Convert.ToInt32(splitString[2]);
+                int y = Convert.ToInt32(splitString[3]);
+                int o = Convert.ToInt32(splitString[4]);
+                int h = Convert.ToInt32(splitString[5]);
+                string uniqueId = splitString[6];
+
+                Cell tmpCell = cells.Where(c => c.X == x && c.Y == y).First();
+
+                if (id.Contains("starting_location"))
+                {
+                    startingPoint = new StartingPoint(id, x, y, o, h, uniqueId);
+                    tmpCell.IsStartingPoint = true;
+                    tmpCell.StartPoint = startingPoint;
+                }
+                else if (id.Contains("exit") || id.Contains("stairs") || id.Contains("healing_crystal"))
+                {
+                    var newEndingPoint = new EndingPoint(id, x, y, o, h, uniqueId);
+                    tmpCell.IsEndingPoint = true;
+                    tmpCell.EndPoint = newEndingPoint;
+
+                    endingPoints.Add(newEndingPoint);
+                }
+                else if (id.Contains("torch_holder"))
+                {
+                    var newTorchHolder = new TorchHolder(id, x, y, o, h, uniqueId);
+                    tmpCell.AddElement(newTorchHolder);
+                }
+                else if (Alcove.AlcoveType.TryParse(id, true, out tmpAlcoveType))
+                {
+                    var newElement = new Alcove(id, x, y, o, h, uniqueId);
+                    tmpCell.AddElement(newElement);
+                }
+                else if (Button.ButtonType.TryParse(id, true, out tmpButtonType))
+                {
+                    var newElement = new Button(id, x, y, o, h, uniqueId);
+                    tmpCell.AddElement(newElement);
+                }
+                else if (Door.DoorType.TryParse(id, true, out tmpDoorType))
+                {
+                    var newDoor = new Door(id, x, y, o, h, uniqueId);
+                    tmpCell.AddElement(newDoor);
+                }
+                /*else if(false)
+                {
+                //ITEM
+                }*/
+                else if (Lever.LeverType.TryParse(id, true, out tmpLeverType))
+                {
+                    var newLever = new Lever(id, x, y, o, h, uniqueId);
+                    tmpCell.AddElement(newLever);
+                }
+                else if (Lock.LockType.TryParse(id, true, out tmpLockType))
+                {
+                    var newLock = new Lock(id, x, y, o, h, uniqueId);
+                    tmpCell.AddElement(newLock);
+                }
+                else if (Monster.MonsterType.TryParse(id, true, out tmpMonstertype))
+                {
+                    var newMonster = new Monster(id, x, y, o, h, uniqueId);
+                    tmpCell.Monster = newMonster;
+                }
+                else if (PressurePlate.PressurePlateType.TryParse(id, true, out tmpPressurePlateType))
+                {
+                    var newElement = new PressurePlate(id, x, y, o, h, uniqueId);
+                    tmpCell.AddElement(newElement);
+                }
+                else if (Text.TextType.TryParse(id, true, out tmpTextType))
+                {
+                    var newText = new Text(id, x, y, o, h, uniqueId);
+                    tmpCell.AddElement(newText);
+                }
+                else
+                {
+                    var newElement = new Item(id, x, y, o, h, uniqueId);
+                    tmpCell.AddElement(newElement);
+                }
+            }
+
+            Map map = new Map(name, width, height);
+
+            map.StartPoint = startingPoint;
+            map.EndPointList = endingPoints;
+            map.AmbientTrack = ambientTrack;
+            map.LevelCoord = levelCoord;
+            map.Cells = cells;
+            map.Tiles = new ArrayList(tiles); //FIXME
+            CurrentMap = map;
+            return map;
         }
 
         /// <summary>
@@ -420,7 +598,7 @@ namespace Log2CyclePrototype
             Map mapObject = new Map(APIClass.CurrentMap.Name, APIClass.CurrentMap.Width, APIClass.CurrentMap.Height);
             mapObject.AmbientTrack = APIClass.CurrentMap.AmbientTrack;
             mapObject.LevelCoord = APIClass.CurrentMap.LevelCoord;
-            mapObject.DifferentTiles = APIClass.CurrentMap.DifferentTiles;
+            mapObject.Tiles = APIClass.CurrentMap.Tiles;
 
             try
             {
@@ -444,8 +622,6 @@ namespace Log2CyclePrototype
                     //        mapObject.MapElements.Add();
                     //}
                     mapObject.Cells.Add(tmpC);
-                    if (tmpC.IsWalkable)
-                        mapObject.WalkableCells.Add(tmpC);
                 }
 
             }

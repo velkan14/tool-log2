@@ -277,7 +277,7 @@ namespace Log2CyclePrototype
                 Cell c = (Cell)chromosomeGenes[i].ObjectValue;
                 int cellX = c.X, cellY = c.Y;
 
-                if ((start.x == cellX && start.y == cellY) || (end.X == cellX && end.Y == cellY))
+                if ((start.x == cellX && start.y == cellY) || (end.x == cellX && end.y == cellY))
                     if (!c.IsWalkable)
                         return 0.0;
 
@@ -501,7 +501,7 @@ namespace Log2CyclePrototype
                 {
                     foreach (var ep in mapClone.EndPointList)
                     {
-                        var tmpC = mapClone.Cells.Find(ec => (ec.X == ep.X && ec.Y == ep.Y));
+                        var tmpC = mapClone.Cells.Find(ec => (ec.X == ep.x && ec.Y == ep.y));
                         tmpC.IsEndingPoint = true;
                         tmpC.EndPoint = ep;
                         tmpC.IsWalkable = true;

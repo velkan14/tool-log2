@@ -60,8 +60,8 @@ namespace Log2CyclePrototype
         /// </summary>
         public bool IsWalkable
         {
-            get { return _isWalkable; }
-            set { _isWalkable = value; }
+            get { return isWalkable; }
+            set { isWalkable = value; }
         }
 
         /// <summary>
@@ -69,8 +69,8 @@ namespace Log2CyclePrototype
         /// </summary>
         public bool IsStartingPoint
         {
-            get { return _isStartingPoint; }
-            set { _isStartingPoint = value; }
+            get { return isStartingPoint; }
+            set { isStartingPoint = value; }
         }
 
         /// <summary>
@@ -78,8 +78,8 @@ namespace Log2CyclePrototype
         /// </summary>
         public bool IsEndingPoint
         {
-            get { return _isEndingPoint; }
-            set { _isEndingPoint = value; }
+            get { return isEndingPoint; }
+            set { isEndingPoint = value; }
         }
 
         /// <summary>
@@ -87,8 +87,8 @@ namespace Log2CyclePrototype
         /// </summary>
         public int CellType
         {
-            get { return _type; }
-            set { _type = value; }
+            get { return type; }
+            set { type = value; }
         }
 
         public List<MapElement> ElementsInCell
@@ -128,10 +128,10 @@ namespace Log2CyclePrototype
         public EndingPoint EndPoint { get; set; }
 
         private int _x, _y;
-        private int _type;
+        private int type;
         private List<MapElement> _mapElements;
-        private bool _isStartingPoint, _isEndingPoint;
-        private bool _isWalkable;
+        private bool isStartingPoint, isEndingPoint;
+        private bool isWalkable;
         private int _neighbours;
         public Monster Monster { get; set; }
 
@@ -146,10 +146,10 @@ namespace Log2CyclePrototype
             _mapElements = new List<MapElement>();
             _x = x;
             _y = y;
-            _type = type;
-            _isStartingPoint = false;
-            _isEndingPoint = false;
-            _isWalkable = false;
+            this.type = type;
+            isStartingPoint = false;
+            isEndingPoint = false;
+            isWalkable = false;
             _neighbours = 0;
             SelectedToDraw = false;
             //Enum.TryParse(type, true, out _type);

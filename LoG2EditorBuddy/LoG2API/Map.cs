@@ -32,75 +32,73 @@ namespace Log2CyclePrototype
 
         public string Name
         {
-            get { return _name; }
-            set { _name = value; }
+            get { return name; }
+            set { name = value; }
         }
 
         public int Width
         {
-            get { return _width; }
-            set { _width = value; }
+            get { return width; }
+            set { width = value; }
         }
 
         public int Height
         {
-            get { return _height; }
-            set { _height = value; }
+            get { return height; }
+            set { height = value; }
         }
 
         public StartingPoint StartPoint
         {
-            get { return _startingPoint; }
-            set { _startingPoint = value; }
+            get { return startingPoint; }
+            set { startingPoint = value; }
         }
 
         public List<EndingPoint> EndPointList
         {
-            get { return _endingPoints; }
-            set { _endingPoints = value; }
+            get { return endingPoints; }
+            set { endingPoints = value; }
         }
 
         public List<Cell> Cells
         {
-            get { return _cells; }
-            set { _cells = value; }
+            get { return cells; }
+            set { cells = value; }
         }
 
         public List<Cell> WalkableCells
         {
-            get { return _walkableCells; }
-            set { _walkableCells = value; }
+            get
+            {
+                List<Cell> list = new List<Cell>();
+                foreach(Cell c in cells)
+                {
+                    if (c.IsWalkable)
+                    {
+                        list.Add(c);
+                    }
+                }
+                return list;
+            }
         }
 
-        public Hashtable MapElements
+        public ArrayList Tiles
         {
-            get { return _mapElements; }
-            set { _mapElements = value; }
-        }
-
-        public Hashtable PuzzleConnections
-        {
-            get { return _puzzleConnections; }
-            set { _puzzleConnections = value; }
-        }
-
-        public ArrayList DifferentTiles
-        {
-            get { return _differentTiles; }
-            set { _differentTiles = value; }
+            get { return tiles; }
+            set { tiles = value; }
         }
 
 
         public int[] LevelCoord
         {
-            get { return _levelCoord; }
-            set { _levelCoord = value; }
+            get { return levelCoord; }
+            set { levelCoord = value; }
         }
 
         public string AmbientTrack
         {
-            get { return _ambientTrack; }
-            set { _ambientTrack = value; }
+            get { return ambientTrack; }
+            set { ambientTrack = value; }
         }
 
         public int Id
@@ -109,22 +107,14 @@ namespace Log2CyclePrototype
             set;
         }
 
-        public List<string> MapObjects { get { return _mapObjects; } set { _mapObjects = value; } }
-
-        private string _name;
-        private int _width, _height;
-        private int[] _levelCoord;
-        private string _ambientTrack;
-        private ArrayList _differentTiles;
-        //private List<Cell> _cells; //stores map cells
-        private object[] _tiles;
-        private List<Cell> _cells, _walkableCells;
-        private Hashtable _mapElements; //id, object
-        //private List<PuzzleConnection> _puzzleConnections; //stores puzzle element connections for easier evaluation
-        private Hashtable _puzzleConnections;
-        private StartingPoint _startingPoint;
-        private List<EndingPoint> _endingPoints;
-        private List<string> _mapObjects;
+        private string name;
+        private int width, height;
+        private int[] levelCoord;
+        private string ambientTrack;
+        private ArrayList tiles;
+        private List<Cell> cells;
+        private StartingPoint startingPoint;
+        private List<EndingPoint> endingPoints;
 
         /// <summary>
         /// Empty constructor (needed for JSONClone)
@@ -139,17 +129,12 @@ namespace Log2CyclePrototype
         /// <param name="h"></param>
         public Map(string name, int w, int h) 
         { 
-            _name = name;
-            _width = w;
-            _height = h;
-            _tiles = new object[w * h];
-            _cells = new List<Cell>();
-            _walkableCells = new List<Cell>();
-            _mapElements = new Hashtable();
-            _puzzleConnections = new Hashtable();
-            _startingPoint = null;
-            _endingPoints = new List<EndingPoint>();
-            _mapObjects = new List<string>();
+            this.name = name;
+            width = w;
+            height = h;
+            cells = new List<Cell>();
+            startingPoint = null;
+            endingPoints = new List<EndingPoint>();
         }
 
 
@@ -200,46 +185,26 @@ namespace Log2CyclePrototype
             return result;
         }
 
-
-        public void AddLever(Lever lever)
-        {
-            _mapElements.Add(lever.uniqueID, lever);
-            _puzzleConnections.Add(lever.uniqueID, lever.ConnectedTo);
-        }
-
-        public void AddDoor(Door door)
-        {
-            _mapElements.Add(door.uniqueID, door);
-        }
-
-
-        public void AddTorch()
-        {
-            //_mapElements.Add();
-        }
-
-
-
         public string PrintMap()
         {
             StringBuilder sb = new StringBuilder();
             sb.AppendLine("TILES");
-            for (int i = 0; i < _height; i++)
+            for (int i = 0; i < height; i++)
             {
-                for (int j = 0; j < _width; j++)
+                for (int j = 0; j < width; j++)
                 {
-                    sb.Append(_cells[j + _height * i].CellType);  // REVER
+                    sb.Append(cells[j + height * i].CellType);  // REVER
                 }
                 sb.AppendLine();
             }
             sb.AppendLine("ELEMENTS");
-            foreach (string key in _mapElements.Keys)
+            /*foreach (string key in mapElements.Keys)
             {
 
-                if (_puzzleConnections.ContainsKey(key))
-                    sb.AppendLine(key + " -> " + _puzzleConnections[key]);
+                if (puzzleConnections.ContainsKey(key))
+                    sb.AppendLine(key + " -> " + puzzleConnections[key]);
                 else sb.AppendLine(key);
-            }
+            }*/
 
             return sb.ToString();
         }

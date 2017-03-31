@@ -69,7 +69,7 @@ namespace Log2CyclePrototype
                 cellPanelGraphics.DrawString("S", new Font("ArialBold", 12), new SolidBrush(Color.Yellow), new RectangleF(new PointF(start.x * cellWidth, start.y * cellHeight), new SizeF(cellWidth, cellHeight)), StringFormat.GenericDefault);
             if (endPoints != null)
                 foreach (var e in endPoints)
-                    cellPanelGraphics.DrawString("E", new Font("ArialBold", 12), new SolidBrush(Color.Yellow), new RectangleF(new PointF(e.X * cellWidth, e.Y * cellHeight), new SizeF(cellWidth, cellHeight)), StringFormat.GenericDefault);
+                    cellPanelGraphics.DrawString("E", new Font("ArialBold", 12), new SolidBrush(Color.Yellow), new RectangleF(new PointF(e.x * cellWidth, e.y * cellHeight), new SizeF(cellWidth, cellHeight)), StringFormat.GenericDefault);
         }
 
         private void FillCell(int x, int y, Color c)

@@ -34,10 +34,7 @@ namespace Log2CyclePrototype.LoG2API.Elements
             StringBuilder sb = new StringBuilder();
 
             sb.AppendLine(String.Format(@"spawn(""{0}"",{1},{2},{3},{4},""{5}"")", "torch_holder", x, y, (int)orientation, h, uniqueID));
-            if(connectors.Count > 0)
-            {
-                sb.AppendLine(PrintConnectors());
-            }
+
             sb.AppendLine(String.Format(@"{0}.controller:setHasTorch({1})", uniqueID, HasTorch ? "true" : "false"));
             return sb.ToString();
         }

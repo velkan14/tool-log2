@@ -30,7 +30,6 @@ namespace Log2CyclePrototype
         [JsonProperty()] public string uniqueID { get; set; }
         [JsonProperty()] public Orientation orientation { get; set; }
 
-        //[JsonProperty()]
         public abstract string ElementType { get; }
 
         public MapElement(int x, int y,int orientation, int h, string uniqueID)
@@ -49,9 +48,12 @@ namespace Log2CyclePrototype
             connectors.Add(new Connector(trigger, target, action));
         }
 
-        public string PrintConnectors()
+        public string Print()
         {
+            
             StringBuilder sb = new StringBuilder();
+
+            sb.AppendLine(PrintElement());
 
             if (connectors.Count > 0)
             {

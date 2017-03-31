@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Log2CyclePrototype.LoG2API.Elements
 {
+
     class Alcove : MapElement
     {
         public enum AlcoveType

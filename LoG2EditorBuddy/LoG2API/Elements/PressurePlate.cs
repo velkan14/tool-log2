@@ -63,11 +63,6 @@ namespace Log2CyclePrototype.LoG2API.Elements
             sb.AppendLine(String.Format(@"{0}.floortrigger:setTriggeredByDigging({1})", uniqueID, TriggeredByDigging ? "true" : "false"));
             sb.AppendLine(String.Format(@"{0}.floortrigger:setDisableSelf({1})", uniqueID, DisableSelf ? "true" : "false"));
 
-            if (connectors.Count > 0)
-            {
-                sb.AppendLine(PrintConnectors());
-            }
-
             return sb.ToString();
         }
     }

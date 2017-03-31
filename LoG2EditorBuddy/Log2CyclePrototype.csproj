@@ -18,7 +18,7 @@
     <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
     <DefaultTargetSchema>IE50</DefaultTargetSchema>
     <DelaySign>false</DelaySign>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <RootNamespace>Log2CyclePrototype</RootNamespace>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
     <StartupObject>Log2CyclePrototype.MainClass</StartupObject>
@@ -158,8 +158,9 @@
     <Compile Include="Hook.cs" />
     <Compile Include="LoG2API\Elements\Alcove.cs" />
     <Compile Include="LoG2API\Elements\Button.cs" />
-    <Compile Include="LoG2API\Elements\Connector.cs" />
+    <Compile Include="LoG2API\Connector.cs" />
     <Compile Include="LoG2API\Elements\EndingPoint.cs" />
+    <Compile Include="LoG2API\Elements\Item.cs" />
     <Compile Include="LoG2API\Elements\Lock.cs" />
     <Compile Include="LoG2API\Elements\Monster.cs" />
     <Compile Include="LoG2API\Elements\PressurePlate.cs" />
@@ -201,7 +202,7 @@
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="LoG2API\Elements\MapElement.cs" />
+    <Compile Include="LoG2API\MapElement.cs" />
     <Compile Include="WinAPI\CursorManager.cs" />
     <Compile Include="WinAPI\MouseSpeedController.cs" />
     <Compile Include="WinAPI\ProcessMonitor.cs" />

@@ -352,7 +352,7 @@ namespace Log2CyclePrototype
             var end = _currentMap.EndPointList[0];
 
             Cell startGene = (Cell)chromosome.Genes[start.x + _currentMap.Width * start.y].ObjectValue;
-            Cell endGene = (Cell)chromosome.Genes[end.X + _currentMap.Width * end.Y].ObjectValue;
+            Cell endGene = (Cell)chromosome.Genes[end.x + _currentMap.Width * end.y].ObjectValue;
 
             if (!endGene.IsWalkable || !startGene.IsWalkable)
                 return 0.0;
@@ -362,7 +362,7 @@ namespace Log2CyclePrototype
             double startEndEval = 0.0;
             //for (int i = 1; i <= startEndPoints.Length - 1; i++)
             //{
-                var pointPaths = SearchUtils.StartEndPointsInSamePath(start.x, start.y, end.X, end.Y, allPaths);
+                var pointPaths = SearchUtils.StartEndPointsInSamePath(start.x, start.y, end.x, end.y, allPaths);
 
                 if (pointPaths.Item1 != -1 && pointPaths.Item2 != -1)
                 { //if valid
@@ -370,7 +370,7 @@ namespace Log2CyclePrototype
                     if (pointPaths.Item1 != pointPaths.Item2)
                     { //not in same path
 
-                        var startEndDist = (SearchUtils.ManhattanDistanceBetweenPoints(start.x, start.y, end.X, end.Y));
+                        var startEndDist = (SearchUtils.ManhattanDistanceBetweenPoints(start.x, start.y, end.x, end.y));
                         var pathDist = SearchUtils.GetRemainingDistanceBetweenPaths(allPaths[pointPaths.Item1], allPaths[pointPaths.Item2]);
                         startEndEval += ((startEndDist - pathDist) / startEndDist) * 1.3f;
                         //startEndEval -= (pathDist / (float)startEndDist) * 0.5f;
@@ -622,7 +622,7 @@ namespace Log2CyclePrototype
             {
                 foreach (var ep in mapClone.EndPointList)
                 {
-                    var tmpC = mapClone.Cells.Find(ec => (ec.X == ep.X && ec.Y == ep.Y));
+                    var tmpC = mapClone.Cells.Find(ec => (ec.X == ep.x && ec.Y == ep.y));
                     tmpC.IsEndingPoint = true;
                     tmpC.EndPoint = ep;
                     tmpC.IsWalkable = true;
@@ -748,7 +748,7 @@ namespace Log2CyclePrototype
                 {
                     foreach (var ep in mapClone.EndPointList)
                     {
-                        var tmpC = mapClone.Cells.Find(ec => (ec.X == ep.X && ec.Y == ep.Y));
+                        var tmpC = mapClone.Cells.Find(ec => (ec.X == ep.x && ec.Y == ep.y));
                         tmpC.IsEndingPoint = true;
                         tmpC.EndPoint = ep;
                         tmpC.IsWalkable = true;
