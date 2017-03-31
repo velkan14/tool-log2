@@ -52,11 +52,11 @@ namespace Log2CyclePrototype.Utilities
                     return default(T);
                 }
                 var settings = new JsonSerializerSettings();
-                settings.TypeNameHandling = TypeNameHandling.Objects;
+                settings.TypeNameHandling = TypeNameHandling.Auto;
                 //settings.PreserveReferencesHandling = PreserveReferencesHandling.Objects; //was having trouble when serielizing neighbours
                 //settings.ReferenceLoopHandling = ReferenceLoopHandling.Serialize;
                 var json = JsonConvert.SerializeObject(source, settings);
-                return JsonConvert.DeserializeObject<T>(json);
+                return JsonConvert.DeserializeObject<T>(json, settings);
 
             }
             catch (Exception jse)
