@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Threading;
 using Log2CyclePrototype.Utilities;
 using System.Diagnostics;
+using Log2CyclePrototype.LoG2API;
 
 namespace GAF.Operators
 {

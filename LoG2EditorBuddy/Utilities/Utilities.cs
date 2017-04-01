@@ -1,4 +1,5 @@
 ﻿using GAF;
+using Log2CyclePrototype.LoG2API;
 //using Log2CyclePrototype.Algorithm;
 //using Log2CyclePrototype.LoG2API;
 using Newtonsoft.Json;

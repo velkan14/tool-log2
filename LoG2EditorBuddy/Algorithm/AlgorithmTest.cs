@@ -8,6 +8,7 @@ using GAF.Extensions;
 using GAF.Operators;
 using System.Collections;
 using Log2CyclePrototype.Algorithm;
+using Log2CyclePrototype.LoG2API;
 
 namespace Log2CyclePrototype
 {
@@ -82,8 +83,8 @@ namespace Log2CyclePrototype
             var fittest = e.Population.GetTop(1)[0];
             foreach (var gene in fittest.Genes)
             {
-                Console.WriteLine(((Cell)gene.ObjectValue).CellType);
-                Logger.AppendText(((Cell)gene.ObjectValue).CellType.ToString());
+                Console.WriteLine(((Algorithm.Cell)gene.ObjectValue).CellType);
+                Logger.AppendText(((Algorithm.Cell)gene.ObjectValue).CellType.ToString());
             }
             //foreach(Cell c in })
         }
@@ -121,14 +122,14 @@ namespace Log2CyclePrototype
             return cities;
         }
 
-        private static List<Cell> CreateCells()
+        private static List<Algorithm.Cell> CreateCells()
         {
-            var cells = new List<Cell>
+            var cells = new List<Algorithm.Cell>
             {
-                new Cell(0,0,1),
-                new Cell(0,1,2),
-                new Cell(1,0,3),
-                new Cell(1,1,4),
+                new Algorithm.Cell(0,0,1),
+                new Algorithm.Cell(0,1,2),
+                new Algorithm.Cell(1,0,3),
+                new Algorithm.Cell(1,1,4),
             };
 
             return cells;
@@ -145,12 +146,12 @@ namespace Log2CyclePrototype
         private static double CalculateType(Chromosome chromosome)
         {
             double distanceToTravel = 0.0;
-            Cell previousCell = null;
+            Algorithm.Cell previousCell = null;
 
             //run through each city in the order specified in the chromosome
             foreach (var gene in chromosome.Genes)
             {
-                var currentCell = (Cell)gene.ObjectValue;
+                var currentCell = (Algorithm.Cell)gene.ObjectValue;
 
                 if (previousCell != null)
                 {

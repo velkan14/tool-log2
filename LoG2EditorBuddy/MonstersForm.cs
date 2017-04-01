@@ -1,5 +1,6 @@
 ﻿using gma.System.Windows;
 using Log2CyclePrototype.Exceptions;
+using Log2CyclePrototype.LoG2API;
 using Log2CyclePrototype.Utilities;
 using Log2CyclePrototype.WinAPI;
 using System;

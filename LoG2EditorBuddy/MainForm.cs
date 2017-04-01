@@ -13,8 +13,8 @@ using Log2CyclePrototype.Exceptions;
 using System.Reflection;
 using Log2CyclePrototype.WinAPI;
 using System.Drawing.Drawing2D;
-//using Log2CyclePrototype.LoG2API;
-
+using Log2CyclePrototype.LoG2API.Elements;
+using Log2CyclePrototype.LoG2API;
 
 namespace Log2CyclePrototype
 {

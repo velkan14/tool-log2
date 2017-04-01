@@ -7,6 +7,7 @@ using System.Diagnostics;
 //using Log2CyclePrototype.Algorithm;
 using Log2CyclePrototype.Utilities;
 using System.Drawing;
+using Log2CyclePrototype.LoG2API;
 
 //using Log2CyclePrototype.LoG2API;
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Log2CyclePrototype.LoG2API;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;

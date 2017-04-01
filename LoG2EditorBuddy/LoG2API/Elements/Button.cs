@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Log2CyclePrototype.LoG2API.Elements
 {
-    public class Button : MapElement
+    public class ButtonE : MapElement
     {
         public enum ButtonType
         {
@@ -28,7 +25,7 @@ namespace Log2CyclePrototype.LoG2API.Elements
 
         public bool DisableSelf { get; set; }
 
-        public Button(string type, int x, int y, int orientation, int h, string uniqueId) : base(x, y, orientation, h, uniqueId)
+        public ButtonE(string type, int x, int y, int orientation, int h, string uniqueId) : base(x, y, orientation, h, uniqueId)
         {
             ButtonType.TryParse(type, true, out this.type);
             DisableSelf = false;

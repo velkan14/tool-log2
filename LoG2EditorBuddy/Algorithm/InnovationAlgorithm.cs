@@ -1,6 +1,7 @@
 ﻿using GAF;
 using GAF.Extensions;
 using GAF.Operators;
+using Log2CyclePrototype.LoG2API;
 using Log2CyclePrototype.Utilities;
 using System;
 using System.Collections.Generic;

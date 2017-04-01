@@ -2,22 +2,17 @@
 using Log2CyclePrototype.Exceptions;
 using Log2CyclePrototype.LoG2API.Elements;
 using Log2CyclePrototype.Utilities;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-//using Log2CyclePrototype.LoG2API.Lever.LeverType;
 
 
-namespace Log2CyclePrototype
+namespace Log2CyclePrototype.LoG2API
 {
 
     /// <summary>
@@ -110,7 +105,7 @@ namespace Log2CyclePrototype
             Door.DoorType tmpDoortype;
             Lever.LeverType tmpLeverType;
             Lock.LockType tmpLockType;
-            Button.ButtonType tmpButtonType;
+            ButtonE.ButtonType tmpButtonType;
 
             Dictionary<string, MapElement> uniqueIDElement = new Dictionary<string, MapElement>();
             string id = "";
@@ -356,9 +351,9 @@ namespace Log2CyclePrototype
                                 }
                                 tmpCell.AddElement(newLock);
                             }
-                            else if (Button.ButtonType.TryParse(id, true, out tmpButtonType))
+                            else if (ButtonE.ButtonType.TryParse(id, true, out tmpButtonType))
                             {
-                                var newElement = new Button(id, x, y, o, h, uniqueId);
+                                var newElement = new ButtonE(id, x, y, o, h, uniqueId);
                                 while (lines[i + 1].Contains(uniqueId))
                                 {
                                     if (lines[i + 1].Contains("setDisableSelf"))
@@ -419,7 +414,7 @@ namespace Log2CyclePrototype
             Door.DoorType tmpDoorType;
             Lever.LeverType tmpLeverType;
             Lock.LockType tmpLockType;
-            Button.ButtonType tmpButtonType;
+            ButtonE.ButtonType tmpButtonType;
             Alcove.AlcoveType tmpAlcoveType;
             PressurePlate.PressurePlateType tmpPressurePlateType;
            
@@ -529,9 +524,9 @@ namespace Log2CyclePrototype
                     var newElement = new Alcove(id, x, y, o, h, uniqueId);
                     tmpCell.AddElement(newElement);
                 }
-                else if (Button.ButtonType.TryParse(id, true, out tmpButtonType))
+                else if (ButtonE.ButtonType.TryParse(id, true, out tmpButtonType))
                 {
-                    var newElement = new Button(id, x, y, o, h, uniqueId);
+                    var newElement = new ButtonE(id, x, y, o, h, uniqueId);
                     tmpCell.AddElement(newElement);
                 }
                 else if (Door.DoorType.TryParse(id, true, out tmpDoorType))

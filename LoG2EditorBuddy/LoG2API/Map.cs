@@ -1,15 +1,12 @@
-﻿using System;
+﻿using Log2CyclePrototype.LoG2API.Elements;
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-//using Log2CyclePrototype.Algorithm;
 
-namespace Log2CyclePrototype
+namespace Log2CyclePrototype.LoG2API
 {
-    
+
     public class PuzzleConnection
     {
         private MapElement _element1, _element2;
