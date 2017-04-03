@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Log2CyclePrototype.Utilities;
+using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
 
@@ -89,6 +91,14 @@ namespace Log2CyclePrototype.LoG2API.Elements
             get { return "LEVER"; }
         }
 
+        protected override string ConnectorName
+        {
+            get
+            {
+                return "lever";
+            }
+        }
+
         /// <summary>
         /// Generic lever object constructor
         /// </summary>
@@ -147,22 +157,22 @@ namespace Log2CyclePrototype.LoG2API.Elements
         /// Returns the LUA representation of this Lever object
         /// </summary>
         /// <returns></returns>
-        public override string PrintElement()
+        protected override string PrintElement(ListQueue<MapElement> elements)
         {
             //throw new NotImplementedException();
 
             StringBuilder sb = new StringBuilder();
 
-            sb.AppendLine(String.Format(@"spawn(""{0}"",{1},{2},{3},{4},""{5}"")", _type, x, y, (int)orientation, h, uniqueID));
+            sb.AppendFormat(@"spawn(""{0}"",{1},{2},{3},{4},""{5}""){6}", _type, x, y, (int)orientation, h, uniqueID, '\n');
             switch (_state)
             {
                 case 0:
-                    sb.AppendLine(String.Format(@"{0}.lever:setState({1})", uniqueID, _state.ToString().ToLower()));
+                    sb.AppendFormat(@"{0}.lever:setState({1}){2}", uniqueID, _state.ToString().ToLower(), '\n');
                     break;
             }
-            sb.AppendLine(String.Format(@"{0}.lever:setDisableSelf({1})",uniqueID,DisableSelf.ToString().ToLower()));
-            if(_connectedTo != null)
-                sb.AppendLine(String.Format(@"{0}.lever:addConnector(""{1}"", ""{2}"", ""{3}"")", uniqueID, _action, _connectedTo, _reaction));
+            sb.AppendFormat(@"{0}.lever:setDisableSelf({1}){2}", uniqueID,DisableSelf.ToString().ToLower(), '\n');
+            if (_connectedTo != null)
+                sb.AppendFormat(@"{0}.lever:addConnector(""{1}"", ""{2}"", ""{3}""){4}", uniqueID, _action, _connectedTo, _reaction, '\n');
 
             return sb.ToString();
             //spawn("beach_lever",16,14,0,0,"beach_lever_1")
@@ -174,5 +184,20 @@ namespace Log2CyclePrototype.LoG2API.Elements
         {
             throw new NotImplementedException();
         }
+
+        public override void setAttribute(string name, string value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void setAttribute(string name, bool value)
+        {
+            if (name.Contains("setDisableSelf"))
+            {
+                DisableSelf = value;
+            }
+        }
+
+     
     }
 }

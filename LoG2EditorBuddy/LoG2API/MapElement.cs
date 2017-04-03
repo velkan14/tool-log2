@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Log2CyclePrototype.Utilities;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -45,24 +46,29 @@ namespace Log2CyclePrototype.LoG2API
             connectors.Add(new Connector(trigger, target, action));
         }
 
-        public string Print()
+        public string Print(ListQueue<MapElement> elements)
         {
             
             StringBuilder sb = new StringBuilder();
 
-            sb.AppendLine(PrintElement());
+            sb.Append(PrintElement(elements));
 
-            if (connectors.Count > 0)
+            foreach(Connector c in connectors)
             {
-                foreach(Connector c in connectors)
-                    sb.AppendLine(String.Format(@"{0}.socket:addConnector(""{1}"", ""{2}"", ""{3}"")", uniqueID, c.Target, c.Trigger, c.Action));
+                sb.Append(String.Format(@"{0}.{1}:addConnector(""{2}"", ""{3}"", ""{4}""){5}", uniqueID, ConnectorName, c.Target, c.Trigger, c.Action, '\n'));
             }
+         
             return sb.ToString();
         }
 
-        public abstract string PrintElement();
+        protected abstract string ConnectorName { get; }
+
+        protected abstract string PrintElement(ListQueue<MapElement> elements);
 
         public abstract void Draw(Graphics panel, int cellWidth, int cellHeight);
 
+        public abstract void setAttribute(string name, string value);
+
+        public abstract void setAttribute(string name, bool value);
     }
 }

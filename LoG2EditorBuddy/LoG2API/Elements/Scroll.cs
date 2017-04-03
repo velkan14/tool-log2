@@ -2,41 +2,25 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Log2CyclePrototype.LoG2API.Elements
 {
-    public class Text : MapElement
+    public class Scroll : MapElement
     {
-        public enum TextType
+        public string TextWritten { get; set; }
+
+        public Scroll(string type, int x, int y, int orientation, int h, string uniqueID) : base(x, y, orientation, h, uniqueID)
         {
-            beach_wall_text,
-            castle_wall_text,
-            castle_wall_text_long,
-            dungeon_wall_text,
-            dungeon_wall_text_long,
-            forest_wall_text_long,
-            forest_wall_text_short,
-            mine_wall_text,
-            mine_wall_text_long,
-            tomb_wall_text,
-            tomb_wall_text_long,
-
-        }
-
-        public TextType textType;
-        public string TextWritten{ get; set; }
-
-        public Text(string type, int x, int y, int orientation, int h, string uniqueID) : base(x,y,orientation,h,uniqueID)
-        {
-            Enum.TryParse(type, true, out textType);
         }
 
         public override string ElementType
         {
             get
             {
-                return textType.ToString();
+                return "scroll";
             }
         }
 
@@ -57,15 +41,15 @@ namespace Log2CyclePrototype.LoG2API.Elements
         {
             StringBuilder sb = new StringBuilder();
 
-            sb.AppendFormat(@"spawn(""{0}"",{1},{2},{3},{4},""{5}""){6}", textType, x, y, (int)orientation, h, uniqueID, '\n');
-            sb.AppendFormat(@"{0}.walltext:setWallText(""{1}""){2}", uniqueID, TextWritten, '\n');
+            sb.AppendFormat(@"spawn(""{0}"",{1},{2},{3},{4},""{5}""){6}", ElementType, x, y, (int)orientation, h, uniqueID, '\n');
+            sb.AppendFormat(@"{0}.scrollitem:setScrollText(""{1}""){2}", uniqueID, TextWritten, '\n');
 
             return sb.ToString();
         }
 
         public override void setAttribute(string name, string value)
         {
-            if (name.Contains("setWallText"))
+            if (name.Contains("setScrollText"))
             {
                 TextWritten = value;
             }

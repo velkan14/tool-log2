@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Log2CyclePrototype.Utilities;
+using System;
+using System.Collections.Generic;
 using System.Drawing;
 
 namespace Log2CyclePrototype.LoG2API.Elements
@@ -96,19 +98,27 @@ namespace Log2CyclePrototype.LoG2API.Elements
             }
         }
 
+        protected override string ConnectorName
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
         public Monster(string type, int x, int y, int orientation, int h, string uniqueID) : base(x,y,orientation,h,uniqueID)
         {
             Enum.TryParse(type, true, out this.type);
         }
 
-        public override string PrintElement()
+        protected override string PrintElement(ListQueue<MapElement> elements)
         {
             /*StringBuilder sb = new StringBuilder();
 
             sb.AppendLine(String.Format(@"spawn(""{0}"",{1},{2},{3},{4},""{5}"")", monsterType, x, y, (int)orientation, h, uniqueID));
 
             return sb.ToString();*/
-            return String.Format(@"spawn(""{0}"",{1},{2},{3},{4},""{5}"")", type, x, y, (int)orientation, h, uniqueID);
+            return String.Format(@"spawn(""{0}"",{1},{2},{3},{4},""{5}""){6}", type, x, y, (int)orientation, h, uniqueID, '\n');
         }
 
         private static Image imageMonster = new Bitmap("../../monster.png");
@@ -136,6 +146,16 @@ namespace Log2CyclePrototype.LoG2API.Elements
                     imageMonster.RotateFlip(RotateFlipType.Rotate90FlipNone);
                     break;
             }
+        }
+
+        public override void setAttribute(string name, string value)
+        {
+            //Do Nothing
+        }
+
+        public override void setAttribute(string name, bool value)
+        {
+            //Do  Nothing
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Log2CyclePrototype.Utilities;
+using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
 
@@ -8,6 +10,7 @@ namespace Log2CyclePrototype.LoG2API.Elements
     {
         public enum LockType
         {
+            LOCK, //Hack
             beach_lock_gold,
             beach_lock_ornate,
             beach_lock_round,
@@ -35,6 +38,14 @@ namespace Log2CyclePrototype.LoG2API.Elements
             }
         }
 
+        protected override string ConnectorName
+        {
+            get
+            {
+                return "lock";
+            }
+        }
+
         public Lock(string type, int x, int y, int orientation, int h, string uniqueID) : base(x,y,orientation,h,uniqueID)
         {
             LockType.TryParse(type, true, out this.type);
@@ -45,14 +56,27 @@ namespace Log2CyclePrototype.LoG2API.Elements
             throw new NotImplementedException();
         }
 
-        public override string PrintElement()
+        protected override string PrintElement(ListQueue<MapElement> elements)
         {
             StringBuilder sb = new StringBuilder();
 
-            sb.AppendLine(String.Format(@"spawn(""{0}"",{1},{2},{3},{4},""{5}"")", type, x, y, (int)orientation, h, uniqueID));
-            sb.AppendLine(String.Format(@"{0}.lock:setOpenedBy({1})", uniqueID, OpenedBy));
+            sb.AppendFormat(@"spawn(""{0}"",{1},{2},{3},{4},""{5}""){6}", type.ToString().ToLower(), x, y, (int)orientation, h, uniqueID, '\n');
+            sb.AppendFormat(@"{0}.lock:setOpenedBy(""{1}""){2}", uniqueID, OpenedBy, '\n');
 
             return sb.ToString();
+        }
+
+        public override void setAttribute(string name, string value)
+        {
+            if (name.Contains("setOpenedBy"))
+            {
+                OpenedBy = value;
+            }
+        }
+
+        public override void setAttribute(string name, bool value)
+        {
+            throw new NotImplementedException();
         }
     }
 }

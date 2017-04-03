@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Log2CyclePrototype.Utilities;
+using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
 
@@ -39,20 +41,40 @@ namespace Log2CyclePrototype.LoG2API.Elements
             }
         }
 
+        protected override string ConnectorName
+        {
+            get
+            {
+                return "button";
+            }
+        }
+
         public override void Draw(Graphics panel, int cellWidth, int cellHeight)
         {
             throw new NotImplementedException();
         }
 
-        public override string PrintElement()
+        protected override string PrintElement(ListQueue<MapElement> elements)
         {
             StringBuilder sb = new StringBuilder();
 
-            sb.AppendLine(String.Format(@"spawn(""{0}"",{1},{2},{3},{4},""{5}"")", type, x, y, (int)orientation, h, uniqueID));
-            sb.AppendLine(String.Format(@"{0}.button:setDisableSelf({1})", uniqueID, DisableSelf ? "true" : "false"));
+            sb.AppendFormat(@"spawn(""{0}"",{1},{2},{3},{4},""{5}""){6}", type, x, y, (int)orientation, h, uniqueID, '\n');
+            sb.AppendFormat(@"{0}.button:setDisableSelf({1}){2}", uniqueID, DisableSelf ? "true" : "false", '\n');
 
             return sb.ToString();
         }
 
+        public override void setAttribute(string name, string value)
+        {
+            //Do Nothing
+        }
+
+        public override void setAttribute(string name, bool value)
+        {
+            if (name.Contains("setDisableSelf"))
+            {
+                DisableSelf = value;
+            }
+        }
     }
 }

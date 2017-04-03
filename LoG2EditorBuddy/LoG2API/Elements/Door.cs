@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Log2CyclePrototype.Utilities;
+using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
 
@@ -53,7 +55,15 @@ namespace Log2CyclePrototype.LoG2API.Elements
 
 
         private DoorType type;
+
+        /// <summary>
+        /// Internal state. Represents if the door has a chain to open or close. 
+        /// </summary>
         public bool PullChain{get; set;}
+
+        /// <summary>
+        /// Internal state. Represents if the door is open or closed.
+        /// </summary>
         public bool Open{get; set;}
 
         /// <summary>
@@ -62,6 +72,14 @@ namespace Log2CyclePrototype.LoG2API.Elements
         public override string ElementType
         {
             get { return type.ToString(); }
+        }
+
+        protected override string ConnectorName
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
         }
 
 
@@ -88,13 +106,13 @@ namespace Log2CyclePrototype.LoG2API.Elements
         /// Returns a LUA representation of this object
         /// </summary>
         /// <returns></returns>
-        public override string PrintElement()
+        protected override string PrintElement(ListQueue<MapElement> elements)
         {
             StringBuilder sb = new StringBuilder();
 
-            sb.AppendLine(String.Format(@"spawn(""{0}"",{1},{2},{3},{4},""{5}"")",type,x,y,(int)orientation,h,uniqueID));
-            sb.AppendLine(String.Format(@"{0}.door:setState({1})", uniqueID, Open ? "open" : "closed"));
-            sb.AppendLine(String.Format(@"{0}.door:setPullChain({1})", uniqueID, PullChain ? "true" : "false"));
+            sb.AppendFormat(@"spawn(""{0}"",{1},{2},{3},{4},""{5}""){6}", type,x,y,(int)orientation,h,uniqueID, '\n');
+            //sb.AppendFormat(@"{0}.door:setState(""{1}""){2}", uniqueID, Open ? "open" : "closed", '\n');
+            sb.AppendFormat(@"{0}.door:setPullChain({1}){2}", uniqueID, PullChain ? "true" : "false", '\n');
             return sb.ToString();
         }
 
@@ -102,5 +120,26 @@ namespace Log2CyclePrototype.LoG2API.Elements
         {
             throw new NotImplementedException();
         }
+
+        public override void setAttribute(string name, string value)
+        {
+            if (name.Contains("setState"))
+            {
+                Open = value.Contains("Open") ? true : false;
+            }
+        }
+
+        public override void setAttribute(string name, bool value)
+        {
+            if (name.Contains("setPullChain"))
+            {
+                PullChain = value;
+            }
+            else if (name.Contains("setState"))
+            {
+                Open = value;
+            }
+        }
+        
     }
 }

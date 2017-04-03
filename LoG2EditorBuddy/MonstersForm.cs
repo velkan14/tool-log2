@@ -323,6 +323,7 @@ namespace Log2CyclePrototype
 
         private void button_export_Click(object sender, EventArgs e)
         {
+            APIClass.SaveMapFile(APIClass.CurrentMap);
             /*if (APIClass.CurrentMap == null)
             {
                 Logger.AppendText("Current map on API null");

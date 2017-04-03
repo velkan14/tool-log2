@@ -164,9 +164,11 @@
     <Compile Include="LoG2API\Elements\Lock.cs" />
     <Compile Include="LoG2API\Elements\Monster.cs" />
     <Compile Include="LoG2API\Elements\PressurePlate.cs" />
+    <Compile Include="LoG2API\Elements\Scroll.cs" />
     <Compile Include="LoG2API\Elements\StartingPoint.cs" />
     <Compile Include="LoG2API\Elements\Text.cs" />
     <Compile Include="LoG2API\Elements\TorchHolder.cs" />
+    <Compile Include="LoG2API\Elements\TrapDoor.cs" />
     <Compile Include="MainClass.cs" />
     <Compile Include="MonstersForm.cs">
       <SubType>Form</SubType>
@@ -187,6 +189,7 @@
       <DependentUpon>Settings.cs</DependentUpon>
     </Compile>
     <Compile Include="Utilities\DirectoryManager.cs" />
+    <Compile Include="Utilities\ListQueue.cs" />
     <Compile Include="Utilities\ProgramResources.cs" />
     <Compile Include="Utilities\Prompt.cs" />
     <Compile Include="Utilities\Utilities.cs" />

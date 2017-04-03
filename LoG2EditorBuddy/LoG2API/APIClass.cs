@@ -45,19 +45,19 @@ namespace Log2CyclePrototype.LoG2API
             double difference = 0.0;
 
             //comparar genes
-            for (int i = 0; i < prevMap.Cells.Count; i++ )
+            for (int i = 0; i < prevMap.Cells.Count; i++)
             {
                 if (prevMap.Cells[i].CellType != currMap.Cells[i].CellType)
                     difference++;
             }
             //if the different tiles array is different, means the difference will be = (CurrentMap.Width * CurrentMap.Height) because all cell indexes will increase/decrease
-            if (prevMap.Tiles.Count != prevMap.Tiles.Count) 
+            if (prevMap.Tiles.Count != prevMap.Tiles.Count)
             {
                 difference -= (CurrentMap.Width * CurrentMap.Height) * System.Math.Abs(prevMap.Tiles.Count - prevMap.Tiles.Count);
             }
             //comparar elementos de puzzle
             //difference += System.Math.Abs(prevMap.MapElements.Count - currMap.MapElements.Count);
-            Debug.WriteLine("User disturbance: "+difference);
+            Debug.WriteLine("User disturbance: " + difference);
             return difference;
         }
 
@@ -170,7 +170,7 @@ namespace Log2CyclePrototype.LoG2API
                         case 0:
                             //parse tile type
                             if (currentLine.Contains("}"))
-                            {                                
+                            {
                                 stage = -1;
                                 //Logger.AppendText("Finished parsing floors");
                             }
@@ -179,7 +179,7 @@ namespace Log2CyclePrototype.LoG2API
                                 string l = currentLine.Trim();
                                 //Debug.WriteLine(l.Length);
                                 string tmpS = l.Substring(1, l.Length - 3);
-                                
+
                                 localDifferentTiles.Add(tmpS);
                             }
                             break;
@@ -199,8 +199,8 @@ namespace Log2CyclePrototype.LoG2API
                                 for (int j = 0; j < width; j++)
                                 {
 
-                                    int cVal = Convert.ToInt32(cellLine[j]); 
-                                    
+                                    int cVal = Convert.ToInt32(cellLine[j]);
+
                                     //get tile name
                                     string tileName = (string)localDifferentTiles[cVal - 1];
                                     Cell newCell;
@@ -231,11 +231,11 @@ namespace Log2CyclePrototype.LoG2API
                             uniqueId = splitString[6];
 
                             var tmpCell = localCells[(y * localMap.Height) + x];
-                            
+
                             if (id.Contains("starting"))
-                            {                            
+                            {
                                 startingPoint = new StartingPoint(id, x, y, o, h, uniqueId);
-      
+
                                 tmpCell.IsStartingPoint = true;
                                 tmpCell.StartPoint = startingPoint;
 
@@ -248,11 +248,11 @@ namespace Log2CyclePrototype.LoG2API
                                     endingPoints = new List<EndingPoint>();
 
                                 var newEndingPoint = new EndingPoint(id, x, y, o, h, uniqueId);
-               
+
                                 tmpCell.IsEndingPoint = true;
                                 tmpCell.EndPoint = newEndingPoint;
                                 endingPoints.Add(newEndingPoint);
-                                
+
                                 uniqueIDElement.Add(uniqueId, newEndingPoint);
                             }
                             else if (id.Contains("torch_holder"))
@@ -298,7 +298,7 @@ namespace Log2CyclePrototype.LoG2API
                                 }
                                 tmpCell.AddElement(newText);
                             }
-                            else if(Door.DoorType.TryParse(id, true, out tmpDoortype))
+                            else if (Door.DoorType.TryParse(id, true, out tmpDoortype))
                             {
                                 var newDoor = new Door(id, x, y, o, h, uniqueId);
                                 while (lines[i + 1].Contains(uniqueId))
@@ -306,14 +306,14 @@ namespace Log2CyclePrototype.LoG2API
                                     if (lines[i + 1].Contains("door:setPullChain"))
                                     {
                                         string[] line = lines[i + 1].Split(new Char[] { ',', '(', ')', '"' }, StringSplitOptions.RemoveEmptyEntries);
-                                        if(line[1].Contains("true")) newDoor.PullChain = true;
+                                        if (line[1].Contains("true")) newDoor.PullChain = true;
                                         else newDoor.PullChain = false;
                                     }
                                     i++;
                                 }
                                 tmpCell.AddElement(newDoor);
                             }
-                            else if(Lever.LeverType.TryParse(id, true, out tmpLeverType))
+                            else if (Lever.LeverType.TryParse(id, true, out tmpLeverType))
                             {
                                 var newLever = new Lever(id, x, y, o, h, uniqueId);
                                 while (lines[i + 1].Contains(uniqueId))
@@ -323,7 +323,8 @@ namespace Log2CyclePrototype.LoG2API
                                         string[] line = lines[i + 1].Split(new Char[] { ',', '(', ')', '"' }, StringSplitOptions.RemoveEmptyEntries);
                                         if (line[1].Contains("true")) newLever.DisableSelf = true;
                                         else newLever.DisableSelf = false;
-                                    }else if(lines[i + 1].Contains("addConnector"))
+                                    }
+                                    else if (lines[i + 1].Contains("addConnector"))
                                     {
                                         string[] line = lines[i + 1].Split(new Char[] { ',', '(', ')', '"' }, StringSplitOptions.RemoveEmptyEntries);
                                         newLever.addConnector(line[1], line[3], line[5]);
@@ -332,7 +333,7 @@ namespace Log2CyclePrototype.LoG2API
                                 }
                                 tmpCell.AddElement(newLever);
                             }
-                            else if(Lock.LockType.TryParse(id, true, out tmpLockType))
+                            else if (Lock.LockType.TryParse(id, true, out tmpLockType))
                             {
                                 var newLock = new Lock(id, x, y, o, h, uniqueId);
                                 while (lines[i + 1].Contains(uniqueId))
@@ -407,8 +408,11 @@ namespace Log2CyclePrototype.LoG2API
 
         public static Map ParseMapFile()
         {
-            Char[] delimiters = { '=', ' ', ',', '"', '{', '}' , '\r', '\n', '\t' , ')', '(' };
+            Char[] delimiters = { '=', ' ', ',', '"', '{', '}', '\r', '\n', '\t', ')', '(' };
+            Char[] delimitersAttributes = { '.', ':', ',', '"', '(', ')', '\r', '\n', '\t' };
+            Char[] delimitersAttributes2 = { '.', ':', ',', '"', '(', ')', '\r', '\n', '\t', ' ' };
 
+            Dictionary<string, MapElement> elements = new Dictionary<string, MapElement>();
             Monster.MonsterType tmpMonstertype;
             Text.TextType tmpTextType;
             Door.DoorType tmpDoorType;
@@ -417,19 +421,20 @@ namespace Log2CyclePrototype.LoG2API
             ButtonE.ButtonType tmpButtonType;
             Alcove.AlcoveType tmpAlcoveType;
             PressurePlate.PressurePlateType tmpPressurePlateType;
-           
+            TrapDoor.TrapDoorType tmpTrapDoorType;
+
             string fileText = System.IO.File.ReadAllText(DirectoryManager.DungeonFilePath);
 
             string patternSpawn = @"spawn\(.*\)";
-            string patternParameter = @"\w+\.\w+\:\w+\(.*\)";
+            string patternAttributes = @"\w+\.\w+\:\w+\(.*\)";
             string patternLoadLayer = @"loadLayer\(([^)]+)\)";
-            string patternMap = @"\w+ = .*,";
+            string patternParameters = @"\w+ = .*,";
             string patternTiles = @"tiles = {(\n|\t|[^{])*(?=})";
 
 
             MatchCollection matchsSpawn = Regex.Matches(fileText, patternSpawn, RegexOptions.IgnoreCase);
-            MatchCollection matchsParameters = Regex.Matches(fileText, patternParameter, RegexOptions.IgnoreCase);
-            MatchCollection matchsMap = Regex.Matches(fileText, patternMap, RegexOptions.IgnoreCase);
+            MatchCollection matchsAttribute = Regex.Matches(fileText, patternAttributes, RegexOptions.IgnoreCase);
+            MatchCollection matchsParameters = Regex.Matches(fileText, patternParameters, RegexOptions.IgnoreCase);
             Match matchLayer = Regex.Match(fileText, patternLoadLayer, RegexOptions.IgnoreCase);
             Match matchTiles = Regex.Match(fileText, patternTiles, RegexOptions.IgnoreCase);
 
@@ -441,13 +446,13 @@ namespace Log2CyclePrototype.LoG2API
             List<EndingPoint> endingPoints = new List<EndingPoint>();
             StartingPoint startingPoint = null;
 
-            foreach (Match m in matchsMap)
-            {           
+            foreach (Match m in matchsParameters)
+            {
                 string[] split = m.Value.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
 
                 if (split[0].Contains("name"))
                 {
-                    name = split[1]; 
+                    name = split[1];
                 }
                 else if (split[0].Contains("width"))
                 {
@@ -469,7 +474,7 @@ namespace Log2CyclePrototype.LoG2API
 
             string[] splitTiles = matchTiles.Value.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
 
-            for(int i = 1; i < splitTiles.Length; i++)
+            for (int i = 1; i < splitTiles.Length; i++)
             {
                 tiles.Add(splitTiles[i]);
             }
@@ -487,24 +492,27 @@ namespace Log2CyclePrototype.LoG2API
                 cells.Add(c);
             }
 
-            foreach(Match m in matchsSpawn)
+            foreach (Match m in matchsSpawn)
             {
                 string[] splitString = m.Value.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
 
                 string id = splitString[1];
-                int  x = Convert.ToInt32(splitString[2]);
+                int x = Convert.ToInt32(splitString[2]);
                 int y = Convert.ToInt32(splitString[3]);
                 int o = Convert.ToInt32(splitString[4]);
                 int h = Convert.ToInt32(splitString[5]);
                 string uniqueId = splitString[6];
 
                 Cell tmpCell = cells.Where(c => c.X == x && c.Y == y).First();
+                MapElement tmpElement = null;
 
                 if (id.Contains("starting_location"))
                 {
                     startingPoint = new StartingPoint(id, x, y, o, h, uniqueId);
                     tmpCell.IsStartingPoint = true;
                     tmpCell.StartPoint = startingPoint;
+
+                    elements.Add(uniqueId, startingPoint);
                 }
                 else if (id.Contains("exit") || id.Contains("stairs") || id.Contains("healing_crystal"))
                 {
@@ -513,26 +521,27 @@ namespace Log2CyclePrototype.LoG2API
                     tmpCell.EndPoint = newEndingPoint;
 
                     endingPoints.Add(newEndingPoint);
+                    elements.Add(uniqueId, newEndingPoint);
                 }
                 else if (id.Contains("torch_holder"))
                 {
-                    var newTorchHolder = new TorchHolder(id, x, y, o, h, uniqueId);
-                    tmpCell.AddElement(newTorchHolder);
+                    tmpElement = new TorchHolder(id, x, y, o, h, uniqueId);
+                }
+                else if (id.Contains("scroll"))
+                {
+                    tmpElement = new Scroll(id, x, y, o, h, uniqueId);
                 }
                 else if (Alcove.AlcoveType.TryParse(id, true, out tmpAlcoveType))
                 {
-                    var newElement = new Alcove(id, x, y, o, h, uniqueId);
-                    tmpCell.AddElement(newElement);
+                    tmpElement = new Alcove(id, x, y, o, h, uniqueId);
                 }
                 else if (ButtonE.ButtonType.TryParse(id, true, out tmpButtonType))
                 {
-                    var newElement = new ButtonE(id, x, y, o, h, uniqueId);
-                    tmpCell.AddElement(newElement);
+                    tmpElement = new ButtonE(id, x, y, o, h, uniqueId);
                 }
                 else if (Door.DoorType.TryParse(id, true, out tmpDoorType))
                 {
-                    var newDoor = new Door(id, x, y, o, h, uniqueId);
-                    tmpCell.AddElement(newDoor);
+                    tmpElement = new Door(id, x, y, o, h, uniqueId);
                 }
                 /*else if(false)
                 {
@@ -540,44 +549,87 @@ namespace Log2CyclePrototype.LoG2API
                 }*/
                 else if (Lever.LeverType.TryParse(id, true, out tmpLeverType))
                 {
-                    var newLever = new Lever(id, x, y, o, h, uniqueId);
-                    tmpCell.AddElement(newLever);
+                    tmpElement = new Lever(id, x, y, o, h, uniqueId);
                 }
                 else if (Lock.LockType.TryParse(id, true, out tmpLockType))
                 {
-                    var newLock = new Lock(id, x, y, o, h, uniqueId);
-                    tmpCell.AddElement(newLock);
+                    tmpElement = new Lock(id, x, y, o, h, uniqueId);
                 }
                 else if (Monster.MonsterType.TryParse(id, true, out tmpMonstertype))
                 {
                     var newMonster = new Monster(id, x, y, o, h, uniqueId);
                     tmpCell.Monster = newMonster;
+                    elements.Add(uniqueId, newMonster);
                 }
                 else if (PressurePlate.PressurePlateType.TryParse(id, true, out tmpPressurePlateType))
                 {
-                    var newElement = new PressurePlate(id, x, y, o, h, uniqueId);
-                    tmpCell.AddElement(newElement);
+                    tmpElement = new PressurePlate(id, x, y, o, h, uniqueId);
                 }
                 else if (Text.TextType.TryParse(id, true, out tmpTextType))
                 {
-                    var newText = new Text(id, x, y, o, h, uniqueId);
-                    tmpCell.AddElement(newText);
+                    tmpElement = new Text(id, x, y, o, h, uniqueId);
+                }
+                else if (TrapDoor.TrapDoorType.TryParse(id, true, out tmpTrapDoorType))
+                {
+                    tmpElement = new TrapDoor(id, x, y, o, h, uniqueId);
                 }
                 else
                 {
-                    var newElement = new Item(id, x, y, o, h, uniqueId);
-                    tmpCell.AddElement(newElement);
+                    Console.WriteLine(uniqueId);
+                    tmpElement = new Item(id, x, y, o, h, uniqueId);
+                }
+
+                if (tmpElement != null)
+                {
+                    tmpCell.AddElement(tmpElement);
+                    elements.Add(uniqueId, tmpElement);
+                }
+
+            }
+
+            foreach (Match m in matchsAttribute)
+            {
+                Char[] delimit = delimitersAttributes;
+                if (m.Value.Contains("addConnector"))
+                {
+                    delimit = delimitersAttributes2;
+                }
+
+                string[] split = m.Value.Split(delimit, StringSplitOptions.RemoveEmptyEntries);
+
+                MapElement tmpElement = null;
+                if (elements.TryGetValue(split[0], out tmpElement))
+                {
+                    if (split[2].Contains("addConnector"))
+                    {
+                        tmpElement.addConnector(split[3], split[4], split[5]);
+                    }
+                    else if (split[2].Contains("addItem") || split[2].Contains("setWallText") || split[2].Contains("setOpenedBy") || split[2].Contains("setState") || split[2].Contains("setScrollText"))
+                    {
+                        tmpElement.setAttribute(split[2], split[3]);
+                    }
+                    else if (split[2].Contains("disable"))
+                    {
+                        tmpElement.setAttribute(split[2], "");
+                    }
+                    else // True or false
+                    {
+                        tmpElement.setAttribute(split[2], split[3].Contains("true") ? true : false);
+                    }
                 }
             }
 
-            Map map = new Map(name, width, height);
+            Map map = new Map(name, width, height)
+            {
+                StartPoint = startingPoint,
+                EndPointList = endingPoints,
+                AmbientTrack = ambientTrack,
+                LevelCoord = levelCoord,
+                Cells = cells,
+                Tiles = new ArrayList(tiles), //FIXME
+                Elements = elements,
+            };
 
-            map.StartPoint = startingPoint;
-            map.EndPointList = endingPoints;
-            map.AmbientTrack = ambientTrack;
-            map.LevelCoord = levelCoord;
-            map.Cells = cells;
-            map.Tiles = new ArrayList(tiles); //FIXME
             CurrentMap = map;
             return map;
         }
@@ -704,14 +756,14 @@ namespace Log2CyclePrototype.LoG2API
         {
             _emergencyRestoreMap = CurrentMap.CloneJson();
 
-            if(MainForm._lockedCellList != null && MainForm._lockedCellList.Count > 0)
+            if (MainForm._lockedCellList != null && MainForm._lockedCellList.Count > 0)
             {
-                foreach(var c in MainForm._lockedCellList)
+                foreach (var c in MainForm._lockedCellList)
                 {
                     //var toReplace = toSave.Cells.Find(cell => (cell.X == c.X && cell.Y == c.Y));
                     //toReplace = MainForm._lockedCellList.Find(cell2 => (cell2.X == c.X && cell2.Y == c.Y)) ;
                     if (mapToSave.SetCell(c)) Debug.WriteLine("REPLACED CELL!");
-                    
+
                 }
             }
 
@@ -725,7 +777,7 @@ namespace Log2CyclePrototype.LoG2API
 
             try
             {
-                
+
                 sb.AppendLine("-- This file has been generated by Dungeon Editor 2.1.13 and modified by GA assisted program");
                 sb.AppendLine("--- level 1 ---");
 
@@ -747,36 +799,44 @@ namespace Log2CyclePrototype.LoG2API
                 sb.Append("loadLayer(\"tiles\", {\n");
 
                 //tiles
-                for (int y = 0; y < mapToSave.Height; y++){
+                for (int y = 0; y < mapToSave.Height; y++)
+                {
                     sb.Append("\t");
-                    for (int x = 0; x < mapToSave.Width; x++){
+                    for (int x = 0; x < mapToSave.Width; x++)
+                    {
                         sb.Append(mapToSave.Cells[y * mapToSave.Width + x].CellType + ",");
                         if (x == mapToSave.Width - 1)
                             sb.Append("\n");
                     }
                 }
-                
+
                 sb.AppendLine("})");
+                
+                ListQueue<MapElement> fifo = new ListQueue<MapElement>(mapToSave.Elements.Values);
+                while(fifo.Count != 0)
+                {
+                    MapElement el = fifo.Dequeue();
+                    sb.Append(el.Print(fifo));
+                }
 
                 //start and ending points
-                if (mapToSave.StartPoint != null){
+                /*if (mapToSave.StartPoint != null)
+                {
                     sb.Append(mapToSave.StartPoint.PrintElement());
-                    sb.Append("\n");
                 }
                 if (mapToSave.EndPointList != null && mapToSave.EndPointList.Count > 0)
-                    foreach (var e in mapToSave.EndPointList){
+                    foreach (var e in mapToSave.EndPointList)
+                    {
                         sb.Append(e.PrintElement());
-                        sb.Append("\n");
                     }
 
-                foreach(Cell c in mapToSave.Cells)
+                foreach (Cell c in mapToSave.Cells)
                 {
-                    foreach(MapElement el in c.ElementsInCell)
+                    foreach (MapElement el in c.ElementsInCell)
                     {
                         sb.Append(el.PrintElement());
-                        sb.Append("\n");
                     }
-                }
+                }*/
 
                 //foreach (string o in CurrentMap.MapObjects)
                 //{
@@ -819,7 +879,7 @@ namespace Log2CyclePrototype.LoG2API
             {
                 Logger.AppendText("Save failed! Check console for report.");
 
-                Debug.WriteLine("Msg: "+e.Message);
+                Debug.WriteLine("Msg: " + e.Message);
                 Debug.WriteLine("Inner: " + e.InnerException);
                 Debug.WriteLine("Base: " + e.GetBaseException());
                 return false;

@@ -103,6 +103,7 @@ namespace Log2CyclePrototype.LoG2API
             get;
             set;
         }
+        public Dictionary<string, MapElement> Elements { get; internal set; }
 
         private string name;
         private int width, height;
