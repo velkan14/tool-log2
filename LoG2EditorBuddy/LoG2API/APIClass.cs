@@ -100,6 +100,7 @@ namespace Log2CyclePrototype.LoG2API
             Alcove.AlcoveType tmpAlcoveType;
             PressurePlate.PressurePlateType tmpPressurePlateType;
             TrapDoor.TrapDoorType tmpTrapDoorType;
+            TorchHolder.TorchHolderType tmpTorchHolderType;
 
             string fileText = System.IO.File.ReadAllText(DirectoryManager.DungeonFilePath);
 
@@ -201,7 +202,7 @@ namespace Log2CyclePrototype.LoG2API
                     endingPoints.Add(newEndingPoint);
                     elements.Add(uniqueId, newEndingPoint);
                 }
-                else if (id.Equals("torch_holder"))
+                else if (TorchHolder.TorchHolderType.TryParse(id, true, out tmpTorchHolderType))
                 {
                     tmpElement = new TorchHolder(id, x, y, o, h, uniqueId);
                 }

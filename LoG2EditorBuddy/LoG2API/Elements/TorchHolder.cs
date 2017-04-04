@@ -8,10 +8,20 @@ namespace Log2CyclePrototype.LoG2API.Elements
 {
     public class TorchHolder : MapElement
     {
+        public enum TorchHolderType
+        {
+            castle_torch_holder,
+            tomb_torch_holder,
+            torch_holder
+        }
+
+        TorchHolderType type;
+
         public bool HasTorch { get; set; }
 
         public TorchHolder(string type, int x, int y, int orientation, int h, string uniqueId) : base(x, y, orientation, h, uniqueId)
         {
+            TorchHolderType.TryParse(type, true, out this.type);
             HasTorch = true;
         }
 
@@ -19,7 +29,7 @@ namespace Log2CyclePrototype.LoG2API.Elements
         {
             get
             {
-                return "torch_holder";
+                return type.ToString();
             }
         }
 
