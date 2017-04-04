@@ -9,6 +9,8 @@ namespace Log2CyclePrototype.LoG2API
     public class Cell
     {
 
+        protected static Image imageIcons = Image.FromFile("../../img/icons.png"); //FIXME
+
         public enum Type
         {
             //floor types
@@ -88,8 +90,8 @@ namespace Log2CyclePrototype.LoG2API
 
         public List<MapElement> ElementsInCell
         {
-            get { return _mapElements; }
-            set { _mapElements = value; }
+            get { return elements; }
+            set { elements = value; }
         }
 
         public int X
@@ -124,7 +126,7 @@ namespace Log2CyclePrototype.LoG2API
 
         private int _x, _y;
         private int type;
-        private List<MapElement> _mapElements;
+        private List<MapElement> elements;
         private bool isStartingPoint, isEndingPoint;
         private bool isWalkable;
         private int _neighbours;
@@ -132,13 +134,13 @@ namespace Log2CyclePrototype.LoG2API
 
         //Draw ----------------------------------------------
         private static Pen penBorder = new Pen(new SolidBrush(Color.FromArgb(70, 70, 70)), 1);
-        private static SolidBrush brushWalkable = new SolidBrush(Color.FromArgb(125, 125, 125));
-        private static SolidBrush brushUnwalkable = new SolidBrush(Color.LightGray);
+        private static SolidBrush brushWalkable = new SolidBrush(Color.FromArgb(100, Color.Black));
+        private static SolidBrush brushUnwalkable = new SolidBrush(Color.FromArgb(170,Color.Black));
 
 
         public Cell(int x, int y, int type)
         {
-            _mapElements = new List<MapElement>();
+            elements = new List<MapElement>();
             _x = x;
             _y = y;
             this.type = type;
@@ -157,7 +159,7 @@ namespace Log2CyclePrototype.LoG2API
 
         public void AddElement(MapElement element)
         {
-            _mapElements.Add(element);
+            elements.Add(element);
         }
 
 
@@ -183,18 +185,32 @@ namespace Log2CyclePrototype.LoG2API
             return false;
         }
 
-        public void Draw(Graphics cellPanelGraphics, int cellWidth, int cellHeight)
+        public void Draw(Graphics panel, int cellWidth, int cellHeight)
         {
+            Rectangle destRect = new Rectangle(X * cellWidth, Y * cellHeight, cellWidth, cellHeight);
+            Rectangle srcRectWalk = new Rectangle(0, 480, 20, 20);
+            Rectangle srcRectUnwalk = new Rectangle(80, 480, 20, 20);
+
             if (IsWalkable)
-                cellPanelGraphics.FillRectangle(brushWalkable, X * cellWidth + 1, Y * cellHeight + 1, cellWidth - 1, cellHeight - 1);
+            {
+                panel.DrawImage(imageIcons, destRect, srcRectWalk, GraphicsUnit.Pixel);
+                panel.FillRectangle(brushWalkable, X * cellWidth + 1, Y * cellHeight + 1, cellWidth - 1, cellHeight - 1);
+                //panel.FillRectangle(new TextureBrush(imageIcons), X * cellWidth + 1, Y * cellHeight + 1, cellWidth - 1, cellHeight - 1);
+                
+                
+            }
             else
-                cellPanelGraphics.FillRectangle(brushUnwalkable, X * cellWidth + 1, Y * cellHeight + 1, cellWidth - 1, cellHeight - 1);
-           
-            cellPanelGraphics.DrawRectangle(penBorder, X * cellWidth, Y * cellHeight, cellWidth, cellHeight);
+            {
+                panel.DrawImage(imageIcons, destRect, srcRectUnwalk, GraphicsUnit.Pixel);
+                panel.FillRectangle(brushUnwalkable, X * cellWidth + 1, Y * cellHeight + 1, cellWidth - 1, cellHeight - 1);
+            }
+                
+
+            panel.DrawRectangle(penBorder, X * cellWidth, Y * cellHeight, cellWidth, cellHeight);
 
             if(Monster != null)
             {
-                Monster.Draw(cellPanelGraphics, cellWidth, cellHeight);
+                Monster.Draw(panel, cellWidth, cellHeight);
             }
         }
 

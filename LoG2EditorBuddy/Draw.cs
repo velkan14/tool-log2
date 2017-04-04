@@ -29,8 +29,6 @@ namespace Log2CyclePrototype
             Right
         }
 
-        private Image imageMonster;
-
         private CellHighlight _cellHighlightSettings = CellHighlight.All;
 
         private int cellWidth, cellHeight;
@@ -50,7 +48,7 @@ namespace Log2CyclePrototype
                       _groundTileColorSelected = Color.FromArgb(125, 125, 125),
                       _groundTileColorUnselected = Color.FromArgb(125, 125, 125, 125),
                       _cellBorderColor = Color.FromArgb(70, 70, 70),
-                      _emptyCellColor = Color.LightGray;
+                      emptyCellColor = Color.LightGray;
 
         private List<Cell> _cellsToDraw;
         private Panel gridPanel;
@@ -62,7 +60,6 @@ namespace Log2CyclePrototype
 
             cellBitmap = new Bitmap(gridPanel.Width, gridPanel.Height);
             cellPanelGraphics = Graphics.FromImage(cellBitmap);
-            imageMonster = new Bitmap("../../monster.png");
         }
 
         private void DrawStartEndPoints(StartingPoint start, List<EndingPoint> endPoints)
@@ -170,7 +167,7 @@ namespace Log2CyclePrototype
             cellHeight = gridPanel.Height / currentMap.Height;
 
             //Clear everything
-            cellPanelGraphics.Clear(_emptyCellColor);
+            cellPanelGraphics.Clear(emptyCellColor);
 
             //Draw grid
             /*using (Pen p = new Pen(_groundTile, 1))
@@ -187,99 +184,19 @@ namespace Log2CyclePrototype
             {
                 var c = currentMap.Cells[k];
                 c.Draw(cellPanelGraphics, cellWidth, cellHeight);
-
-                /*c.SelectedToDraw = false;
-
-                switch (_cellHighlightSettings)
-                {
-                    case CellHighlight.None:
-                        if (c.IsWalkable)
-                            FillCell(c.X, c.Y, _groundTileColorSelected);
-                        break;
-
-                    case CellHighlight.All:
-                        if ((APIClass.CurrentMap.Cells[c.Y * 32 + c.X].IsWalkable) && !(c.IsWalkable))
-                        {
-                            if (userSelectedPoints.FindIndex(e => (e.X == c.X && e.Y == c.Y)) != -1)
-                                FillCell(c.X, c.Y, _removedCellColorSelected);
-                            else
-                                FillCell(c.X, c.Y, _removedCellColorUnselected);
-                        }
-                        else if (!(APIClass.CurrentMap.Cells[c.Y * 32 + c.X].IsWalkable) && c.IsWalkable)
-                        {
-                            if (userSelectedPoints.FindIndex(e => (e.X == c.X && e.Y == c.Y)) != -1)
-                                FillCell(c.X, c.Y, _addedCellColorSelected);
-                            else
-                                FillCell(c.X, c.Y, _addedCellColorUnselected);
-                        }
-                        else if (c.IsWalkable)
-                            FillCell(c.X, c.Y, _groundTileColorSelected);
-                        break;
-
-                    case CellHighlight.Added:
-                        if (!(APIClass.CurrentMap.Cells[c.Y * 32 + c.X].IsWalkable) && c.IsWalkable)
-                        {
-                            if (userSelectedPoints.FindIndex(e => (e.X == c.X && e.Y == c.Y)) != -1)
-                                FillCell(c.X, c.Y, _addedCellColorSelected);
-                            else
-                                FillCell(c.X, c.Y, _addedCellColorUnselected);
-                        }
-                        else if (c.IsWalkable)
-                            FillCell(c.X, c.Y, _groundTileColorSelected);
-                        break;
-
-                    case CellHighlight.Removed:
-                        if ((APIClass.CurrentMap.Cells[c.Y * 32 + c.X].IsWalkable) && !(c.IsWalkable))
-                        {
-                            if (userSelectedPoints.FindIndex(e => (e.X == c.X && e.Y == c.Y)) != -1)
-                                FillCell(c.X, c.Y, _removedCellColorSelected);
-                            else
-                                FillCell(c.X, c.Y, _removedCellColorUnselected);
-                        }
-                        else if (c.IsWalkable)
-                            FillCell(c.X, c.Y, _groundTileColorSelected);
-                        break;
-
-                    default:
-                        if (c.IsWalkable)
-                            FillCell(c.X, c.Y, _groundTileColorSelected);
-                        break;
-                }*/
-
-                /*if (c.Monster != null)
-                {
-                    var el = c.Monster;
-                    switch (el.orientation)
-                    {
-                        case MapElement.Orientation.Top:
-                            cellPanelGraphics.DrawImage(imageMonster, el.x * cellWidth, el.y * cellHeight, cellWidth, cellHeight);
-                            break;
-                        case MapElement.Orientation.Right:
-                            imageMonster.RotateFlip(RotateFlipType.Rotate90FlipNone);
-                            cellPanelGraphics.DrawImage(imageMonster, el.x * cellWidth, el.y * cellHeight, cellWidth, cellHeight);
-                            imageMonster.RotateFlip(RotateFlipType.Rotate270FlipNone);
-                            break;
-                        case MapElement.Orientation.Down:
-                            imageMonster.RotateFlip(RotateFlipType.Rotate180FlipNone);
-                            cellPanelGraphics.DrawImage(imageMonster, el.x * cellWidth, el.y * cellHeight, cellWidth, cellHeight);
-                            imageMonster.RotateFlip(RotateFlipType.Rotate180FlipNone);
-                            break;
-                        case MapElement.Orientation.Left:
-                            imageMonster.RotateFlip(RotateFlipType.Rotate270FlipNone);
-                            cellPanelGraphics.DrawImage(imageMonster, el.x * cellWidth, el.y * cellHeight, cellWidth, cellHeight);
-                            imageMonster.RotateFlip(RotateFlipType.Rotate90FlipNone);
-                            break;
-                    }
-                }*/
             }
 
+            foreach(MapElement el in currentMap.Elements.Values)
+            {
+                el.Draw(cellPanelGraphics, cellWidth, cellHeight);
+            }
             //draw user selected cells
             if (userSelectedPoints.Count > 0)
                 DrawUserSelection(currentMap, userSelectedPoints);
             /*if (_lockedCellList.Count > 0)
                 DrawUserLockedCells();*/
 
-            DrawStartEndPoints(APIClass.CurrentMap.StartPoint, APIClass.CurrentMap.EndPointList);
+            //DrawStartEndPoints(APIClass.CurrentMap.StartPoint, APIClass.CurrentMap.EndPointList); //No need anymore
 
             prevDraw = (Bitmap)cellBitmap.Clone();
 

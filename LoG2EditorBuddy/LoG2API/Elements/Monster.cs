@@ -90,6 +90,12 @@ namespace Log2CyclePrototype.LoG2API.Elements
 
         public MonsterType type;
 
+        private static Rectangle srcRectTop = new Rectangle(80, 0, 20, 20);
+        private static Rectangle srcRectRight = new Rectangle(100, 0, 20, 20);
+        private static Rectangle srcRectDown = new Rectangle(120, 0, 20, 20);
+        private static Rectangle srcRectLeft = new Rectangle(140, 0, 20, 20);
+
+
         public override string ElementType
         {
             get
@@ -103,6 +109,46 @@ namespace Log2CyclePrototype.LoG2API.Elements
             get
             {
                 throw new NotImplementedException();
+            }
+        }
+
+        protected override Rectangle RectTop
+        {
+            get
+            {
+                return srcRectTop;
+            }
+        }
+
+        protected override Rectangle RectRight
+        {
+            get
+            {
+                return srcRectRight;
+            }
+        }
+
+        protected override Rectangle RectDown
+        {
+            get
+            {
+                return srcRectDown;
+            }
+        }
+
+        protected override Rectangle RectLeft
+        {
+            get
+            {
+                return srcRectLeft;
+            }
+        }
+
+        protected override bool UseOffset
+        {
+            get
+            {
+                return false;
             }
         }
 
@@ -121,32 +167,6 @@ namespace Log2CyclePrototype.LoG2API.Elements
             return String.Format(@"spawn(""{0}"",{1},{2},{3},{4},""{5}""){6}", type, x, y, (int)orientation, h, uniqueID, '\n');
         }
 
-        private static Image imageMonster = new Bitmap("../../monster.png");
-
-        public override void Draw(Graphics panel, int cellWidth, int cellHeight)
-        {
-            switch (orientation)
-            {
-                case MapElement.Orientation.Top:
-                    panel.DrawImage(imageMonster, x * cellWidth, y * cellHeight, cellWidth, cellHeight);
-                    break;
-                case MapElement.Orientation.Right:
-                    imageMonster.RotateFlip(RotateFlipType.Rotate90FlipNone);
-                    panel.DrawImage(imageMonster, x * cellWidth, y * cellHeight, cellWidth, cellHeight);
-                    imageMonster.RotateFlip(RotateFlipType.Rotate270FlipNone);
-                    break;
-                case MapElement.Orientation.Down:
-                    imageMonster.RotateFlip(RotateFlipType.Rotate180FlipNone);
-                    panel.DrawImage(imageMonster, x * cellWidth, y * cellHeight, cellWidth, cellHeight);
-                    imageMonster.RotateFlip(RotateFlipType.Rotate180FlipNone);
-                    break;
-                case MapElement.Orientation.Left:
-                    imageMonster.RotateFlip(RotateFlipType.Rotate270FlipNone);
-                    panel.DrawImage(imageMonster, x * cellWidth, y * cellHeight, cellWidth, cellHeight);
-                    imageMonster.RotateFlip(RotateFlipType.Rotate90FlipNone);
-                    break;
-            }
-        }
 
         public override void setAttribute(string name, string value)
         {

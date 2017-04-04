@@ -31,9 +31,90 @@ namespace Log2CyclePrototype.LoG2API.Elements
             }
         }
 
-        public override void Draw(Graphics panel, int cellWidth, int cellHeight)
+        private static Rectangle srcRectTop = new Rectangle(80, 100, 20, 20);
+        private static Rectangle srcRectRight = new Rectangle(100, 100, 20, 20);
+        private static Rectangle srcRectDown = new Rectangle(120, 100, 20, 20);
+        private static Rectangle srcRectLeft = new Rectangle(140, 100, 20, 20);
+
+        private static Rectangle srcRectTop2 = new Rectangle(0, 120, 20, 20);
+        private static Rectangle srcRectRight2 = new Rectangle(20, 120, 20, 20);
+        private static Rectangle srcRectDown2 = new Rectangle(40, 120, 20, 20);
+        private static Rectangle srcRectLeft2 = new Rectangle(60, 120, 20, 20);
+
+        private static Rectangle srcRectTop3 = new Rectangle(80, 140, 20, 20);
+        private static Rectangle srcRectRight3 = new Rectangle(100, 140, 20, 20);
+        private static Rectangle srcRectDown3 = new Rectangle(120, 140, 20, 20);
+        private static Rectangle srcRectLeft3 = new Rectangle(140, 140, 20, 20);
+
+        protected override Rectangle RectTop
         {
-            throw new NotImplementedException();
+            get
+            {
+                if (Type.Equals("dungeon_stairs_down"))
+                {
+                    return srcRectTop2;
+                } else if (Type.Equals("healing_crystal"))
+                {
+                    return srcRectTop3;
+                }
+                return srcRectTop;
+            }
+        }
+
+        protected override Rectangle RectRight
+        {
+            get
+            {
+                if (Type.Equals("dungeon_stairs_down"))
+                {
+                    return srcRectRight2;
+                }
+                else if (Type.Equals("healing_crystal"))
+                {
+                    return srcRectRight3;
+                }
+                return srcRectRight;
+            }
+        }
+
+        protected override Rectangle RectDown
+        {
+            get
+            {
+                if (Type.Equals("dungeon_stairs_down"))
+                {
+                    return srcRectDown2;
+                }
+                else if (Type.Equals("healing_crystal"))
+                {
+                    return srcRectDown3;
+                }
+                return srcRectDown;
+            }
+        }
+
+        protected override Rectangle RectLeft
+        {
+            get
+            {
+                if (Type.Equals("dungeon_stairs_down"))
+                {
+                    return srcRectLeft2;
+                }
+                else if (Type.Equals("healing_crystal"))
+                {
+                    return srcRectLeft3;
+                }
+                return srcRectLeft;
+            }
+        }
+
+        protected override bool UseOffset
+        {
+            get
+            {
+                return false;
+            }
         }
 
         protected override string PrintElement(ListQueue<MapElement> elements)

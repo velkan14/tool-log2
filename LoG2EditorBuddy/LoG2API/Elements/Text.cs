@@ -48,9 +48,49 @@ namespace Log2CyclePrototype.LoG2API.Elements
             }
         }
 
-        public override void Draw(Graphics panel, int cellWidth, int cellHeight)
+        private static Rectangle srcRectTop = new Rectangle(80, 60, 20, 20);
+        private static Rectangle srcRectRight = new Rectangle(100, 60, 20, 20);
+        private static Rectangle srcRectDown = new Rectangle(120, 60, 20, 20);
+        private static Rectangle srcRectLeft = new Rectangle(140, 60, 20, 20);
+
+        protected override Rectangle RectTop
         {
-            throw new NotImplementedException();
+            get
+            {
+                return srcRectTop;
+            }
+        }
+
+        protected override Rectangle RectRight
+        {
+            get
+            {
+                return srcRectRight;
+            }
+        }
+
+        protected override Rectangle RectDown
+        {
+            get
+            {
+                return srcRectDown;
+            }
+        }
+
+        protected override Rectangle RectLeft
+        {
+            get
+            {
+                return srcRectLeft;
+            }
+        }
+
+        protected override bool UseOffset
+        {
+            get
+            {
+                return true;
+            }
         }
 
         protected override string PrintElement(ListQueue<MapElement> elements)

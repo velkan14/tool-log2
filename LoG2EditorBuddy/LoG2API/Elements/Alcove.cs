@@ -37,15 +37,55 @@ namespace Log2CyclePrototype.LoG2API.Elements
             }
         }
 
+        private static Rectangle srcRectTop = new Rectangle(0, 20, 20, 20);
+        private static Rectangle srcRectRight = new Rectangle(20, 20, 20, 20);
+        private static Rectangle srcRectDown = new Rectangle(40, 20, 20, 20);
+        private static Rectangle srcRectLeft = new Rectangle(60, 20, 20, 20);
+
+        protected override Rectangle RectTop
+        {
+            get
+            {
+                return srcRectTop;
+            }
+        }
+
+        protected override Rectangle RectRight
+        {
+            get
+            {
+                return srcRectRight;
+            }
+        }
+
+        protected override Rectangle RectDown
+        {
+            get
+            {
+                return srcRectDown;
+            }
+        }
+
+        protected override Rectangle RectLeft
+        {
+            get
+            {
+                return srcRectLeft;
+            }
+        }
+
+        protected override bool UseOffset
+        {
+            get
+            {
+                return true;
+            }
+        }
+
         public Alcove(string type, int x, int y, int orientation, int h, string uniqueID) : base(x,y,orientation,h,uniqueID)
         {
             Enum.TryParse(type, true, out this.type);
             itemsId = new List<string>();
-        }
-
-        public override void Draw(Graphics panel, int cellWidth, int cellHeight)
-        {
-            throw new NotImplementedException();
         }
 
         protected override string PrintElement(ListQueue<MapElement> elements)

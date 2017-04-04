@@ -180,9 +180,50 @@ namespace Log2CyclePrototype.LoG2API.Elements
             //beach_lever_1.lever:addConnector("onToggle", "beach_door_portcullis_1", "toggle")
         }
 
-        public override void Draw(Graphics panel, int cellWidth, int cellHeight)
+        private static Rectangle srcRectTop = new Rectangle(80, 20, 20, 20);
+        private static Rectangle srcRectRight = new Rectangle(100, 20, 20, 20);
+        private static Rectangle srcRectDown = new Rectangle(120, 20, 20, 20);
+        private static Rectangle srcRectLeft = new Rectangle(140, 20, 20, 20);
+
+
+        protected override Rectangle RectTop
         {
-            throw new NotImplementedException();
+            get
+            {
+                return srcRectTop;
+            }
+        }
+
+        protected override Rectangle RectRight
+        {
+            get
+            {
+                return srcRectRight;
+            }
+        }
+
+        protected override Rectangle RectDown
+        {
+            get
+            {
+                return srcRectDown;
+            }
+        }
+
+        protected override Rectangle RectLeft
+        {
+            get
+            {
+                return srcRectLeft;
+            }
+        }
+
+        protected override bool UseOffset
+        {
+            get
+            {
+                return true;
+            }
         }
 
         public override void setAttribute(string name, string value)

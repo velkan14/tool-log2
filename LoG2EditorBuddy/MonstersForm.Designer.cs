@@ -273,7 +273,7 @@
             this.textBox_logger.Name = "textBox_logger";
             this.textBox_logger.ReadOnly = true;
             this.textBox_logger.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox_logger.Size = new System.Drawing.Size(274, 192);
+            this.textBox_logger.Size = new System.Drawing.Size(274, 231);
             this.textBox_logger.TabIndex = 8;
             // 
             // gridPanel
@@ -281,7 +281,7 @@
             this.gridPanel.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.gridPanel.Location = new System.Drawing.Point(293, 36);
             this.gridPanel.Name = "gridPanel";
-            this.gridPanel.Size = new System.Drawing.Size(513, 513);
+            this.gridPanel.Size = new System.Drawing.Size(641, 641);
             this.gridPanel.TabIndex = 9;
             this.gridPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.gridPanel_MouseDown);
             this.gridPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.gridPanel_MouseMove);
@@ -289,7 +289,7 @@
             // 
             // button_next
             // 
-            this.button_next.Location = new System.Drawing.Point(731, 563);
+            this.button_next.Location = new System.Drawing.Point(1028, 169);
             this.button_next.Name = "button_next";
             this.button_next.Size = new System.Drawing.Size(75, 23);
             this.button_next.TabIndex = 10;
@@ -298,7 +298,7 @@
             // 
             // button_previous
             // 
-            this.button_previous.Location = new System.Drawing.Point(650, 563);
+            this.button_previous.Location = new System.Drawing.Point(947, 169);
             this.button_previous.Name = "button_previous";
             this.button_previous.Size = new System.Drawing.Size(75, 23);
             this.button_previous.TabIndex = 11;
@@ -310,7 +310,7 @@
             this.groupBox_selection.Controls.Add(this.button_export);
             this.groupBox_selection.Controls.Add(this.button_invert);
             this.groupBox_selection.Controls.Add(this.button_clear);
-            this.groupBox_selection.Location = new System.Drawing.Point(292, 554);
+            this.groupBox_selection.Location = new System.Drawing.Point(940, 36);
             this.groupBox_selection.Name = "groupBox_selection";
             this.groupBox_selection.Size = new System.Drawing.Size(178, 84);
             this.groupBox_selection.TabIndex = 12;
@@ -349,7 +349,7 @@
             // 
             // button_undo
             // 
-            this.button_undo.Location = new System.Drawing.Point(476, 603);
+            this.button_undo.Location = new System.Drawing.Point(947, 126);
             this.button_undo.Name = "button_undo";
             this.button_undo.Size = new System.Drawing.Size(75, 23);
             this.button_undo.TabIndex = 0;
@@ -358,7 +358,7 @@
             // 
             // button_settings
             // 
-            this.button_settings.Location = new System.Drawing.Point(476, 563);
+            this.button_settings.Location = new System.Drawing.Point(1028, 126);
             this.button_settings.Name = "button_settings";
             this.button_settings.Size = new System.Drawing.Size(75, 23);
             this.button_settings.TabIndex = 13;
@@ -374,7 +374,7 @@
             this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(814, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1129, 24);
             this.menuStrip1.TabIndex = 14;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -425,7 +425,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(814, 641);
+            this.ClientSize = new System.Drawing.Size(1129, 685);
             this.Controls.Add(this.button_settings);
             this.Controls.Add(this.groupBox_selection);
             this.Controls.Add(this.button_previous);
