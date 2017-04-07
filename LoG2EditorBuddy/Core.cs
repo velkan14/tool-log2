@@ -16,14 +16,13 @@ namespace Log2CyclePrototype
         private FileWatcher fileWatcher;
         private UserSelection userSelection;
 
-        private Map originalMap;
+        public Map OriginalMap { get; private set; }
         private List<Map> suggestionsMap;
 
         bool validDirectory = false;
 
-        public bool hasMap() { if (originalMap == null) return false; else return true; }
+        public bool HasMap { get { if (OriginalMap == null) return false; else return true; } }
         public bool hasSuggestionMap() { if (suggestionsMap.Count == 0) return false; else return true; }
-        public Map getMap() { return originalMap; }
         public Map getSuggestionMap() { return suggestionsMap[suggestionsMap.Count - 1]; }
         public UserSelection getUserSelection() { return userSelection; }
         
@@ -56,7 +55,7 @@ namespace Log2CyclePrototype
 
                         interfaceWindow.Invoke((MethodInvoker)(() => { hook.Start(); }));
                         fileWatcher.Start();
-                        originalMap = APIClass.ParseMapFile();
+                        OriginalMap = APIClass.ParseMapFile();
                         objAlgTest = new ObjectiveAlgorithmTestClass();
                         novAlgTest = new InnovationAlgorithm();
                         //_cellsToDraw = APIClass.CurrentMap.Cells;
@@ -65,6 +64,7 @@ namespace Log2CyclePrototype
                         ResetAlgorithm();
                         Logger.AppendText("Starting first algorithm run...");
                         RunAlgorithm();
+                        interfaceWindow.MapLoaded();
                         interfaceWindow.ReDraw();
                     }));
                     break;
@@ -197,7 +197,7 @@ namespace Log2CyclePrototype
             objAlgTest.UserSelectionPositiveFocus = userSelection.getSelectedPoints();
             //objAlgTest.CurrentObjective = Objective.NarrowPaths; //FIXME
 
-            objAlgTest.NewObjectiveRun(originalMap, callback); //setup
+            objAlgTest.NewObjectiveRun(OriginalMap, callback); //setup
 
 
             //NOVELTY SETUP
@@ -226,7 +226,7 @@ namespace Log2CyclePrototype
             ThreadPool.QueueUserWorkItem(new WaitCallback(_ =>
             {
                 innovationRunning = true;
-                novAlgTest.Run(originalMap);
+                novAlgTest.Run(OriginalMap);
                 innovationRunning = false;
             }));
         }
@@ -258,7 +258,7 @@ namespace Log2CyclePrototype
             if (justReset)
                 return;
 
-            if (hasMap())
+            if (HasMap)
                 return;
             algorithmsInitialized = false;
             

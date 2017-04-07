@@ -35,7 +35,7 @@ namespace Log2CyclePrototype
                 //LogWrite(actHook.sendKeystroke('a', actHook.GetHandleOfWindowMouseIsOver())); //send simple key
                 if (activityHook.GetApplicationMouseIsOver() == "grimrock2.exe")
                 {
-                    if (core.hasMap())
+                    if (core.HasMap)
                         activityHook.SendSaveCommand(activityHook.GetHandleOfWindowMouseIsOver());
                 }
             }

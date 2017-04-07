@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using System.Drawing;
 
 namespace Log2CyclePrototype.LoG2API
 {
@@ -24,7 +25,7 @@ namespace Log2CyclePrototype.LoG2API
     }
 
     [Serializable]
-    public class Map
+    public class Map : DrawAbstract
     {
 
         public string Name
@@ -68,7 +69,7 @@ namespace Log2CyclePrototype.LoG2API
             get
             {
                 List<Cell> list = new List<Cell>();
-                foreach(Cell c in cells)
+                foreach (Cell c in cells)
                 {
                     if (c.IsWalkable)
                     {
@@ -125,8 +126,8 @@ namespace Log2CyclePrototype.LoG2API
         /// <param name="name"></param>
         /// <param name="w"></param>
         /// <param name="h"></param>
-        public Map(string name, int w, int h) 
-        { 
+        public Map(string name, int w, int h)
+        {
             this.name = name;
             width = w;
             height = h;
@@ -207,6 +208,50 @@ namespace Log2CyclePrototype.LoG2API
             return sb.ToString();
         }
 
+        public override Image Draw(int width, int height)
+        {
+            Bitmap image = new Bitmap(width, height);
 
+            using (Graphics panel = Graphics.FromImage(image))
+            {
+                panel.Clear(Color.LightGray);
+
+                int cellWidth = width / this.Width;
+                int cellHeight = height / this.Height;
+
+                foreach (Cell c in Cells)
+                {
+                    c.Draw(panel, cellWidth, cellHeight);
+                }
+
+                foreach (MapElement el in Elements.Values)
+                {
+                    el.Draw(panel, cellWidth, cellHeight);
+                }
+            }
+
+            return image;
+        }
+
+        public override Image Draw(int width, int height, Image backgroundImage)
+        {
+            using (Graphics panel = Graphics.FromImage(backgroundImage))
+            {
+                int cellWidth = width / this.Width;
+                int cellHeight = height / this.Height;
+
+                foreach (Cell c in Cells)
+                {
+                    c.Draw(panel, cellWidth, cellHeight);
+                }
+
+                foreach (MapElement el in Elements.Values)
+                {
+                    el.Draw(panel, cellWidth, cellHeight);
+                }
+            }
+
+            return backgroundImage;
+        }
     }
 }

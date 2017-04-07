@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Monsters));
             this.label_innovation = new System.Windows.Forms.Label();
             this.label_userplacement = new System.Windows.Forms.Label();
@@ -64,6 +65,21 @@
             this.uISettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.creditsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.groupBox_layer_difficulty = new System.Windows.Forms.GroupBox();
+            this.button_visibility_difficulty = new System.Windows.Forms.Button();
+            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+            this.panel_palett_difficulty = new System.Windows.Forms.Panel();
+            this.button_paint = new System.Windows.Forms.Button();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.groupBox_layer_itens = new System.Windows.Forms.GroupBox();
+            this.button_visibility_itens = new System.Windows.Forms.Button();
+            this.panel_palette_itens = new System.Windows.Forms.Panel();
+            this.groupBox_layer_monsters = new System.Windows.Forms.GroupBox();
+            this.button_visibility_monsters = new System.Windows.Forms.Button();
+            this.panel_palette_monsters = new System.Windows.Forms.Panel();
+            this.groupBox_layer_resources = new System.Windows.Forms.GroupBox();
+            this.button_visibility_resources = new System.Windows.Forms.Button();
+            this.panel_palette_resources = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_innovation)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_userplacement)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_objective)).BeginInit();
@@ -76,6 +92,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_hordes)).BeginInit();
             this.groupBox_selection.SuspendLayout();
             this.menuStrip1.SuspendLayout();
+            this.groupBox_layer_difficulty.SuspendLayout();
+            this.groupBox_layer_itens.SuspendLayout();
+            this.groupBox_layer_monsters.SuspendLayout();
+            this.groupBox_layer_resources.SuspendLayout();
             this.SuspendLayout();
             // 
             // label_innovation
@@ -283,12 +303,10 @@
             this.gridPanel.Name = "gridPanel";
             this.gridPanel.Size = new System.Drawing.Size(641, 641);
             this.gridPanel.TabIndex = 9;
-            this.gridPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.gridPanel_MouseDown);
-            this.gridPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.gridPanel_MouseMove);
-            this.gridPanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.gridPanel_MouseUp);
             // 
             // button_next
             // 
+            this.button_next.Enabled = false;
             this.button_next.Location = new System.Drawing.Point(1028, 169);
             this.button_next.Name = "button_next";
             this.button_next.Size = new System.Drawing.Size(75, 23);
@@ -298,6 +316,7 @@
             // 
             // button_previous
             // 
+            this.button_previous.Enabled = false;
             this.button_previous.Location = new System.Drawing.Point(947, 169);
             this.button_previous.Name = "button_previous";
             this.button_previous.Size = new System.Drawing.Size(75, 23);
@@ -310,6 +329,7 @@
             this.groupBox_selection.Controls.Add(this.button_export);
             this.groupBox_selection.Controls.Add(this.button_invert);
             this.groupBox_selection.Controls.Add(this.button_clear);
+            this.groupBox_selection.Enabled = false;
             this.groupBox_selection.Location = new System.Drawing.Point(940, 36);
             this.groupBox_selection.Name = "groupBox_selection";
             this.groupBox_selection.Size = new System.Drawing.Size(178, 84);
@@ -349,6 +369,7 @@
             // 
             // button_undo
             // 
+            this.button_undo.Enabled = false;
             this.button_undo.Location = new System.Drawing.Point(947, 126);
             this.button_undo.Name = "button_undo";
             this.button_undo.Size = new System.Drawing.Size(75, 23);
@@ -421,11 +442,178 @@
             this.creditsToolStripMenuItem.Size = new System.Drawing.Size(111, 22);
             this.creditsToolStripMenuItem.Text = "Credits";
             // 
+            // groupBox_layer_difficulty
+            // 
+            this.groupBox_layer_difficulty.Controls.Add(this.button_visibility_difficulty);
+            this.groupBox_layer_difficulty.Controls.Add(this.panel_palett_difficulty);
+            this.groupBox_layer_difficulty.Enabled = false;
+            this.groupBox_layer_difficulty.Location = new System.Drawing.Point(947, 227);
+            this.groupBox_layer_difficulty.Name = "groupBox_layer_difficulty";
+            this.groupBox_layer_difficulty.Size = new System.Drawing.Size(171, 56);
+            this.groupBox_layer_difficulty.TabIndex = 15;
+            this.groupBox_layer_difficulty.TabStop = false;
+            this.groupBox_layer_difficulty.Text = "Difficulty";
+            // 
+            // button_visibility_difficulty
+            // 
+            this.button_visibility_difficulty.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.button_visibility_difficulty.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
+            this.button_visibility_difficulty.FlatAppearance.MouseDownBackColor = System.Drawing.SystemColors.Control;
+            this.button_visibility_difficulty.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.Control;
+            this.button_visibility_difficulty.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_visibility_difficulty.ImageIndex = 0;
+            this.button_visibility_difficulty.ImageList = this.imageList1;
+            this.button_visibility_difficulty.Location = new System.Drawing.Point(134, 24);
+            this.button_visibility_difficulty.Name = "button_visibility_difficulty";
+            this.button_visibility_difficulty.Size = new System.Drawing.Size(31, 26);
+            this.button_visibility_difficulty.TabIndex = 2;
+            this.button_visibility_difficulty.UseVisualStyleBackColor = true;
+            this.button_visibility_difficulty.Click += new System.EventHandler(this.button_visibility_difficulty_Click);
+            // 
+            // imageList1
+            // 
+            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
+            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageList1.Images.SetKeyName(0, "eyeclosed.png");
+            this.imageList1.Images.SetKeyName(1, "eye-2x.png");
+            // 
+            // panel_palett_difficulty
+            // 
+            this.panel_palett_difficulty.Location = new System.Drawing.Point(6, 26);
+            this.panel_palett_difficulty.Name = "panel_palett_difficulty";
+            this.panel_palett_difficulty.Size = new System.Drawing.Size(126, 25);
+            this.panel_palett_difficulty.TabIndex = 0;
+            this.panel_palett_difficulty.MouseClick += new System.Windows.Forms.MouseEventHandler(this.panel_difficulty_click);
+            // 
+            // button_paint
+            // 
+            this.button_paint.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button_paint.BackgroundImage")));
+            this.button_paint.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.button_paint.Location = new System.Drawing.Point(947, 198);
+            this.button_paint.Name = "button_paint";
+            this.button_paint.Size = new System.Drawing.Size(45, 23);
+            this.button_paint.TabIndex = 1;
+            this.button_paint.UseVisualStyleBackColor = true;
+            this.button_paint.Click += new System.EventHandler(this.button_paint_Click);
+            // 
+            // groupBox_layer_itens
+            // 
+            this.groupBox_layer_itens.Controls.Add(this.button_visibility_itens);
+            this.groupBox_layer_itens.Controls.Add(this.panel_palette_itens);
+            this.groupBox_layer_itens.Enabled = false;
+            this.groupBox_layer_itens.Location = new System.Drawing.Point(947, 289);
+            this.groupBox_layer_itens.Name = "groupBox_layer_itens";
+            this.groupBox_layer_itens.Size = new System.Drawing.Size(171, 56);
+            this.groupBox_layer_itens.TabIndex = 16;
+            this.groupBox_layer_itens.TabStop = false;
+            this.groupBox_layer_itens.Text = "Itens";
+            // 
+            // button_visibility_itens
+            // 
+            this.button_visibility_itens.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.button_visibility_itens.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
+            this.button_visibility_itens.FlatAppearance.MouseDownBackColor = System.Drawing.SystemColors.Control;
+            this.button_visibility_itens.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.Control;
+            this.button_visibility_itens.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_visibility_itens.ImageIndex = 0;
+            this.button_visibility_itens.ImageList = this.imageList1;
+            this.button_visibility_itens.Location = new System.Drawing.Point(134, 24);
+            this.button_visibility_itens.Name = "button_visibility_itens";
+            this.button_visibility_itens.Size = new System.Drawing.Size(31, 26);
+            this.button_visibility_itens.TabIndex = 2;
+            this.button_visibility_itens.UseVisualStyleBackColor = true;
+            this.button_visibility_itens.Click += new System.EventHandler(this.button_visibility_itens_Click);
+            // 
+            // panel_palette_itens
+            // 
+            this.panel_palette_itens.Location = new System.Drawing.Point(6, 26);
+            this.panel_palette_itens.Name = "panel_palette_itens";
+            this.panel_palette_itens.Size = new System.Drawing.Size(126, 25);
+            this.panel_palette_itens.TabIndex = 0;
+            this.panel_palette_itens.MouseClick += new System.Windows.Forms.MouseEventHandler(this.panel_itens_click);
+            // 
+            // groupBox_layer_monsters
+            // 
+            this.groupBox_layer_monsters.Controls.Add(this.button_visibility_monsters);
+            this.groupBox_layer_monsters.Controls.Add(this.panel_palette_monsters);
+            this.groupBox_layer_monsters.Enabled = false;
+            this.groupBox_layer_monsters.Location = new System.Drawing.Point(947, 351);
+            this.groupBox_layer_monsters.Name = "groupBox_layer_monsters";
+            this.groupBox_layer_monsters.Size = new System.Drawing.Size(171, 56);
+            this.groupBox_layer_monsters.TabIndex = 17;
+            this.groupBox_layer_monsters.TabStop = false;
+            this.groupBox_layer_monsters.Text = "Monsters";
+            // 
+            // button_visibility_monsters
+            // 
+            this.button_visibility_monsters.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.button_visibility_monsters.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
+            this.button_visibility_monsters.FlatAppearance.MouseDownBackColor = System.Drawing.SystemColors.Control;
+            this.button_visibility_monsters.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.Control;
+            this.button_visibility_monsters.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_visibility_monsters.ImageIndex = 0;
+            this.button_visibility_monsters.ImageList = this.imageList1;
+            this.button_visibility_monsters.Location = new System.Drawing.Point(134, 24);
+            this.button_visibility_monsters.Name = "button_visibility_monsters";
+            this.button_visibility_monsters.Size = new System.Drawing.Size(31, 26);
+            this.button_visibility_monsters.TabIndex = 2;
+            this.button_visibility_monsters.UseVisualStyleBackColor = true;
+            this.button_visibility_monsters.Click += new System.EventHandler(this.button_visibility_monsters_Click);
+            // 
+            // panel_palette_monsters
+            // 
+            this.panel_palette_monsters.Location = new System.Drawing.Point(6, 26);
+            this.panel_palette_monsters.Name = "panel_palette_monsters";
+            this.panel_palette_monsters.Size = new System.Drawing.Size(126, 25);
+            this.panel_palette_monsters.TabIndex = 0;
+            this.panel_palette_monsters.MouseClick += new System.Windows.Forms.MouseEventHandler(this.panel_monsters_click);
+            // 
+            // groupBox_layer_resources
+            // 
+            this.groupBox_layer_resources.Controls.Add(this.button_visibility_resources);
+            this.groupBox_layer_resources.Controls.Add(this.panel_palette_resources);
+            this.groupBox_layer_resources.Enabled = false;
+            this.groupBox_layer_resources.Location = new System.Drawing.Point(947, 413);
+            this.groupBox_layer_resources.Name = "groupBox_layer_resources";
+            this.groupBox_layer_resources.Size = new System.Drawing.Size(171, 56);
+            this.groupBox_layer_resources.TabIndex = 17;
+            this.groupBox_layer_resources.TabStop = false;
+            this.groupBox_layer_resources.Text = "Resources";
+            // 
+            // button_visibility_resources
+            // 
+            this.button_visibility_resources.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.button_visibility_resources.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
+            this.button_visibility_resources.FlatAppearance.MouseDownBackColor = System.Drawing.SystemColors.Control;
+            this.button_visibility_resources.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.Control;
+            this.button_visibility_resources.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_visibility_resources.ImageIndex = 0;
+            this.button_visibility_resources.ImageList = this.imageList1;
+            this.button_visibility_resources.Location = new System.Drawing.Point(134, 24);
+            this.button_visibility_resources.Name = "button_visibility_resources";
+            this.button_visibility_resources.Size = new System.Drawing.Size(31, 26);
+            this.button_visibility_resources.TabIndex = 2;
+            this.button_visibility_resources.UseVisualStyleBackColor = true;
+            this.button_visibility_resources.Click += new System.EventHandler(this.button_visibility_resources_Click);
+            // 
+            // panel_palette_resources
+            // 
+            this.panel_palette_resources.Location = new System.Drawing.Point(6, 26);
+            this.panel_palette_resources.Name = "panel_palette_resources";
+            this.panel_palette_resources.Size = new System.Drawing.Size(126, 25);
+            this.panel_palette_resources.TabIndex = 0;
+            this.panel_palette_resources.MouseClick += new System.Windows.Forms.MouseEventHandler(this.panel_resources_click);
+            // 
             // Monsters
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1129, 685);
+            this.Controls.Add(this.groupBox_layer_resources);
+            this.Controls.Add(this.groupBox_layer_monsters);
+            this.Controls.Add(this.groupBox_layer_itens);
+            this.Controls.Add(this.groupBox_layer_difficulty);
+            this.Controls.Add(this.button_paint);
             this.Controls.Add(this.button_settings);
             this.Controls.Add(this.groupBox_selection);
             this.Controls.Add(this.button_previous);
@@ -456,6 +644,10 @@
             this.groupBox_selection.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            this.groupBox_layer_difficulty.ResumeLayout(false);
+            this.groupBox_layer_itens.ResumeLayout(false);
+            this.groupBox_layer_monsters.ResumeLayout(false);
+            this.groupBox_layer_resources.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -498,5 +690,20 @@
         private System.Windows.Forms.ToolStripMenuItem uISettingsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem creditsToolStripMenuItem;
+        private System.Windows.Forms.GroupBox groupBox_layer_difficulty;
+        private System.Windows.Forms.Button button_paint;
+        private System.Windows.Forms.Panel panel_palett_difficulty;
+        private System.Windows.Forms.Button button_visibility_difficulty;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private System.Windows.Forms.ImageList imageList1;
+        private System.Windows.Forms.GroupBox groupBox_layer_itens;
+        private System.Windows.Forms.Button button_visibility_itens;
+        private System.Windows.Forms.Panel panel_palette_itens;
+        private System.Windows.Forms.GroupBox groupBox_layer_monsters;
+        private System.Windows.Forms.Button button_visibility_monsters;
+        private System.Windows.Forms.Panel panel_palette_monsters;
+        private System.Windows.Forms.GroupBox groupBox_layer_resources;
+        private System.Windows.Forms.Button button_visibility_resources;
+        private System.Windows.Forms.Panel panel_palette_resources;
     }
 }

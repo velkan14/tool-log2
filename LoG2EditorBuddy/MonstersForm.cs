@@ -1,5 +1,6 @@
 ﻿using gma.System.Windows;
 using Log2CyclePrototype.Exceptions;
+using Log2CyclePrototype.Layers;
 using Log2CyclePrototype.LoG2API;
 using Log2CyclePrototype.Utilities;
 using Log2CyclePrototype.WinAPI;
@@ -27,10 +28,7 @@ namespace Log2CyclePrototype
         private Draw drawer;
         private Core core;
         private UserSelection userSelection;
-        
-
-        private Map currentMap, previousMap, solutionChromosomeMap;
-       
+        Layer layerDifficulty, layerItens, layerMonsters, layerResources;
 
         public Monsters()
         {
@@ -41,19 +39,42 @@ namespace Log2CyclePrototype
         {
             core = new Core(this);
             userSelection = core.getUserSelection();
+            
 
             //Solves flickering when redrawing gridPanel and triangle Panel
             typeof(Panel).InvokeMember("DoubleBuffered",
             BindingFlags.SetProperty | BindingFlags.Instance | BindingFlags.NonPublic,
             null, gridPanel, new object[] { true });
 
+
             drawer = new Draw(gridPanel);
-            
 
             Logger.EntryWritten += Logger_EntryWritten;
 
+            
             settingsForm = new Settings(core);
             initializeParameters(); //FIXME: Talvez não seja a forma correcta de o fazer
+        }
+
+        public void MapLoaded()
+        {
+            layerDifficulty = new Layer(this, core.OriginalMap, gridPanel, panel_palett_difficulty, Color.Red);
+            layerItens = new Layer(this, core.OriginalMap, gridPanel, panel_palette_itens, Color.ForestGreen);
+            layerMonsters = new Layer(this, core.OriginalMap, gridPanel, panel_palette_monsters, Color.IndianRed);
+            layerResources = new Layer(this, core.OriginalMap, gridPanel, panel_palette_resources, Color.Yellow);
+
+
+            Invoke((MethodInvoker)(() => {
+                groupBox_layer_difficulty.Enabled = true;
+                groupBox_layer_itens.Enabled = true;
+                groupBox_layer_monsters.Enabled = true;
+                groupBox_layer_resources.Enabled = true;
+                groupBox_selection.Enabled = true;
+
+                button_undo.Enabled = true;
+                button_previous.Enabled = true;
+                button_next.Enabled = true;
+            }));
         }
 
         /*********************************************************************************/
@@ -68,7 +89,6 @@ namespace Log2CyclePrototype
 
         private void gridPanel_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
         {
-
             if (e.Button == MouseButtons.Left || e.Button == MouseButtons.Right)
             {
                 startPointSelection = e.Location;
@@ -101,7 +121,7 @@ namespace Log2CyclePrototype
                 SelectionRect.Size = new Size(
                     System.Math.Abs(startPointSelection.X - tempEndPoint.X),
                     System.Math.Abs(startPointSelection.Y - tempEndPoint.Y));
-                if (currentMap != null)
+                if (core.HasMap)
                 {
                     gridPanel.BackgroundImage = drawer.DrawSelectionPreviewRectangle(SelectionRect, selectionAdd);
                     gridPanel.Refresh();
@@ -114,13 +134,13 @@ namespace Log2CyclePrototype
 
         private void gridPanel_MouseUp(object sender, MouseEventArgs e)
         {
-            if (currentMap == null)
+            if (!core.HasMap)
                 return;
 
             try
             {
-                int cellWidth = gridPanel.Width / APIClass.CurrentMap.Width;
-                int cellHeight = gridPanel.Height / APIClass.CurrentMap.Height;
+                int cellWidth = gridPanel.Width / core.OriginalMap.Width;
+                int cellHeight = gridPanel.Height / core.OriginalMap.Height;
                 Point topLeft = new Point(), bottomRight = new Point();
                 Point startCellCoord = new Point(startPointSelection.X / cellWidth, startPointSelection.Y / cellHeight);
                 Point endCellCoord = new Point(e.Location.X / cellWidth, e.Location.Y / cellHeight);
@@ -199,7 +219,7 @@ namespace Log2CyclePrototype
 
         private void button_invert_Click(object sender, EventArgs e)
         {
-            if (currentMap == null)
+            if (!core.HasMap)
                 return;
 
             if (userSelection.invertSelection())
@@ -372,6 +392,108 @@ namespace Log2CyclePrototype
             }*/
         }
 
+        private void button_visibility_difficulty_Click(object sender, EventArgs e)
+        {
+            if (layerDifficulty.Active) {
+                layerDifficulty.Active = false;
+                button_visibility_difficulty.ImageIndex = 0;
+            } else
+            {
+                layerDifficulty.Active = true;
+                button_visibility_difficulty.ImageIndex = 1;
+            }
+            ReDraw();
+        }
+
+        private void button_visibility_itens_Click(object sender, EventArgs e)
+        {
+            if (layerItens.Active)
+            {
+                layerItens.Active = false;
+                button_visibility_itens.ImageIndex = 0;
+            }
+            else
+            {
+                layerItens.Active = true;
+                button_visibility_itens.ImageIndex = 1;
+            }
+            ReDraw();
+        }
+
+        private void button_visibility_monsters_Click(object sender, EventArgs e)
+        {
+            if (layerMonsters.Active)
+            {
+                layerMonsters.Active = false;
+                button_visibility_monsters.ImageIndex = 0;
+            }
+            else
+            {
+                layerMonsters.Active = true;
+                button_visibility_monsters.ImageIndex = 1;
+            }
+            ReDraw();
+        }
+
+        private void button_visibility_resources_Click(object sender, EventArgs e)
+        {
+            if (layerResources.Active)
+            {
+                layerResources.Active = false;
+                button_visibility_resources.ImageIndex = 0;
+            }
+            else
+            {
+                layerResources.Active = true;
+                button_visibility_resources.ImageIndex = 1;
+            }
+            ReDraw();
+        }
+
+        private void panel_difficulty_click(object sender, MouseEventArgs e)
+        {
+            if (!layerDifficulty.Attached)
+            {
+                layerDifficulty.Attach();
+                layerItens.Dettach();
+                layerMonsters.Dettach();
+                layerResources.Dettach();
+            }
+        }
+
+        private void panel_itens_click(object sender, MouseEventArgs e)
+        {
+            if (!layerItens.Attached)
+            {
+                layerDifficulty.Dettach();
+                layerItens.Attach();
+                layerMonsters.Dettach();
+                layerResources.Dettach();
+            }
+        }
+
+        private void panel_monsters_click(object sender, MouseEventArgs e)
+        {
+            if (!layerMonsters.Attached)
+            {
+                layerDifficulty.Dettach();
+                layerItens.Dettach();
+                layerMonsters.Attach();
+                layerResources.Dettach();
+            }
+        }
+
+        private void panel_resources_click(object sender, MouseEventArgs e)
+        {
+            if (!layerResources.Attached)
+            {
+                layerDifficulty.Dettach();
+                layerItens.Dettach();
+                layerMonsters.Dettach();
+                layerResources.Attach();
+            }
+        }
+
         private void button_settings_Click(object sender, EventArgs e)
         {
             settingsForm.Show();
@@ -379,7 +501,14 @@ namespace Log2CyclePrototype
 
         public void ReDraw()
         {
-            gridPanel.BackgroundImage = drawer.ReDraw(core.getMap(), userSelection.getSelectedPoints()); //FIXME
+            //gridPanel.BackgroundImage = drawer.ReDraw(core.OriginalMap, userSelection.getSelectedPoints()); //FIXME
+
+            gridPanel.BackgroundImage = core.OriginalMap.Draw(gridPanel.Width, gridPanel.Height);
+
+            if (layerDifficulty != null) gridPanel.BackgroundImage = layerDifficulty.Draw(gridPanel.Width, gridPanel.Height, gridPanel.BackgroundImage);
+            if (layerItens != null) gridPanel.BackgroundImage = layerItens.Draw(gridPanel.Width, gridPanel.Height, gridPanel.BackgroundImage);
+            if (layerMonsters != null) gridPanel.BackgroundImage = layerMonsters.Draw(gridPanel.Width, gridPanel.Height, gridPanel.BackgroundImage);
+            if (layerResources != null) gridPanel.BackgroundImage = layerResources.Draw(gridPanel.Width, gridPanel.Height, gridPanel.BackgroundImage);
 
             if (gridPanel.InvokeRequired)
             {
@@ -391,7 +520,21 @@ namespace Log2CyclePrototype
             }
         }
 
+        private void button_paint_Click(object sender, EventArgs e)
+        {
+            
+            
+            /*layerItens.Attach();
+            if (layerDifficulty.Attached)
+            {
+                layerDifficulty.Dettach();
+            }
+            else
+            {
+                layerDifficulty.Attach();
+            }
 
-       
+            ReDraw();*/
+        }
     }
 }
