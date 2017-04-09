@@ -111,7 +111,7 @@ namespace Log2CyclePrototype.LoG2API.Elements
             StringBuilder sb = new StringBuilder();
 
             sb.AppendFormat(@"spawn(""{0}"",{1},{2},{3},{4},""{5}""){6}", type,x,y,(int)orientation,h,uniqueID, '\n');
-            //sb.AppendFormat(@"{0}.door:setState(""{1}""){2}", uniqueID, Open ? "open" : "closed", '\n');
+            if(Open) sb.AppendFormat(@"{0}.door:setDoorState(""{1}""){2}", uniqueID, "open", '\n');
             sb.AppendFormat(@"{0}.door:setPullChain({1}){2}", uniqueID, PullChain ? "true" : "false", '\n');
             return sb.ToString();
         }
@@ -163,9 +163,9 @@ namespace Log2CyclePrototype.LoG2API.Elements
 
         public override void setAttribute(string name, string value)
         {
-            if (name.Contains("setState"))
+            if (name.Contains("setDoorState"))
             {
-                Open = value.Contains("Open") ? true : false;
+                Open = value.Contains("open") ? true : false;
             }
         }
 

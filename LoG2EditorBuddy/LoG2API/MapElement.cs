@@ -64,7 +64,7 @@ namespace Log2CyclePrototype.LoG2API
 
             foreach(Connector c in connectors)
             {
-                sb.Append(String.Format(@"{0}.{1}:addConnector(""{2}"", ""{3}"", ""{4}""){5}", uniqueID, ConnectorName, c.Target, c.Trigger, c.Action, '\n'));
+                sb.Append(String.Format(@"{0}.{1}:addConnector(""{2}"", ""{3}"", ""{4}""){5}", uniqueID, ConnectorName, c.Trigger, c.Target, c.Action, '\n'));
             }
          
             return sb.ToString();

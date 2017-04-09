@@ -160,10 +160,12 @@
     <Compile Include="Layers\Palette.cs" />
     <Compile Include="Layers\Value.cs" />
     <Compile Include="LoG2API\Elements\Alcove.cs" />
+    <Compile Include="LoG2API\Elements\Altar.cs" />
     <Compile Include="LoG2API\Elements\Button.cs" />
     <Compile Include="LoG2API\Connector.cs" />
     <Compile Include="LoG2API\Elements\EndingPoint.cs" />
     <Compile Include="LoG2API\Elements\Item.cs" />
+    <Compile Include="LoG2API\Elements\Lantern.cs" />
     <Compile Include="LoG2API\Elements\Lock.cs" />
     <Compile Include="LoG2API\Elements\Monster.cs" />
     <Compile Include="LoG2API\Elements\PressurePlate.cs" />
@@ -172,6 +174,7 @@
     <Compile Include="LoG2API\Elements\Text.cs" />
     <Compile Include="LoG2API\Elements\TorchHolder.cs" />
     <Compile Include="LoG2API\Elements\TrapDoor.cs" />
+    <Compile Include="LoG2API\Elements\WallEffect.cs" />
     <Compile Include="MainClass.cs" />
     <Compile Include="MonstersForm.cs">
       <SubType>Form</SubType>

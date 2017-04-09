@@ -227,10 +227,9 @@ namespace Log2CyclePrototype.Layers
 
         public override Image Draw(int width, int height, Image backgroundImage)
         {
-            Image image = (Image)backgroundImage.Clone();
             if (Active)
             {
-                using (Graphics g = Graphics.FromImage(image))
+                using (Graphics g = Graphics.FromImage(backgroundImage))
                 {
                     foreach (Value v in values)
                     {
@@ -239,9 +238,7 @@ namespace Log2CyclePrototype.Layers
                     }
                 }
             }
-            
-
-            return image;
+            return backgroundImage;
        }
     }
 }

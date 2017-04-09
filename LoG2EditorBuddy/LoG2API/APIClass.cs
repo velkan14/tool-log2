@@ -101,6 +101,9 @@ namespace Log2CyclePrototype.LoG2API
             PressurePlate.PressurePlateType tmpPressurePlateType;
             TrapDoor.TrapDoorType tmpTrapDoorType;
             TorchHolder.TorchHolderType tmpTorchHolderType;
+            Lantern.LanternType tmpLanternType;
+            Altar.AltarType tmpAltarType;
+            WallEffect.WallEffectType tmpWallEffectType;
 
             string fileText = System.IO.File.ReadAllText(DirectoryManager.DungeonFilePath);
 
@@ -252,9 +255,20 @@ namespace Log2CyclePrototype.LoG2API
                 {
                     tmpElement = new TrapDoor(id, x, y, o, h, uniqueId);
                 }
+                else if (Lantern.LanternType.TryParse(id, true, out tmpLanternType))
+                {
+                    tmpElement = new Lantern(id, x, y, o, h, uniqueId);
+                }
+                else if (Altar.AltarType.TryParse(id, true, out tmpAltarType))
+                {
+                    tmpElement = new Altar(id, x, y, o, h, uniqueId);
+                }
+                else if (WallEffect.WallEffectType.TryParse(id, true, out tmpWallEffectType))
+                {
+                    tmpElement = new WallEffect(id, x, y, o, h, uniqueId);
+                }
                 else
                 {
-                    Console.WriteLine(uniqueId);
                     tmpElement = new Item(id, x, y, o, h, uniqueId);
                 }
 
@@ -283,7 +297,7 @@ namespace Log2CyclePrototype.LoG2API
                     {
                         tmpElement.addConnector(split[3], split[4], split[5]);
                     }
-                    else if (split[2].Contains("addItem") || split[2].Contains("setWallText") || split[2].Contains("setOpenedBy") || split[2].Contains("setState") || split[2].Contains("setScrollText"))
+                    else if (split[2].Contains("addItem") || split[2].Contains("setWallText") || split[2].Contains("setOpenedBy") || split[2].Contains("setState") || split[2].Contains("setDoorState") || split[2].Contains("setScrollText"))
                     {
                         tmpElement.setAttribute(split[2], split[3]);
                     }

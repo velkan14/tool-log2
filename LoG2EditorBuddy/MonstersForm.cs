@@ -502,13 +502,14 @@ namespace Log2CyclePrototype
         public void ReDraw()
         {
             //gridPanel.BackgroundImage = drawer.ReDraw(core.OriginalMap, userSelection.getSelectedPoints()); //FIXME
+            Image image = core.OriginalMap.Draw(gridPanel.Width, gridPanel.Height);
 
-            gridPanel.BackgroundImage = core.OriginalMap.Draw(gridPanel.Width, gridPanel.Height);
+            if (layerDifficulty != null) image = layerDifficulty.Draw(gridPanel.Width, gridPanel.Height, image);
+            if (layerItens != null) image = layerItens.Draw(gridPanel.Width, gridPanel.Height, image);
+            if (layerMonsters != null) image = layerMonsters.Draw(gridPanel.Width, gridPanel.Height, image);
+            if (layerResources != null) image = layerResources.Draw(gridPanel.Width, gridPanel.Height, image);
 
-            if (layerDifficulty != null) gridPanel.BackgroundImage = layerDifficulty.Draw(gridPanel.Width, gridPanel.Height, gridPanel.BackgroundImage);
-            if (layerItens != null) gridPanel.BackgroundImage = layerItens.Draw(gridPanel.Width, gridPanel.Height, gridPanel.BackgroundImage);
-            if (layerMonsters != null) gridPanel.BackgroundImage = layerMonsters.Draw(gridPanel.Width, gridPanel.Height, gridPanel.BackgroundImage);
-            if (layerResources != null) gridPanel.BackgroundImage = layerResources.Draw(gridPanel.Width, gridPanel.Height, gridPanel.BackgroundImage);
+            gridPanel.BackgroundImage = image;
 
             if (gridPanel.InvokeRequired)
             {
@@ -520,21 +521,5 @@ namespace Log2CyclePrototype
             }
         }
 
-        private void button_paint_Click(object sender, EventArgs e)
-        {
-            
-            
-            /*layerItens.Attach();
-            if (layerDifficulty.Attached)
-            {
-                layerDifficulty.Dettach();
-            }
-            else
-            {
-                layerDifficulty.Attach();
-            }
-
-            ReDraw();*/
-        }
     }
 }

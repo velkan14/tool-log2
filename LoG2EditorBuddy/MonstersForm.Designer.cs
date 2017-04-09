@@ -69,7 +69,6 @@
             this.button_visibility_difficulty = new System.Windows.Forms.Button();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.panel_palett_difficulty = new System.Windows.Forms.Panel();
-            this.button_paint = new System.Windows.Forms.Button();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.groupBox_layer_itens = new System.Windows.Forms.GroupBox();
             this.button_visibility_itens = new System.Windows.Forms.Button();
@@ -481,20 +480,9 @@
             // 
             this.panel_palett_difficulty.Location = new System.Drawing.Point(6, 26);
             this.panel_palett_difficulty.Name = "panel_palett_difficulty";
-            this.panel_palett_difficulty.Size = new System.Drawing.Size(126, 25);
+            this.panel_palett_difficulty.Size = new System.Drawing.Size(90, 25);
             this.panel_palett_difficulty.TabIndex = 0;
             this.panel_palett_difficulty.MouseClick += new System.Windows.Forms.MouseEventHandler(this.panel_difficulty_click);
-            // 
-            // button_paint
-            // 
-            this.button_paint.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button_paint.BackgroundImage")));
-            this.button_paint.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.button_paint.Location = new System.Drawing.Point(947, 198);
-            this.button_paint.Name = "button_paint";
-            this.button_paint.Size = new System.Drawing.Size(45, 23);
-            this.button_paint.TabIndex = 1;
-            this.button_paint.UseVisualStyleBackColor = true;
-            this.button_paint.Click += new System.EventHandler(this.button_paint_Click);
             // 
             // groupBox_layer_itens
             // 
@@ -528,7 +516,7 @@
             // 
             this.panel_palette_itens.Location = new System.Drawing.Point(6, 26);
             this.panel_palette_itens.Name = "panel_palette_itens";
-            this.panel_palette_itens.Size = new System.Drawing.Size(126, 25);
+            this.panel_palette_itens.Size = new System.Drawing.Size(90, 25);
             this.panel_palette_itens.TabIndex = 0;
             this.panel_palette_itens.MouseClick += new System.Windows.Forms.MouseEventHandler(this.panel_itens_click);
             // 
@@ -564,7 +552,7 @@
             // 
             this.panel_palette_monsters.Location = new System.Drawing.Point(6, 26);
             this.panel_palette_monsters.Name = "panel_palette_monsters";
-            this.panel_palette_monsters.Size = new System.Drawing.Size(126, 25);
+            this.panel_palette_monsters.Size = new System.Drawing.Size(90, 25);
             this.panel_palette_monsters.TabIndex = 0;
             this.panel_palette_monsters.MouseClick += new System.Windows.Forms.MouseEventHandler(this.panel_monsters_click);
             // 
@@ -600,7 +588,7 @@
             // 
             this.panel_palette_resources.Location = new System.Drawing.Point(6, 26);
             this.panel_palette_resources.Name = "panel_palette_resources";
-            this.panel_palette_resources.Size = new System.Drawing.Size(126, 25);
+            this.panel_palette_resources.Size = new System.Drawing.Size(90, 25);
             this.panel_palette_resources.TabIndex = 0;
             this.panel_palette_resources.MouseClick += new System.Windows.Forms.MouseEventHandler(this.panel_resources_click);
             // 
@@ -613,7 +601,6 @@
             this.Controls.Add(this.groupBox_layer_monsters);
             this.Controls.Add(this.groupBox_layer_itens);
             this.Controls.Add(this.groupBox_layer_difficulty);
-            this.Controls.Add(this.button_paint);
             this.Controls.Add(this.button_settings);
             this.Controls.Add(this.groupBox_selection);
             this.Controls.Add(this.button_previous);
@@ -691,7 +678,6 @@
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem creditsToolStripMenuItem;
         private System.Windows.Forms.GroupBox groupBox_layer_difficulty;
-        private System.Windows.Forms.Button button_paint;
         private System.Windows.Forms.Panel panel_palett_difficulty;
         private System.Windows.Forms.Button button_visibility_difficulty;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
