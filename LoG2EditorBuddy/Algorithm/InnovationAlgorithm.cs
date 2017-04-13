@@ -1,6 +1,7 @@
 ﻿using GAF;
 using GAF.Extensions;
 using GAF.Operators;
+using Log2CyclePrototype.Algorithm;
 using Log2CyclePrototype.LoG2API;
 using Log2CyclePrototype.Utilities;
 using System;
@@ -21,9 +22,9 @@ namespace Log2CyclePrototype
         public double MutationPercentage { get; set; }
         public int ElitismPercentage { get; set; }
 
-        public CrossoverType CrossoverType { get; set; }
-
         private Map originalMap;
+
+        private Delegate callback;
 
         public InnovationAlgorithm()
         {
@@ -31,17 +32,18 @@ namespace Log2CyclePrototype
             RandomTransferPopulation = false;
 
             InitialPopulation = 100;
-            GenerationLimit = 50;
-            MutationPercentage = 0.15;
+            GenerationLimit = 100;
+            MutationPercentage = 1.0;
             ElitismPercentage = 5;
         }
 
-        public void Run(Map currentMap)
+        public void Run(Map currentMap, Delegate callback)
         {
             originalMap = currentMap;
+            this.callback = callback;
 
             //get our cities
-            Map map = CloneUtilities.CloneJson<Map>(currentMap);
+            Map map = currentMap.CloneJson() as Map;
 
             //we can create an empty population as we will be creating the 
             //initial solutions manually.
@@ -52,7 +54,7 @@ namespace Log2CyclePrototype
             {
 
                 var chromosome = new Chromosome();
-                foreach (var cell in map.Cells)
+                foreach (var cell in map.WalkableCells)
                 {
                     chromosome.Genes.Add(new Gene(cell));
                 }
@@ -61,15 +63,15 @@ namespace Log2CyclePrototype
                 population.Solutions.Add(chromosome);
             }
 
+
             //create the elite operator
             var elite = new Elite(ElitismPercentage);
 
             //create the crossover operator
-            var crossover = new MonsterCrossover(map.Width, map.Height, ReplacementMethod.DeleteLast, CrossoverType, 0.8, true);
+            var crossover = new MonsterCrossover(ReplacementMethod.GenerationalReplacement, CrossoverType.SinglePoint, 1.0, true);
 
             //create the mutation operator
-            var mutate = new SwapMutate(0.02);
-
+            var mutate = new MonsterMutate(MutationPercentage);
             //create the GA
             var ga = new GeneticAlgorithm(population, CalculateFitness);
 
@@ -82,34 +84,47 @@ namespace Log2CyclePrototype
             ga.Operators.Add(crossover);
             ga.Operators.Add(mutate);
 
+            ga.OnRunComplete += OnRunComplete;
+
             //run the GA
+            Logger.AppendText("Started the run");
             ga.Run(TerminateFunction);
         }
 
         private double CalculateFitness(Chromosome chromosome)
         {
             double fitness = 0.0; // Value between 0 and 1. 1 is the fittest
+            double expectedMonsters = 10.0;
+            int numberOfMonsters = 0;
 
             var genes = chromosome.Genes;
 
             for (int i = 0; i < genes.Count; i++)
             {
-                //grab a cell from the candidate chromosome
-                Cell c = (Cell)genes[i].ObjectValue;
+                LoG2API.Cell c = (LoG2API.Cell)genes[i].ObjectValue;
+                LoG2API.Cell originalCell = originalMap.GetCellAt(c.X, c.Y);
 
-                if (!originalMap.Cells[i].SameMonsters(c))
+                if (c.Monster == null && originalCell.Monster == null)
                 {
                     fitness += 1;
                 }
-            }
+                else if (!originalMap.GetCellAt(c.X, c.Y).SameMonsters(c))
+                {
+                    fitness += 1;
+                }
 
+                if(c.Monster != null) numberOfMonsters++;
+            }
+            
             fitness = fitness / genes.Count;
+
+            /*if (numberOfMonsters > expectedMonsters) fitness = fitness * expectedMonsters / numberOfMonsters; // 5: numero de monstros que queremos;
+            else fitness = fitness * numberOfMonsters / expectedMonsters;*/
 
             //FIXME: Será preciso fazer alguma penalização... Ter em conta o número de monstros por exemplo para não excederam um número base.
             /*float cellOffsetPenalty = 0;
             cellOffsetPenalty = System.Math.Abs(TargetWalkableCellCount - APIClass.CountWalkableCellsInChromosome(chromosome)) / 1024f;
             fitness -= cellOffsetPenalty;*/
-
             return fitness;
         }
 
@@ -118,15 +133,23 @@ namespace Log2CyclePrototype
             return currentGeneration > GenerationLimit;
         }
 
-        private void OnNoveltyComplete(object sender, GaEventArgs e)
-        {
-
+        private void OnRunComplete(object sender, GaEventArgs e)
+        {            
             //get the best solution 
             var chromosome = e.Population.GetTop(1)[0];
-           
+
+
+            List<LoG2API.Cell> cells = new List<LoG2API.Cell>();
+            foreach(Gene g in chromosome.Genes)
+            {
+                cells.Add((LoG2API.Cell)g.ObjectValue);
+            }
+
+            callback.DynamicInvoke(cells);
+
             //Debug.WriteLine("Best Novelty Fitness: " + chromosome.Fitness);
             Logger.AppendText("Best Novelty Fitness: " + chromosome.Fitness);
         }
-
+        
     }
 }

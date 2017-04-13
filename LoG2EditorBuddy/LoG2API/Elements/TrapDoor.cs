@@ -22,7 +22,7 @@ namespace Log2CyclePrototype.LoG2API.Elements
             tomb_pit_trapdoor
         }
 
-        private TrapDoorType type;
+        public TrapDoorType type;
 
         public bool Disable { get; set; }
         public bool Open { get; set; }

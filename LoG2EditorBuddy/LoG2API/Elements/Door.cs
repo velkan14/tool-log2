@@ -54,7 +54,7 @@ namespace Log2CyclePrototype.LoG2API.Elements
         }
 
 
-        private DoorType type;
+        public DoorType type;
 
         /// <summary>
         /// Internal state. Represents if the door has a chain to open or close. 

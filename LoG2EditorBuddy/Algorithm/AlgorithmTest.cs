@@ -50,7 +50,7 @@ namespace Log2CyclePrototype
 			
             //create the elite operator
             var elite = new Elite(5);
-			
+
             //create the crossover operator
             var crossover = new Crossover(0.8)
             {

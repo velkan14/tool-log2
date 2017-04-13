@@ -79,6 +79,7 @@
             this.groupBox_layer_resources = new System.Windows.Forms.GroupBox();
             this.button_visibility_resources = new System.Windows.Forms.Button();
             this.panel_palette_resources = new System.Windows.Forms.Panel();
+            this.toolTip_panel = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_innovation)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_userplacement)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_objective)).BeginInit();
@@ -302,6 +303,7 @@
             this.gridPanel.Name = "gridPanel";
             this.gridPanel.Size = new System.Drawing.Size(641, 641);
             this.gridPanel.TabIndex = 9;
+            this.gridPanel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.gridPanel_MouseClick);
             // 
             // button_next
             // 
@@ -312,6 +314,7 @@
             this.button_next.TabIndex = 10;
             this.button_next.Text = "Next";
             this.button_next.UseVisualStyleBackColor = true;
+            this.button_next.Click += new System.EventHandler(this.button_next_Click);
             // 
             // button_previous
             // 
@@ -322,6 +325,7 @@
             this.button_previous.TabIndex = 11;
             this.button_previous.Text = "Previous";
             this.button_previous.UseVisualStyleBackColor = true;
+            this.button_previous.Click += new System.EventHandler(this.button_previous_Click);
             // 
             // groupBox_selection
             // 
@@ -691,5 +695,6 @@
         private System.Windows.Forms.GroupBox groupBox_layer_resources;
         private System.Windows.Forms.Button button_visibility_resources;
         private System.Windows.Forms.Panel panel_palette_resources;
+        private System.Windows.Forms.ToolTip toolTip_panel;
     }
 }

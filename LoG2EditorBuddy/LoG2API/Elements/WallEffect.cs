@@ -16,7 +16,7 @@ namespace Log2CyclePrototype.LoG2API.Elements
             dungeon_wall_broken_02
         }
 
-        private WallEffectType type;
+        public WallEffectType type;
 
         private static Rectangle srcRectTop = new Rectangle(80, 220, 20, 20);
         private static Rectangle srcRectRight = new Rectangle(100, 220, 20, 20);
@@ -48,7 +48,7 @@ namespace Log2CyclePrototype.LoG2API.Elements
         {
             get
             {
-                return srcRectTop;
+                return srcRectDown;
             }
         }
 

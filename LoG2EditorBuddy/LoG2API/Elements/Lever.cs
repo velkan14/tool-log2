@@ -58,10 +58,10 @@ namespace Log2CyclePrototype.LoG2API.Elements
             tomb_wall_lever          
         }
 
-        private LeverType _type;
+        public LeverType _type;
         private State _state;
         private string _connectedTo;
-        private bool _disableSelf;
+        public bool _disableSelf;
         private Action _action;
         private Reaction _reaction;
 

@@ -15,7 +15,7 @@ namespace Log2CyclePrototype.LoG2API.Elements
             torch_holder
         }
 
-        TorchHolderType type;
+        public TorchHolderType type;
 
         public bool HasTorch { get; set; }
 

@@ -56,13 +56,8 @@ namespace Log2CyclePrototype
                         interfaceWindow.Invoke((MethodInvoker)(() => { hook.Start(); }));
                         fileWatcher.Start();
                         OriginalMap = APIClass.ParseMapFile();
-                        objAlgTest = new ObjectiveAlgorithmTestClass();
-                        novAlgTest = new InnovationAlgorithm();
-                        //_cellsToDraw = APIClass.CurrentMap.Cells;
-                        //Redraw();
-                        //NoveltyAlgorithmTestClass.OnNoveltyAlgorithmFinished += ObjectiveAlgorithmTestClass.NoveltyAlgorithm_Finished;
-                        ResetAlgorithm();
-                        Logger.AppendText("Starting first algorithm run...");
+                        innovationAlgorithm = new InnovationAlgorithm();
+
                         RunAlgorithm();
                         interfaceWindow.MapLoaded();
                         interfaceWindow.ReDraw();
@@ -76,67 +71,30 @@ namespace Log2CyclePrototype
 
         /*********************************************/
 
-        float objectivePercentage, innovationPercentage, userPercentage;
-        int maxMonsters, characterLevel;
-        float hordesPercentage, mapObjectsPercentage, endPointsPercentage;
         private Monsters interfaceWindow;
-
-        private bool keepPopulation = false;
-        private bool innovationRunning = false, objectiveRunning = false;
-        private delegate void AlgorithmRunComplete(List<Gene> s);
-
-        private ObjectiveAlgorithmTestClass objAlgTest;
-        private InnovationAlgorithm novAlgTest;
+        
+        private bool innovationRunning = false;
+        private delegate void AlgorithmRunComplete(List<Cell> solution);
+        
+        private InnovationAlgorithm innovationAlgorithm;
 
         /*******************************************************/
         /***************Algorithms Percentage*******************/
         /*******************************************************/
-        public float ObjectivePercentage
-        {
-            get { return objectivePercentage; }
-            set { objectivePercentage = value; Logger.AppendText("ObjectivePercentage: " + value); }
-        }
-        public float InnovationPercentage
-        {
-            get { return innovationPercentage; }
-            set { innovationPercentage = value; Logger.AppendText("InnovationPercentage: " + value); }
-        }
-        public float UserPercentage
-        {
-            get { return userPercentage; }
-            set { userPercentage = value; Logger.AppendText("UserPercentage: " + value); }
-        }
+        public float ObjectivePercentage { get; set; }
+        public float InnovationPercentage { get; set; }
+        public float UserPercentage { get; set; }
 
         /*******************************************************/
 
         /*******************************************************/
         /*********************Objective*************************/
         /*******************************************************/
-        public int MaxMonsters
-        {
-            get { return maxMonsters; }
-            set { maxMonsters = value; Logger.AppendText("MaxMonsters: " + value); }
-        }
-        public int CharacterLevel
-        {
-            get { return characterLevel; }
-            set { characterLevel = value; Logger.AppendText("CharacterLevel: " + value); }
-        }
-        public float HordesPercentage
-        {
-            get { return hordesPercentage; }
-            set { hordesPercentage = value; Logger.AppendText("HordesPercentage: " + value); }
-        }
-        public float MapObjectsPercentage
-        {
-            get { return mapObjectsPercentage; }
-            set { mapObjectsPercentage = value; Logger.AppendText("MapObjectsPercentage: " + value); }
-        }
-        public float EndPointsPercentage
-        {
-            get { return endPointsPercentage; }
-            set { endPointsPercentage = value; Logger.AppendText("EndPointsPercentage: " + value); }
-        }
+        public int MaxMonsters { get; set; }
+        public int CharacterLevel { get; set; }
+        public float HordesPercentage { get; set; }
+        public float MapObjectsPercentage { get; set; }
+        public float EndPointsPercentage { get; set; }
 
         /*******************************************************/
 
@@ -164,149 +122,45 @@ namespace Log2CyclePrototype
 
         private void RunAlgorithm()
         {
-            if (innovationRunning || objectiveRunning)
+            if (innovationRunning)
                 return;
 
-            if (innovationPercentage == 0 && objectivePercentage == 0 && userPercentage == 0)
+            if (InnovationPercentage == 0 && ObjectivePercentage == 0 && UserPercentage == 0)
             {
                 Logger.AppendText("Algorithm must have some behavior! Please set at lease one of the knobs higher than 0.");
                 return;
             }
 
-            if (!keepPopulation)
-            {
-                objAlgTest.ResetOnNextRun = true;
-                //novAlgTest.ResetOnNextRun = true;
-            }
-
             AlgorithmRunComplete callback = new AlgorithmRunComplete(AlgorithmRunCompleteCallback);
 
-            //OBJECTIVE SETUP
-            objAlgTest.InitialPopulationSize = InitialPopulationObjective;
-            objAlgTest.GenerationLimit = GenerationsObjective;
-            objAlgTest.PercentUserSketchInfluence = UserPercentage;
-            if (RandomTransferPopulation)
-                objAlgTest.NextPopulationCarryMethod = PopulationCarryMethod.Random;
-            else
-                objAlgTest.NextPopulationCarryMethod = PopulationCarryMethod.TopPercent;
-            objAlgTest.PercentNoveltyChromosomesToRecieve = InnovationPercentage;
-            objAlgTest.PercentObjectiveChromosomesToKeep = ObjectivePercentage;
-            objAlgTest.CrossoverTypeSelected = CrossoverType;
-            objAlgTest.PercentMutation = MutationPercentageObjective / 100.0;
-            objAlgTest.PercentElitism = ElitismPercentageObjective / 100.0;
-            objAlgTest.UserSelectionPositiveFocus = userSelection.getSelectedPoints();
-            //objAlgTest.CurrentObjective = Objective.NarrowPaths; //FIXME
-
-            objAlgTest.NewObjectiveRun(OriginalMap, callback); //setup
-
-
             //NOVELTY SETUP
-            novAlgTest.InitialPopulation = InitialPopulationInnovation;
-            novAlgTest.GenerationLimit = GenerationsInnovation;
-            //novAlgTest.PercentChromosomesToInject = InnovationPercentage;
-            novAlgTest.MutationPercentage = MutationPercentageInnovation / 100.0;
-            novAlgTest.ElitismPercentage = ElitismPercentageInnovation;
-            novAlgTest.CrossoverType = CrossoverType;
-            //novAlgTest.UserSelectionPositiveFocus = userSelection.getSelectedPoints();
-
-            //NoveltyAlgorithmTestClass.OnNoveltyAlgorithmFinished += ObjectiveAlgorithmTestClass.NoveltyAlgorithm_Finished;
-            //ObjectiveAlgorithmTestClass.OnGenerationTerminated += NoveltyAlgorithmTestClass.ObjectiveAlgorithm_GenerationEnd;
-            //ObjectiveAlgorithmTestClass.OnObjectiveAlgorithmComplete += NoveltyAlgorithmTestClass.ObjectiveAlgorithm_Finished;
-
-            //novAlgTest.NewNoveltyRun(originalMap, callback); // setup
-
-
-            ThreadPool.QueueUserWorkItem(new WaitCallback(_ =>
-            {
-                objectiveRunning = true;
-                //objAlgTest.Run();
-                objectiveRunning = false;
-            }));
+            /*innovationAlgorithm.InitialPopulation = InitialPopulationInnovation;
+            innovationAlgorithm.GenerationLimit = GenerationsInnovation;
+            innovationAlgorithm.MutationPercentage = MutationPercentageInnovation / 100.0;
+            innovationAlgorithm.ElitismPercentage = ElitismPercentageInnovation;
+            innovationAlgorithm.CrossoverType = CrossoverType;*/
 
             ThreadPool.QueueUserWorkItem(new WaitCallback(_ =>
             {
                 innovationRunning = true;
-                novAlgTest.Run(OriginalMap);
+                innovationAlgorithm.Run(OriginalMap, callback);
                 innovationRunning = false;
             }));
         }
 
-        bool algorithmsInitialized = false;
-        private bool justReset = true;
-
-        void AlgorithmRunCompleteCallback(List<Gene> solution)
+        void AlgorithmRunCompleteCallback(List<Cell> solution)
         {
             Debug.WriteLine("Recieved Solution!");
             Logger.AppendText("Suggestion updated!\n");
-            if (!algorithmsInitialized)
-            {
-                algorithmsInitialized = true; //ignore the initialization solution
-                return;
-            }
 
-            Map tmpMap = APIClass.MapObjectFromChromosome(new Chromosome(solution)); //create map from chromosome. should pass genes?
-            suggestionsMap.Add(tmpMap.CloneJson());
-            //_cellsToDraw = solutionChromosomeMap.Cells;
-            justReset = false;
+            Map tmpMap = APIClass.MapObjectFromChromosome(OriginalMap, solution); //create map from chromosome. should pass genes?
+
+            OriginalMap = tmpMap; //FIXME: isto deve ir para o historico
+
+            interfaceWindow.ReDraw();
+
+            suggestionsMap.Add(tmpMap);
         }
-
-
-        
-
-        private void ResetAlgorithm()
-        {
-            if (justReset)
-                return;
-
-            if (HasMap)
-                return;
-            algorithmsInitialized = false;
-            
-            objAlgTest.ResetOnNextRun = true;
-            //novAlgTest.ResetOnNextRun = true;
-
-
-            //_cellsToDraw = APIClass.CurrentMap.Cells;
-            //ReDraw();
-
-            //RunAlgorithm();
-            justReset = true;
-        }
-
-        /*private void ParseMapAndRunAlgorithm()
-        {
-            if (objRunning || novRunning)
-                return;
-
-            try
-            {
-                currentMap = APIClass.ParseMapFile();
-
-                if (gridPanel.InvokeRequired)
-                {
-                    Invoke((MethodInvoker)(() => { ReDraw(); })); //needed when calling the callback from a different thread
-                }
-                else
-                {
-                    ReDraw();
-                }
-
-                var dif = APIClass.CalculateDifference(previousMap, currentMap);
-
-                if (dif > 0.0 && dif < 500)
-                {
-                    //Logger.AppendText("Dif:" + dif.ToString());
-                    if (currentMap.EndPointList == null)
-                        Logger.AppendText("WARNING: No ending points detected.");
-
-                    if (currentMap.StartPoint == null)
-                        Logger.AppendText("WARNING: No start point detected.");
-                    RunAlgorithm();
-                }
-                previousMap = currentMap;
-            }
-            catch (Exception ex) { Debug.WriteLine(ex.Message); }
-        }*/
 
     }
 }

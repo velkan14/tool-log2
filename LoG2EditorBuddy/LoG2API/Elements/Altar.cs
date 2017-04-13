@@ -19,7 +19,7 @@ namespace Log2CyclePrototype.LoG2API.Elements
             forest_altar
         }
 
-        private AltarType type;
+        public AltarType type;
 
         private static Rectangle srcRectTop = new Rectangle(80, 120, 20, 20);
         private static Rectangle srcRectRight = new Rectangle(100, 120, 20, 20);

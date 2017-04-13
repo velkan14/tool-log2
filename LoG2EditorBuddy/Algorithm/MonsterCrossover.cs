@@ -3,6 +3,7 @@ using GAF.Operators;
 using GAF.Threading;
 using Log2CyclePrototype.LoG2API;
 using Log2CyclePrototype.LoG2API.Elements;
+using Log2CyclePrototype.Utilities;
 using System;
 using System.Collections.Generic;
 
@@ -10,9 +11,6 @@ namespace Log2CyclePrototype
 {
     class MonsterCrossover : IGeneticOperator
     {
-        private int MAP_WIDTH = 32; 
-        private int MAP_HEIGHT = 32; 
-
         private ReplacementMethod replacementMethod;
         private CrossoverType crossoverType;
         private double crossoverProbability;
@@ -23,15 +21,15 @@ namespace Log2CyclePrototype
         public bool Enabled { get; set; }
         public bool AllowDuplicates { get; set; }
 
-        public MonsterCrossover(int mapWidth, int mapHeight, ReplacementMethod replacementMethod, CrossoverType crossoverType, double crossoverProbability, bool allowDuplicates)
+        Population currentPopulation;
+
+        public MonsterCrossover(ReplacementMethod replacementMethod, CrossoverType crossoverType, double crossoverProbability, bool allowDuplicates)
         {
-            this.MAP_WIDTH = mapWidth;
-            this.MAP_HEIGHT = mapHeight;
             this.replacementMethod = replacementMethod;
             this.crossoverType = crossoverType;
             this.crossoverProbability = crossoverProbability;
             this.AllowDuplicates = allowDuplicates;
-
+            this.Enabled = true;
         }
 
         public int GetOperatorInvokedEvaluations()
@@ -42,207 +40,193 @@ namespace Log2CyclePrototype
         public void Invoke(Population currentPopulation, ref Population newPopulation, FitnessFunction fitnessFunctionDelegate)
         {
             numberOfEvaluations = 0;
+            this.currentPopulation = currentPopulation;
 
             if (newPopulation == null)
-                newPopulation = new Population(0, 0, currentPopulation.ReEvaluateAll, currentPopulation.LinearlyNormalised, currentPopulation.ParentSelectionMethod);
+            {
+                Console.WriteLine("MonsterCrossover: Null new population");
+                throw new NullReferenceException();
+            }
+
             if (!Enabled)
                 return;
-            int numberOfElites = 0;
-
-            if (replacementMethod == ReplacementMethod.DeleteLast)
+            if (replacementMethod == ReplacementMethod.GenerationalReplacement)
             {
                 newPopulation.Solutions.Clear();
-                newPopulation.Solutions.AddRange(currentPopulation.Solutions);
-            }
-            else
-            {
-                List<Chromosome> elites = currentPopulation.GetElites();
-                numberOfElites = elites.Count;
-                //numberOfElites = Enumerable.Count<Chromosome>((IEnumerable<Chromosome>)elites);
-                if (elites != null && numberOfElites > 0)
-                    newPopulation.Solutions.AddRange(elites);
-            }
-            int currentPopulationSize = currentPopulation.Solutions.Count;
-            int numberOfChildrenToGenerate = currentPopulationSize - numberOfElites;
-            while (numberOfChildrenToGenerate > 0)
-            {
-                Chromosome c1, c2;
-                List<Chromosome> list = currentPopulation.SelectParents();
-                Chromosome p1 = list[0];
-                Chromosome p2 = list[1];
-                CrossoverData crossoverResult = PerformCrossover(p1, p2, out c1, out c2);
-                if (OnCrossoverComplete != null)
-                    OnCrossoverComplete(this, new CrossoverEventArgs(crossoverResult));
 
-                if(numberOfChildrenToGenerate > 1)
-                {
-                    AddChild(c1, currentPopulation, ref newPopulation, fitnessFunctionDelegate);
-                    numberOfChildrenToGenerate--;
-                    AddChild(c2, currentPopulation, ref newPopulation, fitnessFunctionDelegate);
-                    numberOfChildrenToGenerate--;
+                List<Chromosome> elites = currentPopulation.GetElites();
+                List<Chromosome> nonElites = currentPopulation.GetNonElites();
+
+                newPopulation.Solutions.AddRange(elites);
+
+                int childGenerated = 0;
+
+                while(childGenerated < nonElites.Count){
+                    List<Chromosome> parents = currentPopulation.SelectParents();
+
+                    if (RandomProvider.GetThreadRandom().NextDouble() <= crossoverProbability)
+                    {
+                        Chromosome child1, child2;
+
+                        var crossoverResult = PerformCrossover(parents[0], parents[1], out child1, out child2);
+
+                        if (OnCrossoverComplete != null)
+                        { 
+                            var eventArgs = new CrossoverEventArgs(crossoverResult);
+                            OnCrossoverComplete(this, eventArgs);
+                        }
+
+                        if (AllowDuplicates || !newPopulation.SolutionExists(child1))
+                        {
+                            newPopulation.Solutions.Add(child1);
+                            childGenerated++;
+                        }
+                        if (childGenerated < nonElites.Count && (AllowDuplicates || !newPopulation.SolutionExists(child2)))
+                        {
+                            newPopulation.Solutions.Add(child2);
+                            childGenerated++;
+                        }
+                    }
+                    else
+                    {
+                        newPopulation.Solutions.Add(parents[0]);
+                        childGenerated++;
+
+                        if (childGenerated < nonElites.Count)
+                        {
+                            newPopulation.Solutions.Add(parents[1]);
+                            childGenerated++;
+                        }
+                    }
                 }
-                else
-                {
-                    AddChild(c1, currentPopulation, ref newPopulation, fitnessFunctionDelegate);
-                    numberOfChildrenToGenerate--;
-                }
+            }
+            else if(replacementMethod == ReplacementMethod.DeleteLast)
+            {
+                throw new NotImplementedException("ReplacementMethod DeleteLast in MonsterCrossOver");
             }
         }
 
         private CrossoverData PerformCrossover(Chromosome p1, Chromosome p2, out Chromosome c1, out Chromosome c2)
         {
-            CrossoverData crossoverData = CreateCrossoverData();
-
+            CrossoverData crossoverData = new CrossoverData();
+            int solutionSize = currentPopulation.Solutions[0].Count; // The solutions have all the same size, so we get the first one.
             List<Gene> genes1 = ListClone(p1.Genes);
             List<Gene> genes2 = ListClone(p2.Genes);
 
-            int parent1NumberGenes = genes1.Count;
-            int parent2NumberGenes = genes2.Count;
-
-            if (parent1NumberGenes != parent2NumberGenes)
-                throw new ArgumentException("Parent chromosomes are not the same length.");
-
-            if (RandomProvider.GetThreadRandom().NextDouble() <= crossoverProbability)
+            switch (crossoverType)
             {
-                //iterate all the replacement points
-                foreach (int point in crossoverData.Points) //FIXME: tenho de meter só para monstros. Acho que tenho de verificar se é um tile walkable.
-                {
-                    Cell cell1 = (Cell) genes1[point].ObjectValue;
-                    Cell cell2 = (Cell) genes2[point].ObjectValue;
+                case CrossoverType.SinglePoint:
+                    {
+                        int point = RandomProvider.GetThreadRandom().Next(1, solutionSize - 1);
+                        crossoverData.Points.Add(point);
+                        for(int i = 0; i < point; i++)
+                        {
+                            Cell cell1 = (Cell)genes1[i].ObjectValue;
+                            Cell cell2 = (Cell)genes2[i].ObjectValue;
 
-                    Monster m1 = cell1.Monster;
-                    Monster m2 = cell2.Monster;
+                            cell1 = cell1.CloneJson() as Cell;
+                            cell2 = cell2.CloneJson() as Cell;
 
-                    cell1.Monster = m2;
-                    cell2.Monster = m1;
+                            Monster m1 = cell1.Monster;
+                            Monster m2 = cell2.Monster;
 
-                    genes1[point].ObjectValue = cell1;
-                    genes2[point].ObjectValue = cell2;
-                }
+                            if(m1 != null)
+                            {
+                                m1.x = cell2.X;
+                                m1.y = cell2.Y;
+                            }
+
+                            if(m2 != null)
+                            {
+                                m2.x = cell1.X;
+                                m2.y = cell1.Y;
+                            }
+
+                            cell1.Monster = m2;
+                            cell2.Monster = m1;
+
+                            genes1[i] = new Gene(cell1);
+                            genes2[i] = new Gene(cell2);
+                        }
+                    }
+                    break;
+
+                case CrossoverType.DoublePoint:
+                    {
+                        int point1 = RandomProvider.GetThreadRandom().Next(1, solutionSize - 2);
+                        int point2 = RandomProvider.GetThreadRandom().Next(point1 + 1, solutionSize - 1);
+
+                        for (int i = 0; i < point1; i++)
+                        {
+                            Cell cell1 = (Cell)genes1[i].ObjectValue;
+                            Cell cell2 = (Cell)genes2[i].ObjectValue;
+
+                            cell1 = cell1.CloneJson() as Cell;
+                            cell2 = cell2.CloneJson() as Cell;
+
+                            Monster m1 = cell1.Monster;
+                            Monster m2 = cell2.Monster;
+
+                            if (m1 != null)
+                            {
+                                m1.x = cell2.X;
+                                m1.y = cell2.Y;
+                            }
+
+                            if (m2 != null)
+                            {
+                                m2.x = cell1.X;
+                                m2.y = cell1.Y;
+                            }
+
+                            cell1.Monster = m2;
+                            cell2.Monster = m1;
+
+
+                            genes1[i] = new Gene(cell1);
+                            genes2[i] = new Gene(cell2);
+                        }
+
+                        for (int i = point2; i < solutionSize; i++)
+                        {
+                            Cell cell1 = (Cell)genes1[i].ObjectValue;
+                            Cell cell2 = (Cell)genes2[i].ObjectValue;
+
+                            cell1 = cell1.CloneJson() as Cell;
+                            cell2 = cell2.CloneJson() as Cell;
+
+                            Monster m1 = cell1.Monster;
+                            Monster m2 = cell2.Monster;
+
+                            if (m1 != null)
+                            {
+                                m1.x = cell2.X;
+                                m1.y = cell2.Y;
+                            }
+
+                            if (m2 != null)
+                            {
+                                m2.x = cell1.X;
+                                m2.y = cell1.Y;
+                            }
+
+                            cell1.Monster = m2;
+                            cell2.Monster = m1;
+
+                            genes1[i] = new Gene(cell1);
+                            genes2[i] = new Gene(cell2);
+                        }
+                    }
+                    break;
             }
 
-            if (genes1.Count != parent1NumberGenes || genes2.Count != parent2NumberGenes)
+            if (genes1.Count != p1.Genes.Count || genes2.Count != p2.Genes.Count)
                 throw new ChromosomeCorruptException("Chromosome is corrupt!");
+
             c1 = new Chromosome(genes1);
             c2 = new Chromosome(genes2);
 
             return crossoverData;
-        }
-
-        internal CrossoverData CreateCrossoverData()
-        {
-            CrossoverData crossoverData = new CrossoverData();
-
-            switch (crossoverType)
-            {
-                case CrossoverType.TwoByTwoSquare:
-                    {
-                        int rx, ry;
-                        rx = RandomProvider.GetThreadRandom().Next(0, MAP_WIDTH - 1 - 2);
-                        ry = RandomProvider.GetThreadRandom().Next(0, MAP_HEIGHT - 1 - 2);
-
-                        for (int yOffset = 0; yOffset < 2; yOffset++)
-                            for (int xOffset = 0; xOffset < 2; xOffset++)
-                                crossoverData.Points.Add((MAP_HEIGHT * (ry + yOffset) + (rx + xOffset)));
-                    }
-                    break;
-
-                case CrossoverType.ThreeByThreeSquare:
-                    {
-                        int rx, ry;
-                        rx = RandomProvider.GetThreadRandom().Next(0, MAP_WIDTH - 1 - 3);
-                        ry = RandomProvider.GetThreadRandom().Next(0, MAP_HEIGHT - 1 - 3);
-
-                        for (int yOffset = 0; yOffset < 3; yOffset++)
-                            for (int xOffset = 0; xOffset < 3; xOffset++)
-                                crossoverData.Points.Add((MAP_HEIGHT * (ry + yOffset) + (rx + xOffset)));
-                    }
-                    break;
-
-                case CrossoverType.FourByFourSquare:
-                    {
-                        int rx, ry;
-                        rx = RandomProvider.GetThreadRandom().Next(0, MAP_WIDTH - 1 - 4);
-                        ry = RandomProvider.GetThreadRandom().Next(0, MAP_HEIGHT - 1 - 4);
-
-                        for (int yOffset = 0; yOffset < 4; yOffset++)
-                            for (int xOffset = 0; xOffset < 4; xOffset++)
-                                crossoverData.Points.Add((MAP_HEIGHT * (ry + yOffset) + (rx + xOffset)));
-                    }
-                    break;
-
-                case CrossoverType.FourByFourCircle:
-                    {
-                        int rx, ry;
-                        do
-                        {
-                            rx = RandomProvider.GetThreadRandom().Next(0, MAP_WIDTH - 1);
-                            ry = RandomProvider.GetThreadRandom().Next(1, MAP_HEIGHT - 1);
-                        }
-                        while (rx > 28 || ry > 28);
-
-                        for (int yOffset = 0; yOffset < 4; yOffset++)
-                            for (int xOffset = 0; xOffset < 4; xOffset++)
-                                if ((yOffset == 0 && xOffset == 0) || (yOffset == 0 && xOffset == 3) || (yOffset == 3 && xOffset == 0) || (yOffset == 3 && xOffset == 3))
-                                    continue;
-                                else
-                                    crossoverData.Points.Add((MAP_HEIGHT * (ry + yOffset) + (rx + xOffset)));
-                    }
-                    break;
-
-                case CrossoverType.Triangle: //size??
-
-                    break;
-
-                case CrossoverType.Dispersion:
-
-                    break;
-
-                default:
-                    {
-                        int rx, ry;
-
-                        rx = RandomProvider.GetThreadRandom().Next(0, MAP_WIDTH - 1 - 4);
-                        ry = RandomProvider.GetThreadRandom().Next(0, MAP_HEIGHT - 1 - 4);
-
-                        for (int yOffset = 0; yOffset < 4; yOffset++)
-                            for (int xOffset = 0; xOffset < 4; xOffset++)
-                                crossoverData.Points.Add((MAP_HEIGHT * (ry + yOffset) + (rx + xOffset)));
-                    }
-                    break;
-            }
-            return crossoverData;
-        }
-
-        private bool AddChild(Chromosome child, Population currentPopulation, ref Population newPopulation, FitnessFunction fitnessFunction)
-        {
-            int currentPopulationSize = currentPopulation.Solutions.Count;
-
-            if (child.Genes != null && (this.AllowDuplicates || !newPopulation.SolutionExists(child)))
-            {
-                if (replacementMethod == ReplacementMethod.DeleteLast)
-                {
-                    child.Evaluate(fitnessFunction);
-                    numberOfEvaluations++;
-                    if (child.Fitness > currentPopulation.MinimumFitness)
-                    {
-                        newPopulation.Solutions.Add(child);
-                        if (newPopulation.Solutions.Count > currentPopulationSize)
-                        {
-                            newPopulation.Solutions.Sort();
-                            newPopulation.Solutions.RemoveAt(currentPopulationSize - 1);
-                        }
-                        return true;
-                    }
-                }
-                else
-                {
-                    newPopulation.Solutions.Add(child);
-                    return true;    
-                }
-            }
-              
-            return false;
         }
 
         internal List<Gene> ListClone(List<Gene> list)

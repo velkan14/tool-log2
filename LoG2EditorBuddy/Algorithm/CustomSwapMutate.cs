@@ -16,7 +16,7 @@ using Log2CyclePrototype.LoG2API;
 
 namespace GAF.Operators
 {
-    public class CustomSwapMutate : IGeneticOperator, IOperator
+    public class CustomSwapMutate : IGeneticOperator
     {
         private readonly object _syncLock = new object();
         private double _mutationProbabilityS;

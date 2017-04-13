@@ -324,7 +324,41 @@ namespace Log2CyclePrototype.LoG2API
             };
 
             CurrentMap = map;
+
             return map;
+        }
+
+        internal static Map MapObjectFromChromosome(Map originalMap, List<Cell> solution)
+        {
+            Map mapObject = originalMap.CloneJson() as Map;
+
+            foreach (Cell c in solution)
+            {
+                if (!mapObject.SetCell(c))
+                 Console.WriteLine("Erro!");
+            }
+
+            // FIXME: Adicionar o ponto inicial e o final
+            mapObject.Elements.Clear();
+
+            mapObject.Elements.Add(mapObject.StartPoint.uniqueID, mapObject.StartPoint);
+
+            foreach(EndingPoint e in mapObject.EndPointList)
+            {
+                mapObject.Elements.Add(e.uniqueID, e);
+            }
+            int monsterNumber = 1;
+            foreach(Cell c in mapObject.Cells)
+            {
+                
+                foreach(MapElement e in c.ElementsInCell)
+                {
+                    mapObject.Elements.Add(e.uniqueID, e);
+                }
+                if(c.Monster != null) mapObject.Elements.Add(c.Monster.ElementType + "_" + monsterNumber++, c.Monster); //FIXME: So pode estar aqui quando garantir que os monstros têm um uniqueID diferente de todos
+            }
+            
+            return mapObject;
         }
 
         /// <summary>

@@ -178,7 +178,7 @@ namespace Log2CyclePrototype.LoG2API
         {
             if(c.Monster != null && Monster != null)
             {
-                return Monster.type == c.Monster.type;
+                return Monster.ElementType.Equals(c.Monster.ElementType);
             }
             if (c.Monster == null && Monster == null) return true;
 

@@ -483,6 +483,22 @@ namespace Log2CyclePrototype
             }
         }
 
+        private void button_next_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button_previous_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void gridPanel_MouseClick(object sender, MouseEventArgs e)
+        {
+            int durationMilliseconds = 10000;
+            toolTip_panel.Show(core.OriginalMap.getToolTipInfo(e.X,e.Y, gridPanel.Width, gridPanel.Height), gridPanel, e.X, e.Y, durationMilliseconds);
+        }
+
         private void panel_resources_click(object sender, MouseEventArgs e)
         {
             if (!layerResources.Attached)

@@ -104,7 +104,8 @@ namespace Log2CyclePrototype.LoG2API
             get;
             set;
         }
-        public Dictionary<string, MapElement> Elements { get; internal set; }
+
+        public Dictionary<string, MapElement> Elements { get; set; }
 
         private string name;
         private int width, height;
@@ -252,6 +253,23 @@ namespace Log2CyclePrototype.LoG2API
             }
 
             return backgroundImage;
+        }
+
+        public string getToolTipInfo(int xx, int yy, int width, int height)
+        {
+            int cellWidth = width / this.Width;
+            int cellHeight = height / this.Height;
+            int x = xx / cellWidth;
+            int y = yy / cellHeight;
+
+            Cell c = GetCellAt(x, y);
+            StringBuilder sb = new StringBuilder();
+
+            sb.AppendFormat(@"X:{0} Y:{1}", c.X, c.Y);
+            if(c.Monster != null)
+                sb.AppendFormat(@"{0}{1}", '\n', c.Monster.ElementType);
+
+            return sb.ToString();
         }
     }
 }

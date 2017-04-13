@@ -7,7 +7,7 @@ namespace Log2CyclePrototype.LoG2API.Elements
 {
     public class Item : MapElement
     {
-        string type;
+        public string type;
         public Item(string type, int x, int y, int orientation, int h, string uniqueID) : base(x,y,orientation,h,uniqueID)
         {
             this.type = type;

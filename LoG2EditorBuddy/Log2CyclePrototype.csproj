@@ -142,6 +142,7 @@
     <Compile Include="Algorithm\InnovationAlgorithm.cs" />
     <Compile Include="Algorithm\MazeSolver.cs" />
     <Compile Include="Algorithm\MonsterCrossover.cs" />
+    <Compile Include="Algorithm\MonsterMutate.cs" />
     <Compile Include="Algorithm\NoveltyAlgorithmTestClass.cs" />
     <Compile Include="Algorithm\ObjectiveAlgorithmTestClass.cs" />
     <Compile Include="Algorithm\SearchUtils.cs" />

@@ -17,7 +17,7 @@ namespace Log2CyclePrototype.LoG2API.Elements
             mine_ceiling_lantern
         }
 
-        private LanternType type;
+        public LanternType type;
         private static Rectangle srcRect = new Rectangle(0, 220, 20, 20);
 
         public Lantern(string type, int x, int y, int orientation, int h, string uniqueID) : base(x,y,orientation,h,uniqueID)
