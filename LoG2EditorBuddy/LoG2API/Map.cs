@@ -80,6 +80,23 @@ namespace Log2CyclePrototype.LoG2API
             }
         }
 
+        public List<Cell> SpawnCells
+        {
+            get
+            {
+                List<Cell> list = new List<Cell>();
+                Altar.AltarType type;
+                foreach (Cell c in cells)
+                {
+                    if (c.IsWalkable && !c.IsEndingPoint && !c.IsStartingPoint && !c.ElementsInCell.Exists(el => Altar.AltarType.TryParse(el.ElementType, out type)))
+                    {
+                        list.Add(c);
+                    }
+                }
+                return list;
+            }
+        }
+
         public ArrayList Tiles
         {
             get { return tiles; }
@@ -268,6 +285,10 @@ namespace Log2CyclePrototype.LoG2API
             sb.AppendFormat(@"X:{0} Y:{1}", c.X, c.Y);
             if(c.Monster != null)
                 sb.AppendFormat(@"{0}{1}", '\n', c.Monster.ElementType);
+            foreach(MapElement e in c.ElementsInCell)
+            {
+                sb.AppendFormat(@"{0}{1}", '\n', e.ElementType);
+            }
 
             return sb.ToString();
         }

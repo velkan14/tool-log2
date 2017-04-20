@@ -104,6 +104,7 @@ namespace Log2CyclePrototype.LoG2API
             Lantern.LanternType tmpLanternType;
             Altar.AltarType tmpAltarType;
             WallEffect.WallEffectType tmpWallEffectType;
+            Weapon.WeaponType tmpWeaponType;
 
             string fileText = System.IO.File.ReadAllText(DirectoryManager.DungeonFilePath);
 
@@ -205,7 +206,7 @@ namespace Log2CyclePrototype.LoG2API
                     endingPoints.Add(newEndingPoint);
                     elements.Add(uniqueId, newEndingPoint);
                 }
-                else if (TorchHolder.TorchHolderType.TryParse(id, true, out tmpTorchHolderType))
+                else if (Enum.TryParse(id, true, out tmpTorchHolderType))
                 {
                     tmpElement = new TorchHolder(id, x, y, o, h, uniqueId);
                 }
@@ -213,59 +214,59 @@ namespace Log2CyclePrototype.LoG2API
                 {
                     tmpElement = new Scroll(id, x, y, o, h, uniqueId);
                 }
-                else if (Alcove.AlcoveType.TryParse(id, true, out tmpAlcoveType))
+                else if (Enum.TryParse(id, true, out tmpAlcoveType))
                 {
                     tmpElement = new Alcove(id, x, y, o, h, uniqueId);
                 }
-                else if (ButtonE.ButtonType.TryParse(id, true, out tmpButtonType))
+                else if (Enum.TryParse(id, true, out tmpButtonType))
                 {
                     tmpElement = new ButtonE(id, x, y, o, h, uniqueId);
                 }
-                else if (Door.DoorType.TryParse(id, true, out tmpDoorType))
+                else if (Enum.TryParse(id, true, out tmpDoorType))
                 {
                     tmpElement = new Door(id, x, y, o, h, uniqueId);
                 }
-                /*else if(false)
-                {
-                //ITEM
-                }*/
-                else if (Lever.LeverType.TryParse(id, true, out tmpLeverType))
+                else if (Enum.TryParse(id, true, out tmpLeverType))
                 {
                     tmpElement = new Lever(id, x, y, o, h, uniqueId);
                 }
-                else if (Lock.LockType.TryParse(id, true, out tmpLockType))
+                else if (Enum.TryParse(id, true, out tmpLockType))
                 {
                     tmpElement = new Lock(id, x, y, o, h, uniqueId);
                 }
-                else if (Monster.MonsterType.TryParse(id, true, out tmpMonstertype))
+                else if (Enum.TryParse(id, true, out tmpMonstertype))
                 {
                     var newMonster = new Monster(id, x, y, o, h, uniqueId);
                     tmpCell.Monster = newMonster;
                     elements.Add(uniqueId, newMonster);
                 }
-                else if (PressurePlate.PressurePlateType.TryParse(id, true, out tmpPressurePlateType))
+                else if (Enum.TryParse(id, true, out tmpPressurePlateType))
                 {
                     tmpElement = new PressurePlate(id, x, y, o, h, uniqueId);
                 }
-                else if (Text.TextType.TryParse(id, true, out tmpTextType))
+                else if (Enum.TryParse(id, true, out tmpTextType))
                 {
                     tmpElement = new Text(id, x, y, o, h, uniqueId);
                 }
-                else if (TrapDoor.TrapDoorType.TryParse(id, true, out tmpTrapDoorType))
+                else if (Enum.TryParse(id, true, out tmpTrapDoorType))
                 {
                     tmpElement = new TrapDoor(id, x, y, o, h, uniqueId);
                 }
-                else if (Lantern.LanternType.TryParse(id, true, out tmpLanternType))
+                else if (Enum.TryParse(id, true, out tmpLanternType))
                 {
                     tmpElement = new Lantern(id, x, y, o, h, uniqueId);
                 }
-                else if (Altar.AltarType.TryParse(id, true, out tmpAltarType))
+                else if (Enum.TryParse(id, true, out tmpAltarType))
                 {
                     tmpElement = new Altar(id, x, y, o, h, uniqueId);
                 }
-                else if (WallEffect.WallEffectType.TryParse(id, true, out tmpWallEffectType))
+                else if (Enum.TryParse(id, true, out tmpWallEffectType))
                 {
                     tmpElement = new WallEffect(id, x, y, o, h, uniqueId);
+                }
+                else if(Enum.TryParse(id, true, out tmpWeaponType))
+                {
+                    tmpElement = new Weapon(id, x, y, o, h, uniqueId);
                 }
                 else
                 {
@@ -328,35 +329,144 @@ namespace Log2CyclePrototype.LoG2API
             return map;
         }
 
-        internal static Map MapObjectFromChromosome(Map originalMap, List<Cell> solution)
+        internal static Map MapFromChromosome(Map originalMap, Chromosome solution)
         {
             Map mapObject = originalMap.CloneJson() as Map;
+            string binaryString = solution.ToBinaryString();
 
-            foreach (Cell c in solution)
+            List<Cell> cells = mapObject.SpawnCells;
+
+            for (int i = 0; i < cells.Count; i++)
             {
-                if (!mapObject.SetCell(c))
-                 Console.WriteLine("Erro!");
-            }
+                string s = binaryString.Substring(i * 12, 12);
+                string index = s.Substring(0, 3);
+                string monster = s.Substring(3, 2);
+                string weapon = s.Substring(5, 2);
+                string resource = s.Substring(7, 2);
+                string armor = s.Substring(9, 3);
 
-            // FIXME: Adicionar o ponto inicial e o final
-            mapObject.Elements.Clear();
 
-            mapObject.Elements.Add(mapObject.StartPoint.uniqueID, mapObject.StartPoint);
+                cells[i].Monster = null;
 
-            foreach(EndingPoint e in mapObject.EndPointList)
-            {
-                mapObject.Elements.Add(e.uniqueID, e);
-            }
-            int monsterNumber = 1;
-            foreach(Cell c in mapObject.Cells)
-            {
-                
-                foreach(MapElement e in c.ElementsInCell)
+                if (index.Equals("000"))
                 {
-                    mapObject.Elements.Add(e.uniqueID, e);
+                    //Nothing
                 }
-                if(c.Monster != null) mapObject.Elements.Add(c.Monster.ElementType + "_" + monsterNumber++, c.Monster); //FIXME: So pode estar aqui quando garantir que os monstros têm um uniqueID diferente de todos
+                else if (index.Equals("001"))
+                {
+                    //Monster
+                    if (monster.Equals("00"))
+                    {
+                        //No Monster
+                    }
+                    else if (monster.Equals("01"))
+                    {
+                        //Skeleton
+                        cells[i].Monster = new Monster("skeleton_trooper", cells[i].X, cells[i].Y, 0, 0, "skeleton_trooper_" + i);
+                        
+                    }
+                    else if (monster.Equals("10"))
+                    {
+                        //Mummy
+                        cells[i].Monster = new Monster("mummy", cells[i].X, cells[i].Y, 0, 0, "mummy_" + i);
+                    }
+                    else if (monster.Equals("11"))
+                    {
+                        //Turtle
+                        cells[i].Monster = new Monster("turtle", cells[i].X, cells[i].Y, 0, 0, "turtle_" + i);
+                    }
+                }
+                else if (index.Equals("010"))
+                {
+                    //Weapon
+                    if (weapon.Equals("00"))
+                    {
+                        cells[i].AddElement(new Weapon("cudgel", cells[i].X, cells[i].Y, 0, 0, "cudgel_" + i));
+                    } 
+                    else if (weapon.Equals("01"))
+                    {
+                        cells[i].AddElement(new Weapon("machete", cells[i].X, cells[i].Y, 0, 0, "machete_" + i));
+                    }
+                    else if (weapon.Equals("10"))
+                    {
+                        cells[i].AddElement(new Weapon("rapier", cells[i].X, cells[i].Y, 0, 0, "rapier_" + i));
+                    }
+                    else if (weapon.Equals("11"))
+                    {
+                        cells[i].AddElement(new Weapon("battle_axe", cells[i].X, cells[i].Y, 0, 0, "battle_axe_" + i));
+                    }
+                }
+                else if (index.Equals("011"))
+                {
+                    //Resource
+                    if (weapon.Equals("00"))
+                    {
+                        //Nothing
+                    }
+                    else if (weapon.Equals("01"))
+                    {
+                        cells[i].AddElement(new Item("potion_healing", cells[i].X, cells[i].Y, 0, 0, "potion_healing_" + i));
+                    }
+                    else if (weapon.Equals("10"))
+                    {
+                        cells[i].AddElement(new Item("borra", cells[i].X, cells[i].Y, 0, 0, "borra_" + i));
+                    }
+                    else if (weapon.Equals("11"))
+                    {
+                        cells[i].AddElement(new Item("bread", cells[i].X, cells[i].Y, 0, 0, "bread_" + i));
+                    }
+                }
+                else if (index.Equals("100"))
+                {
+                    //Armor
+                    if (index.Equals("000"))
+                    {
+                        cells[i].AddElement(new Item("peasant_breeches", cells[i].X, cells[i].Y, 0, 0, "peasant_breeches_" + i));
+                    }
+                    else if (index.Equals("001"))
+                    {
+                        cells[i].AddElement(new Item("peasant_cap", cells[i].X, cells[i].Y, 0, 0, "peasant_cap_" + i));
+                    }
+                    else if (index.Equals("010"))
+                    {
+                        cells[i].AddElement(new Item("peasant_tunic", cells[i].X, cells[i].Y, 0, 0, "peasant_tunic_" + i));
+                    }
+                    else if (index.Equals("011"))
+                    {
+                        cells[i].AddElement(new Item("sandals", cells[i].X, cells[i].Y, 0, 0, "sandals_" + i));
+                    }
+                    else if (index.Equals("100"))
+                    {
+                        cells[i].AddElement(new Item("leather_boots", cells[i].X, cells[i].Y, 0, 0, "leather_boots_" + i));
+                    }
+                    else if (index.Equals("101"))
+                    {
+                        cells[i].AddElement(new Item("leather_cap", cells[i].X, cells[i].Y, 0, 0, "leather_cap_" + i));
+                    }
+                    else if (index.Equals("110"))
+                    {
+                        cells[i].AddElement(new Item("leather_pants", cells[i].X, cells[i].Y, 0, 0, "leather_pants_" + i));
+                    }
+                    else if (index.Equals("111"))
+                    {
+                        cells[i].AddElement(new Item("leather_brigandine", cells[i].X, cells[i].Y, 0, 0, "leather_brigandine_" + i));
+                    }
+                }
+                else if (index.Equals("101"))
+                {
+                    //Resources and armor
+                }
+                else if (index.Equals("110"))
+                {
+                    //Nothing
+                }
+                else if (index.Equals("111"))
+                {
+                    //Nothing
+                }
             }
+
+            ReloadElementsMap(mapObject);
             
             return mapObject;
         }
@@ -404,6 +514,184 @@ namespace Log2CyclePrototype.LoG2API
             return mapObject;
         }
 
+        public static Chromosome ChromosomeFromMap(Map map)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            List<Cell> cells = map.SpawnCells;
+
+            foreach (Cell c in cells)
+            {
+                char[] ch = { '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0' };
+
+                if (c.Monster == null)
+                {
+                    //Nothing 000
+                } else if (c.Monster.ElementType.Equals("skeleton_trooper"))
+                {
+                    ch[0] = '0';
+                    ch[1] = '0';
+                    ch[2] = '1';
+                    ch[3] = '0';
+                    ch[4] = '1';
+                }
+                else if (c.Monster.ElementType.Equals("mummy"))
+                {
+                    ch[0] = '0';
+                    ch[1] = '0';
+                    ch[2] = '1';
+                    ch[3] = '1';
+                    ch[4] = '0';
+                }
+                else if (c.Monster.ElementType.Equals("turtle"))
+                {
+                    ch[0] = '0';
+                    ch[1] = '0';
+                    ch[2] = '1';
+                    ch[3] = '1';
+                    ch[4] = '1';
+                }
+
+                //------ Check weapons ------
+                if (c.GetElement("cudgel") != null)
+                {
+                    ch[0] = '0';
+                    ch[1] = '1';
+                    ch[2] = '0';
+                    ch[5] = '0';
+                    ch[6] = '0';
+                }
+                else if (c.GetElement("machete") != null)
+                {
+                    ch[0] = '0';
+                    ch[1] = '1';
+                    ch[2] = '0';
+                    ch[5] = '0';
+                    ch[6] = '1';
+                }
+                else if(c.GetElement("rapier") != null)
+                {
+                    ch[0] = '0';
+                    ch[1] = '1';
+                    ch[2] = '0';
+                    ch[5] = '1';
+                    ch[6] = '0';
+                }
+                else if (c.GetElement("battle_axe") != null)
+                {
+                    ch[0] = '0';
+                    ch[1] = '1';
+                    ch[2] = '0';
+                    ch[5] = '1';
+                    ch[6] = '1';
+                }
+
+                //------ Check Resources ------
+                if (c.GetElement("potion_healing") != null)
+                {
+                    ch[0] = '0';
+                    ch[1] = '1';
+                    ch[2] = '1';
+                    ch[7] = '0';
+                    ch[8] = '1';
+                }
+                else if (c.GetElement("borra") != null)
+                {
+                    ch[0] = '0';
+                    ch[1] = '1';
+                    ch[2] = '1';
+                    ch[7] = '1';
+                    ch[8] = '0';
+                }
+                else if (c.GetElement("bread") != null)
+                {
+                    ch[0] = '0';
+                    ch[1] = '1';
+                    ch[2] = '1';
+                    ch[7] = '1';
+                    ch[8] = '1';
+                }
+
+                //------ Check Armor ------
+                if (c.GetElement("peasant_breeches") != null)
+                {
+                    ch[0] = '1';
+                    ch[1] = '0';
+                    ch[2] = '0';
+                    ch[9] = '0';
+                    ch[10] = '0';
+                    ch[11] = '0';
+                }
+                else if (c.GetElement("peasant_cap") != null)
+                {
+                    ch[0] = '1';
+                    ch[1] = '0';
+                    ch[2] = '0';
+                    ch[9] = '0';
+                    ch[10] = '0';
+                    ch[11] = '1';
+                }
+                else if (c.GetElement("peasant_tunic") != null)
+                {
+                    ch[0] = '1';
+                    ch[1] = '0';
+                    ch[2] = '0';
+                    ch[9] = '0';
+                    ch[10] = '1';
+                    ch[11] = '0';
+                }
+                else if(c.GetElement("sandals") != null)
+                {
+                    ch[0] = '1';
+                    ch[1] = '0';
+                    ch[2] = '0';
+                    ch[9] = '0';
+                    ch[10] = '1';
+                    ch[11] = '1';
+                }
+                else if (c.GetElement("leather_boots") != null)
+                {
+                    ch[0] = '1';
+                    ch[1] = '0';
+                    ch[2] = '0';
+                    ch[9] = '1';
+                    ch[10] = '0';
+                    ch[11] = '0';
+                }
+                else if (c.GetElement("leather_cap") != null)
+                {
+                    ch[0] = '1';
+                    ch[1] = '0';
+                    ch[2] = '0';
+                    ch[9] = '1';
+                    ch[10] = '0';
+                    ch[11] = '1';
+                }
+                else if (c.GetElement("leather_pants") != null)
+                {
+                    ch[0] = '1';
+                    ch[1] = '0';
+                    ch[2] = '0';
+                    ch[9] = '1';
+                    ch[10] = '1';
+                    ch[11] = '0';
+                }
+                else if (c.GetElement("leather_brigandine") != null)
+                {
+                    ch[0] = '1';
+                    ch[1] = '0';
+                    ch[2] = '0';
+                    ch[9] = '1';
+                    ch[10] = '1';
+                    ch[11] = '1';
+                }
+
+                string s = new string(ch);
+                sb.Append(s);
+            }
+            
+            return new Chromosome(sb.ToString());
+        }
         /// <summary>
         /// Takes the user selected cells from the displayed solution and saves them to a new map file
         /// </summary>
@@ -441,37 +729,44 @@ namespace Log2CyclePrototype.LoG2API
         /// <summary>
         /// Takes the user selected cells from the displayed solution and saves them to a new map file
         /// </summary>
-        /// <param name="currentSolution"></param>
+        /// <param name="currenMap"></param>
         /// <param name="selectedPoints"></param>
-        public static bool ExportSelection(Map currentSolution, List<Point> selectedPoints)
+        public static bool ExportSelection(Map currenMap, Map originalMap, List<Point> selectedPoints)
         {
-            if (APIClass.CurrentMap == null) throw new CurrentMapNullException();
-            bool result = false;
-            try
+            if (currenMap == null) throw new CurrentMapNullException();
+
+            Map map = originalMap.CloneJson() as Map;
+
+            foreach(Point p in selectedPoints)
             {
-                List<Cell> chosenOnes = new List<Cell>();
-                //take current solution and selected points and identify the common elements between them
-                foreach (var p in selectedPoints)
-                {
-                    var tmpCell = currentSolution.Cells.Find(c => (c.X == p.X && c.Y == p.Y));
-                    if (tmpCell != null)
-                        chosenOnes.Add(tmpCell.CloneJson());
-                    else Debug.WriteLine("[ExportSelection] Couldn't find matching Cell element in current solution.");
-                }
-                //replace those points and apply them to a clone of the CurrentMap
-                var mapClone = CurrentMap.CloneJson();
-                foreach (var c in chosenOnes)
-                {
-                    mapClone.SetCell(c);
-                    if (c.IsEndingPoint && !(CurrentMap.GetCellAt(c.X, c.Y).IsEndingPoint))
-                        mapClone.EndPointList.Add(c.EndPoint);
-                }
-                //save the newly changed cloned map
-                SaveMapFile(mapClone);
-                result = true;
+                map.SetCell((Cell)currenMap.GetCellAt(p.X, p.Y).CloneJson());
             }
-            catch (Exception e) { DebugUtilities.DebugException(e); }
-            return result;
+
+            ReloadElementsMap(map);
+
+            return SaveMapFile(map);
+        }
+
+        private static void ReloadElementsMap(Map map)
+        {
+            map.Elements.Clear();
+
+            map.Elements.Add(map.StartPoint.uniqueID, map.StartPoint);
+
+            foreach (EndingPoint e in map.EndPointList)
+            {
+                map.Elements.Add(e.uniqueID, e);
+            }
+            int monsterNumber = 1;
+            foreach (Cell c in map.Cells)
+            {
+
+                foreach (MapElement e in c.ElementsInCell)
+                {
+                    map.Elements.Add(e.uniqueID, e);
+                }
+                if (c.Monster != null) map.Elements.Add(c.Monster.uniqueID, c.Monster);
+            }
         }
 
         /// <summary>
@@ -500,7 +795,6 @@ namespace Log2CyclePrototype.LoG2API
 
             Logger.AppendText("Saving new map to:");
             Logger.AppendText(DirectoryManager.DungeonFilePath);
-            //Logger.AppendText("@\testSave.lua...");
 
             try
             {

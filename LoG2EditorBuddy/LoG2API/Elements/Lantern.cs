@@ -81,6 +81,14 @@ namespace Log2CyclePrototype.LoG2API.Elements
             }
         }
 
+        protected override float Transparency
+        {
+            get
+            {
+                return 0.0f;
+            }
+        }
+
         public override void setAttribute(string name, bool value)
         {
             throw new NotImplementedException();
@@ -95,7 +103,5 @@ namespace Log2CyclePrototype.LoG2API.Elements
         {
             return String.Format(@"spawn(""{0}"",{1},{2},{3},{4},""{5}""){6}", ElementType, x, y, (int)orientation, h, uniqueID, '\n');
         }
-
-        
     }
 }

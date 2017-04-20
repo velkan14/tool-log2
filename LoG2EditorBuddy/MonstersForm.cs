@@ -29,6 +29,7 @@ namespace Log2CyclePrototype
         private Core core;
         private UserSelection userSelection;
         Layer layerDifficulty, layerItens, layerMonsters, layerResources;
+        Image lastImage;
 
         public Monsters()
         {
@@ -38,8 +39,8 @@ namespace Log2CyclePrototype
         private void Monsters_Load(object sender, EventArgs e)
         {
             core = new Core(this);
-            userSelection = core.getUserSelection();
-            
+
+
 
             //Solves flickering when redrawing gridPanel and triangle Panel
             typeof(Panel).InvokeMember("DoubleBuffered",
@@ -51,20 +52,23 @@ namespace Log2CyclePrototype
 
             Logger.EntryWritten += Logger_EntryWritten;
 
-            
+
             settingsForm = new Settings(core);
             initializeParameters(); //FIXME: Talvez não seja a forma correcta de o fazer
         }
 
         public void MapLoaded()
         {
+            userSelection = new UserSelection(this, core, gridPanel);
+
             layerDifficulty = new Layer(this, core.OriginalMap, gridPanel, panel_palett_difficulty, Color.Red);
             layerItens = new Layer(this, core.OriginalMap, gridPanel, panel_palette_itens, Color.ForestGreen);
             layerMonsters = new Layer(this, core.OriginalMap, gridPanel, panel_palette_monsters, Color.IndianRed);
             layerResources = new Layer(this, core.OriginalMap, gridPanel, panel_palette_resources, Color.Yellow);
 
 
-            Invoke((MethodInvoker)(() => {
+            Invoke((MethodInvoker)(() =>
+            {
                 groupBox_layer_difficulty.Enabled = true;
                 groupBox_layer_itens.Enabled = true;
                 groupBox_layer_monsters.Enabled = true;
@@ -74,6 +78,10 @@ namespace Log2CyclePrototype
                 button_undo.Enabled = true;
                 button_previous.Enabled = true;
                 button_next.Enabled = true;
+                button_newSuggestion.Enabled = true;
+                button_select.Enabled = true;
+
+                trackBar_history.Enabled = true;
             }));
         }
 
@@ -83,151 +91,17 @@ namespace Log2CyclePrototype
 
         #region Selection
 
-        bool selectionAdd = true;
-        private Point startPointSelection;
-        private Rectangle SelectionRect = new Rectangle();
-
-        private void gridPanel_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left || e.Button == MouseButtons.Right)
-            {
-                startPointSelection = e.Location;
-                Invalidate();
-
-                if (e.Button == MouseButtons.Left)
-                {
-                    CursorManager.Instance.SetCursor(CursorType.Plus);
-                    selectionAdd = true;
-                }
-                else if (e.Button == MouseButtons.Right)
-                {
-                    CursorManager.Instance.SetCursor(CursorType.Minus);
-                    selectionAdd = false;
-                }
-
-            }
-
-        }
-
-        // Draw Rectangle
-        private void gridPanel_MouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left || e.Button == MouseButtons.Right)
-            {
-                Point tempEndPoint = e.Location;
-                SelectionRect.Location = new Point(
-                    System.Math.Min(startPointSelection.X, tempEndPoint.X),
-                    System.Math.Min(startPointSelection.Y, tempEndPoint.Y));
-                SelectionRect.Size = new Size(
-                    System.Math.Abs(startPointSelection.X - tempEndPoint.X),
-                    System.Math.Abs(startPointSelection.Y - tempEndPoint.Y));
-                if (core.HasMap)
-                {
-                    gridPanel.BackgroundImage = drawer.DrawSelectionPreviewRectangle(SelectionRect, selectionAdd);
-                    gridPanel.Refresh();
-                }
-                
-
-            }
-
-        }
-
-        private void gridPanel_MouseUp(object sender, MouseEventArgs e)
-        {
-            if (!core.HasMap)
-                return;
-
-            try
-            {
-                int cellWidth = gridPanel.Width / core.OriginalMap.Width;
-                int cellHeight = gridPanel.Height / core.OriginalMap.Height;
-                Point topLeft = new Point(), bottomRight = new Point();
-                Point startCellCoord = new Point(startPointSelection.X / cellWidth, startPointSelection.Y / cellHeight);
-                Point endCellCoord = new Point(e.Location.X / cellWidth, e.Location.Y / cellHeight);
-
-                //if 1 click on same cell
-                if (startCellCoord.Equals(endCellCoord))
-                {
-                    Debug.WriteLine("Click @ [" + startCellCoord.X.ToString() + "," + startCellCoord.Y.ToString() + "]");
-                    var tmpP = new Point(startCellCoord.X, startCellCoord.Y);
-
-                    //DELETE
-                    if (e.Button == MouseButtons.Right)
-                    {
-                        userSelection.removeSelectedPoint(tmpP);
-                    }
-                    //ADD
-                    else if (e.Button == MouseButtons.Left)
-                    {
-                        userSelection.addSelectedPoint(tmpP);
-                    }
-                    
-                }
-                else //if ended on different cell
-                {
-
-                    if (startCellCoord.X <= endCellCoord.X && startCellCoord.Y <= endCellCoord.Y) { topLeft = startCellCoord; bottomRight = endCellCoord; }
-                    else if (startCellCoord.X < endCellCoord.X && startCellCoord.Y > endCellCoord.Y) { topLeft = new Point(startCellCoord.X, endCellCoord.Y); bottomRight = new Point(endCellCoord.X, startCellCoord.Y); }
-                    else if (startCellCoord.X > endCellCoord.X && startCellCoord.Y < endCellCoord.Y) { topLeft = new Point(endCellCoord.X, startCellCoord.Y); bottomRight = new Point(startCellCoord.X, endCellCoord.Y); }
-                    else if (startCellCoord.X > endCellCoord.X && startCellCoord.Y > endCellCoord.Y) { topLeft = endCellCoord; bottomRight = startCellCoord; }
-
-                    int cellSelectionXRange = System.Math.Abs(startCellCoord.X - endCellCoord.X);
-                    int cellSelectionYRange = System.Math.Abs(startCellCoord.Y - endCellCoord.Y);
-
-                    if (topLeft != null && bottomRight != null)
-                    {
-                        Debug.WriteLine(" TopLeft @ [" + topLeft.X.ToString() + "," + topLeft.Y.ToString() + "]");
-                        Debug.WriteLine(" BottomRight @ [" + bottomRight.X.ToString() + "," + bottomRight.Y.ToString() + "]");
-                    }
-
-
-                    for (int j = topLeft.Y; j <= bottomRight.Y; j++)
-                        for (int i = topLeft.X; i <= bottomRight.X; i++)
-                        {
-                            var tmpP = new Point(i, j);
-                            //DELETE
-                            if (e.Button == MouseButtons.Right)
-                            {
-                                userSelection.removeSelectedPoint(tmpP);
-                            }
-                            //ADD
-                            else if (e.Button == MouseButtons.Left)
-                            {
-                                userSelection.addSelectedPoint(tmpP);
-                            }
-                        }
-
-                }
-                
-
-                //reset selection so it is no longer drawn on mouse up
-                SelectionRect = new Rectangle(new Point(0, 0), new Size(0, 0));
-                ReDraw();
-            }
-            catch (Exception ee)
-            {
-                Debug.Print(ee.ToString());
-            }
-
-        }
-
         private void button_clear_Click(object sender, EventArgs e)
         {
-            ClearSelectedUserCells();
+            userSelection.ClearSelection();
             ReDraw();
         }
 
         private void button_invert_Click(object sender, EventArgs e)
         {
-            if (!core.HasMap)
-                return;
-
-            if (userSelection.invertSelection())
+            if (userSelection.InvertSelection())
             {
-                if (gridPanel.InvokeRequired)
-                    Invoke((MethodInvoker)(() => { ReDraw(); })); //needed when calling the callback from a different thread
-                else
-                    ReDraw();
+                ReDraw();
             }
             else
             {
@@ -235,10 +109,22 @@ namespace Log2CyclePrototype
             }
         }
 
-        private void ClearSelectedUserCells()
+        private void button_select_Click(object sender, EventArgs e)
         {
-            userSelection.clearSelection();
-            startPointSelection = new Point(-1, -1);
+            if (!userSelection.Attached)
+            {
+                userSelection.Attach();
+                layerDifficulty.Dettach();
+                layerItens.Dettach();
+                layerMonsters.Dettach();
+                layerResources.Dettach();
+            }
+            else
+            {
+                userSelection.Dettach();
+                ReDraw();
+            }
+
         }
 
         #endregion
@@ -257,9 +143,7 @@ namespace Log2CyclePrototype
             trackBar_objective_Scroll(null, null);
             trackBar_hordes_Scroll(null, null);
             trackBar_mapobjects_Scroll(null, null);
-            trackBar_endpoints_Scroll(null, null);
             numericUpDown_maxmonsters_ValueChanged(null, null);
-            numericUpDown_characterlevel_ValueChanged(null, null);
         }
 
         private void trackBar_innovation_Scroll(object sender, EventArgs e)
@@ -287,20 +171,12 @@ namespace Log2CyclePrototype
             core.MapObjectsPercentage = trackBar_mapobjects.Value;
         }
 
-        private void trackBar_endpoints_Scroll(object sender, EventArgs e)
-        {
-            core.EndPointsPercentage = trackBar_endpoints.Value;
-        }
 
         private void numericUpDown_maxmonsters_ValueChanged(object sender, EventArgs e)
         {
             core.MaxMonsters = Convert.ToInt32(numericUpDown_maxmonsters.Value);
         }
 
-        private void numericUpDown_characterlevel_ValueChanged(object sender, EventArgs e)
-        {
-            core.CharacterLevel = Convert.ToInt32(numericUpDown_characterlevel.Value);
-        }
 
         #endregion
         /*********************************************************************************/
@@ -318,7 +194,7 @@ namespace Log2CyclePrototype
             }
         }
 
-        
+
 
         private void selectProjectDirectoryToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -327,7 +203,7 @@ namespace Log2CyclePrototype
 
             if (dr == DialogResult.OK)
             {
-                if (!core.loadDirectory(fd.SelectedPath))
+                if (!core.LoadDirectory(fd.SelectedPath))
                 {
                     Logger.AppendText(@"Directory is not valid. Please pick a project directory containing a "".dungeon_editor"" file");
                 }
@@ -343,61 +219,30 @@ namespace Log2CyclePrototype
 
         private void button_export_Click(object sender, EventArgs e)
         {
-            APIClass.SaveMapFile(APIClass.CurrentMap);
-            /*if (APIClass.CurrentMap == null)
-            {
-                Logger.AppendText("Current map on API null");
-                return;
-            }
+            List<Point> selectPoints = userSelection.GetSelectedPoints();
 
-            try
+            if (selectPoints.Count == 0)
             {
-                if (solutionChromosomeMap != null && userSelectedPoints != null)
-                {
-                    if (userSelectedPoints.Count == 0)
-                    {
-                        Logger.AppendText("No selection, exporting entire solution.");
-                        if (solutionChromosomeMap != null)
-                        {
-                            var res = APIClass.SaveMapFile(solutionChromosomeMap);
-                        }
-                        else Debug.WriteLine("Cant save, solution map null");
-                        //return;
-                    }
-                    else
-                    {
-                        Logger.AppendText("Exporting solution.");
-                        bool result = APIClass.ExportSelection(solutionChromosomeMap, userSelectedPoints); //use map vs list of genes
-                        if (result)
-                            activityHook.SendReloadCommand();
-                        ClearSelectedUserCells();
-                    }
-                    if (gridPanel.InvokeRequired)
-                    {
-                        Invoke((MethodInvoker)(() => { ReDraw(); })); //needed when calling the callback from a different thread
-                    }
-                    else
-                    {
-                        ReDraw();
-                    }
-                }
+                Logger.AppendText("No selection, exporting entire solution.");
+                APIClass.SaveMapFile(core.CurrentMap);
+                core.ReloadLOG();
             }
-            catch (CurrentMapNullException nulle)
+            else
             {
-                Debug.WriteLine(nulle.Message);
+                Logger.AppendText("Exporting solution.");
+                APIClass.ExportSelection(core.CurrentMap, core.OriginalMap, selectPoints);
+                core.ReloadLOG();
             }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }*/
         }
 
         private void button_visibility_difficulty_Click(object sender, EventArgs e)
         {
-            if (layerDifficulty.Active) {
+            if (layerDifficulty.Active)
+            {
                 layerDifficulty.Active = false;
                 button_visibility_difficulty.ImageIndex = 0;
-            } else
+            }
+            else
             {
                 layerDifficulty.Active = true;
                 button_visibility_difficulty.ImageIndex = 1;
@@ -454,6 +299,7 @@ namespace Log2CyclePrototype
         {
             if (!layerDifficulty.Attached)
             {
+                userSelection.Dettach();
                 layerDifficulty.Attach();
                 layerItens.Dettach();
                 layerMonsters.Dettach();
@@ -465,6 +311,7 @@ namespace Log2CyclePrototype
         {
             if (!layerItens.Attached)
             {
+                userSelection.Dettach();
                 layerDifficulty.Dettach();
                 layerItens.Attach();
                 layerMonsters.Dettach();
@@ -476,6 +323,7 @@ namespace Log2CyclePrototype
         {
             if (!layerMonsters.Attached)
             {
+                userSelection.Dettach();
                 layerDifficulty.Dettach();
                 layerItens.Dettach();
                 layerMonsters.Attach();
@@ -485,18 +333,36 @@ namespace Log2CyclePrototype
 
         private void button_next_Click(object sender, EventArgs e)
         {
-
+            core.NextMap();
+            UpdateTrackHistory();
+            ReDrawMap();
         }
 
         private void button_previous_Click(object sender, EventArgs e)
         {
-
+            core.PreviousMap();
+            UpdateTrackHistory();
+            ReDrawMap();
         }
 
         private void gridPanel_MouseClick(object sender, MouseEventArgs e)
         {
             int durationMilliseconds = 10000;
-            toolTip_panel.Show(core.OriginalMap.getToolTipInfo(e.X,e.Y, gridPanel.Width, gridPanel.Height), gridPanel, e.X, e.Y, durationMilliseconds);
+            toolTip_panel.Show(core.CurrentMap.getToolTipInfo(e.X, e.Y, gridPanel.Width, gridPanel.Height), gridPanel, e.X, e.Y, durationMilliseconds);
+        }
+
+        private void button_newRun_Click(object sender, EventArgs e)
+        {
+            core.NewSuggestion();
+        }
+
+        public void UpdateTrackHistory()
+        {
+            Invoke((MethodInvoker)(() =>
+            {
+                trackBar_history.Maximum = core.CountSuggestions - 1;
+                trackBar_history.Value = core.IndexMap;
+            }));
         }
 
         private void panel_resources_click(object sender, MouseEventArgs e)
@@ -517,13 +383,13 @@ namespace Log2CyclePrototype
 
         public void ReDraw()
         {
-            //gridPanel.BackgroundImage = drawer.ReDraw(core.OriginalMap, userSelection.getSelectedPoints()); //FIXME
-            Image image = core.OriginalMap.Draw(gridPanel.Width, gridPanel.Height);
+            Image image = lastImage.Clone() as Image;
 
             if (layerDifficulty != null) image = layerDifficulty.Draw(gridPanel.Width, gridPanel.Height, image);
             if (layerItens != null) image = layerItens.Draw(gridPanel.Width, gridPanel.Height, image);
             if (layerMonsters != null) image = layerMonsters.Draw(gridPanel.Width, gridPanel.Height, image);
             if (layerResources != null) image = layerResources.Draw(gridPanel.Width, gridPanel.Height, image);
+            if (userSelection != null && userSelection.Attached) image = userSelection.Draw(gridPanel.Width, gridPanel.Height, image);
 
             gridPanel.BackgroundImage = image;
 
@@ -535,6 +401,12 @@ namespace Log2CyclePrototype
             {
                 gridPanel.Refresh();
             }
+        }
+
+        public void ReDrawMap()
+        {
+            lastImage = core.CurrentMap.Draw(gridPanel.Width, gridPanel.Height);
+            ReDraw();
         }
 
     }

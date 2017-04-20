@@ -84,7 +84,13 @@ namespace Log2CyclePrototype.LoG2API.Elements
                 return false;
             }
         }
-
+        protected override float Transparency
+        {
+            get
+            {
+                return 1.0f;
+            }
+        }
         public override void setAttribute(string name, bool value)
         {
             throw new NotImplementedException();

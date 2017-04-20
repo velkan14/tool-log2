@@ -76,6 +76,14 @@ namespace Log2CyclePrototype.LoG2API.Elements
             }
         }
 
+        protected override float Transparency
+        {
+            get
+            {
+                return 1.0f;
+            }
+        }
+
         protected override string PrintElement(ListQueue<MapElement> elements)
         {
             return String.Format(@"spawn(""{0}"",{1},{2},{3},{4},""{5}""){6}", Type, x, y, (int)orientation, h, uniqueID, '\n');

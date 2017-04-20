@@ -82,6 +82,14 @@ namespace Log2CyclePrototype.LoG2API.Elements
             }
         }
 
+        protected override float Transparency
+        {
+            get
+            {
+                return 0.3f;
+            }
+        }
+
         public Alcove(string type, int x, int y, int orientation, int h, string uniqueID) : base(x,y,orientation,h,uniqueID)
         {
             Enum.TryParse(type, true, out this.type);

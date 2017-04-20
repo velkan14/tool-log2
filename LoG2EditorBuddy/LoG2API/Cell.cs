@@ -162,6 +162,17 @@ namespace Log2CyclePrototype.LoG2API
             elements.Add(element);
         }
 
+        public MapElement GetElement(string elementType)
+        {
+            foreach(MapElement e in elements)
+            {
+                if (elementType.Equals(e.ElementType))
+                {
+                    return e;
+                }
+            }
+            return null;
+        }
 
         /// <summary>
         /// Simple Manhattan distance between cells

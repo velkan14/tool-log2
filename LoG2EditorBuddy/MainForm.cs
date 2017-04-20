@@ -2038,7 +2038,7 @@ namespace Log2CyclePrototype
                     }
                     else {
                         Logger.AppendText("Exporting solution.");
-                        bool result = APIClass.ExportSelection(solutionChromosomeMap, _userSelectedPoints); //use map vs list of genes
+                        bool result = APIClass.ExportSelection(solutionChromosomeMap, APIClass.CurrentMap, _userSelectedPoints); //use map vs list of genes
                         if (result)
                             _actHook.SendReloadCommand();
                         ClearSelectedUserCells();

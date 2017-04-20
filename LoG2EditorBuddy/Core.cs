@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
+using System;
 
 namespace Log2CyclePrototype
 {
@@ -14,31 +15,55 @@ namespace Log2CyclePrototype
         /***************** CORE **********************/
         private Hook hook;
         private FileWatcher fileWatcher;
-        private UserSelection userSelection;
-
-        public Map OriginalMap { get; private set; }
+        
         private List<Map> suggestionsMap;
-
         bool validDirectory = false;
 
+        public Map OriginalMap { get; private set; }
+        public Map CurrentMap { get { return suggestionsMap[IndexMap]; } }
+
+        public int CountSuggestions { get { return suggestionsMap.Count; } }
+
+        public int IndexMap { get; set; }
+
         public bool HasMap { get { if (OriginalMap == null) return false; else return true; } }
-        public bool hasSuggestionMap() { if (suggestionsMap.Count == 0) return false; else return true; }
-        public Map getSuggestionMap() { return suggestionsMap[suggestionsMap.Count - 1]; }
-        public UserSelection getUserSelection() { return userSelection; }
         
+        public void NextMap()
+        {
+            IndexMap++;
+            if(IndexMap >= suggestionsMap.Count)
+            {
+                IndexMap--;
+            }
+        }
+
+        public void PreviousMap()
+        {
+            IndexMap--;
+            if(IndexMap < 0)
+            {
+                IndexMap = 0;
+            }
+        }
+
+        internal void NewSuggestion()
+        {
+            RunAlgorithm();
+        }
 
         public Core(Monsters window)
         {
             this.interfaceWindow = window;
 
             hook = new Hook(this);
-            fileWatcher = new FileWatcher();
-            userSelection = new UserSelection();
+            fileWatcher = new FileWatcher(this);
 
             suggestionsMap = new List<Map>();
+
+            innovationAlgorithm = new InnovationAlgorithm();
         }
 
-        public bool loadDirectory(string folderName)
+        public bool LoadDirectory(string folderName)
         {
             var dirContents = new DirectoryInfo(folderName);
             var files = dirContents.GetFiles();
@@ -55,17 +80,30 @@ namespace Log2CyclePrototype
 
                         interfaceWindow.Invoke((MethodInvoker)(() => { hook.Start(); }));
                         fileWatcher.Start();
-                        OriginalMap = APIClass.ParseMapFile();
-                        innovationAlgorithm = new InnovationAlgorithm();
 
-                        RunAlgorithm();
-                        interfaceWindow.MapLoaded();
-                        interfaceWindow.ReDraw();
+                        LoadMapFromFile();
                     }));
                     break;
                 }
             }
             return validDirectory;
+        }
+
+        internal void LoadMapFromFile()
+        {
+            if (validDirectory)
+            {
+                OriginalMap = APIClass.ParseMapFile();
+                suggestionsMap.Add(OriginalMap);
+
+                APIClass.ChromosomeFromMap(OriginalMap);
+
+                IndexMap = suggestionsMap.Count - 1;
+
+                interfaceWindow.MapLoaded();
+                interfaceWindow.UpdateTrackHistory();
+                interfaceWindow.ReDrawMap();
+            }
         }
 
 
@@ -74,7 +112,7 @@ namespace Log2CyclePrototype
         private Monsters interfaceWindow;
         
         private bool innovationRunning = false;
-        private delegate void AlgorithmRunComplete(List<Cell> solution);
+        private delegate void AlgorithmRunComplete(Chromosome solution);
         
         private InnovationAlgorithm innovationAlgorithm;
 
@@ -91,10 +129,8 @@ namespace Log2CyclePrototype
         /*********************Objective*************************/
         /*******************************************************/
         public int MaxMonsters { get; set; }
-        public int CharacterLevel { get; set; }
         public float HordesPercentage { get; set; }
         public float MapObjectsPercentage { get; set; }
-        public float EndPointsPercentage { get; set; }
 
         /*******************************************************/
 
@@ -143,24 +179,28 @@ namespace Log2CyclePrototype
             ThreadPool.QueueUserWorkItem(new WaitCallback(_ =>
             {
                 innovationRunning = true;
-                innovationAlgorithm.Run(OriginalMap, callback);
+                innovationAlgorithm.Run(CurrentMap, callback);
                 innovationRunning = false;
             }));
         }
 
-        void AlgorithmRunCompleteCallback(List<Cell> solution)
+        void AlgorithmRunCompleteCallback(Chromosome solution)
         {
             Debug.WriteLine("Recieved Solution!");
             Logger.AppendText("Suggestion updated!\n");
 
-            Map tmpMap = APIClass.MapObjectFromChromosome(OriginalMap, solution); //create map from chromosome. should pass genes?
-
-            OriginalMap = tmpMap; //FIXME: isto deve ir para o historico
-
-            interfaceWindow.ReDraw();
+            Map tmpMap = APIClass.MapFromChromosome(OriginalMap, solution); //create map from chromosome. should pass genes?
 
             suggestionsMap.Add(tmpMap);
+            IndexMap = suggestionsMap.Count - 1;
+            interfaceWindow.UpdateTrackHistory();
+            interfaceWindow.ReDrawMap();
         }
 
+        internal void ReloadLOG()
+        {
+            hook.ReloadLOG();
+            LoadMapFromFile();
+        }
     }
 }

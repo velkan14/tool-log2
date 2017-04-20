@@ -176,6 +176,7 @@
     <Compile Include="LoG2API\Elements\TorchHolder.cs" />
     <Compile Include="LoG2API\Elements\TrapDoor.cs" />
     <Compile Include="LoG2API\Elements\WallEffect.cs" />
+    <Compile Include="LoG2API\Elements\Weapon.cs" />
     <Compile Include="MainClass.cs" />
     <Compile Include="MonstersForm.cs">
       <SubType>Form</SubType>

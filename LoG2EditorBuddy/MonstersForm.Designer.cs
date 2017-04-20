@@ -38,21 +38,18 @@
             this.trackBar_objective = new System.Windows.Forms.TrackBar();
             this.groupBox_mainsliders = new System.Windows.Forms.GroupBox();
             this.groupBox_objectives = new System.Windows.Forms.GroupBox();
-            this.numericUpDown_characterlevel = new System.Windows.Forms.NumericUpDown();
             this.numericUpDown_maxmonsters = new System.Windows.Forms.NumericUpDown();
-            this.trackBar_endpoints = new System.Windows.Forms.TrackBar();
             this.trackBar_mapobjects = new System.Windows.Forms.TrackBar();
             this.trackBar_hordes = new System.Windows.Forms.TrackBar();
-            this.label_endpoints = new System.Windows.Forms.Label();
             this.label_mapobjects = new System.Windows.Forms.Label();
             this.label_hordes = new System.Windows.Forms.Label();
-            this.label_expectedlevel = new System.Windows.Forms.Label();
             this.label_maxmonsters = new System.Windows.Forms.Label();
             this.textBox_logger = new System.Windows.Forms.TextBox();
             this.gridPanel = new System.Windows.Forms.Panel();
             this.button_next = new System.Windows.Forms.Button();
             this.button_previous = new System.Windows.Forms.Button();
             this.groupBox_selection = new System.Windows.Forms.GroupBox();
+            this.button_select = new System.Windows.Forms.Button();
             this.button_export = new System.Windows.Forms.Button();
             this.button_invert = new System.Windows.Forms.Button();
             this.button_clear = new System.Windows.Forms.Button();
@@ -80,14 +77,14 @@
             this.button_visibility_resources = new System.Windows.Forms.Button();
             this.panel_palette_resources = new System.Windows.Forms.Panel();
             this.toolTip_panel = new System.Windows.Forms.ToolTip(this.components);
+            this.button_newSuggestion = new System.Windows.Forms.Button();
+            this.trackBar_history = new System.Windows.Forms.TrackBar();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_innovation)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_userplacement)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_objective)).BeginInit();
             this.groupBox_mainsliders.SuspendLayout();
             this.groupBox_objectives.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_characterlevel)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_maxmonsters)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar_endpoints)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_mapobjects)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_hordes)).BeginInit();
             this.groupBox_selection.SuspendLayout();
@@ -96,6 +93,7 @@
             this.groupBox_layer_itens.SuspendLayout();
             this.groupBox_layer_monsters.SuspendLayout();
             this.groupBox_layer_resources.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar_history)).BeginInit();
             this.SuspendLayout();
             // 
             // label_innovation
@@ -178,30 +176,18 @@
             // 
             // groupBox_objectives
             // 
-            this.groupBox_objectives.Controls.Add(this.numericUpDown_characterlevel);
             this.groupBox_objectives.Controls.Add(this.numericUpDown_maxmonsters);
-            this.groupBox_objectives.Controls.Add(this.trackBar_endpoints);
             this.groupBox_objectives.Controls.Add(this.trackBar_mapobjects);
             this.groupBox_objectives.Controls.Add(this.trackBar_hordes);
-            this.groupBox_objectives.Controls.Add(this.label_endpoints);
             this.groupBox_objectives.Controls.Add(this.label_mapobjects);
             this.groupBox_objectives.Controls.Add(this.label_hordes);
-            this.groupBox_objectives.Controls.Add(this.label_expectedlevel);
             this.groupBox_objectives.Controls.Add(this.label_maxmonsters);
             this.groupBox_objectives.Location = new System.Drawing.Point(12, 215);
             this.groupBox_objectives.Name = "groupBox_objectives";
-            this.groupBox_objectives.Size = new System.Drawing.Size(274, 225);
+            this.groupBox_objectives.Size = new System.Drawing.Size(274, 139);
             this.groupBox_objectives.TabIndex = 7;
             this.groupBox_objectives.TabStop = false;
             this.groupBox_objectives.Text = "Objective Parameters ";
-            // 
-            // numericUpDown_characterlevel
-            // 
-            this.numericUpDown_characterlevel.Location = new System.Drawing.Point(164, 53);
-            this.numericUpDown_characterlevel.Name = "numericUpDown_characterlevel";
-            this.numericUpDown_characterlevel.Size = new System.Drawing.Size(103, 20);
-            this.numericUpDown_characterlevel.TabIndex = 9;
-            this.numericUpDown_characterlevel.ValueChanged += new System.EventHandler(this.numericUpDown_characterlevel_ValueChanged);
             // 
             // numericUpDown_maxmonsters
             // 
@@ -211,19 +197,9 @@
             this.numericUpDown_maxmonsters.TabIndex = 8;
             this.numericUpDown_maxmonsters.ValueChanged += new System.EventHandler(this.numericUpDown_maxmonsters_ValueChanged);
             // 
-            // trackBar_endpoints
-            // 
-            this.trackBar_endpoints.Location = new System.Drawing.Point(127, 174);
-            this.trackBar_endpoints.Maximum = 100;
-            this.trackBar_endpoints.Name = "trackBar_endpoints";
-            this.trackBar_endpoints.Size = new System.Drawing.Size(142, 45);
-            this.trackBar_endpoints.TabIndex = 7;
-            this.trackBar_endpoints.TickStyle = System.Windows.Forms.TickStyle.None;
-            this.trackBar_endpoints.Scroll += new System.EventHandler(this.trackBar_endpoints_Scroll);
-            // 
             // trackBar_mapobjects
             // 
-            this.trackBar_mapobjects.Location = new System.Drawing.Point(126, 133);
+            this.trackBar_mapobjects.Location = new System.Drawing.Point(126, 85);
             this.trackBar_mapobjects.Maximum = 100;
             this.trackBar_mapobjects.Name = "trackBar_mapobjects";
             this.trackBar_mapobjects.Size = new System.Drawing.Size(143, 45);
@@ -233,7 +209,7 @@
             // 
             // trackBar_hordes
             // 
-            this.trackBar_hordes.Location = new System.Drawing.Point(125, 94);
+            this.trackBar_hordes.Location = new System.Drawing.Point(126, 55);
             this.trackBar_hordes.Maximum = 100;
             this.trackBar_hordes.Name = "trackBar_hordes";
             this.trackBar_hordes.Size = new System.Drawing.Size(142, 45);
@@ -241,19 +217,10 @@
             this.trackBar_hordes.TickStyle = System.Windows.Forms.TickStyle.None;
             this.trackBar_hordes.Scroll += new System.EventHandler(this.trackBar_hordes_Scroll);
             // 
-            // label_endpoints
-            // 
-            this.label_endpoints.AutoSize = true;
-            this.label_endpoints.Location = new System.Drawing.Point(11, 174);
-            this.label_endpoints.Name = "label_endpoints";
-            this.label_endpoints.Size = new System.Drawing.Size(58, 13);
-            this.label_endpoints.TabIndex = 4;
-            this.label_endpoints.Text = "End Points";
-            // 
             // label_mapobjects
             // 
             this.label_mapobjects.AutoSize = true;
-            this.label_mapobjects.Location = new System.Drawing.Point(11, 133);
+            this.label_mapobjects.Location = new System.Drawing.Point(11, 87);
             this.label_mapobjects.Name = "label_mapobjects";
             this.label_mapobjects.Size = new System.Drawing.Size(67, 13);
             this.label_mapobjects.TabIndex = 3;
@@ -262,20 +229,11 @@
             // label_hordes
             // 
             this.label_hordes.AutoSize = true;
-            this.label_hordes.Location = new System.Drawing.Point(11, 94);
+            this.label_hordes.Location = new System.Drawing.Point(11, 55);
             this.label_hordes.Name = "label_hordes";
             this.label_hordes.Size = new System.Drawing.Size(41, 13);
             this.label_hordes.TabIndex = 2;
             this.label_hordes.Text = "Hordes";
-            // 
-            // label_expectedlevel
-            // 
-            this.label_expectedlevel.AutoSize = true;
-            this.label_expectedlevel.Location = new System.Drawing.Point(11, 55);
-            this.label_expectedlevel.Name = "label_expectedlevel";
-            this.label_expectedlevel.Size = new System.Drawing.Size(130, 13);
-            this.label_expectedlevel.TabIndex = 1;
-            this.label_expectedlevel.Text = "Character Expected Level";
             // 
             // label_maxmonsters
             // 
@@ -288,12 +246,12 @@
             // 
             // textBox_logger
             // 
-            this.textBox_logger.Location = new System.Drawing.Point(12, 446);
+            this.textBox_logger.Location = new System.Drawing.Point(940, 446);
             this.textBox_logger.Multiline = true;
             this.textBox_logger.Name = "textBox_logger";
             this.textBox_logger.ReadOnly = true;
             this.textBox_logger.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox_logger.Size = new System.Drawing.Size(274, 231);
+            this.textBox_logger.Size = new System.Drawing.Size(213, 231);
             this.textBox_logger.TabIndex = 8;
             // 
             // gridPanel
@@ -308,7 +266,7 @@
             // button_next
             // 
             this.button_next.Enabled = false;
-            this.button_next.Location = new System.Drawing.Point(1028, 169);
+            this.button_next.Location = new System.Drawing.Point(1078, 212);
             this.button_next.Name = "button_next";
             this.button_next.Size = new System.Drawing.Size(75, 23);
             this.button_next.TabIndex = 10;
@@ -319,7 +277,7 @@
             // button_previous
             // 
             this.button_previous.Enabled = false;
-            this.button_previous.Location = new System.Drawing.Point(947, 169);
+            this.button_previous.Location = new System.Drawing.Point(947, 212);
             this.button_previous.Name = "button_previous";
             this.button_previous.Size = new System.Drawing.Size(75, 23);
             this.button_previous.TabIndex = 11;
@@ -329,6 +287,7 @@
             // 
             // groupBox_selection
             // 
+            this.groupBox_selection.Controls.Add(this.button_select);
             this.groupBox_selection.Controls.Add(this.button_export);
             this.groupBox_selection.Controls.Add(this.button_invert);
             this.groupBox_selection.Controls.Add(this.button_clear);
@@ -340,9 +299,20 @@
             this.groupBox_selection.TabStop = false;
             this.groupBox_selection.Text = "Selection";
             // 
+            // button_select
+            // 
+            this.button_select.Enabled = false;
+            this.button_select.Location = new System.Drawing.Point(7, 20);
+            this.button_select.Name = "button_select";
+            this.button_select.Size = new System.Drawing.Size(75, 23);
+            this.button_select.TabIndex = 4;
+            this.button_select.Text = "Select";
+            this.button_select.UseVisualStyleBackColor = true;
+            this.button_select.Click += new System.EventHandler(this.button_select_Click);
+            // 
             // button_export
             // 
-            this.button_export.Location = new System.Drawing.Point(7, 49);
+            this.button_export.Location = new System.Drawing.Point(88, 49);
             this.button_export.Name = "button_export";
             this.button_export.Size = new System.Drawing.Size(75, 23);
             this.button_export.TabIndex = 3;
@@ -352,7 +322,7 @@
             // 
             // button_invert
             // 
-            this.button_invert.Location = new System.Drawing.Point(88, 20);
+            this.button_invert.Location = new System.Drawing.Point(7, 49);
             this.button_invert.Name = "button_invert";
             this.button_invert.Size = new System.Drawing.Size(75, 23);
             this.button_invert.TabIndex = 2;
@@ -362,7 +332,7 @@
             // 
             // button_clear
             // 
-            this.button_clear.Location = new System.Drawing.Point(7, 20);
+            this.button_clear.Location = new System.Drawing.Point(88, 20);
             this.button_clear.Name = "button_clear";
             this.button_clear.Size = new System.Drawing.Size(75, 23);
             this.button_clear.TabIndex = 1;
@@ -398,7 +368,7 @@
             this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1129, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1165, 24);
             this.menuStrip1.TabIndex = 14;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -450,7 +420,7 @@
             this.groupBox_layer_difficulty.Controls.Add(this.button_visibility_difficulty);
             this.groupBox_layer_difficulty.Controls.Add(this.panel_palett_difficulty);
             this.groupBox_layer_difficulty.Enabled = false;
-            this.groupBox_layer_difficulty.Location = new System.Drawing.Point(947, 227);
+            this.groupBox_layer_difficulty.Location = new System.Drawing.Point(12, 360);
             this.groupBox_layer_difficulty.Name = "groupBox_layer_difficulty";
             this.groupBox_layer_difficulty.Size = new System.Drawing.Size(171, 56);
             this.groupBox_layer_difficulty.TabIndex = 15;
@@ -493,7 +463,7 @@
             this.groupBox_layer_itens.Controls.Add(this.button_visibility_itens);
             this.groupBox_layer_itens.Controls.Add(this.panel_palette_itens);
             this.groupBox_layer_itens.Enabled = false;
-            this.groupBox_layer_itens.Location = new System.Drawing.Point(947, 289);
+            this.groupBox_layer_itens.Location = new System.Drawing.Point(12, 422);
             this.groupBox_layer_itens.Name = "groupBox_layer_itens";
             this.groupBox_layer_itens.Size = new System.Drawing.Size(171, 56);
             this.groupBox_layer_itens.TabIndex = 16;
@@ -529,7 +499,7 @@
             this.groupBox_layer_monsters.Controls.Add(this.button_visibility_monsters);
             this.groupBox_layer_monsters.Controls.Add(this.panel_palette_monsters);
             this.groupBox_layer_monsters.Enabled = false;
-            this.groupBox_layer_monsters.Location = new System.Drawing.Point(947, 351);
+            this.groupBox_layer_monsters.Location = new System.Drawing.Point(12, 484);
             this.groupBox_layer_monsters.Name = "groupBox_layer_monsters";
             this.groupBox_layer_monsters.Size = new System.Drawing.Size(171, 56);
             this.groupBox_layer_monsters.TabIndex = 17;
@@ -565,7 +535,7 @@
             this.groupBox_layer_resources.Controls.Add(this.button_visibility_resources);
             this.groupBox_layer_resources.Controls.Add(this.panel_palette_resources);
             this.groupBox_layer_resources.Enabled = false;
-            this.groupBox_layer_resources.Location = new System.Drawing.Point(947, 413);
+            this.groupBox_layer_resources.Location = new System.Drawing.Point(12, 546);
             this.groupBox_layer_resources.Name = "groupBox_layer_resources";
             this.groupBox_layer_resources.Size = new System.Drawing.Size(171, 56);
             this.groupBox_layer_resources.TabIndex = 17;
@@ -596,11 +566,34 @@
             this.panel_palette_resources.TabIndex = 0;
             this.panel_palette_resources.MouseClick += new System.Windows.Forms.MouseEventHandler(this.panel_resources_click);
             // 
+            // button_newSuggestion
+            // 
+            this.button_newSuggestion.Enabled = false;
+            this.button_newSuggestion.Location = new System.Drawing.Point(947, 241);
+            this.button_newSuggestion.Name = "button_newSuggestion";
+            this.button_newSuggestion.Size = new System.Drawing.Size(206, 23);
+            this.button_newSuggestion.TabIndex = 18;
+            this.button_newSuggestion.Text = "New Suggestion";
+            this.button_newSuggestion.UseVisualStyleBackColor = true;
+            this.button_newSuggestion.Click += new System.EventHandler(this.button_newRun_Click);
+            // 
+            // trackBar_history
+            // 
+            this.trackBar_history.Enabled = false;
+            this.trackBar_history.Location = new System.Drawing.Point(947, 158);
+            this.trackBar_history.Maximum = 1;
+            this.trackBar_history.Name = "trackBar_history";
+            this.trackBar_history.Size = new System.Drawing.Size(206, 45);
+            this.trackBar_history.TabIndex = 19;
+            // 
             // Monsters
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1129, 685);
+            this.ClientSize = new System.Drawing.Size(1165, 685);
+            this.Controls.Add(this.trackBar_history);
+            this.Controls.Add(this.textBox_logger);
+            this.Controls.Add(this.button_newSuggestion);
             this.Controls.Add(this.groupBox_layer_resources);
             this.Controls.Add(this.groupBox_layer_monsters);
             this.Controls.Add(this.groupBox_layer_itens);
@@ -611,7 +604,6 @@
             this.Controls.Add(this.button_undo);
             this.Controls.Add(this.button_next);
             this.Controls.Add(this.gridPanel);
-            this.Controls.Add(this.textBox_logger);
             this.Controls.Add(this.groupBox_objectives);
             this.Controls.Add(this.groupBox_mainsliders);
             this.Controls.Add(this.menuStrip1);
@@ -627,9 +619,7 @@
             this.groupBox_mainsliders.PerformLayout();
             this.groupBox_objectives.ResumeLayout(false);
             this.groupBox_objectives.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_characterlevel)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_maxmonsters)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar_endpoints)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_mapobjects)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_hordes)).EndInit();
             this.groupBox_selection.ResumeLayout(false);
@@ -639,6 +629,7 @@
             this.groupBox_layer_itens.ResumeLayout(false);
             this.groupBox_layer_monsters.ResumeLayout(false);
             this.groupBox_layer_resources.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar_history)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -654,15 +645,11 @@
         private System.Windows.Forms.TrackBar trackBar_objective;
         private System.Windows.Forms.GroupBox groupBox_mainsliders;
         private System.Windows.Forms.GroupBox groupBox_objectives;
-        private System.Windows.Forms.NumericUpDown numericUpDown_characterlevel;
         private System.Windows.Forms.NumericUpDown numericUpDown_maxmonsters;
-        private System.Windows.Forms.TrackBar trackBar_endpoints;
         private System.Windows.Forms.TrackBar trackBar_mapobjects;
         private System.Windows.Forms.TrackBar trackBar_hordes;
-        private System.Windows.Forms.Label label_endpoints;
         private System.Windows.Forms.Label label_mapobjects;
         private System.Windows.Forms.Label label_hordes;
-        private System.Windows.Forms.Label label_expectedlevel;
         private System.Windows.Forms.Label label_maxmonsters;
         private System.Windows.Forms.TextBox textBox_logger;
         private System.Windows.Forms.Panel gridPanel;
@@ -696,5 +683,8 @@
         private System.Windows.Forms.Button button_visibility_resources;
         private System.Windows.Forms.Panel panel_palette_resources;
         private System.Windows.Forms.ToolTip toolTip_panel;
+        private System.Windows.Forms.Button button_newSuggestion;
+        private System.Windows.Forms.Button button_select;
+        private System.Windows.Forms.TrackBar trackBar_history;
     }
 }

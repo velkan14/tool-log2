@@ -2,18 +2,88 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Log2CyclePrototype.LoG2API.Elements
 {
-    public class Item : MapElement
+    class Weapon : MapElement
     {
-        public string type;
-        public Item(string type, int x, int y, int orientation, int h, string uniqueID) : base(x,y,orientation,h,uniqueID)
+        public enum WeaponType {
+            ancient_claymore,
+            assassin_dagger,
+            ax,
+            backbiter,
+            bane,
+            baton,
+            battle_axe,
+            blowpipe,
+            bone_blade,
+            bone_club,
+            boulder,
+            branch,
+            crossbow,
+            cudgel,
+            cutlass,
+            dagger,
+            dart,
+            ethereal_blade,
+            fire_blade,
+            fire_bomb,
+            fist_dagger,
+            flail,
+            frost_bomb,
+            great_axe,
+            hand_axe,
+            legionary_spear,
+            lightning_bow,
+            lightning_rod,
+            long_sword,
+            longbow,
+            machete,
+            maul,
+            meteor_hammer,
+            moonblade,
+            morning_star,
+            pickaxe,
+            poison_bomb,
+            poleaxe,
+            quarterstaff,
+            rapier,
+            rock,
+            sabre,
+            scythe,
+            serpent_blade,
+            shock_bomb,
+            short_bow,
+            shuriken,
+            sickle_sword,
+            skullcleave,
+            sleep_dart,
+            sling,
+            spiked_club,
+            throwing_axe,
+            throwing_knife,
+            torch,
+            torch_everburning,
+            tribal_spear,
+            two_handed_word,
+            venom_edge,
+            venomfang_pick,
+            vilson_orb,
+            warhammer,
+            zarchton_harpoon
+        };
+
+        public WeaponType type;
+
+        public Weapon(string type, int x, int y, int orientation, int h, string uniqueID) : base(x,y,orientation,h,uniqueID)
         {
-            this.type = type;
+            Enum.TryParse(type, true, out this.type);
         }
 
-        public override string ElementType { get { return type; }}
+        public override string ElementType { get { return type.ToString(); } }
 
         protected override string ConnectorName
         {
@@ -90,6 +160,5 @@ namespace Log2CyclePrototype.LoG2API.Elements
         {
             throw new NotImplementedException();
         }
-        
     }
 }

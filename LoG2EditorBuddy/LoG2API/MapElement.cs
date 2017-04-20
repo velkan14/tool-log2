@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Text;
 
 namespace Log2CyclePrototype.LoG2API
@@ -24,13 +25,19 @@ namespace Log2CyclePrototype.LoG2API
             Left
         }
 
-        [JsonProperty()] public int x { get; set; }
-        [JsonProperty()] public int y { get; set; }
-        [JsonProperty()] public int h { get; set; }
-        [JsonProperty()] public string uniqueID { get; set; }
-        [JsonProperty()] public Orientation orientation { get; set; }
+        [JsonProperty()]
+        public int x { get; set; }
+        [JsonProperty()]
+        public int y { get; set; }
+        [JsonProperty()]
+        public int h { get; set; }
+        [JsonProperty()]
+        public string uniqueID { get; set; }
+        [JsonProperty()]
+        public Orientation orientation { get; set; }
 
         public abstract string ElementType { get; }
+        protected abstract float Transparency { get; }
 
         protected abstract Rectangle RectTop { get; }
         protected abstract Rectangle RectRight { get; }
@@ -39,12 +46,12 @@ namespace Log2CyclePrototype.LoG2API
 
         protected abstract bool UseOffset { get; }
 
-        public MapElement(int x, int y,int orientation, int h, string uniqueID)
+        public MapElement(int x, int y, int orientation, int h, string uniqueID)
         {
             this.x = x;
             this.y = y;
             this.h = h;
-            this.orientation = (Orientation) orientation;
+            this.orientation = (Orientation)orientation;
             this.uniqueID = uniqueID;
 
             connectors = new List<Connector>();
@@ -57,16 +64,16 @@ namespace Log2CyclePrototype.LoG2API
 
         public string Print(ListQueue<MapElement> elements)
         {
-            
+
             StringBuilder sb = new StringBuilder();
 
             sb.Append(PrintElement(elements));
 
-            foreach(Connector c in connectors)
+            foreach (Connector c in connectors)
             {
                 sb.Append(String.Format(@"{0}.{1}:addConnector(""{2}"", ""{3}"", ""{4}""){5}", uniqueID, ConnectorName, c.Trigger, c.Target, c.Action, '\n'));
             }
-         
+
             return sb.ToString();
         }
 
@@ -74,10 +81,16 @@ namespace Log2CyclePrototype.LoG2API
 
         protected abstract string PrintElement(ListQueue<MapElement> elements);
 
+        private static ColorMatrix cm = new ColorMatrix();
+        private static ImageAttributes ia = new ImageAttributes();
+
         public void Draw(Graphics panel, int cellWidth, int cellHeight)
         {
             Rectangle destRect = new Rectangle(x * cellWidth, y * cellHeight, cellWidth, cellHeight);
-            
+
+            cm.Matrix33 = Transparency;
+            ia.SetColorMatrix(cm);
+
             switch (orientation)
             {
                 case MapElement.Orientation.Top:
@@ -86,8 +99,9 @@ namespace Log2CyclePrototype.LoG2API
                         Point offset = new Point(0, -cellHeight / 2);
                         destRect.Offset(offset);
                     }
-                    
-                    panel.DrawImage(imageIcons, destRect, RectTop, GraphicsUnit.Pixel);
+
+
+                    panel.DrawImage(imageIcons, destRect, RectTop.X, RectTop.Y, RectTop.Width, RectTop.Height, GraphicsUnit.Pixel, ia);
                     break;
                 case MapElement.Orientation.Right:
                     if (UseOffset)
@@ -95,7 +109,7 @@ namespace Log2CyclePrototype.LoG2API
                         Point offset = new Point(cellWidth / 2, 0);
                         destRect.Offset(offset);
                     }
-                    panel.DrawImage(imageIcons, destRect, RectRight, GraphicsUnit.Pixel);
+                    panel.DrawImage(imageIcons, destRect, RectRight.X, RectRight.Y, RectRight.Width, RectRight.Height, GraphicsUnit.Pixel, ia);
                     break;
                 case MapElement.Orientation.Down:
                     if (UseOffset)
@@ -103,7 +117,7 @@ namespace Log2CyclePrototype.LoG2API
                         Point offset = new Point(0, cellHeight / 2);
                         destRect.Offset(offset);
                     }
-                    panel.DrawImage(imageIcons, destRect, RectDown, GraphicsUnit.Pixel);
+                    panel.DrawImage(imageIcons, destRect, RectDown.X, RectDown.Y, RectDown.Width, RectDown.Height, GraphicsUnit.Pixel, ia);
                     break;
                 case MapElement.Orientation.Left:
                     if (UseOffset)
@@ -111,9 +125,10 @@ namespace Log2CyclePrototype.LoG2API
                         Point offset = new Point(-cellWidth / 2, 0);
                         destRect.Offset(offset);
                     }
-                    panel.DrawImage(imageIcons, destRect, RectLeft, GraphicsUnit.Pixel);
+                    panel.DrawImage(imageIcons, destRect, RectLeft.X, RectLeft.Y, RectLeft.Width, RectLeft.Height, GraphicsUnit.Pixel, ia);
                     break;
-            }        
+            }
+
         }
 
         public abstract void setAttribute(string name, string value);

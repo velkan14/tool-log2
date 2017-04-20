@@ -437,6 +437,7 @@ namespace gma.System.Windows
 
         private int procID;
         Process log2 = null;
+        public bool LoG2Found { get; private set; }
         private const int SW_HIDE = 0;
         private const int SW_RESTORE = 9;
         private const int SW_SHOWNORMAL = 1;
@@ -531,6 +532,7 @@ namespace gma.System.Windows
         /// </remarks>
         public UserActivityHook(bool InstallMouseHook, bool InstallKeyboardHook)
         {
+            LoG2Found = false;
             sim = new InputSimulator();
             Start(InstallMouseHook, InstallKeyboardHook);
         }
@@ -735,7 +737,7 @@ namespace gma.System.Windows
                         DirectoryManager.ProcessDir = n.MainModule.FileName;
                         log2 = n;
                         procID = n.Id;
-                        MainForm.LoG2ProcessFound = true;
+                        LoG2Found = true;
                         //Logger.AppendText(StringResources.PickDirString);
                     }
 

@@ -35,11 +35,16 @@ namespace Log2CyclePrototype
                 //LogWrite(actHook.sendKeystroke('a', actHook.GetHandleOfWindowMouseIsOver())); //send simple key
                 if (activityHook.GetApplicationMouseIsOver() == "grimrock2.exe")
                 {
-                    if (core.HasMap)
+                    if (core.HasMap && activityHook.LoG2Found)
                         activityHook.SendSaveCommand(activityHook.GetHandleOfWindowMouseIsOver());
+                    
                 }
             }
         }
 
+        internal void ReloadLOG()
+        {
+            if(activityHook.LoG2Found) activityHook.SendReloadCommand();
+        }
     }
 }

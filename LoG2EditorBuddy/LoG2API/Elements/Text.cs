@@ -93,6 +93,14 @@ namespace Log2CyclePrototype.LoG2API.Elements
             }
         }
 
+        protected override float Transparency
+        {
+            get
+            {
+                return 1.0f;
+            }
+        }
+
         protected override string PrintElement(ListQueue<MapElement> elements)
         {
             StringBuilder sb = new StringBuilder();

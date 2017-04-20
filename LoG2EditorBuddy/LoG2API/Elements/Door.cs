@@ -161,6 +161,14 @@ namespace Log2CyclePrototype.LoG2API.Elements
             }
         }
 
+        protected override float Transparency
+        {
+            get
+            {
+                return 1.0f;
+            }
+        }
+
         public override void setAttribute(string name, string value)
         {
             if (name.Contains("setDoorState"))

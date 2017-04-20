@@ -8,7 +8,8 @@ namespace Log2CyclePrototype.WinAPI
     {
         Default,
         Plus,
-        Minus
+        Minus,
+        Select
     }
 
     public class CursorManager
@@ -64,6 +65,9 @@ namespace Log2CyclePrototype.WinAPI
                     break;
                 case CursorType.Minus:
                     Cursor.Current = MinusCursor;
+                    break;
+                case CursorType.Select:
+                    Cursor.Current = Cursors.Cross;
                     break;
                 default:
                     break;

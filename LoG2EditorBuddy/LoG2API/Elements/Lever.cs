@@ -226,6 +226,14 @@ namespace Log2CyclePrototype.LoG2API.Elements
             }
         }
 
+        protected override float Transparency
+        {
+            get
+            {
+                return 0.3f;
+            }
+        }
+
         public override void setAttribute(string name, string value)
         {
             throw new NotImplementedException();

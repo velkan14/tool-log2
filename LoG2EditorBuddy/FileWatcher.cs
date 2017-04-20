@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Security.Permissions;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,15 +15,29 @@ namespace Log2CyclePrototype
     class FileWatcher
     {
         private FileSystemWatcher fsw;
+        private Core core;
+        private MD5 md5;
 
-        public FileWatcher()
+        int count = 0;
+        byte[] lastHash;
+
+        public FileWatcher(Core core)
         {
+            this.core = core;
 
+            
         }
 
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public void Start()
         {
+            md5 = MD5.Create();
+
+            using (var stream = File.OpenRead(DirectoryManager.DungeonFilePath))
+            {
+                lastHash = md5.ComputeHash(stream);
+            }
+
             try
             {
                 fsw = new FileSystemWatcher(DirectoryManager.ScriptsDir, "dungeon.lua");
@@ -47,24 +62,45 @@ namespace Log2CyclePrototype
             }
         }
 
-        int count = 0;
         private void FileChanged(object sender, FileSystemEventArgs e)
         {
             count++;
             if (count < 2) return; //needed because watcher fires twice
 
-            //If user decides to apply algorithm solution, press button
-            if (APIClass._mapSaved)
+            byte[] hash;
+
+            using (var stream = File.OpenRead(DirectoryManager.DungeonFilePath))
             {
-                /*SendSaveCommandAndReloadMap(); FIXME*/
+                hash = md5.ComputeHash(stream);
             }
-            else
+
+            if (!Equality(hash, lastHash))
             {
-                Debug.WriteLine("File save detected");
-                /*if (autoSuggestions)
-                    ParseMapAndRunAlgorithm(); FIXME*/
+                Console.WriteLine("File: " + e.FullPath + " " + e.ChangeType);
+
+                core.LoadMapFromFile();
             }
+
             count = 0;
+        }
+
+        public bool Equality(byte[] a1, byte[] b1)
+        {
+            int i;
+            if (a1.Length == b1.Length)
+            {
+                i = 0;
+                while (i < a1.Length && (a1[i] == b1[i])) //Earlier it was a1[i]!=b1[i]
+                {
+                    i++;
+                }
+                if (i == a1.Length)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }
