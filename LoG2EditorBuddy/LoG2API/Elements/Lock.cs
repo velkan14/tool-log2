@@ -34,7 +34,7 @@ namespace Log2CyclePrototype.LoG2API.Elements
         {
             get
             {
-                return type.ToString();
+                return type.ToString().ToLower();
             }
         }
 
@@ -108,7 +108,7 @@ namespace Log2CyclePrototype.LoG2API.Elements
         {
             StringBuilder sb = new StringBuilder();
 
-            sb.AppendFormat(@"spawn(""{0}"",{1},{2},{3},{4},""{5}""){6}", type.ToString().ToLower(), x, y, (int)orientation, h, uniqueID, '\n');
+            sb.AppendFormat(@"spawn(""{0}"",{1},{2},{3},{4},""{5}""){6}", ElementType, x, y, (int)orientation, h, uniqueID, '\n');
             sb.AppendFormat(@"{0}.lock:setOpenedBy(""{1}""){2}", uniqueID, OpenedBy, '\n');
 
             return sb.ToString();

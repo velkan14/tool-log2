@@ -154,7 +154,37 @@ namespace Log2CyclePrototype.LoG2API
             endingPoints = new List<EndingPoint>();
         }
 
+        internal bool BelongToHorde(Cell cell)
+        {
+            //Check if neighbours have a monster.
+            if (GetCellAt(cell.X - 1, cell.Y - 1).Monster != null) return true;
+            if (GetCellAt(cell.X,     cell.Y - 1).Monster != null) return true;
+            if (GetCellAt(cell.X + 1, cell.Y - 1).Monster != null) return true;
 
+            if (GetCellAt(cell.X - 1, cell.Y).Monster != null) return true;
+            if (GetCellAt(cell.X + 1, cell.Y).Monster != null) return true;
+
+            if (GetCellAt(cell.X - 1, cell.Y + 1).Monster != null) return true;
+            if (GetCellAt(cell.X,     cell.Y + 1).Monster != null) return true;
+            if (GetCellAt(cell.X + 1, cell.Y + 1).Monster != null) return true;
+            return false;
+        }
+
+        internal bool CloseToElement(Cell cell, string element)
+        {
+            if (GetCellAt(cell.X, cell.Y).GetElement(element) != null) return true;
+            /*if (GetCellAt(monster.x - 1, monster.y - 1).GetElement(element) != null) return true;
+            if (GetCellAt(monster.x, monster.y - 1).GetElement(element) != null) return true;
+            if (GetCellAt(monster.x + 1, monster.y - 1).GetElement(element) != null) return true;
+
+            if (GetCellAt(monster.x - 1, monster.y).GetElement(element) != null) return true;
+            if (GetCellAt(monster.x + 1, monster.y).GetElement(element) != null) return true;
+
+            if (GetCellAt(monster.x - 1, monster.y + 1).GetElement(element) != null) return true;
+            if (GetCellAt(monster.x, monster.y + 1).GetElement(element) != null) return true;
+            if (GetCellAt(monster.x + 1, monster.y + 1).GetElement(element) != null) return true;*/
+            return false;
+        }
 
         public Cell GetCellAt(int x, int y)
         {

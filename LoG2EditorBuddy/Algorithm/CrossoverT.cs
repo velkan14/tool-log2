@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Log2CyclePrototype
 {
-    public enum CrossoverType
+    public enum CrossoverT
     {
         SinglePoint,
         DoublePoint,

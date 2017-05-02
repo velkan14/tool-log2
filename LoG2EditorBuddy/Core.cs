@@ -7,6 +7,7 @@ using System.IO;
 using System.Threading;
 using System.Windows.Forms;
 using System;
+using Log2CyclePrototype.Algorithm;
 
 namespace Log2CyclePrototype
 {
@@ -15,6 +16,13 @@ namespace Log2CyclePrototype
         /***************** CORE **********************/
         private Hook hook;
         private FileWatcher fileWatcher;
+        private Monsters interfaceWindow;
+
+        private bool algorithmRunning = false;
+        private delegate void AlgorithmRunComplete();
+        private InnovationAlgorithm innovationAlgorithm;
+        private ObjectiveAlgorithm objectiveAlgorithm;
+        private ConvergenceAlgorithm convergenceAlgorithm;
         
         private List<Map> suggestionsMap;
         bool validDirectory = false;
@@ -61,6 +69,8 @@ namespace Log2CyclePrototype
             suggestionsMap = new List<Map>();
 
             innovationAlgorithm = new InnovationAlgorithm();
+            objectiveAlgorithm = new ObjectiveAlgorithm();
+            convergenceAlgorithm = new ConvergenceAlgorithm();
         }
 
         public bool LoadDirectory(string folderName)
@@ -96,8 +106,6 @@ namespace Log2CyclePrototype
                 OriginalMap = APIClass.ParseMapFile();
                 suggestionsMap.Add(OriginalMap);
 
-                APIClass.ChromosomeFromMap(OriginalMap);
-
                 IndexMap = suggestionsMap.Count - 1;
 
                 interfaceWindow.MapLoaded();
@@ -108,14 +116,7 @@ namespace Log2CyclePrototype
 
 
         /*********************************************/
-
-        private Monsters interfaceWindow;
-        
-        private bool innovationRunning = false;
-        private delegate void AlgorithmRunComplete(Chromosome solution);
-        
-        private InnovationAlgorithm innovationAlgorithm;
-
+       
         /*******************************************************/
         /***************Algorithms Percentage*******************/
         /*******************************************************/
@@ -124,13 +125,6 @@ namespace Log2CyclePrototype
         public float UserPercentage { get; set; }
 
         /*******************************************************/
-
-        /*******************************************************/
-        /*********************Objective*************************/
-        /*******************************************************/
-        public int MaxMonsters { get; set; }
-        public float HordesPercentage { get; set; }
-        public float MapObjectsPercentage { get; set; }
 
         /*******************************************************/
 
@@ -150,7 +144,7 @@ namespace Log2CyclePrototype
         public int GenerationsInnovation { get; set; }
         public int ElitismPercentageInnovation { get; set; }
 
-        public CrossoverType CrossoverType { get; set; }
+        public CrossoverT CrossoverType { get; set; }
 
         /*******************************************************/
 
@@ -158,7 +152,7 @@ namespace Log2CyclePrototype
 
         private void RunAlgorithm()
         {
-            if (innovationRunning)
+            if (algorithmRunning)
                 return;
 
             if (InnovationPercentage == 0 && ObjectivePercentage == 0 && UserPercentage == 0)
@@ -169,22 +163,42 @@ namespace Log2CyclePrototype
 
             AlgorithmRunComplete callback = new AlgorithmRunComplete(AlgorithmRunCompleteCallback);
 
-            //NOVELTY SETUP
-            /*innovationAlgorithm.InitialPopulation = InitialPopulationInnovation;
-            innovationAlgorithm.GenerationLimit = GenerationsInnovation;
-            innovationAlgorithm.MutationPercentage = MutationPercentageInnovation / 100.0;
-            innovationAlgorithm.ElitismPercentage = ElitismPercentageInnovation;
-            innovationAlgorithm.CrossoverType = CrossoverType;*/
+            algorithmRunning = true;
 
             ThreadPool.QueueUserWorkItem(new WaitCallback(_ =>
             {
-                innovationRunning = true;
-                innovationAlgorithm.Run(CurrentMap, callback);
-                innovationRunning = false;
+                //convergenceAlgorithm.Run(CurrentMap, callback);
+            }));
+
+            ThreadPool.QueueUserWorkItem(new WaitCallback(_ =>
+            {
+                //innovationAlgorithm.Run(CurrentMap, callback);
+            }));
+
+            ThreadPool.QueueUserWorkItem(new WaitCallback(_ =>
+            {
+                objectiveAlgorithm.Run(CurrentMap, callback);
             }));
         }
 
-        void AlgorithmRunCompleteCallback(Chromosome solution)
+        void AlgorithmRunCompleteCallback()
+        {
+            //if(innovationAlgorithm.HasSolution && convergenceAlgorithm.HasSolution && objectiveAlgorithm.HasSolution)
+            {
+                //var conv = convergenceAlgorithm.Solution.GetTop(1)[0];
+                //Logger.AppendText("Finished Innovation: " + innovationAlgorithm.Solution.GetTop(1)[0].Fitness);
+
+                //Logger.AppendText("Finished convergence: " + conv.Fitness);
+
+                Logger.AppendText("Finished objective: " + objectiveAlgorithm.Solution.GetTop(1)[0].Fitness);
+
+                //suggestionsMap.Add(APIClass.MapFromChromosome(OriginalMap, innovationAlgorithm.Solution.GetTop(1)[0]));
+                //suggestionsMap.Add(APIClass.MapFromChromosome(OriginalMap, conv));
+                suggestionsMap.Add(APIClass.MapFromChromosome(OriginalMap, objectiveAlgorithm.Solution.GetTop(1)[0]));
+            }
+        }
+
+        void ObjectiveRunCompleteCallback(Chromosome solution)
         {
             Debug.WriteLine("Recieved Solution!");
             Logger.AppendText("Suggestion updated!\n");

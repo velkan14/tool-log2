@@ -39,7 +39,7 @@ namespace Log2CyclePrototype
             NumericUpDown_Innovation_mutationPercentage_ValueChanged(null, null);
             NumericUpDown_Innovation_generations_ValueChanged(null, null);
             NumericUpDown_Innovation_elitismPercentage_ValueChanged(null, null);
-            core.CrossoverType = CrossoverType.FourByFourSquare;
+            core.CrossoverType = CrossoverT.FourByFourSquare;
             CheckBox_RandomPopCarryOver_CheckedChanged(null, null);
             CheckBox_keepPopulation_CheckedChanged(null, null);
         }
@@ -100,27 +100,27 @@ namespace Log2CyclePrototype
             {
                 if (itemTag.ToString().Contains("sp"))
                 {
-                    core.CrossoverType = CrossoverType.SinglePoint;
+                    core.CrossoverType = CrossoverT.SinglePoint;
                     Logger.AppendText("Crossover Type changed to Single Point");
                 }
                 else if (itemTag.ToString().Contains("dp"))
                 {
-                    core.CrossoverType = CrossoverType.DoublePoint;
+                    core.CrossoverType = CrossoverT.DoublePoint;
                     Logger.AppendText("Crossover Type changed to Double Point");
                 }
                 else if (itemTag.ToString().Contains("2x2s"))
                 {
-                    core.CrossoverType = CrossoverType.TwoByTwoSquare;
+                    core.CrossoverType = CrossoverT.TwoByTwoSquare;
                     Logger.AppendText("Crossover Type changed to custom 2x2 Square shape");
                 }
                 else if (itemTag.ToString().Contains("3x3s"))
                 {
-                    core.CrossoverType = CrossoverType.ThreeByThreeSquare;
+                    core.CrossoverType = CrossoverT.ThreeByThreeSquare;
                     Logger.AppendText("Crossover Type changed to custom 3x3 Square shape");
                 }
                 else if (itemTag.ToString().Contains("4x4s"))
                 {
-                    core.CrossoverType = CrossoverType.FourByFourSquare;
+                    core.CrossoverType = CrossoverT.FourByFourSquare;
                     Logger.AppendText("Crossover Type changed to custom 4x4 Square shape");
                 }
             }

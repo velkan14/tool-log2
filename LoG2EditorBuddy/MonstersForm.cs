@@ -163,18 +163,18 @@ namespace Log2CyclePrototype
 
         private void trackBar_hordes_Scroll(object sender, EventArgs e)
         {
-            core.HordesPercentage = trackBar_hordes.Value;
+            //core.HordesPercentage = trackBar_hordes.Value;
         }
 
         private void trackBar_mapobjects_Scroll(object sender, EventArgs e)
         {
-            core.MapObjectsPercentage = trackBar_mapobjects.Value;
+            //core.MapObjectsPercentage = trackBar_mapobjects.Value;
         }
 
 
         private void numericUpDown_maxmonsters_ValueChanged(object sender, EventArgs e)
         {
-            core.MaxMonsters = Convert.ToInt32(numericUpDown_maxmonsters.Value);
+            //core.MaxMonsters = Convert.ToInt32(numericUpDown_maxmonsters.Value);
         }
 
 

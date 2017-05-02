@@ -12,7 +12,7 @@ namespace Log2CyclePrototype
     class MonsterCrossover : IGeneticOperator
     {
         private ReplacementMethod replacementMethod;
-        private CrossoverType crossoverType;
+        private CrossoverT crossoverType;
         private double crossoverProbability;
 
         public event Crossover.CrossoverCompleteHandler OnCrossoverComplete;
@@ -23,7 +23,7 @@ namespace Log2CyclePrototype
 
         Population currentPopulation;
 
-        public MonsterCrossover(ReplacementMethod replacementMethod, CrossoverType crossoverType, double crossoverProbability, bool allowDuplicates)
+        public MonsterCrossover(ReplacementMethod replacementMethod, CrossoverT crossoverType, double crossoverProbability, bool allowDuplicates)
         {
             this.replacementMethod = replacementMethod;
             this.crossoverType = crossoverType;
@@ -115,7 +115,7 @@ namespace Log2CyclePrototype
 
             switch (crossoverType)
             {
-                case CrossoverType.SinglePoint:
+                case CrossoverT.SinglePoint:
                     {
                         int point = RandomProvider.GetThreadRandom().Next(1, solutionSize - 1);
                         crossoverData.Points.Add(point);
@@ -151,7 +151,7 @@ namespace Log2CyclePrototype
                     }
                     break;
 
-                case CrossoverType.DoublePoint:
+                case CrossoverT.DoublePoint:
                     {
                         int point1 = RandomProvider.GetThreadRandom().Next(1, solutionSize - 2);
                         int point2 = RandomProvider.GetThreadRandom().Next(point1 + 1, solutionSize - 1);

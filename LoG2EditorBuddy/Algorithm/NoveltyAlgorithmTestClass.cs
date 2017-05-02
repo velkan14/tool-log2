@@ -45,7 +45,7 @@ namespace Log2CyclePrototype
         public int InitialPopulationSize { get; set; }
         public float PercentChromosomesToInject { get; set; }
         public int NumChromosomesToRecieve { get; set; }
-        public CrossoverType CrossoverTypeSelected { get; set; }
+        public CrossoverT CrossoverTypeSelected { get; set; }
         public bool Initialized { get; internal set; }
         public double PercentElitism { get; set; }
         public double PercentMutation { get; set; }
@@ -171,26 +171,26 @@ namespace Log2CyclePrototype
             //crossover
             switch (CrossoverTypeSelected)
             {
-                case CrossoverType.TwoByTwoSquare:
+                case CrossoverT.TwoByTwoSquare:
                     _customCrossover = new CustomCrossover(0.8, true, CustomCrossover.Crossover2DShape.TwoByTwoSquare);
                     _ga.Operators.Add(_customCrossover);
                     break;
-                case CrossoverType.ThreeByThreeSquare:
+                case CrossoverT.ThreeByThreeSquare:
                     _customCrossover = new CustomCrossover(0.8, true, CustomCrossover.Crossover2DShape.ThreeByThreeSquare);
                     _ga.Operators.Add(_customCrossover);
                     break;
-                case CrossoverType.FourByFourSquare:
+                case CrossoverT.FourByFourSquare:
                     _customCrossover = new CustomCrossover(0.8, true, CustomCrossover.Crossover2DShape.FourByFourSquare);
                     _ga.Operators.Add(_customCrossover);
                     break;
-                case CrossoverType.SinglePoint:
+                case CrossoverT.SinglePoint:
                     _crossover = new Crossover(0.8)
                     {
                         CrossoverType = GAF.Operators.CrossoverType.SinglePoint
                     };
                     _ga.Operators.Add(_crossover);
                     break;
-                case CrossoverType.DoublePoint:
+                case CrossoverT.DoublePoint:
                     _crossover = new Crossover(0.8)
                     {
                         CrossoverType = GAF.Operators.CrossoverType.DoublePoint

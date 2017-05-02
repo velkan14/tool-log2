@@ -63,7 +63,7 @@ namespace Log2CyclePrototype
         public float PercentNoveltyChromosomesToRecieve { get; set; }
         public float PercentObjectiveChromosomesToKeep { get; set; }
         public PopulationCarryMethod NextPopulationCarryMethod { get; set; }
-        public CrossoverType CrossoverTypeSelected { get; set; }
+        public CrossoverT CrossoverTypeSelected { get; set; }
         public float PercentUserSketchInfluence { get; set; }
         public bool Initialized { get; internal set; }
         public double PercentElitism { get; set; }
@@ -86,7 +86,7 @@ namespace Log2CyclePrototype
             _chosenOnes = new List<Chromosome>();
             _rng = GAF.Threading.RandomProvider.GetThreadRandom();
             NextPopulationCarryMethod = PopulationCarryMethod.Random;
-            CrossoverTypeSelected = CrossoverType.FourByFourSquare;
+            CrossoverTypeSelected = CrossoverT.FourByFourSquare;
             PercentUserSketchInfluence = 10/100f;
             Initialized = false;
             UserSelectionPositiveFocus = new List<Point>();
@@ -106,7 +106,7 @@ namespace Log2CyclePrototype
             _previousObjectivePopulation = null;
             _chosenOnes = new List<Chromosome>();
             NextPopulationCarryMethod = PopulationCarryMethod.Random;
-            CrossoverTypeSelected = CrossoverType.FourByFourSquare;
+            CrossoverTypeSelected = CrossoverT.FourByFourSquare;
             PercentUserSketchInfluence = 10/100f;
             UserSelectionPositiveFocus = new List<Point>();
             Initialized = true;
@@ -184,26 +184,26 @@ namespace Log2CyclePrototype
             //crossover
             switch (CrossoverTypeSelected)
             {
-                case CrossoverType.TwoByTwoSquare:
+                case CrossoverT.TwoByTwoSquare:
                     _customCrossover = new CustomCrossover(0.8, true, CustomCrossover.Crossover2DShape.TwoByTwoSquare);
                     _ga.Operators.Add(_customCrossover);
                     break;
-                case CrossoverType.ThreeByThreeSquare:
+                case CrossoverT.ThreeByThreeSquare:
                     _customCrossover = new CustomCrossover(0.8, true, CustomCrossover.Crossover2DShape.ThreeByThreeSquare);
                     _ga.Operators.Add(_customCrossover);
                     break;
-                case CrossoverType.FourByFourSquare:
+                case CrossoverT.FourByFourSquare:
                     _customCrossover = new CustomCrossover(0.8, true, CustomCrossover.Crossover2DShape.FourByFourSquare);
                     _ga.Operators.Add(_customCrossover);
                     break;
-                case CrossoverType.SinglePoint:
+                case CrossoverT.SinglePoint:
                     _crossover = new Crossover(0.8)
                     {
                         CrossoverType = GAF.Operators.CrossoverType.SinglePoint
                     };
                     _ga.Operators.Add(_crossover);
                     break;
-                case CrossoverType.DoublePoint:
+                case CrossoverT.DoublePoint:
                     _crossover = new Crossover(0.8)
                     {
                         CrossoverType = GAF.Operators.CrossoverType.DoublePoint

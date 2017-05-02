@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using Log2CyclePrototype.LoG2API.Elements;
+using System.Linq;
 
 namespace Log2CyclePrototype.LoG2API
 {
@@ -174,6 +175,13 @@ namespace Log2CyclePrototype.LoG2API
             return null;
         }
 
+        public bool Exists(string elementType)
+        {
+            if (Monster != null && Monster.ElementType.Equals(elementType)) return true;
+            return elements.Exists(x => x.ElementType.Equals(elementType));
+        }
+
+
         /// <summary>
         /// Simple Manhattan distance between cells
         /// </summary>
@@ -225,6 +233,15 @@ namespace Log2CyclePrototype.LoG2API
             }
         }
 
-
+        internal bool RemoveElement(string type)
+        {
+            var itemToRemove = elements.SingleOrDefault(r => r.ElementType.Equals(type));
+            if (itemToRemove != null)
+            {
+                elements.Remove(itemToRemove);
+                return true;
+            }
+            return false; 
+        }
     }
 }

@@ -48,7 +48,7 @@ namespace Log2CyclePrototype
         private ObjectiveAlgorithmTestClass _objAlgTest;
         private NoveltyAlgorithmTestClass _novAlgTest;
         private bool _algorithmsInitialized = false;
-        private CrossoverType CurrentCrossoverSelection { get; set; }
+        private CrossoverT CurrentCrossoverSelection { get; set; }
         public static object fileLock = new object();
 
         public static EventWaitHandle noveltySyncHandle = new EventWaitHandle(false, EventResetMode.AutoReset);
@@ -1807,27 +1807,27 @@ namespace Log2CyclePrototype
             {
                 if (itemTag.ToString().Contains("sp"))
                 {
-                    CurrentCrossoverSelection = CrossoverType.SinglePoint;
+                    CurrentCrossoverSelection = CrossoverT.SinglePoint;
                     Logger.AppendText("Crossover Type changed to Single Point");
                 }
                 else if (itemTag.ToString().Contains("dp"))
                 {
-                    CurrentCrossoverSelection = CrossoverType.DoublePoint;
+                    CurrentCrossoverSelection = CrossoverT.DoublePoint;
                     Logger.AppendText("Crossover Type changed to Double Point");
                 }
                 else if (itemTag.ToString().Contains("2x2s"))
                 {
-                    CurrentCrossoverSelection = CrossoverType.TwoByTwoSquare;
+                    CurrentCrossoverSelection = CrossoverT.TwoByTwoSquare;
                     Logger.AppendText("Crossover Type changed to custom 2x2 Square shape");
                 }
                 else if (itemTag.ToString().Contains("3x3s"))
                 {
-                    CurrentCrossoverSelection = CrossoverType.ThreeByThreeSquare;
+                    CurrentCrossoverSelection = CrossoverT.ThreeByThreeSquare;
                     Logger.AppendText("Crossover Type changed to custom 3x3 Square shape");
                 }
                 else if (itemTag.ToString().Contains("4x4s"))
                 {
-                    CurrentCrossoverSelection = CrossoverType.FourByFourSquare;
+                    CurrentCrossoverSelection = CrossoverT.FourByFourSquare;
                     Logger.AppendText("Crossover Type changed to custom 4x4 Square shape");
                 }
             }
@@ -2185,7 +2185,7 @@ namespace Log2CyclePrototype
 
             solutionHistory = new List<Map>();
             _userSelectedPoints = _userSelectedCellsToErase = new List<Point>();                        
-            CurrentCrossoverSelection = CrossoverType.FourByFourSquare;
+            CurrentCrossoverSelection = CrossoverT.FourByFourSquare;
             
 
             //_actHook = new UserActivityHook(true, false); // crate an instance with global hooks (mouse on / keyboard on)
