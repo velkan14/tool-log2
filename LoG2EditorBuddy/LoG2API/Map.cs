@@ -8,22 +8,6 @@ using System.Drawing;
 namespace Log2CyclePrototype.LoG2API
 {
 
-    public class PuzzleConnection
-    {
-        private MapElement _element1, _element2;
-
-        public MapElement[] Elements
-        {
-            get { return new MapElement[2] { _element1, _element2 }; }
-        }
-
-        public PuzzleConnection(MapElement ele1, MapElement ele2)
-        {
-            _element1 = ele1;
-            _element2 = ele2;
-        }
-    }
-
     [Serializable]
     public class Map : DrawAbstract
     {
