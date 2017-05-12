@@ -18,6 +18,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
 
 namespace Log2CyclePrototype
 {
@@ -29,6 +30,7 @@ namespace Log2CyclePrototype
         private Core core;
         private UserSelection userSelection;
         Layer layerDifficulty, layerItens, layerMonsters, layerResources;
+        AreaManager areaManager;
         Image lastImage;
 
         public Monsters()
@@ -52,6 +54,7 @@ namespace Log2CyclePrototype
 
             Logger.EntryWritten += Logger_EntryWritten;
 
+            difficultyDataGridViewTextBoxColumn.DataSource = Enum.GetValues(typeof(Difficulty));
 
             settingsForm = new Settings(core);
             initializeParameters(); //FIXME: Talvez não seja a forma correcta de o fazer
@@ -66,9 +69,17 @@ namespace Log2CyclePrototype
             layerMonsters = new Layer(this, core.OriginalMap, gridPanel, panel_palette_monsters, Color.IndianRed);
             layerResources = new Layer(this, core.OriginalMap, gridPanel, panel_palette_resources, Color.Yellow);
 
+            areaManager = new AreaManager(core.OriginalMap, gridPanel);
+
+            
 
             Invoke((MethodInvoker)(() =>
             {
+                foreach(Area a in areaManager.AreaList)
+                {
+                    areaBindingSource.Add(a);
+                }
+
                 groupBox_layer_difficulty.Enabled = true;
                 groupBox_layer_itens.Enabled = true;
                 groupBox_layer_monsters.Enabled = true;
@@ -376,6 +387,35 @@ namespace Log2CyclePrototype
             }
         }
 
+        private void dataGridView_SelectionChanged(object sender, EventArgs e)
+        {
+            foreach (DataGridViewRow row in dataGridView.Rows)
+            {
+                if (row.Selected)
+                {
+                    areaManager.SetSelected((string)row.Cells[0].Value);
+                } else{
+                    areaManager.SetUnselected((string)row.Cells[0].Value);
+                }
+            }
+            areaManager.SetSelected((string)dataGridView.CurrentRow.Cells[0].Value);
+            if (lastImage != null) ReDraw();
+        }
+
+        private void dataGridView_CurrentCellDirtyStateChanged(object sender,
+            EventArgs e)
+        {
+            if (dataGridView.IsCurrentCellDirty)
+            {
+                dataGridView.CommitEdit(DataGridViewDataErrorContexts.Commit);
+            }
+        }
+
+        private void dataGridView_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            if (lastImage != null) ReDraw();
+        }
+
         private void button_settings_Click(object sender, EventArgs e)
         {
             settingsForm.Show();
@@ -390,6 +430,8 @@ namespace Log2CyclePrototype
             if (layerMonsters != null) image = layerMonsters.Draw(gridPanel.Width, gridPanel.Height, image);
             if (layerResources != null) image = layerResources.Draw(gridPanel.Width, gridPanel.Height, image);
             if (userSelection != null && userSelection.Attached) image = userSelection.Draw(gridPanel.Width, gridPanel.Height, image);
+
+            image = areaManager.Draw(gridPanel.Width, gridPanel.Height, image);
 
             gridPanel.BackgroundImage = image;
 

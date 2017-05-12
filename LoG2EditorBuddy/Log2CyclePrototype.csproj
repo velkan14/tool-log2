@@ -113,6 +113,7 @@
     <Reference Include="System.Data">
       <Name>System.Data</Name>
     </Reference>
+    <Reference Include="System.DirectoryServices" />
     <Reference Include="System.Drawing">
       <Name>System.Drawing</Name>
     </Reference>
@@ -160,6 +161,9 @@
     <Compile Include="Exceptions\CurrentMapNullException.cs" />
     <Compile Include="FileWatcher.cs" />
     <Compile Include="Hook.cs" />
+    <Compile Include="Layers\Area.cs" />
+    <Compile Include="Layers\AreaManager.cs" />
+    <Compile Include="Layers\DifficultyEnum.cs" />
     <Compile Include="Layers\Layer.cs" />
     <Compile Include="Layers\Palette.cs" />
     <Compile Include="Layers\Value.cs" />
@@ -259,6 +263,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Properties\DataSources\Log2CyclePrototype.Layers.Area.datasource" />
+    <None Include="Properties\DataSources\Log2CyclePrototype.Layers.Areas.datasource" />
     <None Include="Resources\wrench_icon.png" />
   </ItemGroup>
   <ItemGroup>

@@ -38,6 +38,8 @@
             this.trackBar_objective = new System.Windows.Forms.TrackBar();
             this.groupBox_mainsliders = new System.Windows.Forms.GroupBox();
             this.groupBox_objectives = new System.Windows.Forms.GroupBox();
+            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.label_maxitens = new System.Windows.Forms.Label();
             this.numericUpDown_maxmonsters = new System.Windows.Forms.NumericUpDown();
             this.trackBar_mapobjects = new System.Windows.Forms.TrackBar();
             this.trackBar_hordes = new System.Windows.Forms.TrackBar();
@@ -79,13 +81,21 @@
             this.toolTip_panel = new System.Windows.Forms.ToolTip(this.components);
             this.button_newSuggestion = new System.Windows.Forms.Button();
             this.trackBar_history = new System.Windows.Forms.TrackBar();
-            this.label_maxitens = new System.Windows.Forms.Label();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.dataGridView = new System.Windows.Forms.DataGridView();
+            this.nameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.difficultyDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.Visible = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.areaBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.dataGridViewComboBoxColumn1 = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.dataGridViewComboBoxColumn2 = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.dataGridViewButtonColumn1 = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.areasBindingSource = new System.Windows.Forms.BindingSource(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_innovation)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_userplacement)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_objective)).BeginInit();
             this.groupBox_mainsliders.SuspendLayout();
             this.groupBox_objectives.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_maxmonsters)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_mapobjects)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_hordes)).BeginInit();
@@ -96,7 +106,9 @@
             this.groupBox_layer_monsters.SuspendLayout();
             this.groupBox_layer_resources.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_history)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.areaBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.areasBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // label_innovation
@@ -193,6 +205,27 @@
             this.groupBox_objectives.TabIndex = 7;
             this.groupBox_objectives.TabStop = false;
             this.groupBox_objectives.Text = "Objective Parameters ";
+            // 
+            // numericUpDown1
+            // 
+            this.numericUpDown1.Location = new System.Drawing.Point(160, 50);
+            this.numericUpDown1.Name = "numericUpDown1";
+            this.numericUpDown1.Size = new System.Drawing.Size(103, 20);
+            this.numericUpDown1.TabIndex = 10;
+            this.numericUpDown1.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            // 
+            // label_maxitens
+            // 
+            this.label_maxitens.AutoSize = true;
+            this.label_maxitens.Location = new System.Drawing.Point(11, 52);
+            this.label_maxitens.Name = "label_maxitens";
+            this.label_maxitens.Size = new System.Drawing.Size(70, 13);
+            this.label_maxitens.TabIndex = 9;
+            this.label_maxitens.Text = "Number Itens";
             // 
             // numericUpDown_maxmonsters
             // 
@@ -596,32 +629,87 @@
             this.trackBar_history.Size = new System.Drawing.Size(206, 45);
             this.trackBar_history.TabIndex = 19;
             // 
-            // label_maxitens
+            // dataGridView
             // 
-            this.label_maxitens.AutoSize = true;
-            this.label_maxitens.Location = new System.Drawing.Point(11, 52);
-            this.label_maxitens.Name = "label_maxitens";
-            this.label_maxitens.Size = new System.Drawing.Size(70, 13);
-            this.label_maxitens.TabIndex = 9;
-            this.label_maxitens.Text = "Number Itens";
+            this.dataGridView.AllowUserToResizeColumns = false;
+            this.dataGridView.AllowUserToResizeRows = false;
+            this.dataGridView.AutoGenerateColumns = false;
+            this.dataGridView.BackgroundColor = System.Drawing.SystemColors.Control;
+            this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.nameDataGridViewTextBoxColumn,
+            this.difficultyDataGridViewTextBoxColumn,
+            this.Visible});
+            this.dataGridView.DataSource = this.areaBindingSource;
+            this.dataGridView.Location = new System.Drawing.Point(940, 270);
+            this.dataGridView.Name = "dataGridView";
+            this.dataGridView.Size = new System.Drawing.Size(213, 170);
+            this.dataGridView.TabIndex = 20;
+            this.dataGridView.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellValueChanged);
+            this.dataGridView.CurrentCellDirtyStateChanged += new System.EventHandler(this.dataGridView_CurrentCellDirtyStateChanged);
+            this.dataGridView.SelectionChanged += new System.EventHandler(this.dataGridView_SelectionChanged);
             // 
-            // numericUpDown1
+            // nameDataGridViewTextBoxColumn
             // 
-            this.numericUpDown1.Location = new System.Drawing.Point(160, 50);
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(103, 20);
-            this.numericUpDown1.TabIndex = 10;
-            this.numericUpDown1.Value = new decimal(new int[] {
-            5,
-            0,
-            0,
-            0});
+            this.nameDataGridViewTextBoxColumn.DataPropertyName = "Name";
+            this.nameDataGridViewTextBoxColumn.HeaderText = "Name";
+            this.nameDataGridViewTextBoxColumn.Name = "nameDataGridViewTextBoxColumn";
+            this.nameDataGridViewTextBoxColumn.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.nameDataGridViewTextBoxColumn.Width = 60;
+            // 
+            // difficultyDataGridViewTextBoxColumn
+            // 
+            this.difficultyDataGridViewTextBoxColumn.DataPropertyName = "Difficulty";
+            this.difficultyDataGridViewTextBoxColumn.HeaderText = "Difficulty";
+            this.difficultyDataGridViewTextBoxColumn.Name = "difficultyDataGridViewTextBoxColumn";
+            this.difficultyDataGridViewTextBoxColumn.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.difficultyDataGridViewTextBoxColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.difficultyDataGridViewTextBoxColumn.Width = 70;
+            // 
+            // Visible
+            // 
+            this.Visible.DataPropertyName = "Visible";
+            this.Visible.HeaderText = "Visible";
+            this.Visible.Name = "Visible";
+            this.Visible.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.Visible.Width = 40;
+            // 
+            // areaBindingSource
+            // 
+            this.areaBindingSource.DataSource = typeof(Log2CyclePrototype.Layers.Area);
+            // 
+            // dataGridViewComboBoxColumn1
+            // 
+            this.dataGridViewComboBoxColumn1.DataPropertyName = "Difficulty";
+            this.dataGridViewComboBoxColumn1.HeaderText = "Difficulty";
+            this.dataGridViewComboBoxColumn1.Items.AddRange(new object[] {
+            "Easy",
+            "Medium",
+            "Hard"});
+            this.dataGridViewComboBoxColumn1.Name = "dataGridViewComboBoxColumn1";
+            // 
+            // dataGridViewComboBoxColumn2
+            // 
+            this.dataGridViewComboBoxColumn2.DataPropertyName = "Difficulty";
+            this.dataGridViewComboBoxColumn2.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.ComboBox;
+            this.dataGridViewComboBoxColumn2.HeaderText = "Difficulty";
+            this.dataGridViewComboBoxColumn2.Name = "dataGridViewComboBoxColumn2";
+            // 
+            // dataGridViewButtonColumn1
+            // 
+            this.dataGridViewButtonColumn1.HeaderText = "Visible";
+            this.dataGridViewButtonColumn1.Name = "dataGridViewButtonColumn1";
+            // 
+            // areasBindingSource
+            // 
+            this.areasBindingSource.DataSource = typeof(Log2CyclePrototype.Layers.AreaManager);
             // 
             // Monsters
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1165, 685);
+            this.Controls.Add(this.dataGridView);
             this.Controls.Add(this.trackBar_history);
             this.Controls.Add(this.textBox_logger);
             this.Controls.Add(this.button_newSuggestion);
@@ -650,6 +738,7 @@
             this.groupBox_mainsliders.PerformLayout();
             this.groupBox_objectives.ResumeLayout(false);
             this.groupBox_objectives.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_maxmonsters)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_mapobjects)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_hordes)).EndInit();
@@ -661,7 +750,9 @@
             this.groupBox_layer_monsters.ResumeLayout(false);
             this.groupBox_layer_resources.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_history)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.areaBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.areasBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -720,5 +811,16 @@
         private System.Windows.Forms.TrackBar trackBar_history;
         private System.Windows.Forms.NumericUpDown numericUpDown1;
         private System.Windows.Forms.Label label_maxitens;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn visibleDataGridViewCheckBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn aDataGridViewTextBoxColumn;
+        private System.Windows.Forms.BindingSource areasBindingSource;
+        private System.Windows.Forms.DataGridView dataGridView;
+        private System.Windows.Forms.BindingSource areaBindingSource;
+        private System.Windows.Forms.DataGridViewComboBoxColumn dataGridViewComboBoxColumn1;
+        private System.Windows.Forms.DataGridViewComboBoxColumn dataGridViewComboBoxColumn2;
+        private System.Windows.Forms.DataGridViewButtonColumn dataGridViewButtonColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn nameDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewComboBoxColumn difficultyDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn Visible;
     }
 }
