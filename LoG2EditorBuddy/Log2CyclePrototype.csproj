@@ -135,17 +135,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Algorithm\ConvergenceAlgorithm.cs" />
+    <Compile Include="Algorithm\ConvergencePool.cs" />
     <Compile Include="Algorithm\CrossoverIndex.cs" />
     <Compile Include="Algorithm\CrossoverT.cs" />
     <Compile Include="Algorithm\CustomCrossover.cs" />
     <Compile Include="Algorithm\CustomSwapMutate.cs" />
-    <Compile Include="Algorithm\InnovationAlgorithm.cs" />
+    <Compile Include="Algorithm\InnovationPool.cs" />
     <Compile Include="Algorithm\MazeSolver.cs" />
+    <Compile Include="Algorithm\MixAlgorithm.cs" />
     <Compile Include="Algorithm\MonsterCrossover.cs" />
     <Compile Include="Algorithm\MonsterMutate.cs" />
     <Compile Include="Algorithm\NoveltyAlgorithmTestClass.cs" />
-    <Compile Include="Algorithm\ObjectiveAlgorithm.cs" />
+    <Compile Include="Algorithm\GuidelinePool.cs" />
     <Compile Include="Algorithm\ObjectiveAlgorithmTestClass.cs" />
     <Compile Include="Algorithm\SearchUtils.cs" />
     <Compile Include="Controls\TrianglePicker.cs">

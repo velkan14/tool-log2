@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Log2CyclePrototype.Algorithm
 {
-    class ObjectiveAlgorithm
+    class GuidelinePool
     {
         public int InitialPopulation { get; set; }
         public int GenerationLimit { get; set; }
@@ -20,9 +20,6 @@ namespace Log2CyclePrototype.Algorithm
         /*******************************************************/
         /*********************Parameters************************/
         /*******************************************************/
-        public float ObjectivePercentage { get; set; }
-        public float InnovationPercentage { get; set; }
-        public float UserPercentage { get; set; }
               
         public int MaxMonsters { get; set; }
         public int MaxItens { get; set; }
@@ -39,17 +36,13 @@ namespace Log2CyclePrototype.Algorithm
         public bool HasSolution { get; private set; }
         public Population Solution { get; private set; }
 
-        public ObjectiveAlgorithm()
+        public GuidelinePool()
         {
             InitialPopulation = 100;
             GenerationLimit = 200;
-            MutationPercentage = 1.0;
-            CrossOverPercentage = 0.4;
-            ElitismPercentage = 5;
-
-            ObjectivePercentage = 1.0f;
-            InnovationPercentage = 0.4f;
-            UserPercentage = 0.4f;
+            MutationPercentage = 0.1;
+            CrossOverPercentage = 0.5;
+            ElitismPercentage = 0;
 
             MaxMonsters = 7;
             MaxItens = 5;
@@ -90,7 +83,6 @@ namespace Log2CyclePrototype.Algorithm
             ga.OnRunComplete += OnRunComplete;
 
             //run the GA
-            Logger.AppendText("Started the run");
             running = true;
             ga.Run(TerminateFunction);
         }

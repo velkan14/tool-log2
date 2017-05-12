@@ -79,6 +79,8 @@
             this.toolTip_panel = new System.Windows.Forms.ToolTip(this.components);
             this.button_newSuggestion = new System.Windows.Forms.Button();
             this.trackBar_history = new System.Windows.Forms.TrackBar();
+            this.label_maxitens = new System.Windows.Forms.Label();
+            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_innovation)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_userplacement)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_objective)).BeginInit();
@@ -94,6 +96,7 @@
             this.groupBox_layer_monsters.SuspendLayout();
             this.groupBox_layer_resources.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_history)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.SuspendLayout();
             // 
             // label_innovation
@@ -176,6 +179,8 @@
             // 
             // groupBox_objectives
             // 
+            this.groupBox_objectives.Controls.Add(this.numericUpDown1);
+            this.groupBox_objectives.Controls.Add(this.label_maxitens);
             this.groupBox_objectives.Controls.Add(this.numericUpDown_maxmonsters);
             this.groupBox_objectives.Controls.Add(this.trackBar_mapobjects);
             this.groupBox_objectives.Controls.Add(this.trackBar_hordes);
@@ -184,22 +189,27 @@
             this.groupBox_objectives.Controls.Add(this.label_maxmonsters);
             this.groupBox_objectives.Location = new System.Drawing.Point(12, 215);
             this.groupBox_objectives.Name = "groupBox_objectives";
-            this.groupBox_objectives.Size = new System.Drawing.Size(274, 139);
+            this.groupBox_objectives.Size = new System.Drawing.Size(274, 187);
             this.groupBox_objectives.TabIndex = 7;
             this.groupBox_objectives.TabStop = false;
             this.groupBox_objectives.Text = "Objective Parameters ";
             // 
             // numericUpDown_maxmonsters
             // 
-            this.numericUpDown_maxmonsters.Location = new System.Drawing.Point(164, 24);
+            this.numericUpDown_maxmonsters.Location = new System.Drawing.Point(160, 24);
             this.numericUpDown_maxmonsters.Name = "numericUpDown_maxmonsters";
             this.numericUpDown_maxmonsters.Size = new System.Drawing.Size(103, 20);
             this.numericUpDown_maxmonsters.TabIndex = 8;
+            this.numericUpDown_maxmonsters.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
             this.numericUpDown_maxmonsters.ValueChanged += new System.EventHandler(this.numericUpDown_maxmonsters_ValueChanged);
             // 
             // trackBar_mapobjects
             // 
-            this.trackBar_mapobjects.Location = new System.Drawing.Point(126, 85);
+            this.trackBar_mapobjects.Location = new System.Drawing.Point(126, 127);
             this.trackBar_mapobjects.Maximum = 100;
             this.trackBar_mapobjects.Name = "trackBar_mapobjects";
             this.trackBar_mapobjects.Size = new System.Drawing.Size(143, 45);
@@ -209,7 +219,7 @@
             // 
             // trackBar_hordes
             // 
-            this.trackBar_hordes.Location = new System.Drawing.Point(126, 55);
+            this.trackBar_hordes.Location = new System.Drawing.Point(126, 76);
             this.trackBar_hordes.Maximum = 100;
             this.trackBar_hordes.Name = "trackBar_hordes";
             this.trackBar_hordes.Size = new System.Drawing.Size(142, 45);
@@ -220,7 +230,7 @@
             // label_mapobjects
             // 
             this.label_mapobjects.AutoSize = true;
-            this.label_mapobjects.Location = new System.Drawing.Point(11, 87);
+            this.label_mapobjects.Location = new System.Drawing.Point(11, 127);
             this.label_mapobjects.Name = "label_mapobjects";
             this.label_mapobjects.Size = new System.Drawing.Size(67, 13);
             this.label_mapobjects.TabIndex = 3;
@@ -229,7 +239,7 @@
             // label_hordes
             // 
             this.label_hordes.AutoSize = true;
-            this.label_hordes.Location = new System.Drawing.Point(11, 55);
+            this.label_hordes.Location = new System.Drawing.Point(11, 76);
             this.label_hordes.Name = "label_hordes";
             this.label_hordes.Size = new System.Drawing.Size(41, 13);
             this.label_hordes.TabIndex = 2;
@@ -240,9 +250,9 @@
             this.label_maxmonsters.AutoSize = true;
             this.label_maxmonsters.Location = new System.Drawing.Point(11, 26);
             this.label_maxmonsters.Name = "label_maxmonsters";
-            this.label_maxmonsters.Size = new System.Drawing.Size(73, 13);
+            this.label_maxmonsters.Size = new System.Drawing.Size(90, 13);
             this.label_maxmonsters.TabIndex = 0;
-            this.label_maxmonsters.Text = "Max Monsters";
+            this.label_maxmonsters.Text = "Number Monsters";
             // 
             // textBox_logger
             // 
@@ -420,7 +430,7 @@
             this.groupBox_layer_difficulty.Controls.Add(this.button_visibility_difficulty);
             this.groupBox_layer_difficulty.Controls.Add(this.panel_palett_difficulty);
             this.groupBox_layer_difficulty.Enabled = false;
-            this.groupBox_layer_difficulty.Location = new System.Drawing.Point(12, 360);
+            this.groupBox_layer_difficulty.Location = new System.Drawing.Point(12, 408);
             this.groupBox_layer_difficulty.Name = "groupBox_layer_difficulty";
             this.groupBox_layer_difficulty.Size = new System.Drawing.Size(171, 56);
             this.groupBox_layer_difficulty.TabIndex = 15;
@@ -463,7 +473,7 @@
             this.groupBox_layer_itens.Controls.Add(this.button_visibility_itens);
             this.groupBox_layer_itens.Controls.Add(this.panel_palette_itens);
             this.groupBox_layer_itens.Enabled = false;
-            this.groupBox_layer_itens.Location = new System.Drawing.Point(12, 422);
+            this.groupBox_layer_itens.Location = new System.Drawing.Point(12, 470);
             this.groupBox_layer_itens.Name = "groupBox_layer_itens";
             this.groupBox_layer_itens.Size = new System.Drawing.Size(171, 56);
             this.groupBox_layer_itens.TabIndex = 16;
@@ -499,7 +509,7 @@
             this.groupBox_layer_monsters.Controls.Add(this.button_visibility_monsters);
             this.groupBox_layer_monsters.Controls.Add(this.panel_palette_monsters);
             this.groupBox_layer_monsters.Enabled = false;
-            this.groupBox_layer_monsters.Location = new System.Drawing.Point(12, 484);
+            this.groupBox_layer_monsters.Location = new System.Drawing.Point(12, 532);
             this.groupBox_layer_monsters.Name = "groupBox_layer_monsters";
             this.groupBox_layer_monsters.Size = new System.Drawing.Size(171, 56);
             this.groupBox_layer_monsters.TabIndex = 17;
@@ -535,7 +545,7 @@
             this.groupBox_layer_resources.Controls.Add(this.button_visibility_resources);
             this.groupBox_layer_resources.Controls.Add(this.panel_palette_resources);
             this.groupBox_layer_resources.Enabled = false;
-            this.groupBox_layer_resources.Location = new System.Drawing.Point(12, 546);
+            this.groupBox_layer_resources.Location = new System.Drawing.Point(12, 594);
             this.groupBox_layer_resources.Name = "groupBox_layer_resources";
             this.groupBox_layer_resources.Size = new System.Drawing.Size(171, 56);
             this.groupBox_layer_resources.TabIndex = 17;
@@ -586,6 +596,27 @@
             this.trackBar_history.Size = new System.Drawing.Size(206, 45);
             this.trackBar_history.TabIndex = 19;
             // 
+            // label_maxitens
+            // 
+            this.label_maxitens.AutoSize = true;
+            this.label_maxitens.Location = new System.Drawing.Point(11, 52);
+            this.label_maxitens.Name = "label_maxitens";
+            this.label_maxitens.Size = new System.Drawing.Size(70, 13);
+            this.label_maxitens.TabIndex = 9;
+            this.label_maxitens.Text = "Number Itens";
+            // 
+            // numericUpDown1
+            // 
+            this.numericUpDown1.Location = new System.Drawing.Point(160, 50);
+            this.numericUpDown1.Name = "numericUpDown1";
+            this.numericUpDown1.Size = new System.Drawing.Size(103, 20);
+            this.numericUpDown1.TabIndex = 10;
+            this.numericUpDown1.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            // 
             // Monsters
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -630,6 +661,7 @@
             this.groupBox_layer_monsters.ResumeLayout(false);
             this.groupBox_layer_resources.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_history)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -686,5 +718,7 @@
         private System.Windows.Forms.Button button_newSuggestion;
         private System.Windows.Forms.Button button_select;
         private System.Windows.Forms.TrackBar trackBar_history;
+        private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.Label label_maxitens;
     }
 }

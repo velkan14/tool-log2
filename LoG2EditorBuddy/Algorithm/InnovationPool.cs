@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Log2CyclePrototype
 {
-    class InnovationAlgorithm
+    class InnovationPool
     {
         public int InitialPopulation { get; set; }
         public int GenerationLimit { get; set; }
@@ -30,10 +30,10 @@ namespace Log2CyclePrototype
         public Population Solution { get; private set; }
 
 
-        public InnovationAlgorithm()
+        public InnovationPool()
         {
             InitialPopulation = 100;
-            GenerationLimit = 100;
+            GenerationLimit = 200;
             MutationPercentage = 0.35;
             CrossOverPercentage = 0.4;
             ElitismPercentage = 5;
@@ -53,13 +53,13 @@ namespace Log2CyclePrototype
 
             //we can create an empty population as we will be creating the 
             //initial solutions manually.
-            var population = new Population(InitialPopulation, currentMap.SpawnCells.Count * 5);
+            var population = new Population(InitialPopulation, currentMap.SpawnCells.Count * APIClass.NUMBER_GENES);
 
             //create the elite operator
             var elite = new Elite(ElitismPercentage);
 
             //create the crossover operator
-            var crossover = new Crossover(CrossOverPercentage, true, GAF.Operators.CrossoverType.DoublePoint, ReplacementMethod.GenerationalReplacement);
+            var crossover = new CrossoverIndex(CrossOverPercentage, APIClass.NUMBER_GENES, true, GAF.Operators.CrossoverType.DoublePoint, ReplacementMethod.GenerationalReplacement);
             //create the mutation operator
             var mutate = new BinaryMutate(MutationPercentage);
             //create the GA
@@ -75,14 +75,13 @@ namespace Log2CyclePrototype
             
 
             //run the GA
-            Logger.AppendText("Started the run");
             running = true;
             ga.Run(TerminateFunction);
         }
 
         private double CalculateFitnessBinary(Chromosome chromosome)
         {
-            double fitness = 0.0; // Value between 0 and 1. 1 is the fittest
+            double positionFitness = 0.0; // Value between 0 and 1. 1 is the fittest
 
             string binaryString = chromosome.ToBinaryString();
 
@@ -96,7 +95,7 @@ namespace Log2CyclePrototype
                     //Turtle
                     if (!cells[i].Exists("turtle"))
                     {
-                        fitness++;
+                        positionFitness++;
                     }
                 }
                 else if (j == 12 || j == 13 || j == 14 || j == 15 || j == 16 || j == 17 || j == 18 || j == 19 || j == 20 || j == 21 || j == 22)
@@ -104,7 +103,7 @@ namespace Log2CyclePrototype
                     //Mummy
                     if (!cells[i].Exists("mummy"))
                     {
-                        fitness++;
+                        positionFitness++;
                     }
                 }
                 else if (j == 23 || j == 24 || j == 25 || j == 26 || j == 27 || j == 28 || j == 29 || j == 30 || j == 31 || j == 32)
@@ -112,7 +111,7 @@ namespace Log2CyclePrototype
                     //Skeleton
                     if (!cells[i].Exists("skeleton_trooper"))
                     {
-                        fitness++;
+                        positionFitness++;
                     }
                 }
                 else if (j == 33 || j == 34 || j == 35)
@@ -120,7 +119,7 @@ namespace Log2CyclePrototype
                     //Cudgel
                     if (!cells[i].Exists("cudgel"))
                     {
-                        fitness++;
+                        positionFitness++;
                     }
                 }
                 else if (j == 36 || j == 37 || j == 38)
@@ -128,7 +127,7 @@ namespace Log2CyclePrototype
                     //Machete
                     if (!cells[i].Exists("machete"))
                     {
-                        fitness++;
+                        positionFitness++;
                     }
                 }
                 else if (j == 39 || j == 40 || j == 41)
@@ -136,7 +135,7 @@ namespace Log2CyclePrototype
                     //Rapier
                     if (!cells[i].Exists("rapier"))
                     {
-                        fitness++;
+                        positionFitness++;
                     }
                 }
                 else if (j == 42 || j == 43 || j == 44)
@@ -144,7 +143,7 @@ namespace Log2CyclePrototype
                     //Battle Axe
                     if (!cells[i].Exists("battle_axe"))
                     {
-                        fitness++;
+                        positionFitness++;
                     }
                 }
                 else if (j == 45 || j == 46 || j == 47 || j == 48)
@@ -152,7 +151,7 @@ namespace Log2CyclePrototype
                     //Potion
                     if (!cells[i].Exists("potion_healing"))
                     {
-                        fitness++;
+                        positionFitness++;
                     }
                 }
                 else if (j == 49 || j == 50 || j == 51)
@@ -160,7 +159,7 @@ namespace Log2CyclePrototype
                     //Borra
                     if (!cells[i].Exists("borra"))
                     {
-                        fitness++;
+                        positionFitness++;
                     }
                 }
                 else if (j == 52 || j == 53 || j == 54)
@@ -168,7 +167,7 @@ namespace Log2CyclePrototype
                     //Bread
                     if (!cells[i].Exists("bread"))
                     {
-                        fitness++;
+                        positionFitness++;
                     }
                 }
                 else if (j == 55 || j == 56)
@@ -176,7 +175,7 @@ namespace Log2CyclePrototype
                     //Peasant cap
                     if (!cells[i].Exists("peasant_cap"))
                     {
-                        fitness++;
+                        positionFitness++;
                     }
                 }
                 else if (j == 57 || j == 58)
@@ -184,7 +183,7 @@ namespace Log2CyclePrototype
                     //Peasant breeches
                     if (!cells[i].Exists("peasant_breeches"))
                     {
-                        fitness++;
+                        positionFitness++;
                     }
                 }
                 else if (j == 59)
@@ -192,7 +191,7 @@ namespace Log2CyclePrototype
                     //Peasant tunic
                     if (!cells[i].Exists("peasant_tunic"))
                     {
-                        fitness++;
+                        positionFitness++;
                     }
                 }
                 else if (j == 60)
@@ -200,7 +199,7 @@ namespace Log2CyclePrototype
                     //Sandals
                     if (!cells[i].Exists("sandals"))
                     {
-                        fitness++;
+                        positionFitness++;
                     }
                 }
                 else if (j == 61)
@@ -208,7 +207,7 @@ namespace Log2CyclePrototype
                     //Leather cap
                     if (!cells[i].Exists("leather_cap"))
                     {
-                        fitness++;
+                        positionFitness++;
                     }
                 }
                 else if (j == 62)
@@ -216,7 +215,7 @@ namespace Log2CyclePrototype
                     //Leather brigandine
                     if (!cells[i].Exists("leather_brigandine"))
                     {
-                        fitness++;
+                        positionFitness++;
                     }
                 }
                 else if (j == 63)
@@ -224,7 +223,7 @@ namespace Log2CyclePrototype
                     //Leather pants
                     if (!cells[i].Exists("leather_pants"))
                     {
-                        fitness++;
+                        positionFitness++;
                     }
                 }
                 else if (j == 64)
@@ -232,7 +231,7 @@ namespace Log2CyclePrototype
                     //Leather boots
                     if (!cells[i].Exists("leather_boots"))
                     {
-                        fitness++;
+                        positionFitness++;
                     }
                 }
                 else
@@ -257,14 +256,14 @@ namespace Log2CyclePrototype
                         !cells[i].Exists("leather_pants") &&
                         !cells[i].Exists("leather_boots"))
                     {
-                        fitness++;
+                        positionFitness++;
                     }
                 }
             }
 
-            fitness = fitness / cells.Count;
+            positionFitness = positionFitness / cells.Count;
 
-            return fitness;
+            return positionFitness;
         }
 
         private bool TerminateFunction(Population population, int currentGeneration, long currentEvaluation)

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Log2CyclePrototype.Algorithm
 {
-    class ConvergenceAlgorithm
+    class ConvergencePool
     {
         public int InitialPopulation { get; set; }
         public int GenerationLimit { get; set; }
@@ -29,10 +29,10 @@ namespace Log2CyclePrototype.Algorithm
         public Population Solution { get; private set; }
 
 
-        public ConvergenceAlgorithm()
+        public ConvergencePool()
         {
-            InitialPopulation = 200;
-            GenerationLimit = 1000;
+            InitialPopulation = 100;
+            GenerationLimit = 200;
             MutationPercentage = 0.7;
             CrossOverPercentage = 0.7;
             ElitismPercentage = 5;
@@ -84,7 +84,16 @@ namespace Log2CyclePrototype.Algorithm
 
             //we can create an empty population as we will be creating the 
             //initial solutions manually.
-            var population = new Population(InitialPopulation, cells.Count * APIClass.NUMBER_GENES, true, true); 
+            var population = new Population(InitialPopulation, cells.Count * APIClass.NUMBER_GENES, true, true);
+
+            population.Solutions.Clear();
+
+            Chromosome chrom = APIClass.ChromosomeFromMap(currentMap);
+
+            for (int i = 0; i < InitialPopulation; i++)
+            {
+                population.Solutions.Add(new Chromosome(chrom.ToBinaryString()));
+            }
 
             //create the elite operator
             var elite = new Elite(ElitismPercentage);
@@ -105,7 +114,6 @@ namespace Log2CyclePrototype.Algorithm
             ga.OnRunComplete += OnRunComplete;
 
             //run the GA
-            Logger.AppendText("Started the run");
             running = true;
             ga.Run(TerminateFunction);
         }

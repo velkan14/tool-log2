@@ -20,9 +20,10 @@ namespace Log2CyclePrototype
 
         private bool algorithmRunning = false;
         private delegate void AlgorithmRunComplete();
-        private InnovationAlgorithm innovationAlgorithm;
-        private ObjectiveAlgorithm objectiveAlgorithm;
-        private ConvergenceAlgorithm convergenceAlgorithm;
+        private InnovationPool innovationAlgorithm;
+        private GuidelinePool objectiveAlgorithm;
+        private ConvergencePool convergenceAlgorithm;
+        private MixAlgorithm mixAlgorithm;
         
         private List<Map> suggestionsMap;
         bool validDirectory = false;
@@ -67,10 +68,6 @@ namespace Log2CyclePrototype
             fileWatcher = new FileWatcher(this);
 
             suggestionsMap = new List<Map>();
-
-            innovationAlgorithm = new InnovationAlgorithm();
-            objectiveAlgorithm = new ObjectiveAlgorithm();
-            convergenceAlgorithm = new ConvergenceAlgorithm();
         }
 
         public bool LoadDirectory(string folderName)
@@ -165,50 +162,65 @@ namespace Log2CyclePrototype
 
             algorithmRunning = true;
 
+            innovationAlgorithm = new InnovationPool();
+            objectiveAlgorithm = new GuidelinePool();
+            convergenceAlgorithm = new ConvergencePool();
+            mixAlgorithm = new MixAlgorithm();
+
             ThreadPool.QueueUserWorkItem(new WaitCallback(_ =>
             {
-                //convergenceAlgorithm.Run(CurrentMap, callback);
+                convergenceAlgorithm.Run(CurrentMap, callback);
             }));
 
             ThreadPool.QueueUserWorkItem(new WaitCallback(_ =>
             {
-                //innovationAlgorithm.Run(CurrentMap, callback);
+                innovationAlgorithm.Run(CurrentMap, callback);
             }));
 
             ThreadPool.QueueUserWorkItem(new WaitCallback(_ =>
             {
                 objectiveAlgorithm.Run(CurrentMap, callback);
             }));
+
+            Logger.AppendText("Started Algorithm");
         }
 
         void AlgorithmRunCompleteCallback()
         {
-            //if(innovationAlgorithm.HasSolution && convergenceAlgorithm.HasSolution && objectiveAlgorithm.HasSolution)
+            if(innovationAlgorithm.HasSolution && convergenceAlgorithm.HasSolution && objectiveAlgorithm.HasSolution)
             {
-                //var conv = convergenceAlgorithm.Solution.GetTop(1)[0];
-                //Logger.AppendText("Finished Innovation: " + innovationAlgorithm.Solution.GetTop(1)[0].Fitness);
+                var conv = convergenceAlgorithm.Solution.GetBottom(1)[0];
+                var inno = innovationAlgorithm.Solution.GetTop(1)[0];
+                var obj = objectiveAlgorithm.Solution.GetTop(1)[0];
 
-                //Logger.AppendText("Finished convergence: " + conv.Fitness);
+                Logger.AppendText("Innovation: " + inno.Fitness);
+                Logger.AppendText("Convergence: " + conv.Fitness);
+                Logger.AppendText("Objective: " + obj.Fitness);
 
-                Logger.AppendText("Finished objective: " + objectiveAlgorithm.Solution.GetTop(1)[0].Fitness);
+                /*suggestionsMap.Add(APIClass.MapFromChromosome(OriginalMap, inno));
+                suggestionsMap.Add(APIClass.MapFromChromosome(OriginalMap, conv));
+                suggestionsMap.Add(APIClass.MapFromChromosome(OriginalMap, obj));*/
 
-                //suggestionsMap.Add(APIClass.MapFromChromosome(OriginalMap, innovationAlgorithm.Solution.GetTop(1)[0]));
-                //suggestionsMap.Add(APIClass.MapFromChromosome(OriginalMap, conv));
-                suggestionsMap.Add(APIClass.MapFromChromosome(OriginalMap, objectiveAlgorithm.Solution.GetTop(1)[0]));
+                AlgorithmRunComplete callback = new AlgorithmRunComplete(MixRunCompleteCallback);
+
+                ThreadPool.QueueUserWorkItem(new WaitCallback(_ =>
+                {
+                    mixAlgorithm.Run(CurrentMap, convergenceAlgorithm.Solution, innovationAlgorithm.Solution, objectiveAlgorithm.Solution, callback);
+                }));
             }
         }
 
-        void ObjectiveRunCompleteCallback(Chromosome solution)
+        void MixRunCompleteCallback()
         {
             Debug.WriteLine("Recieved Solution!");
             Logger.AppendText("Suggestion updated!\n");
 
-            Map tmpMap = APIClass.MapFromChromosome(OriginalMap, solution); //create map from chromosome. should pass genes?
-
-            suggestionsMap.Add(tmpMap);
+            suggestionsMap.Add(APIClass.MapFromChromosome(OriginalMap, mixAlgorithm.Solution.GetTop(1)[0]));
             IndexMap = suggestionsMap.Count - 1;
             interfaceWindow.UpdateTrackHistory();
             interfaceWindow.ReDrawMap();
+
+            algorithmRunning = false;
         }
 
         internal void ReloadLOG()
