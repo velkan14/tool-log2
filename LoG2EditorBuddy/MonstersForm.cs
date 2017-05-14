@@ -30,7 +30,7 @@ namespace Log2CyclePrototype
         private Core core;
         private UserSelection userSelection;
         Layer layerDifficulty, layerItens, layerMonsters, layerResources;
-        AreaManager areaManager;
+        public AreaManager AreasManager { get; private set; }
         Image lastImage;
 
         public Monsters()
@@ -69,13 +69,13 @@ namespace Log2CyclePrototype
             layerMonsters = new Layer(this, core.OriginalMap, gridPanel, panel_palette_monsters, Color.IndianRed);
             layerResources = new Layer(this, core.OriginalMap, gridPanel, panel_palette_resources, Color.Yellow);
 
-            areaManager = new AreaManager(core.OriginalMap, gridPanel);
+            AreasManager = new AreaManager(core.OriginalMap, gridPanel);
 
             
 
             Invoke((MethodInvoker)(() =>
             {
-                foreach(Area a in areaManager.AreaList)
+                foreach(Area a in AreasManager.AreaList)
                 {
                     areaBindingSource.Add(a);
                 }
@@ -393,12 +393,12 @@ namespace Log2CyclePrototype
             {
                 if (row.Selected)
                 {
-                    areaManager.SetSelected((string)row.Cells[0].Value);
+                    AreasManager.SetSelected((string)row.Cells[0].Value);
                 } else{
-                    areaManager.SetUnselected((string)row.Cells[0].Value);
+                    AreasManager.SetUnselected((string)row.Cells[0].Value);
                 }
             }
-            areaManager.SetSelected((string)dataGridView.CurrentRow.Cells[0].Value);
+            AreasManager.SetSelected((string)dataGridView.CurrentRow.Cells[0].Value);
             if (lastImage != null) ReDraw();
         }
 
@@ -431,7 +431,7 @@ namespace Log2CyclePrototype
             if (layerResources != null) image = layerResources.Draw(gridPanel.Width, gridPanel.Height, image);
             if (userSelection != null && userSelection.Attached) image = userSelection.Draw(gridPanel.Width, gridPanel.Height, image);
 
-            image = areaManager.Draw(gridPanel.Width, gridPanel.Height, image);
+            image = AreasManager.Draw(gridPanel.Width, gridPanel.Height, image);
 
             gridPanel.BackgroundImage = image;
 

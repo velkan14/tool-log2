@@ -179,7 +179,7 @@ namespace Log2CyclePrototype
 
             ThreadPool.QueueUserWorkItem(new WaitCallback(_ =>
             {
-                objectiveAlgorithm.Run(CurrentMap, callback);
+                objectiveAlgorithm.Run(CurrentMap, interfaceWindow.AreasManager, callback);
             }));
 
             Logger.AppendText("Started Algorithm");
@@ -198,14 +198,14 @@ namespace Log2CyclePrototype
                 Logger.AppendText("Objective: " + obj.Fitness);
 
                 /*suggestionsMap.Add(APIClass.MapFromChromosome(OriginalMap, inno));
-                suggestionsMap.Add(APIClass.MapFromChromosome(OriginalMap, conv));
-                suggestionsMap.Add(APIClass.MapFromChromosome(OriginalMap, obj));*/
+                suggestionsMap.Add(APIClass.MapFromChromosome(OriginalMap, conv));*/
+                suggestionsMap.Add(APIClass.MapFromChromosome(OriginalMap, obj));
 
                 AlgorithmRunComplete callback = new AlgorithmRunComplete(MixRunCompleteCallback);
 
                 ThreadPool.QueueUserWorkItem(new WaitCallback(_ =>
                 {
-                    mixAlgorithm.Run(CurrentMap, convergenceAlgorithm.Solution, innovationAlgorithm.Solution, objectiveAlgorithm.Solution, callback);
+                    //mixAlgorithm.Run(CurrentMap, convergenceAlgorithm.Solution, innovationAlgorithm.Solution, objectiveAlgorithm.Solution, callback);
                 }));
             }
         }

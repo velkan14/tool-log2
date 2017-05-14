@@ -1,6 +1,8 @@
 ﻿using GAF;
 using GAF.Operators;
+using Log2CyclePrototype.Layers;
 using Log2CyclePrototype.LoG2API;
+using Log2CyclePrototype.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +13,22 @@ namespace Log2CyclePrototype.Algorithm
 {
     class GuidelinePool
     {
+        class CellStruct
+        {
+            public int type;
+            public int x;
+            public int y;
+            public bool visited;
+
+            public CellStruct(int type, int x, int y)
+            {
+                this.type = type;
+                this.x = x;
+                this.y = y;
+                this.visited = false;
+            }
+        }
+
         public int InitialPopulation { get; set; }
         public int GenerationLimit { get; set; }
         public double MutationPercentage { get; set; }
@@ -20,7 +38,7 @@ namespace Log2CyclePrototype.Algorithm
         /*******************************************************/
         /*********************Parameters************************/
         /*******************************************************/
-              
+
         public int MaxMonsters { get; set; }
         public int MaxItens { get; set; }
         public float HordesPercentage { get; set; }
@@ -32,17 +50,20 @@ namespace Log2CyclePrototype.Algorithm
 
         private Map originalMap;
         private List<Cell> cells;
+        private AreaManager areaManager;
 
         public bool HasSolution { get; private set; }
         public Population Solution { get; private set; }
+
+        private delegate bool HasSomething(int x, int y, List<CellStruct> listCells);
 
         public GuidelinePool()
         {
             InitialPopulation = 100;
             GenerationLimit = 200;
-            MutationPercentage = 0.1;
+            MutationPercentage = 0.5;
             CrossOverPercentage = 0.5;
-            ElitismPercentage = 0;
+            ElitismPercentage = 10;
 
             MaxMonsters = 7;
             MaxItens = 5;
@@ -51,11 +72,12 @@ namespace Log2CyclePrototype.Algorithm
             HasSolution = false;
         }
 
-        public void Run(Map currentMap, Delegate callback)
+        public void Run(Map currentMap, AreaManager areaManager, Delegate callback)
         {
             if (running) return;
 
             originalMap = currentMap;
+            this.areaManager = areaManager;
             cells = currentMap.SpawnCells;
 
             this.callback = callback;
@@ -73,7 +95,7 @@ namespace Log2CyclePrototype.Algorithm
             //create the mutation operator
             var mutate = new BinaryMutate(MutationPercentage);
             //create the GA
-            var ga = new GeneticAlgorithm(population, CalculateFitnessBinary);
+            var ga = new GeneticAlgorithm(population, CalculateFitness);
 
             //add the operators
             ga.Operators.Add(elite);
@@ -87,171 +109,366 @@ namespace Log2CyclePrototype.Algorithm
             ga.Run(TerminateFunction);
         }
 
-        private double CalculateFitnessBinary(Chromosome chromosome)
-        {
-            double fitness = 0.0; // Value between 0 and 1. 1 is the fittest
-            int numberMonsters = 0;
-            int numberItens = 0;
+        /**------------ FITNESS -------------**/
 
-            int numberOfMonstersThatBelongToHorde = 0;
-            int numberOfMonstersOnMapObject = 0;
+        private double FunctionRising(double x, double n)
+        {
+            return System.Math.Abs(x / n);
+        }
+
+        private double FunctionMedium(double x, double n)
+        {
+            return -System.Math.Abs(((2.0 * x) / n) - 1.0) + 1.0;
+        }
+
+        private double FunctionDecreasing(double x, double n)
+        {
+            return System.Math.Abs((x / n) - 1.0);
+        }
+
+        private double GetMonsterMultiplier(int numberMonsters)
+        {
+            if (numberMonsters == 1) return 1.0;
+            else if (numberMonsters == 2) return 1.5;
+            else if (numberMonsters >= 3 && numberMonsters <= 6) return 2.0;
+            else if (numberMonsters >= 7 && numberMonsters <= 10) return 2.5;
+            else if (numberMonsters >= 11 && numberMonsters <= 14) return 3.0;
+            else if (numberMonsters >= 15) return 4.0;
+            return 0.0;
+        }
+
+        private double CalculateFitness(Chromosome chromosome)
+        {
+            double totalFitness = 0.0; // Value between 0 and 1. 1 is the fittest
+            int totalMonsters = 0;
+            int totalItens = 0;
 
             string binaryString = chromosome.ToBinaryString();
+
+            List<CellStruct> listCells = new List<CellStruct>();
 
             for (int i = 0; i < cells.Count; i++)
             {
                 string s = binaryString.Substring(i * APIClass.NUMBER_GENES, APIClass.NUMBER_GENES);
                 int j = Convert.ToInt32(s, 2);
+                listCells.Add(new CellStruct(j, cells[i].X, cells[i].Y));
+            }
 
-                if (j == 1 || j == 2 || j == 3 || j == 4 || j == 5 || j == 6 || j == 7 || j == 8 || j == 9 || j == 10 || j == 11)
+            foreach (Area area in areaManager.AreaList)
+            {
+                Cell startCell = area.StartCell;
+                List<Cell> cellsArea = area.Cells;
+
+                int numberMonsters = 0;
+                int numberItens = 0;
+                int numberHordes = 0;
+                int numberMonsterEasy = 0;
+                int numberMonsterMedium = 0;
+                int numberMonsterHard = 0;
+                double fitness = 0.0;
+
+
+                foreach (Cell c in cellsArea)
                 {
-                    //Turtle
-                    if (BelongToHorde(i, binaryString))
+                    if (HasMonster(c.X, c.Y, listCells))
                     {
-                        numberOfMonstersThatBelongToHorde++;
-                    }
-                    if (originalMap.CloseToElement(cells[i], "lock") ||
-                       originalMap.CloseToElement(cells[i], "wall_button") ||
-                       originalMap.CloseToElement(cells[i], "dungeon_door_iron") ||
-                       originalMap.CloseToElement(cells[i], "castle_door_portcullis") ||
-                       originalMap.CloseToElement(cells[i], "iron_key"))
+                        numberMonsters++;
+                        if (HasTurtle(c.X, c.Y, listCells)) numberMonsterEasy++;
+                        if (HasMummy(c.X, c.Y, listCells)) numberMonsterMedium++;
+                        if (HasSkeleton(c.X, c.Y, listCells)) numberMonsterHard++;
+                        if (FloodFill(c, cellsArea, listCells, HasMonster, false) <= 2) numberHordes++;
+                    } else if(HasItem(c.X, c.Y, listCells))
                     {
-                        numberOfMonstersOnMapObject++;
+                        numberItens++;
                     }
-                    numberMonsters++;
                 }
-                else if (j == 12 || j == 13 || j == 14 || j == 15 || j == 16 || j == 17 || j == 18 || j == 19 || j == 20 || j == 21 || j == 22)
+
+                switch (area.Difficulty)
                 {
-                    //Mummy
-                    if (BelongToHorde(i, binaryString))
-                    {
-                        numberOfMonstersThatBelongToHorde++;
-                    }
-                    if (originalMap.CloseToElement(cells[i], "lock") ||
-                       originalMap.CloseToElement(cells[i], "wall_button") ||
-                       originalMap.CloseToElement(cells[i], "dungeon_door_iron") ||
-                       originalMap.CloseToElement(cells[i], "castle_door_portcullis") ||
-                       originalMap.CloseToElement(cells[i], "iron_key"))
-                    {
-                        numberOfMonstersOnMapObject++;
-                    }
-                    numberMonsters++;
+                    case Difficulty.Easy:
+                        {
+                            if(numberMonsters != 0.0)
+                            {
+                                fitness = (1.0 / 3.0) * FunctionRising(FloodFill(startCell, cellsArea, listCells, HasMonster, true), area.Size) +
+                                    (1.0 / 3.0) * FunctionDecreasing(numberHordes, numberMonsters) +
+                                    (1.0 / 3.0) * FunctionMedium((numberMonsterEasy + numberMonsterMedium * 2.0 + numberMonsterHard * 8.0) * GetMonsterMultiplier(numberMonsters), area.Size);
+                            }
+
+                        }
+                        break;
+                    case Difficulty.Medium:
+                        {
+                            if (numberMonsters != 0.0)
+                            {
+                                fitness = (1.0 / 3.0) * FunctionMedium(FloodFill(startCell, cellsArea, listCells, HasMonster, true), area.Size) +
+                                (1.0 / 3.0) * FunctionMedium(numberHordes, numberMonsters) +
+                                (1.0 / 3.0) * FunctionMedium((numberMonsterEasy + numberMonsterMedium * 2.0 + numberMonsterHard * 8.0) * GetMonsterMultiplier(numberMonsters), area.Size * 2.0);
+                            }
+                        }
+                        break;
+                    case Difficulty.Hard:
+                        {
+                            if (numberMonsters != 0.0)
+                            {
+                                fitness = (1.0 / 3.0) * FunctionDecreasing(FloodFill(startCell, cellsArea, listCells, HasMonster, true), area.Size) +
+                                (1.0 / 3.0) * FunctionRising(numberHordes, numberMonsters) +
+                                (1.0 / 3.0) * FunctionMedium((numberMonsterEasy + numberMonsterMedium * 2.0 + numberMonsterHard * 8.0) * GetMonsterMultiplier(numberMonsters), area.Size * 3.0);
+                            }
+                        }
+                        break;
                 }
-                else if (j == 23 || j == 24 || j == 25 || j == 26 || j == 27 || j == 28 || j == 29 || j == 30 || j == 31 || j == 32)
-                {
-                    //Skeleton
-                    if (BelongToHorde(i, binaryString))
-                    {
-                        numberOfMonstersThatBelongToHorde++;
-                    }
-                    if (originalMap.CloseToElement(cells[i], "lock") ||
-                       originalMap.CloseToElement(cells[i], "wall_button") ||
-                       originalMap.CloseToElement(cells[i], "dungeon_door_iron") ||
-                       originalMap.CloseToElement(cells[i], "castle_door_portcullis") ||
-                       originalMap.CloseToElement(cells[i], "iron_key"))
-                    {
-                        numberOfMonstersOnMapObject++;
-                    }
-                    numberMonsters++;
-                }
-                else if (j == 33 || j == 34 || j == 35)
-                {
-                    //Cudgel
-                    numberItens++;
-                }
-                else if (j == 36 || j == 37 || j == 38)
-                {
-                    //Machete
-                    numberItens++;
-                }
-                else if (j == 39 || j == 40 || j == 41)
-                {
-                    //Rapier
-                    numberItens++;
-                }
-                else if (j == 42 || j == 43 || j == 44)
-                {
-                    //Battle Axe
-                    numberItens++;
-                }
-                else if (j == 45 || j == 46 || j == 47 || j == 48)
-                {
-                    //Potion
-                    numberItens++;
-                }
-                else if (j == 49 || j == 50 || j == 51)
-                {
-                    //Borra
-                    numberItens++;
-                }
-                else if (j == 52 || j == 53 || j == 54)
-                {
-                    //Bread
-                    numberItens++;
-                }
-                else if (j == 55 || j == 56)
-                {
-                    //Peasant cap
-                    numberItens++;
-                }
-                else if (j == 57 || j == 58)
-                {
-                    //Peasant breeches
-                    numberItens++;
-                }
-                else if (j == 59)
-                {
-                    //Peasant tunic
-                    numberItens++;
-                }
-                else if (j == 60)
-                {
-                    //Sandals
-                    numberItens++;
-                }
-                else if (j == 61)
-                {
-                    //Leather cap
-                    numberItens++;
-                }
-                else if (j == 62)
-                {
-                    //Leather brigandine
-                    numberItens++;
-                }
-                else if (j == 63)
-                {
-                    //Leather pants
-                    numberItens++;
-                }
-                else if (j == 64)
-                {
-                    //Leather boots
-                    numberItens++;
-                }
-                else
-                {
-                    //Nothing
-                }
+
+                if (fitness < 0.0) fitness = 0.0;
+                totalFitness += (1.0 / areaManager.AreaList.Count) * fitness;
+                totalMonsters += numberMonsters;
+                totalItens += numberItens;
+
             }
 
             /* Objective of Max Itens*/
-            double maxItensFitness = func(numberItens, MaxItens);
+            double maxItensFitness = func(totalItens, MaxItens);
 
             /* Objective of Max Monster*/
-            double maxMonstersFitness = func(numberMonsters, MaxMonsters);
-
-            /* Objective of Hordes */
-            double hordesFitness = func(numberOfMonstersThatBelongToHorde, MaxMonsters);
-           
-            /* Objective of MapObjects */
-            double mapObjectsFitness = func(numberOfMonstersOnMapObject, MaxMonsters);
+            double maxMonstersFitness = func(totalMonsters, MaxMonsters);
 
             /* Percentages of all fitness */
+            totalFitness = 0.25 * maxMonstersFitness + 0.25 * maxItensFitness + 0.5 * totalFitness;
 
-            /*----------------------------*/
-            fitness = (hordesFitness + maxMonstersFitness + mapObjectsFitness + maxItensFitness) / 4.0;
-            return fitness;
+            return totalFitness;
+        }
+
+        private static int FloodFill(Cell startCell, List<Cell> cellsArea, List<CellStruct> listCells, HasSomething has, bool checkFirst)
+        {
+            int tileTraversed = 0;
+
+            for (int i = 0; i < listCells.Count; i++)
+            {
+                listCells[i].visited = false;
+            }
+
+            if (checkFirst)
+            {
+                if (has(startCell.X, startCell.Y, listCells)) return 1;
+                tileTraversed++;
+            }
+
+            ListQueue<CellStruct> queue = new ListQueue<CellStruct>();
+            queue.Enqueue(listCells.FirstOrDefault(c => c.x == startCell.X && c.y == startCell.Y));
+
+            while (queue.Count != 0)
+            {
+                CellStruct node = queue.Dequeue();
+                node.visited = true;
+
+                //west
+                if (HasCellUnvisited(node.x - 1, node.y, listCells))
+                {
+                    tileTraversed++;
+                    if (has(node.x - 1, node.y, listCells)) return tileTraversed;
+                    queue.Enqueue(listCells.FirstOrDefault(c => c.x == node.x - 1 && c.y == node.y));
+                }
+                //east
+                if (HasCellUnvisited(node.x + 1, node.y, listCells))
+                {
+                    tileTraversed++;
+                    if (has(node.x + 1, node.y, listCells)) return tileTraversed;
+                    queue.Enqueue(listCells.FirstOrDefault(c => c.x == node.x + 1 && c.y == node.y));
+                }
+                //north
+                if (HasCellUnvisited(node.x, node.y - 1, listCells))
+                {
+                    tileTraversed++;
+                    if (has(node.x, node.y - 1, listCells)) return tileTraversed;
+                    queue.Enqueue(listCells.FirstOrDefault(c => c.x == node.x && c.y == node.y - 1));
+                }
+                //south
+                if (HasCellUnvisited(node.x, node.y + 1, listCells))
+                {
+                    tileTraversed++;
+                    if (has(node.x, node.y + 1, listCells)) return tileTraversed;
+                    queue.Enqueue(listCells.FirstOrDefault(c => c.x == node.x && c.y == node.y + 1));
+                }
+            }
+            return tileTraversed;
+        }
+
+        private bool HasItem(int x, int y, List<CellStruct> listCells)
+        {
+            CellStruct cell = listCells.FirstOrDefault(c => c.x == x && c.y == y);
+
+            if (cell == null) return false;
+
+            int j = cell.type;
+
+            if (j == 33 || j == 34 || j == 35)
+            {
+                //Cudgel
+                return true;
+            }
+            else if (j == 36 || j == 37 || j == 38)
+            {
+                //Machete
+                return true;
+            }
+            else if (j == 39 || j == 40 || j == 41)
+            {
+                //Rapier
+                return true;
+            }
+            else if (j == 42 || j == 43 || j == 44)
+            {
+                //Battle Axe
+                return true;
+            }
+            else if (j == 45 || j == 46 || j == 47 || j == 48)
+            {
+                //Potion
+                return true;
+            }
+            else if (j == 49 || j == 50 || j == 51)
+            {
+                //Borra
+                return true;
+            }
+            else if (j == 52 || j == 53 || j == 54)
+            {
+                //Bread
+                return true;
+            }
+            else if (j == 55 || j == 56)
+            {
+                //Peasant cap
+                return true;
+            }
+            else if (j == 57 || j == 58)
+            {
+                //Peasant breeches
+                return true;
+            }
+            else if (j == 59)
+            {
+                //Peasant tunic
+                return true;
+            }
+            else if (j == 60)
+            {
+                //Sandals
+                return true;
+            }
+            else if (j == 61)
+            {
+                //Leather cap
+                return true;
+            }
+            else if (j == 62)
+            {
+                //Leather brigandine
+                return true;
+            }
+            else if (j == 63)
+            {
+                //Leather pants
+                return true;
+            }
+            else if (j == 64)
+            {
+                //Leather boots
+                return true;
+            }
+            return false;
+        }
+
+        
+
+        private static bool HasCell(int x, int y, List<CellStruct> listCells)
+        {
+            foreach (CellStruct cs in listCells)
+            {
+                if (cs.x == x && cs.y == y)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        private static bool HasCellUnvisited(int x, int y, List<CellStruct> listCells)
+        {
+            foreach (CellStruct cs in listCells)
+            {
+                if (cs.x == x && cs.y == y && cs.visited == false)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private static bool HasMonster(int x, int y, List<CellStruct> listCells)
+        {
+            CellStruct cell = listCells.FirstOrDefault(c => c.x == x && c.y == y);
+
+            if (cell == null) return false;
+
+            int j = cell.type;
+
+            if (j == 1 || j == 2 || j == 3 || j == 4 || j == 5 || j == 6 || j == 7 || j == 8 || j == 9 || j == 10 || j == 11)
+            {
+                //Turtle
+                return true;
+            }
+            else if (j == 12 || j == 13 || j == 14 || j == 15 || j == 16 || j == 17 || j == 18 || j == 19 || j == 20 || j == 21 || j == 22)
+            {
+                //Mummy
+                return true;
+            }
+            else if (j == 23 || j == 24 || j == 25 || j == 26 || j == 27 || j == 28 || j == 29 || j == 30 || j == 31 || j == 32)
+            {
+                //Skeleton
+                return true;
+            }
+            return false;
+        }
+
+        private static bool HasTurtle(int x, int y, List<CellStruct> listCells)
+        {
+            CellStruct cell = listCells.FirstOrDefault(c => c.x == x && c.y == y);
+
+            int j = cell.type;
+
+            if (j == 1 || j == 2 || j == 3 || j == 4 || j == 5 || j == 6 || j == 7 || j == 8 || j == 9 || j == 10 || j == 11)
+            {
+                //Turtle
+                return true;
+            }
+            return false;
+        }
+
+        private static bool HasMummy(int x, int y, List<CellStruct> listCells)
+        {
+            CellStruct cell = listCells.FirstOrDefault(c => c.x == x && c.y == y);
+
+            int j = cell.type;
+
+            if (j == 12 || j == 13 || j == 14 || j == 15 || j == 16 || j == 17 || j == 18 || j == 19 || j == 20 || j == 21 || j == 22)
+            {
+                //Mummy
+                return true;
+            }
+            return false;
+        }
+
+        private static bool HasSkeleton(int x, int y, List<CellStruct> listCells)
+        {
+            CellStruct cell = listCells.FirstOrDefault(c => c.x == x && c.y == y);
+
+            int j = cell.type;
+
+            if (j == 23 || j == 24 || j == 25 || j == 26 || j == 27 || j == 28 || j == 29 || j == 30 || j == 31 || j == 32)
+            {
+                //Skeleton
+                return true;
+            }
+            return false;
         }
 
         private bool CloseToElement(int i, string binaryString, string elementType)
@@ -274,7 +491,7 @@ namespace Log2CyclePrototype.Algorithm
                 if (c.X == cell.X + 1 && c.Y == cell.Y + 1) neighbours.Add(c);
             }
 
-            foreach(Cell n in neighbours)
+            foreach (Cell n in neighbours)
             {
                 int k = cells.IndexOf(n);
 
@@ -304,7 +521,7 @@ namespace Log2CyclePrototype.Algorithm
                 else if (j == 36 || j == 37 || j == 38)
                 {
                     //Machete
-                    if (elementType.Equals("machete")) return true;;
+                    if (elementType.Equals("machete")) return true; ;
                 }
                 else if (j == 39 || j == 40 || j == 41)
                 {

@@ -13,6 +13,10 @@ namespace Log2CyclePrototype.Utilities
 
         }
 
+        public ListQueue()
+        {
+        }
+
         new public void Add(T item) { throw new NotSupportedException(); }
         new public void AddRange(IEnumerable<T> collection) { throw new NotSupportedException(); }
         new public void Insert(int index, T item) { throw new NotSupportedException(); }

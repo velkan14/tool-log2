@@ -1,4 +1,5 @@
 ﻿using Log2CyclePrototype.LoG2API;
+using Log2CyclePrototype.LoG2API.Elements;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -9,7 +10,7 @@ using System.Windows.Forms;
 
 namespace Log2CyclePrototype.Layers
 {
-    class AreaManager
+    public class AreaManager
     {
         enum BorderSide
         {
@@ -40,8 +41,8 @@ namespace Log2CyclePrototype.Layers
             List<Cell> area5 = new List<Cell>();
             List<Cell> area6 = new List<Cell>();
 
-            area1.Add(map.GetCellAt(20, 11));
-            area1.Add(map.GetCellAt(20, 12));
+            //area1.Add(map.GetCellAt(20, 11));
+            //area1.Add(map.GetCellAt(20, 12));
             area1.Add(map.GetCellAt(20, 13));
             area1.Add(map.GetCellAt(21, 13));
             area1.Add(map.GetCellAt(21, 14));
@@ -112,9 +113,9 @@ namespace Log2CyclePrototype.Layers
             area6.Add(map.GetCellAt(8, 19));
             area6.Add(map.GetCellAt(9, 19));
             area6.Add(map.GetCellAt(10, 19));
-            area6.Add(map.GetCellAt(5, 20));
+            //area6.Add(map.GetCellAt(5, 20));
             area6.Add(map.GetCellAt(6, 20));
-            area6.Add(map.GetCellAt(7, 20));
+            //area6.Add(map.GetCellAt(7, 20));
             area6.Add(map.GetCellAt(8, 20));
             area6.Add(map.GetCellAt(9, 20));
             area6.Add(map.GetCellAt(10, 20));
@@ -130,6 +131,62 @@ namespace Log2CyclePrototype.Layers
             AreaList.Add(new Area("Area 4",area4));
             AreaList.Add(new Area("Area 5", area5));
             AreaList.Add(new Area("Area 6", area6));
+
+            foreach(Area a in AreaList)
+            {
+                a.StartCell = GetStartCell(a);
+            }
+        }
+
+        public Cell GetStartCell(Area area)
+        {
+            StartingPoint st = map.StartPoint;
+            List<Cell> unvisited = map.WalkableCells;
+
+            Cell firstCell = unvisited.FirstOrDefault(x => x.X == st.x && x.Y == st.y);
+            unvisited.RemoveAll(x => x.X == st.x && x.Y == st.y);
+
+            Cell c = IterativeFlood(firstCell, area, unvisited);
+            return c;
+        }
+
+        private Cell IterativeFlood(Cell cell, Area target, List<Cell> unvisited)
+        {
+            if (target.Contains(cell)) return cell;
+
+            List<Cell> neighboors = new List<Cell>();
+
+            Cell c1 = unvisited.FirstOrDefault(x => x.X == cell.X - 1 && x.Y == cell.Y);
+            if (c1 != null)
+            {
+                unvisited.RemoveAll(x => x.X == c1.X && x.Y == c1.Y);
+                Cell c = IterativeFlood(c1, target, unvisited);
+                if (c != null) return c;
+            }
+
+            Cell c2 = unvisited.FirstOrDefault(x => x.X == cell.X && x.Y == cell.Y - 1);
+            if (c2 != null)
+            {
+                unvisited.RemoveAll(x => x.X == c2.X && x.Y == c2.Y);
+                Cell c = IterativeFlood(c2, target, unvisited);
+                if (c != null) return c;
+            }
+            Cell c3 = unvisited.FirstOrDefault(x => x.X == cell.X + 1 && x.Y == cell.Y);
+            if (c3 != null)
+            {
+                unvisited.RemoveAll(x => x.X == c3.X && x.Y == c3.Y);
+                Cell c = IterativeFlood(c3, target, unvisited);
+                if (c != null) return c;
+            }
+            Cell c4 = unvisited.FirstOrDefault(x => x.X == cell.X && x.Y == cell.Y + 1);
+            if (c4 != null)
+            {
+                unvisited.RemoveAll(x => x.X == c4.X && x.Y == c4.Y);
+                Cell c = IterativeFlood(c4, target, unvisited);
+                if (c != null) return c;
+            }
+
+            return null;
         }
 
         public Image Draw(int width, int height, Image backgroundImage)
