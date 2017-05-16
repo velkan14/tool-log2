@@ -699,10 +699,7 @@
             // 
             this.dataGridViewButtonColumn1.HeaderText = "Visible";
             this.dataGridViewButtonColumn1.Name = "dataGridViewButtonColumn1";
-            // 
-            // areasBindingSource
-            // 
-            this.areasBindingSource.DataSource = typeof(Log2CyclePrototype.Layers.AreaManager);
+
             // 
             // Monsters
             // 

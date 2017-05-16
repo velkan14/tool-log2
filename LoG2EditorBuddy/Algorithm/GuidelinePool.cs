@@ -61,11 +61,11 @@ namespace Log2CyclePrototype.Algorithm
         {
             InitialPopulation = 100;
             GenerationLimit = 200;
-            MutationPercentage = 0.5;
+            MutationPercentage = 0.6;
             CrossOverPercentage = 0.5;
             ElitismPercentage = 10;
 
-            MaxMonsters = 7;
+            MaxMonsters = 10;
             MaxItens = 5;
 
             running = false;
@@ -111,19 +111,26 @@ namespace Log2CyclePrototype.Algorithm
 
         /**------------ FITNESS -------------**/
 
+        /* Para quando x <= n */
         private double FunctionRising(double x, double n)
         {
-            return System.Math.Abs(x / n);
+            return System.Math.Min(System.Math.Abs(x / n), 1.0);
         }
 
         private double FunctionMedium(double x, double n)
         {
-            return -System.Math.Abs(((2.0 * x) / n) - 1.0) + 1.0;
+            return System.Math.Max(0.0, -System.Math.Abs(((2.0 * x) / n) - 1.0) + 1.0);
         }
 
         private double FunctionDecreasing(double x, double n)
         {
             return System.Math.Abs((x / n) - 1.0);
+        }
+
+        //Para quando x for maior que n.
+        private double FunctionUpDown(double x, double n)
+        {
+            return System.Math.Max(0.0, -System.Math.Abs((x / n) - 1.0) + 1.0);
         }
 
         private double GetMonsterMultiplier(int numberMonsters)
@@ -135,6 +142,47 @@ namespace Log2CyclePrototype.Algorithm
             else if (numberMonsters >= 11 && numberMonsters <= 14) return 3.0;
             else if (numberMonsters >= 15) return 4.0;
             return 0.0;
+        }
+
+        private int GetMonstersArea(List<Area> areas)
+        {
+            int totalTiles = 0;
+
+            foreach (Area a in areas)
+            {
+                switch (a.Difficulty)
+                {
+                    case (Difficulty.Easy):
+                        {
+                            totalTiles += a.Size;
+                            break;
+                        }
+                    case (Difficulty.Medium):
+                        {
+                            totalTiles += a.Size * 2;
+                            break;
+                        }
+                    case (Difficulty.Hard):
+                        {
+                            totalTiles += a.Size * 3;
+                            break;
+                        }
+                }
+
+            }
+            return totalTiles;
+        }
+
+        private double NumberMonster(double areaSize, double difficulty)
+        {
+            return System.Math.Ceiling((double)(areaSize * difficulty / GetMonstersArea(areaManager.AreaList)) * MaxMonsters);
+        }
+
+        private double FunctionZero(double x)
+        {
+            if (x < 0.0) return System.Math.Exp(2.0 * x);
+            return System.Math.Exp(-2.0 * x);
+
         }
 
         private double CalculateFitness(Chromosome chromosome)
@@ -176,8 +224,9 @@ namespace Log2CyclePrototype.Algorithm
                         if (HasTurtle(c.X, c.Y, listCells)) numberMonsterEasy++;
                         if (HasMummy(c.X, c.Y, listCells)) numberMonsterMedium++;
                         if (HasSkeleton(c.X, c.Y, listCells)) numberMonsterHard++;
-                        if (FloodFill(c, cellsArea, listCells, HasMonster, false) <= 2) numberHordes++;
-                    } else if(HasItem(c.X, c.Y, listCells))
+                        if (FloodFill(c, cellsArea, listCells, HasMonster, false) <= 1) numberHordes++;
+                    }
+                    else if (HasItem(c.X, c.Y, listCells))
                     {
                         numberItens++;
                     }
@@ -187,52 +236,118 @@ namespace Log2CyclePrototype.Algorithm
                 {
                     case Difficulty.Easy:
                         {
-                            if(numberMonsters != 0.0)
+                            double numberMonsterArea = NumberMonster(area.Size, 1);
+                            double numberMonsterFit = 0.0;
+
+                            if (numberMonsterArea == 0.0)
                             {
-                                fitness = (1.0 / 3.0) * FunctionRising(FloodFill(startCell, cellsArea, listCells, HasMonster, true), area.Size) +
-                                    (1.0 / 3.0) * FunctionDecreasing(numberHordes, numberMonsters) +
-                                    (1.0 / 3.0) * FunctionMedium((numberMonsterEasy + numberMonsterMedium * 2.0 + numberMonsterHard * 8.0) * GetMonsterMultiplier(numberMonsters), area.Size);
+                                numberMonsterFit = FunctionZero(numberMonsters);
+                            }
+                            else
+                            {
+                                numberMonsterFit = FunctionUpDown(numberMonsters, numberMonsterArea);
+                            }
+
+                            if (numberMonsters != 0.0)
+                            {
+                                fitness = (1.0 / 4.0) * numberMonsterFit +
+                                    (1.0 / 4.0) * FunctionRising(FloodFill(startCell, cellsArea, listCells, HasMonster, true), area.Size) +
+                                    (1.0 / 4.0) * FunctionDecreasing(numberHordes, numberMonsters) +
+                                    (1.0 / 4.0) * FunctionUpDown((numberMonsterEasy + numberMonsterMedium * 2.0 + numberMonsterHard * 4.0) * GetMonsterMultiplier(numberMonsters), area.Size / 9.0);
+                                
                             }
 
                         }
                         break;
                     case Difficulty.Medium:
                         {
+                            double numberMonsterArea = NumberMonster(area.Size, 2);
+                            double numberMonsterFit = 0.0;
+
+                            if (numberMonsterArea == 0.0)
+                            {
+                                numberMonsterFit = FunctionZero(numberMonsters);
+                            }
+                            else
+                            {
+                                numberMonsterFit = FunctionUpDown(numberMonsters, numberMonsterArea);
+                            }
+
                             if (numberMonsters != 0.0)
                             {
-                                fitness = (1.0 / 3.0) * FunctionMedium(FloodFill(startCell, cellsArea, listCells, HasMonster, true), area.Size) +
-                                (1.0 / 3.0) * FunctionMedium(numberHordes, numberMonsters) +
-                                (1.0 / 3.0) * FunctionMedium((numberMonsterEasy + numberMonsterMedium * 2.0 + numberMonsterHard * 8.0) * GetMonsterMultiplier(numberMonsters), area.Size * 2.0);
+                                fitness = (1.0 / 4.0) * numberMonsterFit +
+                                    (1.0 / 4.0) * FunctionMedium(FloodFill(startCell, cellsArea, listCells, HasMonster, true), area.Size) +
+                                    (1.0 / 4.0) * FunctionMedium(numberHordes, numberMonsters) +
+                                    (1.0 / 4.0) * FunctionUpDown((numberMonsterEasy * 1.0 + numberMonsterMedium * 2.0 + numberMonsterHard * 4.0) * GetMonsterMultiplier(numberMonsters), (area.Size /9.0 )* 2.0);
                             }
+
                         }
                         break;
                     case Difficulty.Hard:
                         {
+                            double numberMonsterArea = NumberMonster(area.Size, 3);
+                            double numberMonsterFit = 0.0;
+
+                            if (numberMonsterArea == 0.0)
+                            {
+                                numberMonsterFit = FunctionZero(numberMonsters);
+                            }
+                            else
+                            {
+                                numberMonsterFit = FunctionUpDown(numberMonsters, numberMonsterArea);
+                            }
+
                             if (numberMonsters != 0.0)
                             {
-                                fitness = (1.0 / 3.0) * FunctionDecreasing(FloodFill(startCell, cellsArea, listCells, HasMonster, true), area.Size) +
-                                (1.0 / 3.0) * FunctionRising(numberHordes, numberMonsters) +
-                                (1.0 / 3.0) * FunctionMedium((numberMonsterEasy + numberMonsterMedium * 2.0 + numberMonsterHard * 8.0) * GetMonsterMultiplier(numberMonsters), area.Size * 3.0);
+                                fitness = (1.0 / 4.0) * numberMonsterFit +
+                                    (1.0 / 4.0) * FunctionDecreasing(FloodFill(startCell, cellsArea, listCells, HasMonster, true), area.Size) +
+                                    (1.0 / 4.0) * FunctionRising(numberHordes, numberMonsters) +
+                                    (1.0 / 4.0) * FunctionUpDown((numberMonsterEasy + numberMonsterMedium * 2.0 + numberMonsterHard * 4.0) * GetMonsterMultiplier(numberMonsters), (area.Size/9.0) * 3.0);
+
                             }
                         }
                         break;
                 }
-
                 if (fitness < 0.0) fitness = 0.0;
+
                 totalFitness += (1.0 / areaManager.AreaList.Count) * fitness;
                 totalMonsters += numberMonsters;
                 totalItens += numberItens;
 
             }
 
+            double hasArmor = FloodFill(areaManager.AreaList[0].StartCell, cells, listCells, HasArmor, true);
+            double hasWeapon = FloodFill(areaManager.AreaList[0].StartCell, cells, listCells, HasWeapon, true);
+            double hasResource = FloodFill(areaManager.AreaList[0].StartCell, cells, listCells, HasResource, true);
+            
+            double itensFitness = (1.0 / 3.0) * FunctionDecreasing(hasArmor, cells.Count) +
+                                  (1.0 / 3.0) * FunctionDecreasing(hasWeapon, cells.Count) +
+                                  (1.0 / 3.0) * FunctionDecreasing(hasResource, cells.Count);
+
             /* Objective of Max Itens*/
-            double maxItensFitness = func(totalItens, MaxItens);
+            double maxItensFitness = 0.0;
+            if (MaxItens == 0)
+            {
+                maxItensFitness = FunctionZero(totalItens);
+            }
+            else
+            {
+                maxItensFitness = FunctionUpDown(totalItens, MaxItens);
+            }
 
             /* Objective of Max Monster*/
-            double maxMonstersFitness = func(totalMonsters, MaxMonsters);
+            double maxMonstersFitness = 0.0;
+            if (MaxMonsters == 0)
+            {
+                maxMonstersFitness = FunctionZero(totalMonsters);
+            }
+            else
+            {
+                maxMonstersFitness = FunctionUpDown(totalMonsters, MaxMonsters);
+            }
 
             /* Percentages of all fitness */
-            totalFitness = 0.25 * maxMonstersFitness + 0.25 * maxItensFitness + 0.5 * totalFitness;
+            totalFitness = 0.5 * (0.5 * maxMonstersFitness + 0.5 * totalFitness) + 0.5 * (0.5 * itensFitness + 0.5 * maxItensFitness);
 
             return totalFitness;
         }
@@ -248,45 +363,52 @@ namespace Log2CyclePrototype.Algorithm
 
             if (checkFirst)
             {
-                if (has(startCell.X, startCell.Y, listCells)) return 1;
-                tileTraversed++;
+                if (has(startCell.X, startCell.Y, listCells)) return 0;
             }
 
+            
             ListQueue<CellStruct> queue = new ListQueue<CellStruct>();
-            queue.Enqueue(listCells.FirstOrDefault(c => c.x == startCell.X && c.y == startCell.Y));
+            CellStruct firstCell = listCells.FirstOrDefault(c => c.x == startCell.X && c.y == startCell.Y);
+            firstCell.visited = true;
+            queue.Enqueue(firstCell);
 
             while (queue.Count != 0)
             {
                 CellStruct node = queue.Dequeue();
-                node.visited = true;
+                tileTraversed++;
 
                 //west
                 if (HasCellUnvisited(node.x - 1, node.y, listCells))
                 {
-                    tileTraversed++;
                     if (has(node.x - 1, node.y, listCells)) return tileTraversed;
-                    queue.Enqueue(listCells.FirstOrDefault(c => c.x == node.x - 1 && c.y == node.y));
+
+                    CellStruct openNode = listCells.FirstOrDefault(c => c.x == node.x - 1 && c.y == node.y);
+                    openNode.visited = true;
+                    queue.Enqueue(openNode);
                 }
                 //east
                 if (HasCellUnvisited(node.x + 1, node.y, listCells))
                 {
-                    tileTraversed++;
                     if (has(node.x + 1, node.y, listCells)) return tileTraversed;
-                    queue.Enqueue(listCells.FirstOrDefault(c => c.x == node.x + 1 && c.y == node.y));
+                    CellStruct openNode = listCells.FirstOrDefault(c => c.x == node.x + 1 && c.y == node.y);
+                    openNode.visited = true;
+                    queue.Enqueue(openNode);
                 }
                 //north
                 if (HasCellUnvisited(node.x, node.y - 1, listCells))
                 {
-                    tileTraversed++;
                     if (has(node.x, node.y - 1, listCells)) return tileTraversed;
-                    queue.Enqueue(listCells.FirstOrDefault(c => c.x == node.x && c.y == node.y - 1));
+                    CellStruct openNode = listCells.FirstOrDefault(c => c.x == node.x && c.y == node.y - 1);
+                    openNode.visited = true;
+                    queue.Enqueue(openNode);
                 }
                 //south
                 if (HasCellUnvisited(node.x, node.y + 1, listCells))
                 {
-                    tileTraversed++;
                     if (has(node.x, node.y + 1, listCells)) return tileTraversed;
-                    queue.Enqueue(listCells.FirstOrDefault(c => c.x == node.x && c.y == node.y + 1));
+                    CellStruct openNode = listCells.FirstOrDefault(c => c.x == node.x && c.y == node.y + 1);
+                    openNode.visited = true;
+                    queue.Enqueue(openNode);
                 }
             }
             return tileTraversed;
@@ -378,7 +500,113 @@ namespace Log2CyclePrototype.Algorithm
             return false;
         }
 
-        
+        private bool HasWeapon(int x, int y, List<CellStruct> listCells)
+        {
+            CellStruct cell = listCells.FirstOrDefault(c => c.x == x && c.y == y);
+
+            if (cell == null) return false;
+
+            int j = cell.type;
+
+            if (j == 33 || j == 34 || j == 35)
+            {
+                //Cudgel
+                return true;
+            }
+            else if (j == 36 || j == 37 || j == 38)
+            {
+                //Machete
+                return true;
+            }
+            else if (j == 39 || j == 40 || j == 41)
+            {
+                //Rapier
+                return true;
+            }
+            else if (j == 42 || j == 43 || j == 44)
+            {
+                //Battle Axe
+                return true;
+            }
+            return false;
+        }
+
+        private bool HasResource(int x, int y, List<CellStruct> listCells)
+        {
+            CellStruct cell = listCells.FirstOrDefault(c => c.x == x && c.y == y);
+
+            if (cell == null) return false;
+
+            int j = cell.type;
+
+            if (j == 45 || j == 46 || j == 47 || j == 48)
+            {
+                //Potion
+                return true;
+            }
+            else if (j == 49 || j == 50 || j == 51)
+            {
+                //Borra
+                return true;
+            }
+            else if (j == 52 || j == 53 || j == 54)
+            {
+                //Bread
+                return true;
+            }
+            return false;
+        }
+
+        private bool HasArmor(int x, int y, List<CellStruct> listCells)
+        {
+            CellStruct cell = listCells.FirstOrDefault(c => c.x == x && c.y == y);
+
+            if (cell == null) return false;
+
+            int j = cell.type;
+
+            if (j == 55 || j == 56)
+            {
+                //Peasant cap
+                return true;
+            }
+            else if (j == 57 || j == 58)
+            {
+                //Peasant breeches
+                return true;
+            }
+            else if (j == 59)
+            {
+                //Peasant tunic
+                return true;
+            }
+            else if (j == 60)
+            {
+                //Sandals
+                return true;
+            }
+            else if (j == 61)
+            {
+                //Leather cap
+                return true;
+            }
+            else if (j == 62)
+            {
+                //Leather brigandine
+                return true;
+            }
+            else if (j == 63)
+            {
+                //Leather pants
+                return true;
+            }
+            else if (j == 64)
+            {
+                //Leather boots
+                return true;
+            }
+            return false;
+        }
 
         private static bool HasCell(int x, int y, List<CellStruct> listCells)
         {
@@ -469,148 +697,6 @@ namespace Log2CyclePrototype.Algorithm
                 return true;
             }
             return false;
-        }
-
-        private bool CloseToElement(int i, string binaryString, string elementType)
-        {
-            List<Cell> neighbours = new List<Cell>();
-
-            Cell cell = cells[i];
-
-            foreach (Cell c in cells)
-            {
-                if (c.X == cell.X - 1 && c.Y == cell.Y - 1) neighbours.Add(c);
-                if (c.X == cell.X && c.Y == cell.Y - 1) neighbours.Add(c);
-                if (c.X == cell.X + 1 && c.Y == cell.Y - 1) neighbours.Add(c);
-
-                if (c.X == cell.X - 1 && c.Y == cell.Y) neighbours.Add(c);
-                if (c.X == cell.X + 1 && c.Y == cell.Y) neighbours.Add(c);
-
-                if (c.X == cell.X - 1 && c.Y == cell.Y + 1) neighbours.Add(c);
-                if (c.X == cell.X && c.Y == cell.Y + 1) neighbours.Add(c);
-                if (c.X == cell.X + 1 && c.Y == cell.Y + 1) neighbours.Add(c);
-            }
-
-            foreach (Cell n in neighbours)
-            {
-                int k = cells.IndexOf(n);
-
-                string s = binaryString.Substring(k * APIClass.NUMBER_GENES, APIClass.NUMBER_GENES);
-                int j = Convert.ToInt32(s, 2);
-
-                if (j == 1 || j == 2 || j == 3 || j == 4 || j == 5 || j == 6 || j == 7 || j == 8 || j == 9 || j == 10 || j == 11)
-                {
-                    //Turtle
-                    if (elementType.Equals("turtle")) return true;
-                }
-                else if (j == 12 || j == 13 || j == 14 || j == 15 || j == 16 || j == 17 || j == 18 || j == 19 || j == 20 || j == 21 || j == 22)
-                {
-                    //Mummy
-                    if (elementType.Equals("mummy")) return true;
-                }
-                else if (j == 23 || j == 24 || j == 25 || j == 26 || j == 27 || j == 28 || j == 29 || j == 30 || j == 31 || j == 32)
-                {
-                    //Skeleton
-                    if (elementType.Equals("skeleton_trooper")) return true;
-                }
-                else if (j == 33 || j == 34 || j == 35)
-                {
-                    //Cudgel
-                    if (elementType.Equals("cudgel")) return true;
-                }
-                else if (j == 36 || j == 37 || j == 38)
-                {
-                    //Machete
-                    if (elementType.Equals("machete")) return true; ;
-                }
-                else if (j == 39 || j == 40 || j == 41)
-                {
-                    //Rapier
-                    if (elementType.Equals("rapier")) return true;
-                }
-                else if (j == 42 || j == 43 || j == 44)
-                {
-                    //Battle Axe
-                    if (elementType.Equals("battle_axe")) return true;
-                }
-                else if (j == 45 || j == 46 || j == 47 || j == 48)
-                {
-                    //Potion
-                    if (elementType.Equals("potion_healing")) return true;
-                }
-                else if (j == 49 || j == 50 || j == 51)
-                {
-                    //Borra
-                    if (elementType.Equals("borra")) return true;
-                }
-                else if (j == 52 || j == 53 || j == 54)
-                {
-                    //Bread
-                    if (elementType.Equals("bread")) return true;
-                }
-                else if (j == 55 || j == 56)
-                {
-                    //Peasant cap
-                    if (elementType.Equals("peasant_cap")) return true;
-                }
-                else if (j == 57 || j == 58)
-                {
-                    //Peasant breeches
-                    if (elementType.Equals("peasant_breeches")) return true;
-                }
-                else if (j == 59)
-                {
-                    //Peasant tunic
-                    if (elementType.Equals("peasant_tunic")) return true;
-                }
-                else if (j == 60)
-                {
-                    //Sandals
-                    if (elementType.Equals("sandals")) return true;
-                }
-                else if (j == 61)
-                {
-                    //Leather cap
-                    if (elementType.Equals("leather_cap")) return true;
-                }
-                else if (j == 62)
-                {
-                    //Leather brigandine
-                    if (elementType.Equals("leather_brigandine")) return true;
-                }
-                else if (j == 63)
-                {
-                    //Leather pants
-                    if (elementType.Equals("leather_pants")) return true;
-                }
-                else if (j == 64)
-                {
-                    //Leather boots
-                    if (elementType.Equals("leather_boots")) return true;
-                }
-                else
-                {
-                    //Nothing
-                    return false;
-                }
-            }
-            return false;
-        }
-
-        private bool BelongToHorde(int i, string binaryString)
-        {
-            if (CloseToElement(i, binaryString, "turtle")) return true;
-            if (CloseToElement(i, binaryString, "mummy")) return true;
-            if (CloseToElement(i, binaryString, "skeleton_trooper")) return true;
-            return false;
-        }
-
-        private static double func(double x, double c)
-        {
-            if (x == c) return 1.0;
-            if (x < c) return -c / (x - 2.0 * c);
-            if (x > c) return c / x;
-            return 0.0;
         }
 
         private bool TerminateFunction(Population population, int currentGeneration, long currentEvaluation)
