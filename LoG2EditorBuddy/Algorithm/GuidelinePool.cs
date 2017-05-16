@@ -13,22 +13,6 @@ namespace Log2CyclePrototype.Algorithm
 {
     class GuidelinePool
     {
-        class CellStruct
-        {
-            public int type;
-            public int x;
-            public int y;
-            public bool visited;
-
-            public CellStruct(int type, int x, int y)
-            {
-                this.type = type;
-                this.x = x;
-                this.y = y;
-                this.visited = false;
-            }
-        }
-
         public int InitialPopulation { get; set; }
         public int GenerationLimit { get; set; }
         public double MutationPercentage { get; set; }
@@ -41,19 +25,18 @@ namespace Log2CyclePrototype.Algorithm
 
         public int MaxMonsters { get; set; }
         public int MaxItens { get; set; }
-        public float HordesPercentage { get; set; }
-        public float MapObjectsPercentage { get; set; }
+        public float HordesPercentage { get; set; } //FIXME: Needs to be used
         /*******************************************************/
 
-        private bool running;
-        private Delegate callback;
+        protected bool running;
+        protected Delegate callback;
 
-        private Map originalMap;
-        private List<Cell> cells;
-        private AreaManager areaManager;
+        protected Map originalMap;
+        protected List<Cell> cells;
+        protected AreaManager areaManager;
 
-        public bool HasSolution { get; private set; }
-        public Population Solution { get; private set; }
+        public bool HasSolution { get; protected set; }
+        public Population Solution { get; protected set; }
 
         private delegate bool HasSomething(int x, int y, List<CellStruct> listCells);
 
@@ -185,7 +168,7 @@ namespace Log2CyclePrototype.Algorithm
 
         }
 
-        private double CalculateFitness(Chromosome chromosome)
+        protected double CalculateFitness(Chromosome chromosome)
         {
             double totalFitness = 0.0; // Value between 0 and 1. 1 is the fittest
             int totalMonsters = 0;
@@ -699,12 +682,12 @@ namespace Log2CyclePrototype.Algorithm
             return false;
         }
 
-        private bool TerminateFunction(Population population, int currentGeneration, long currentEvaluation)
+        protected bool TerminateFunction(Population population, int currentGeneration, long currentEvaluation)
         {
             return currentGeneration > GenerationLimit;
         }
 
-        private void OnRunComplete(object sender, GaEventArgs e)
+        protected void OnRunComplete(object sender, GaEventArgs e)
         {
             Solution = e.Population;
 

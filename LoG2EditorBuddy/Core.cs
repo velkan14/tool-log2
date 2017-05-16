@@ -23,7 +23,7 @@ namespace Log2CyclePrototype
         private InnovationPool innovationAlgorithm;
         private GuidelinePool objectiveAlgorithm;
         private ConvergencePool convergenceAlgorithm;
-        private MixAlgorithm mixAlgorithm;
+        private MixPool mixAlgorithm;
         
         private List<Map> suggestionsMap;
         bool validDirectory = false;
@@ -165,7 +165,7 @@ namespace Log2CyclePrototype
             innovationAlgorithm = new InnovationPool();
             objectiveAlgorithm = new GuidelinePool();
             convergenceAlgorithm = new ConvergencePool();
-            mixAlgorithm = new MixAlgorithm();
+            mixAlgorithm = new MixPool();
 
             ThreadPool.QueueUserWorkItem(new WaitCallback(_ =>
             {
@@ -198,14 +198,14 @@ namespace Log2CyclePrototype
                 Logger.AppendText("Objective: " + obj.Fitness);
 
                 /*suggestionsMap.Add(APIClass.MapFromChromosome(OriginalMap, inno));
-                suggestionsMap.Add(APIClass.MapFromChromosome(OriginalMap, conv));*/
-                suggestionsMap.Add(APIClass.MapFromChromosome(OriginalMap, obj));
+                suggestionsMap.Add(APIClass.MapFromChromosome(OriginalMap, conv));
+                suggestionsMap.Add(APIClass.MapFromChromosome(OriginalMap, obj));*/
 
                 AlgorithmRunComplete callback = new AlgorithmRunComplete(MixRunCompleteCallback);
 
                 ThreadPool.QueueUserWorkItem(new WaitCallback(_ =>
                 {
-                    //mixAlgorithm.Run(CurrentMap, convergenceAlgorithm.Solution, innovationAlgorithm.Solution, objectiveAlgorithm.Solution, callback);
+                    mixAlgorithm.Run(CurrentMap, interfaceWindow.AreasManager, convergenceAlgorithm.Solution, innovationAlgorithm.Solution, objectiveAlgorithm.Solution, callback);
                 }));
             }
         }
