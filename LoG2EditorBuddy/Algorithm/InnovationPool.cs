@@ -25,15 +25,18 @@ namespace Log2CyclePrototype
 
         private Map originalMap;
         private List<Cell> cells;
+        private Monsters monsters;
 
         public bool HasSolution { get; private set; }
         public Population Solution { get; private set; }
 
 
-        public InnovationPool()
+        public InnovationPool(Monsters monsters)
         {
-            InitialPopulation = 100;
-            GenerationLimit = 200;
+            this.monsters = monsters;
+
+            InitialPopulation = 30;
+            GenerationLimit = 30;
             MutationPercentage = 0.35;
             CrossOverPercentage = 0.4;
             ElitismPercentage = 5;
@@ -46,14 +49,14 @@ namespace Log2CyclePrototype
         {
             if (running) return;
 
-            originalMap = currentMap;
-            cells = currentMap.SpawnCells;
+            originalMap = currentMap.CloneJson() as Map;
+            cells = originalMap.SpawnCells;
 
             this.callback = callback;
 
             //we can create an empty population as we will be creating the 
             //initial solutions manually.
-            var population = new Population(InitialPopulation, currentMap.SpawnCells.Count * APIClass.NUMBER_GENES);
+            var population = new Population(InitialPopulation, cells.Count * APIClass.NUMBER_GENES);
 
             //create the elite operator
             var elite = new Elite(ElitismPercentage);
@@ -266,8 +269,9 @@ namespace Log2CyclePrototype
             return positionFitness;
         }
 
-        private bool TerminateFunction(Population population, int currentGeneration, long currentEvaluation)
+        protected bool TerminateFunction(Population population, int currentGeneration, long currentEvaluation)
         {
+            monsters.Progress(2, 100 * currentGeneration / GenerationLimit);
             return currentGeneration > GenerationLimit;
         }
 

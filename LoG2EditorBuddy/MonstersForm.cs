@@ -17,6 +17,7 @@ using System.Security.Permissions;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 
@@ -24,23 +25,28 @@ namespace Log2CyclePrototype
 {
     public partial class Monsters : Form
     {
-        private Settings settingsForm;
-
         private Draw drawer;
         private Core core;
         private UserSelection userSelection;
-        Layer layerDifficulty, layerItens, layerMonsters, layerResources;
         public AreaManager AreasManager { get; private set; }
         Image lastImage;
 
-        public Monsters()
+
+        private int InnovationPercentage { get { return trackBar_innovation.Value; } }
+        private int GuidelinePercentage { get { return trackBar_objective.Value; } }
+        private int UserPercentage { get { return trackBar_userplacement.Value; } }
+        private int NumberMonsters { get { return Convert.ToInt32(numericUpDown_maxmonsters.Value); } }
+        private int NumberItens { get { return Convert.ToInt32(numericUpDown_numberItens.Value); } }
+        private int HordesPercentage { get { return trackBar_hordes.Value; } }
+
+    public Monsters()
         {
             InitializeComponent();
         }
 
         private void Monsters_Load(object sender, EventArgs e)
         {
-            core = new Core(this);
+            core = new Core(this, InnovationPercentage, GuidelinePercentage, UserPercentage, NumberMonsters, NumberItens, HordesPercentage);
 
 
 
@@ -55,19 +61,11 @@ namespace Log2CyclePrototype
             Logger.EntryWritten += Logger_EntryWritten;
 
             difficultyDataGridViewTextBoxColumn.DataSource = Enum.GetValues(typeof(Difficulty));
-
-            settingsForm = new Settings(core);
-            initializeParameters(); //FIXME: Talvez não seja a forma correcta de o fazer
         }
 
         public void MapLoaded()
         {
             userSelection = new UserSelection(this, core, gridPanel);
-
-            layerDifficulty = new Layer(this, core.OriginalMap, gridPanel, panel_palett_difficulty, Color.Red);
-            layerItens = new Layer(this, core.OriginalMap, gridPanel, panel_palette_itens, Color.ForestGreen);
-            layerMonsters = new Layer(this, core.OriginalMap, gridPanel, panel_palette_monsters, Color.IndianRed);
-            layerResources = new Layer(this, core.OriginalMap, gridPanel, panel_palette_resources, Color.Yellow);
 
             AreasManager = new AreaManager(core.OriginalMap, gridPanel);
 
@@ -75,15 +73,12 @@ namespace Log2CyclePrototype
 
             Invoke((MethodInvoker)(() =>
             {
+                areaBindingSource.Clear();
                 foreach(Area a in AreasManager.AreaList)
                 {
                     areaBindingSource.Add(a);
                 }
 
-                groupBox_layer_difficulty.Enabled = true;
-                groupBox_layer_itens.Enabled = true;
-                groupBox_layer_monsters.Enabled = true;
-                groupBox_layer_resources.Enabled = true;
                 groupBox_selection.Enabled = true;
 
                 button_undo.Enabled = true;
@@ -125,72 +120,18 @@ namespace Log2CyclePrototype
             if (!userSelection.Attached)
             {
                 userSelection.Attach();
-                layerDifficulty.Dettach();
-                layerItens.Dettach();
-                layerMonsters.Dettach();
-                layerResources.Dettach();
             }
             else
             {
                 userSelection.Dettach();
                 ReDraw();
             }
-
+            
         }
 
         #endregion
         /*********************************************************************************/
 
-        /*********************************************************************************/
-        /******************--------------PARAMATERS---------------************************/
-        /*********************************************************************************/
-
-        #region Parameters
-
-        private void initializeParameters()
-        {
-            trackBar_innovation_Scroll(null, null);
-            trackBar_userplacement_Scroll(null, null);
-            trackBar_objective_Scroll(null, null);
-            trackBar_hordes_Scroll(null, null);
-            trackBar_mapobjects_Scroll(null, null);
-            numericUpDown_maxmonsters_ValueChanged(null, null);
-        }
-
-        private void trackBar_innovation_Scroll(object sender, EventArgs e)
-        {
-            core.InnovationPercentage = trackBar_innovation.Value;
-        }
-
-        private void trackBar_userplacement_Scroll(object sender, EventArgs e)
-        {
-            core.UserPercentage = trackBar_userplacement.Value;
-        }
-
-        private void trackBar_objective_Scroll(object sender, EventArgs e)
-        {
-            core.ObjectivePercentage = trackBar_objective.Value;
-        }
-
-        private void trackBar_hordes_Scroll(object sender, EventArgs e)
-        {
-            //core.HordesPercentage = trackBar_hordes.Value;
-        }
-
-        private void trackBar_mapobjects_Scroll(object sender, EventArgs e)
-        {
-            //core.MapObjectsPercentage = trackBar_mapobjects.Value;
-        }
-
-
-        private void numericUpDown_maxmonsters_ValueChanged(object sender, EventArgs e)
-        {
-            //core.MaxMonsters = Convert.ToInt32(numericUpDown_maxmonsters.Value);
-        }
-
-
-        #endregion
-        /*********************************************************************************/
 
         void Logger_EntryWritten(object sender, LogEntryEventArgs args)
         {
@@ -246,101 +187,8 @@ namespace Log2CyclePrototype
             }
         }
 
-        private void button_visibility_difficulty_Click(object sender, EventArgs e)
-        {
-            if (layerDifficulty.Active)
-            {
-                layerDifficulty.Active = false;
-                button_visibility_difficulty.ImageIndex = 0;
-            }
-            else
-            {
-                layerDifficulty.Active = true;
-                button_visibility_difficulty.ImageIndex = 1;
-            }
-            ReDraw();
-        }
+        
 
-        private void button_visibility_itens_Click(object sender, EventArgs e)
-        {
-            if (layerItens.Active)
-            {
-                layerItens.Active = false;
-                button_visibility_itens.ImageIndex = 0;
-            }
-            else
-            {
-                layerItens.Active = true;
-                button_visibility_itens.ImageIndex = 1;
-            }
-            ReDraw();
-        }
-
-        private void button_visibility_monsters_Click(object sender, EventArgs e)
-        {
-            if (layerMonsters.Active)
-            {
-                layerMonsters.Active = false;
-                button_visibility_monsters.ImageIndex = 0;
-            }
-            else
-            {
-                layerMonsters.Active = true;
-                button_visibility_monsters.ImageIndex = 1;
-            }
-            ReDraw();
-        }
-
-        private void button_visibility_resources_Click(object sender, EventArgs e)
-        {
-            if (layerResources.Active)
-            {
-                layerResources.Active = false;
-                button_visibility_resources.ImageIndex = 0;
-            }
-            else
-            {
-                layerResources.Active = true;
-                button_visibility_resources.ImageIndex = 1;
-            }
-            ReDraw();
-        }
-
-        private void panel_difficulty_click(object sender, MouseEventArgs e)
-        {
-            if (!layerDifficulty.Attached)
-            {
-                userSelection.Dettach();
-                layerDifficulty.Attach();
-                layerItens.Dettach();
-                layerMonsters.Dettach();
-                layerResources.Dettach();
-            }
-        }
-
-        private void panel_itens_click(object sender, MouseEventArgs e)
-        {
-            if (!layerItens.Attached)
-            {
-                userSelection.Dettach();
-                layerDifficulty.Dettach();
-                layerItens.Attach();
-                layerMonsters.Dettach();
-                layerResources.Dettach();
-            }
-        }
-
-        private void panel_monsters_click(object sender, MouseEventArgs e)
-        {
-            if (!layerMonsters.Attached)
-            {
-                userSelection.Dettach();
-                layerDifficulty.Dettach();
-                layerItens.Dettach();
-                layerMonsters.Attach();
-                layerResources.Dettach();
-            }
-        }
 
         private void button_next_Click(object sender, EventArgs e)
         {
@@ -364,7 +212,7 @@ namespace Log2CyclePrototype
 
         private void button_newRun_Click(object sender, EventArgs e)
         {
-            core.NewSuggestion();
+            core.NewSuggestion(InnovationPercentage, GuidelinePercentage, UserPercentage, NumberMonsters, NumberItens, HordesPercentage);
         }
 
         public void UpdateTrackHistory()
@@ -374,17 +222,6 @@ namespace Log2CyclePrototype
                 trackBar_history.Maximum = core.CountSuggestions - 1;
                 trackBar_history.Value = core.IndexMap;
             }));
-        }
-
-        private void panel_resources_click(object sender, MouseEventArgs e)
-        {
-            if (!layerResources.Attached)
-            {
-                layerDifficulty.Dettach();
-                layerItens.Dettach();
-                layerMonsters.Dettach();
-                layerResources.Attach();
-            }
         }
 
         private void dataGridView_SelectionChanged(object sender, EventArgs e)
@@ -398,7 +235,7 @@ namespace Log2CyclePrototype
                     AreasManager.SetUnselected((string)row.Cells[0].Value);
                 }
             }
-            AreasManager.SetSelected((string)dataGridView.CurrentRow.Cells[0].Value);
+            if(dataGridView.CurrentRow != null) AreasManager.SetSelected((string)dataGridView.CurrentRow.Cells[0].Value);
             if (lastImage != null) ReDraw();
         }
 
@@ -418,17 +255,13 @@ namespace Log2CyclePrototype
 
         private void button_settings_Click(object sender, EventArgs e)
         {
-            settingsForm.Show();
+            progressBar1.Increment(100);
         }
 
         public void ReDraw()
         {
             Image image = lastImage.Clone() as Image;
 
-            if (layerDifficulty != null) image = layerDifficulty.Draw(gridPanel.Width, gridPanel.Height, image);
-            if (layerItens != null) image = layerItens.Draw(gridPanel.Width, gridPanel.Height, image);
-            if (layerMonsters != null) image = layerMonsters.Draw(gridPanel.Width, gridPanel.Height, image);
-            if (layerResources != null) image = layerResources.Draw(gridPanel.Width, gridPanel.Height, image);
             if (userSelection != null && userSelection.Attached) image = userSelection.Draw(gridPanel.Width, gridPanel.Height, image);
 
             image = AreasManager.Draw(gridPanel.Width, gridPanel.Height, image);
@@ -451,5 +284,61 @@ namespace Log2CyclePrototype
             ReDraw();
         }
 
+        int conP = 0;
+        int innoP = 0;
+        int guideP = 0;
+        int mixP = 0;
+        public void Progress(int n, int value)
+        {
+
+            Invoke((MethodInvoker)(() => {
+                switch (n)
+                {
+                    case 0:
+                        {
+                            conP = value;
+                            break;
+                        }
+                    case 1:
+                        {
+                            innoP = value;
+                            break;
+                        }
+                    case 2:
+                        {
+                            guideP = value;
+                            break;
+                        }
+                    case 3:
+                        {
+                            mixP = value;
+                            break;
+                        }
+                }
+                progressBar1.Value = Convert.ToInt32(Math.Min(100, (1.0 / 4.0) * conP + (1.0 / 4.0) * innoP + (1.0 / 4.0) * guideP + (1.0 / 4.0) * mixP));
+                if (conP + innoP + guideP + mixP > 400)
+                {
+                    System.Timers.Timer t = new System.Timers.Timer(10000);
+                    t.Elapsed += new ElapsedEventHandler(Reset);
+                    t.Enabled = true;
+                }
+            }));
+        }
+
+        private void Reset(object sender, ElapsedEventArgs e)
+        {
+            ResetProgress();
+        }
+        public void ResetProgress()
+        {
+
+            Invoke((MethodInvoker)(() => {
+                conP = 0;
+                innoP = 0;
+                guideP = 0;
+                mixP = 0;
+                progressBar1.Value = 0;
+            }));
+        }
     }
 }

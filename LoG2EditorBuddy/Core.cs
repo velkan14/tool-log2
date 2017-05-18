@@ -8,6 +8,7 @@ using System.Threading;
 using System.Windows.Forms;
 using System;
 using Log2CyclePrototype.Algorithm;
+using System.Timers;
 
 namespace Log2CyclePrototype
 {
@@ -16,12 +17,12 @@ namespace Log2CyclePrototype
         /***************** CORE **********************/
         private Hook hook;
         private FileWatcher fileWatcher;
-        private Monsters interfaceWindow;
+        private Monsters monsters;
 
         private bool algorithmRunning = false;
         private delegate void AlgorithmRunComplete();
         private InnovationPool innovationAlgorithm;
-        private GuidelinePool objectiveAlgorithm;
+        private GuidelinePool guidelineAlgorithm;
         private ConvergencePool convergenceAlgorithm;
         private MixPool mixAlgorithm;
         
@@ -36,7 +37,17 @@ namespace Log2CyclePrototype
         public int IndexMap { get; set; }
 
         public bool HasMap { get { if (OriginalMap == null) return false; else return true; } }
-        
+        public bool FileChanged { get; set; }
+        System.Timers.Timer timer;
+
+
+        private int InnovationPercentage { get; set; }
+        private int GuidelinePercentage { get; set; }
+        private int UserPercentage { get; set; }
+        private int NumberMonsters { get; set; }
+        private int NumberItens { get; set; }
+        private int HordesPercentage { get; set; }
+
         public void NextMap()
         {
             IndexMap++;
@@ -55,17 +66,41 @@ namespace Log2CyclePrototype
             }
         }
 
-        internal void NewSuggestion()
+        internal void NewSuggestion(int innovationPercentage, int guidelinePercentage, int userPercentage, int numberMonsters, int numberItens, int hordesPercentage)
         {
-            RunAlgorithm();
+            InnovationPercentage = innovationPercentage;
+            GuidelinePercentage = guidelinePercentage;
+            UserPercentage = userPercentage;
+            NumberMonsters = numberMonsters;
+            NumberItens = numberItens;
+            HordesPercentage = hordesPercentage;
+
+            if (algorithmRunning)
+                return;
+
+            if (innovationPercentage == 0 && guidelinePercentage == 0 && userPercentage == 0)
+            {
+                Logger.AppendText("Algorithm must have some behavior! Please set at lease one of the knobs higher than 0.");
+                return;
+            }
+
+            monsters.ResetProgress();
+            RunAlgorithm(innovationPercentage, guidelinePercentage, userPercentage, numberMonsters, numberItens, hordesPercentage);
         }
 
-        public Core(Monsters window)
+        public Core(Monsters window, int innovationPercentage, int guidelinePercentage, int userPercentage, int numberMonsters, int numberItens, int hordesPercentage)
         {
-            this.interfaceWindow = window;
+            this.monsters = window;
+            InnovationPercentage = innovationPercentage;
+            GuidelinePercentage = guidelinePercentage;
+            UserPercentage = userPercentage;
+            NumberMonsters = numberMonsters;
+            NumberItens = numberItens;
+            HordesPercentage = hordesPercentage;
 
             hook = new Hook(this);
             fileWatcher = new FileWatcher(this);
+            timer = new System.Timers.Timer(1000 * 60);
 
             suggestionsMap = new List<Map>();
         }
@@ -85,7 +120,7 @@ namespace Log2CyclePrototype
 
                         DirectoryManager.ProjectDir = folderName;
 
-                        interfaceWindow.Invoke((MethodInvoker)(() => { hook.Start(); }));
+                        monsters.Invoke((MethodInvoker)(() => { hook.Start(); }));
                         fileWatcher.Start();
 
                         LoadMapFromFile();
@@ -101,71 +136,63 @@ namespace Log2CyclePrototype
             if (validDirectory)
             {
                 OriginalMap = APIClass.ParseMapFile();
+                FileChanged = false;
                 suggestionsMap.Add(OriginalMap);
 
                 IndexMap = suggestionsMap.Count - 1;
 
-                interfaceWindow.MapLoaded();
-                interfaceWindow.UpdateTrackHistory();
-                interfaceWindow.ReDrawMap();
+                monsters.MapLoaded();
+                monsters.UpdateTrackHistory();
+                monsters.ReDrawMap();
+
+                if (!timer.Enabled)
+                {
+                    
+                    timer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
+                    timer.Enabled = true;
+                    timer.AutoReset = true;
+                    Console.WriteLine("Timer set");
+                }
+                
             }
         }
 
-
-        /*********************************************/
-       
-        /*******************************************************/
-        /***************Algorithms Percentage*******************/
-        /*******************************************************/
-        public float ObjectivePercentage { get; set; }
-        public float InnovationPercentage { get; set; }
-        public float UserPercentage { get; set; }
-
-        /*******************************************************/
-
-        /*******************************************************/
-
-        /*******************************************************/
-        /***************Algorithm Paramaters********************/
-        /*******************************************************/
-        public bool KeepPopulation { get; set; }
-        public bool RandomTransferPopulation { get; set; }
-
-        public int InitialPopulationObjective { get; set; }
-        public int MutationPercentageObjective { get; set; }
-        public int GenerationsObjective { get; set; }
-        public int ElitismPercentageObjective { get; set; }
-
-        public int InitialPopulationInnovation { get; set; }
-        public int MutationPercentageInnovation { get; set; }
-        public int GenerationsInnovation { get; set; }
-        public int ElitismPercentageInnovation { get; set; }
-
-        public CrossoverT CrossoverType { get; set; }
-
-        /*******************************************************/
+        private void OnTimedEvent(object sender, ElapsedEventArgs e)
+        {
+            Console.WriteLine("Timer event");
+            if (FileChanged)
+            {
+                Console.WriteLine("Map Loaded");
+                LoadMapFromFile();
+            }
+            NewSuggestion(InnovationPercentage, GuidelinePercentage, UserPercentage, NumberMonsters, NumberItens, HordesPercentage);
+        }
 
         /***********************************************************************************/
 
-        private void RunAlgorithm()
+        private void RunAlgorithm(int innovationPercentage, int guidelinePercentage, int userPercentage, int numberMonsters, int numberItens, int hordesPercentage)
         {
-            if (algorithmRunning)
-                return;
-
-            if (InnovationPercentage == 0 && ObjectivePercentage == 0 && UserPercentage == 0)
-            {
-                Logger.AppendText("Algorithm must have some behavior! Please set at lease one of the knobs higher than 0.");
-                return;
-            }
-
             AlgorithmRunComplete callback = new AlgorithmRunComplete(AlgorithmRunCompleteCallback);
 
             algorithmRunning = true;
 
-            innovationAlgorithm = new InnovationPool();
-            objectiveAlgorithm = new GuidelinePool();
-            convergenceAlgorithm = new ConvergencePool();
-            mixAlgorithm = new MixPool();
+            innovationAlgorithm = new InnovationPool(monsters);
+            guidelineAlgorithm = new GuidelinePool(monsters)
+            {
+                MaxMonsters = numberMonsters,
+                MaxItens = numberItens,
+                HordesPercentage = hordesPercentage / 100.0
+            };
+            convergenceAlgorithm = new ConvergencePool(monsters);
+            mixAlgorithm = new MixPool(monsters)
+            {
+                MaxMonsters = numberMonsters,
+                MaxItens = numberItens,
+                HordesPercentage = hordesPercentage,
+                UserPercentage = userPercentage / 100.0,
+                InnovationPercentage = innovationPercentage / 100.0,
+                GuidelinePercentage = guidelinePercentage / 100.0
+            };
 
             ThreadPool.QueueUserWorkItem(new WaitCallback(_ =>
             {
@@ -179,7 +206,7 @@ namespace Log2CyclePrototype
 
             ThreadPool.QueueUserWorkItem(new WaitCallback(_ =>
             {
-                objectiveAlgorithm.Run(CurrentMap, interfaceWindow.AreasManager, callback);
+                guidelineAlgorithm.Run(CurrentMap, monsters.AreasManager, callback);
             }));
 
             Logger.AppendText("Started Algorithm");
@@ -187,25 +214,25 @@ namespace Log2CyclePrototype
 
         void AlgorithmRunCompleteCallback()
         {
-            if(innovationAlgorithm.HasSolution && convergenceAlgorithm.HasSolution && objectiveAlgorithm.HasSolution)
+            if(innovationAlgorithm.HasSolution && convergenceAlgorithm.HasSolution && guidelineAlgorithm.HasSolution)
             {
-                var conv = convergenceAlgorithm.Solution.GetBottom(1)[0];
+                var conv = convergenceAlgorithm.Solution.GetTop(1)[0];
                 var inno = innovationAlgorithm.Solution.GetTop(1)[0];
-                var obj = objectiveAlgorithm.Solution.GetTop(1)[0];
+                var obj = guidelineAlgorithm.Solution.GetTop(1)[0];
 
-                Logger.AppendText("Innovation: " + inno.Fitness);
+                /*Logger.AppendText("Innovation: " + inno.Fitness);
                 Logger.AppendText("Convergence: " + conv.Fitness);
-                Logger.AppendText("Objective: " + obj.Fitness);
+                Logger.AppendText("Objective: " + obj.Fitness);*/
 
-                /*suggestionsMap.Add(APIClass.MapFromChromosome(OriginalMap, inno));
-                suggestionsMap.Add(APIClass.MapFromChromosome(OriginalMap, conv));
-                suggestionsMap.Add(APIClass.MapFromChromosome(OriginalMap, obj));*/
+                //suggestionsMap.Add(APIClass.MapFromChromosome(OriginalMap, inno));
+                //suggestionsMap.Add(APIClass.MapFromChromosome(OriginalMap, conv));
+                //suggestionsMap.Add(APIClass.MapFromChromosome(OriginalMap, obj));*/
 
                 AlgorithmRunComplete callback = new AlgorithmRunComplete(MixRunCompleteCallback);
 
                 ThreadPool.QueueUserWorkItem(new WaitCallback(_ =>
                 {
-                    mixAlgorithm.Run(CurrentMap, interfaceWindow.AreasManager, convergenceAlgorithm.Solution, innovationAlgorithm.Solution, objectiveAlgorithm.Solution, callback);
+                    mixAlgorithm.Run(CurrentMap, monsters.AreasManager, convergenceAlgorithm.Solution, innovationAlgorithm.Solution, guidelineAlgorithm.Solution, callback);
                 }));
             }
         }
@@ -215,10 +242,12 @@ namespace Log2CyclePrototype
             Debug.WriteLine("Recieved Solution!");
             Logger.AppendText("Suggestion updated!\n");
 
-            suggestionsMap.Add(APIClass.MapFromChromosome(OriginalMap, mixAlgorithm.Solution.GetTop(1)[0]));
+            Chromosome c = mixAlgorithm.Solution.GetTop(1)[0];
+            Logger.AppendText("Fitness: " + c.Fitness);
+            suggestionsMap.Add(APIClass.MapFromChromosome(OriginalMap, c));
             IndexMap = suggestionsMap.Count - 1;
-            interfaceWindow.UpdateTrackHistory();
-            interfaceWindow.ReDrawMap();
+            monsters.UpdateTrackHistory();
+            monsters.ReDrawMap();
 
             algorithmRunning = false;
         }

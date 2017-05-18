@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Log2CyclePrototype.Algorithm
 {
-    class GuidelinePool
+    class GuidelinePool : HasStuff
     {
         public int InitialPopulation { get; set; }
         public int GenerationLimit { get; set; }
@@ -25,7 +25,8 @@ namespace Log2CyclePrototype.Algorithm
 
         public int MaxMonsters { get; set; }
         public int MaxItens { get; set; }
-        public float HordesPercentage { get; set; } //FIXME: Needs to be used
+        public double HordesPercentage { get; set; } //FIXME: Needs to be used
+
         /*******************************************************/
 
         protected bool running;
@@ -34,16 +35,19 @@ namespace Log2CyclePrototype.Algorithm
         protected Map originalMap;
         protected List<Cell> cells;
         protected AreaManager areaManager;
+        protected Monsters monsters;
 
         public bool HasSolution { get; protected set; }
         public Population Solution { get; protected set; }
 
         private delegate bool HasSomething(int x, int y, List<CellStruct> listCells);
 
-        public GuidelinePool()
+        public GuidelinePool(Monsters monsters)
         {
-            InitialPopulation = 100;
-            GenerationLimit = 200;
+            this.monsters = monsters;
+
+            InitialPopulation = 30;
+            GenerationLimit = 30;
             MutationPercentage = 0.6;
             CrossOverPercentage = 0.5;
             ElitismPercentage = 10;
@@ -59,10 +63,10 @@ namespace Log2CyclePrototype.Algorithm
         {
             if (running) return;
 
-            originalMap = currentMap;
-            this.areaManager = areaManager;
-            cells = currentMap.SpawnCells;
+            originalMap = currentMap.CloneJson() as Map;
+            cells = originalMap.SpawnCells;
 
+            this.areaManager = areaManager;
             this.callback = callback;
 
             //we can create an empty population as we will be creating the 
@@ -330,7 +334,7 @@ namespace Log2CyclePrototype.Algorithm
             }
 
             /* Percentages of all fitness */
-            totalFitness = 0.5 * (0.5 * maxMonstersFitness + 0.5 * totalFitness) + 0.5 * (0.5 * itensFitness + 0.5 * maxItensFitness);
+            totalFitness = 0.5 * (0.2 * maxMonstersFitness + 0.8 * totalFitness) + 0.5 * (0.8 * itensFitness + 0.2 * maxItensFitness);
 
             return totalFitness;
         }
@@ -397,199 +401,7 @@ namespace Log2CyclePrototype.Algorithm
             return tileTraversed;
         }
 
-        private bool HasItem(int x, int y, List<CellStruct> listCells)
-        {
-            CellStruct cell = listCells.FirstOrDefault(c => c.x == x && c.y == y);
-
-            if (cell == null) return false;
-
-            int j = cell.type;
-
-            if (j == 33 || j == 34 || j == 35)
-            {
-                //Cudgel
-                return true;
-            }
-            else if (j == 36 || j == 37 || j == 38)
-            {
-                //Machete
-                return true;
-            }
-            else if (j == 39 || j == 40 || j == 41)
-            {
-                //Rapier
-                return true;
-            }
-            else if (j == 42 || j == 43 || j == 44)
-            {
-                //Battle Axe
-                return true;
-            }
-            else if (j == 45 || j == 46 || j == 47 || j == 48)
-            {
-                //Potion
-                return true;
-            }
-            else if (j == 49 || j == 50 || j == 51)
-            {
-                //Borra
-                return true;
-            }
-            else if (j == 52 || j == 53 || j == 54)
-            {
-                //Bread
-                return true;
-            }
-            else if (j == 55 || j == 56)
-            {
-                //Peasant cap
-                return true;
-            }
-            else if (j == 57 || j == 58)
-            {
-                //Peasant breeches
-                return true;
-            }
-            else if (j == 59)
-            {
-                //Peasant tunic
-                return true;
-            }
-            else if (j == 60)
-            {
-                //Sandals
-                return true;
-            }
-            else if (j == 61)
-            {
-                //Leather cap
-                return true;
-            }
-            else if (j == 62)
-            {
-                //Leather brigandine
-                return true;
-            }
-            else if (j == 63)
-            {
-                //Leather pants
-                return true;
-            }
-            else if (j == 64)
-            {
-                //Leather boots
-                return true;
-            }
-            return false;
-        }
-
-        private bool HasWeapon(int x, int y, List<CellStruct> listCells)
-        {
-            CellStruct cell = listCells.FirstOrDefault(c => c.x == x && c.y == y);
-
-            if (cell == null) return false;
-
-            int j = cell.type;
-
-            if (j == 33 || j == 34 || j == 35)
-            {
-                //Cudgel
-                return true;
-            }
-            else if (j == 36 || j == 37 || j == 38)
-            {
-                //Machete
-                return true;
-            }
-            else if (j == 39 || j == 40 || j == 41)
-            {
-                //Rapier
-                return true;
-            }
-            else if (j == 42 || j == 43 || j == 44)
-            {
-                //Battle Axe
-                return true;
-            }
-            return false;
-        }
-
-        private bool HasResource(int x, int y, List<CellStruct> listCells)
-        {
-            CellStruct cell = listCells.FirstOrDefault(c => c.x == x && c.y == y);
-
-            if (cell == null) return false;
-
-            int j = cell.type;
-
-            if (j == 45 || j == 46 || j == 47 || j == 48)
-            {
-                //Potion
-                return true;
-            }
-            else if (j == 49 || j == 50 || j == 51)
-            {
-                //Borra
-                return true;
-            }
-            else if (j == 52 || j == 53 || j == 54)
-            {
-                //Bread
-                return true;
-            }
-            return false;
-        }
-
-        private bool HasArmor(int x, int y, List<CellStruct> listCells)
-        {
-            CellStruct cell = listCells.FirstOrDefault(c => c.x == x && c.y == y);
-
-            if (cell == null) return false;
-
-            int j = cell.type;
-
-            if (j == 55 || j == 56)
-            {
-                //Peasant cap
-                return true;
-            }
-            else if (j == 57 || j == 58)
-            {
-                //Peasant breeches
-                return true;
-            }
-            else if (j == 59)
-            {
-                //Peasant tunic
-                return true;
-            }
-            else if (j == 60)
-            {
-                //Sandals
-                return true;
-            }
-            else if (j == 61)
-            {
-                //Leather cap
-                return true;
-            }
-            else if (j == 62)
-            {
-                //Leather brigandine
-                return true;
-            }
-            else if (j == 63)
-            {
-                //Leather pants
-                return true;
-            }
-            else if (j == 64)
-            {
-                //Leather boots
-                return true;
-            }
-            return false;
-        }
+        
 
         private static bool HasCell(int x, int y, List<CellStruct> listCells)
         {
@@ -614,76 +426,9 @@ namespace Log2CyclePrototype.Algorithm
             return false;
         }
 
-        private static bool HasMonster(int x, int y, List<CellStruct> listCells)
-        {
-            CellStruct cell = listCells.FirstOrDefault(c => c.x == x && c.y == y);
-
-            if (cell == null) return false;
-
-            int j = cell.type;
-
-            if (j == 1 || j == 2 || j == 3 || j == 4 || j == 5 || j == 6 || j == 7 || j == 8 || j == 9 || j == 10 || j == 11)
-            {
-                //Turtle
-                return true;
-            }
-            else if (j == 12 || j == 13 || j == 14 || j == 15 || j == 16 || j == 17 || j == 18 || j == 19 || j == 20 || j == 21 || j == 22)
-            {
-                //Mummy
-                return true;
-            }
-            else if (j == 23 || j == 24 || j == 25 || j == 26 || j == 27 || j == 28 || j == 29 || j == 30 || j == 31 || j == 32)
-            {
-                //Skeleton
-                return true;
-            }
-            return false;
-        }
-
-        private static bool HasTurtle(int x, int y, List<CellStruct> listCells)
-        {
-            CellStruct cell = listCells.FirstOrDefault(c => c.x == x && c.y == y);
-
-            int j = cell.type;
-
-            if (j == 1 || j == 2 || j == 3 || j == 4 || j == 5 || j == 6 || j == 7 || j == 8 || j == 9 || j == 10 || j == 11)
-            {
-                //Turtle
-                return true;
-            }
-            return false;
-        }
-
-        private static bool HasMummy(int x, int y, List<CellStruct> listCells)
-        {
-            CellStruct cell = listCells.FirstOrDefault(c => c.x == x && c.y == y);
-
-            int j = cell.type;
-
-            if (j == 12 || j == 13 || j == 14 || j == 15 || j == 16 || j == 17 || j == 18 || j == 19 || j == 20 || j == 21 || j == 22)
-            {
-                //Mummy
-                return true;
-            }
-            return false;
-        }
-
-        private static bool HasSkeleton(int x, int y, List<CellStruct> listCells)
-        {
-            CellStruct cell = listCells.FirstOrDefault(c => c.x == x && c.y == y);
-
-            int j = cell.type;
-
-            if (j == 23 || j == 24 || j == 25 || j == 26 || j == 27 || j == 28 || j == 29 || j == 30 || j == 31 || j == 32)
-            {
-                //Skeleton
-                return true;
-            }
-            return false;
-        }
-
         protected bool TerminateFunction(Population population, int currentGeneration, long currentEvaluation)
         {
+            monsters.Progress(1, 100 * currentGeneration / GenerationLimit);
             return currentGeneration > GenerationLimit;
         }
 

@@ -15,26 +15,26 @@ namespace Log2CyclePrototype.Algorithm
         /*******************************************************/
         /*********************Parameters************************/
         /*******************************************************/
-        public float ObjectivePercentage { get; set; }
-        public float InnovationPercentage { get; set; }
-        public float UserPercentage { get; set; }
+        public double GuidelinePercentage { get; set; }
+        public double InnovationPercentage { get; set; }
+        public double UserPercentage { get; set; }
 
         /*******************************************************/
 
-        public MixPool()
+        public MixPool(Monsters monsters) : base(monsters)
         {
-            InitialPopulation = 100;
-            GenerationLimit = 200;
+            InitialPopulation = 30;
+            GenerationLimit = 30;
             MutationPercentage = 1.0;
             CrossOverPercentage = 0.4;
             ElitismPercentage = 5;
 
-            ObjectivePercentage = 1.0f;
+            /*GuidelinePercentage = 1.0f;
             InnovationPercentage = 0.4f;
             UserPercentage = 0.4f;
 
             MaxMonsters = 7;
-            MaxItens = 5;
+            MaxItens = 5;*/
 
             running = false;
             HasSolution = false;
@@ -56,14 +56,18 @@ namespace Log2CyclePrototype.Algorithm
 
             population.Solutions.Clear();
 
-            float total = ObjectivePercentage + UserPercentage + InnovationPercentage;
-            int objective = (int)System.Math.Round(ObjectivePercentage / total);
-            int user = (int)System.Math.Round(UserPercentage / total);
-            int innov = (int)System.Math.Round(InnovationPercentage / total);
+            double total = GuidelinePercentage + UserPercentage + InnovationPercentage;
+            int objective = (int)System.Math.Round((GuidelinePercentage / total) * InitialPopulation);
+            int user = (int)System.Math.Round((UserPercentage / total) * InitialPopulation);
+            int innov = (int)System.Math.Round((InnovationPercentage / total) * InitialPopulation);
 
-            population.Solutions.AddRange(obj.GetTop(objective * InitialPopulation));
-            population.Solutions.AddRange(obj.GetTop(user * InitialPopulation));
-            population.Solutions.AddRange(obj.GetTop(innov * InitialPopulation));
+            int fix = InitialPopulation - (objective + user + innov);
+
+            user += fix;
+            
+            population.Solutions.AddRange(obj.GetTop(objective));
+            population.Solutions.AddRange(obj.GetTop(user));
+            population.Solutions.AddRange(obj.GetTop(innov));
 
 
             //create the elite operator
@@ -87,6 +91,12 @@ namespace Log2CyclePrototype.Algorithm
             //run the GA
             running = true;
             ga.Run(TerminateFunction);
+        }
+
+        protected bool TerminateFunction(Population population, int currentGeneration, long currentEvaluation)
+        {
+            monsters.Progress(3, 100 * currentGeneration / GenerationLimit);
+            return currentGeneration > GenerationLimit;
         }
     }
 }

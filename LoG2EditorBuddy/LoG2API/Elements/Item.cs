@@ -72,7 +72,25 @@ namespace Log2CyclePrototype.LoG2API.Elements
         {
             get
             {
-                return 1.0f;
+                if (ElementType.Equals("cudgel") ||
+                   ElementType.Equals("machete") ||
+                   ElementType.Equals("rapier") ||
+                   ElementType.Equals("battle_axe") ||
+                   ElementType.Equals("potion_healing") ||
+                   ElementType.Equals("borra") ||
+                   ElementType.Equals("bread") ||
+                   ElementType.Equals("peasant_cap") ||
+                   ElementType.Equals("peasant_breeches") ||
+                   ElementType.Equals("peasant_tunic") ||
+                   ElementType.Equals("sandals") ||
+                   ElementType.Equals("leather_cap") ||
+                   ElementType.Equals("leather_brigandine") ||
+                   ElementType.Equals("leather_pants") ||
+                   ElementType.Equals("leather_boots"))
+                {
+                    return 1.0f;
+                }
+                return 0.3f;
             }
         }
 

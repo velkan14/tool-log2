@@ -1,6 +1,7 @@
 ﻿using GAF;
 using GAF.Operators;
 using Log2CyclePrototype.LoG2API;
+using Log2CyclePrototype.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Log2CyclePrototype.Algorithm
 {
-    class ConvergencePool
+    class ConvergencePool : HasStuff
     {
         public int InitialPopulation { get; set; }
         public int GenerationLimit { get; set; }
@@ -22,17 +23,22 @@ namespace Log2CyclePrototype.Algorithm
 
         private Map originalMap;
         private List<Cell> cells;
+
         private int maxItens = 0;
         private int maxMonsters = 0;
+        private int emptyTiles = 0;
+        private Monsters monsters;
 
         public bool HasSolution { get; private set; }
         public Population Solution { get; private set; }
 
 
-        public ConvergencePool()
+        public ConvergencePool(Monsters monsters)
         {
-            InitialPopulation = 100;
-            GenerationLimit = 200;
+            this.monsters = monsters;
+
+            InitialPopulation = 30;
+            GenerationLimit = 30;
             MutationPercentage = 0.7;
             CrossOverPercentage = 0.7;
             ElitismPercentage = 5;
@@ -45,9 +51,9 @@ namespace Log2CyclePrototype.Algorithm
         {
             if (running) return;
 
-            originalMap = currentMap;
+            originalMap = currentMap.CloneJson() as Map;
 
-            cells = currentMap.SpawnCells;
+            cells = originalMap.SpawnCells;
 
             foreach (Cell c in cells)
             {
@@ -57,7 +63,7 @@ namespace Log2CyclePrototype.Algorithm
                 {
                     maxMonsters++;
                 }
-                if (c.Exists("cudgel") ||
+                else if (c.Exists("cudgel") ||
                    c.Exists("machete") ||
                    c.Exists("rapier") ||
                    c.Exists("battle_axe") ||
@@ -75,10 +81,11 @@ namespace Log2CyclePrototype.Algorithm
                 {
                     maxItens++;
                 }
+                else
+                {
+                    emptyTiles++;
+                }
             }
-
-            Console.WriteLine("Number Monsters: " + maxMonsters);
-            Console.WriteLine("Number Itens: " + maxItens);
 
             this.callback = callback;
 
@@ -88,7 +95,7 @@ namespace Log2CyclePrototype.Algorithm
 
             population.Solutions.Clear();
 
-            Chromosome chrom = APIClass.ChromosomeFromMap(currentMap);
+            Chromosome chrom = APIClass.ChromosomeFromMap(originalMap);
 
             for (int i = 0; i < InitialPopulation; i++)
             {
@@ -118,229 +125,109 @@ namespace Log2CyclePrototype.Algorithm
             ga.Run(TerminateFunction);
         }
 
+        /* Para quando x <= n */
+        private double FunctionRising(double x, double n)
+        {
+            return System.Math.Min(System.Math.Abs(x / n), 1.0);
+        }
+
         private double CalculateFitnessBinary(Chromosome chromosome)
         {
             double fitness = 0.0; // Value between 0 and 1. 1 is the fittest
             int numberItens = 0;
             int numberMonsters = 0;
+            int numberEqual = 0;
+            int numberEmpty = 0;
+
             string binaryString = chromosome.ToBinaryString();
+
+            List<CellStruct> listCells = new List<CellStruct>();
 
             for (int i = 0; i < cells.Count; i++)
             {
                 string s = binaryString.Substring(i * APIClass.NUMBER_GENES, APIClass.NUMBER_GENES);
                 int j = Convert.ToInt32(s, 2);
-
-                if (j == 1 || j == 2 || j == 3 || j == 4 || j == 5 || j == 6 || j == 7 || j == 8 || j == 9 || j == 10 || j == 11)
-                {
-                    //Turtle
-                    if (cells[i].Exists("turtle"))
-                    {
-                        fitness++;
-                    }
-                    numberMonsters++;
-                }
-                else if (j == 12 || j == 13 || j == 14 || j == 15 || j == 16 || j == 17 || j == 18 || j == 19 || j == 20 || j == 21 || j == 22)
-                {
-                    //Mummy
-                    if (cells[i].Exists("mummy"))
-                    {
-                        fitness++;
-                    }
-                    numberMonsters++;
-                }
-                else if (j == 23 || j == 24 || j == 25 || j == 26 || j == 27 || j == 28 || j == 29 || j == 30 || j == 31 || j == 32)
-                {
-                    //Skeleton
-                    if (cells[i].Exists("skeleton_trooper"))
-                    {
-                        fitness++;
-                    }
-                    numberMonsters++;
-                }
-                else if (j == 33 || j == 34 || j == 35)
-                {
-                    //Cudgel
-                    if (cells[i].Exists("cudgel"))
-                    {
-                        fitness++;
-                    }
-                    numberItens++;
-                }
-                else if (j == 36 || j == 37 || j == 38)
-                {
-                    //Machete
-                    if (cells[i].Exists("machete"))
-                    {
-                        fitness++;
-                    }
-                    numberItens++;
-                }
-                else if (j == 39 || j == 40 || j == 41)
-                {
-                    //Rapier
-                    if (cells[i].Exists("rapier"))
-                    {
-                        fitness++;
-                    }
-                    numberItens++;
-                }
-                else if (j == 42 || j == 43 || j == 44)
-                {
-                    //Battle Axe
-                    if (cells[i].Exists("battle_axe"))
-                    {
-                        fitness++;
-                    }
-                    numberItens++;
-                }
-                else if (j == 45 || j == 46 || j == 47 || j == 48)
-                {
-                    //Potion
-                    if (cells[i].Exists("potion_healing"))
-                    {
-                        fitness++;
-                    }
-                    numberItens++;
-                }
-                else if (j == 49 || j == 50 || j == 51)
-                {
-                    //Borra
-                    if (cells[i].Exists("borra"))
-                    {
-                        fitness++;
-                    }
-                    numberItens++;
-                }
-                else if (j == 52 || j == 53 || j == 54)
-                {
-                    //Bread
-                    if (cells[i].Exists("bread"))
-                    {
-                        fitness++;
-                    }
-                    numberItens++;
-                }
-                else if (j == 55 || j == 56)
-                {
-                    //Peasant cap
-                    if (cells[i].Exists("peasant_cap"))
-                    {
-                        fitness++;
-                    }
-                    numberItens++;
-                }
-                else if (j == 57 || j == 58)
-                {
-                    //Peasant breeches
-                    if (cells[i].Exists("peasant_breeches"))
-                    {
-                        fitness++;
-                    }
-                    numberItens++;
-                }
-                else if (j == 59)
-                {
-                    //Peasant tunic
-                    if (cells[i].Exists("peasant_tunic"))
-                    {
-                        fitness++;
-                    }
-                    numberItens++;
-                }
-                else if (j == 60)
-                {
-                    //Sandals
-                    if (cells[i].Exists("sandals"))
-                    {
-                        fitness++;
-                    }
-                    numberItens++;
-                }
-                else if (j == 61)
-                {
-                    //Leather cap
-                    if (cells[i].Exists("leather_cap"))
-                    {
-                        fitness++;
-                    }
-                    numberItens++;
-                }
-                else if (j == 62)
-                {
-                    //Leather brigandine
-                    if (cells[i].Exists("leather_brigandine"))
-                    {
-                        fitness++;
-                    }
-                    numberItens++;
-                }
-                else if (j == 63)
-                {
-                    //Leather pants
-                    if (cells[i].Exists("leather_pants"))
-                    {
-                        fitness++;
-                    }
-                    numberItens++;
-                }
-                else if (j == 64)
-                {
-                    //Leather boots
-                    if (cells[i].Exists("leather_boots"))
-                    {
-                        fitness++;
-                    }
-                    numberItens++;
-                }
-                else
-                {
-                    //Nothing
-                    if (!cells[i].Exists("turtle") &&
-                        !cells[i].Exists("mummy") &&
-                        !cells[i].Exists("skeleton_trooper") &&
-                        !cells[i].Exists("cudgel") &&
-                        !cells[i].Exists("machete") &&
-                        !cells[i].Exists("rapier") &&
-                        !cells[i].Exists("battle_axe") &&
-                        !cells[i].Exists("potion_healing") &&
-                        !cells[i].Exists("borra") &&
-                        !cells[i].Exists("bread") &&
-                        !cells[i].Exists("peasant_cap") &&
-                        !cells[i].Exists("peasant_breeches") &&
-                        !cells[i].Exists("peasant_tunic") &&
-                        !cells[i].Exists("sandals") &&
-                        !cells[i].Exists("leather_cap") &&
-                        !cells[i].Exists("leather_brigandine") &&
-                        !cells[i].Exists("leather_pants") &&
-                        !cells[i].Exists("leather_boots"))
-                    {
-                        //fitness++;
-                    }
-                }
+                listCells.Add(new CellStruct(j, cells[i].X, cells[i].Y));
             }
 
-           
-            fitness = fitness / (maxItens + maxMonsters);
+            foreach (Cell c in cells)
+            {
+                if (HasMonster(c.X, c.Y, listCells) && c.Monster != null)
+                {
+                    numberMonsters++;
+                    if (HasTurtle(c.X, c.Y, listCells) && c.Exists("turtle")) numberEqual++;
+                    if (HasMummy(c.X, c.Y, listCells) && c.Exists("mummy")) numberEqual++;
+                    if (HasSkeleton(c.X, c.Y, listCells) && c.Exists("skeleton_trooper")) numberEqual++;
+                }
+                if (HasItem(c.X, c.Y, listCells) && (c.Exists("cudgel") ||
+                   c.Exists("machete") ||
+                   c.Exists("rapier") ||
+                   c.Exists("battle_axe") ||
+                   c.Exists("potion_healing") ||
+                   c.Exists("borra") ||
+                   c.Exists("bread") ||
+                   c.Exists("peasant_cap") ||
+                   c.Exists("peasant_breeches") ||
+                   c.Exists("peasant_tunic") ||
+                   c.Exists("sandals") ||
+                   c.Exists("leather_cap") ||
+                   c.Exists("leather_brigandine") ||
+                   c.Exists("leather_pants") ||
+                   c.Exists("leather_boots")))
+                {
+                    numberItens++;
+                    if (HasResource(c.X, c.Y, listCells) && (c.Exists("cudgel") ||
+                   c.Exists("machete") ||
+                   c.Exists("rapier") ||
+                   c.Exists("battle_axe"))) numberEqual++;
+                    if (HasWeapon(c.X, c.Y, listCells) && (c.Exists("potion_healing") ||
+                   c.Exists("borra") ||
+                   c.Exists("bread"))) numberEqual++;
+                    if (HasArmor(c.X, c.Y, listCells) &&(c.Exists("peasant_cap") ||
+                   c.Exists("peasant_breeches") ||
+                   c.Exists("peasant_tunic") ||
+                   c.Exists("sandals") ||
+                   c.Exists("leather_cap") ||
+                   c.Exists("leather_brigandine") ||
+                   c.Exists("leather_pants") ||
+                   c.Exists("leather_boots"))) numberEqual++;
+                }
+                if(!HasMonster(c.X, c.Y, listCells) && !HasItem(c.X, c.Y, listCells) && 
+                    !c.Exists("turtle") &&
+                   !c.Exists("mummy") &&
+                   !c.Exists("skeleton_trooper") &&
+                   !c.Exists("cudgel") &&
+                   !c.Exists("machete") &&
+                   !c.Exists("rapier") &&
+                   !c.Exists("battle_axe") &&
+                   !c.Exists("potion_healing") &&
+                   !c.Exists("borra") &&
+                   !c.Exists("bread") &&
+                   !c.Exists("peasant_cap") &&
+                   !c.Exists("peasant_breeches") &&
+                   !c.Exists("peasant_tunic") &&
+                   !c.Exists("sandals") &&
+                   !c.Exists("leather_cap") &&
+                   !c.Exists("leather_brigandine") &&
+                   !c.Exists("leather_pants") &&
+                   !c.Exists("leather_boots"))
+                {
+                    numberEmpty++;
+                }
 
-            double fit = func(numberMonsters + numberItens, maxItens + maxMonsters);
 
-            double monstersFit = func(numberMonsters, maxMonsters);
+            }
+            fitness = (1.0 / 4.0) * FunctionRising(numberMonsters, maxMonsters) +
+                    (1.0 / 4.0) * FunctionRising(numberItens, maxItens) +
+                   (1.0 / 4.0) * FunctionRising(numberEqual, maxMonsters) +
+                   (1.0 / 4.0) * FunctionRising(numberEmpty, emptyTiles);
 
-            double itensFit = func(numberItens, maxItens);
-
-            return (fitness + (monstersFit + itensFit) / 2.0) / 2.0;
-        }
-
-        private static double func(double x, double c)
-        {
-            if (x == c) return 1.0;
-            if (x < c) return -c / (x - 2.0 * c);
-            if (x > c) return c / x;
-            return 0.0;
+            return fitness;
         }
 
         private bool TerminateFunction(Population population, int currentGeneration, long currentEvaluation)
         {
+            monsters.Progress(0, 100 * currentGeneration / GenerationLimit);
             return currentGeneration > GenerationLimit;
         }
 

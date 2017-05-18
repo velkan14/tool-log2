@@ -38,7 +38,7 @@
             this.trackBar_objective = new System.Windows.Forms.TrackBar();
             this.groupBox_mainsliders = new System.Windows.Forms.GroupBox();
             this.groupBox_objectives = new System.Windows.Forms.GroupBox();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDown_numberItens = new System.Windows.Forms.NumericUpDown();
             this.label_maxitens = new System.Windows.Forms.Label();
             this.numericUpDown_maxmonsters = new System.Windows.Forms.NumericUpDown();
             this.trackBar_mapobjects = new System.Windows.Forms.TrackBar();
@@ -64,20 +64,8 @@
             this.uISettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.creditsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.groupBox_layer_difficulty = new System.Windows.Forms.GroupBox();
-            this.button_visibility_difficulty = new System.Windows.Forms.Button();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
-            this.panel_palett_difficulty = new System.Windows.Forms.Panel();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.groupBox_layer_itens = new System.Windows.Forms.GroupBox();
-            this.button_visibility_itens = new System.Windows.Forms.Button();
-            this.panel_palette_itens = new System.Windows.Forms.Panel();
-            this.groupBox_layer_monsters = new System.Windows.Forms.GroupBox();
-            this.button_visibility_monsters = new System.Windows.Forms.Button();
-            this.panel_palette_monsters = new System.Windows.Forms.Panel();
-            this.groupBox_layer_resources = new System.Windows.Forms.GroupBox();
-            this.button_visibility_resources = new System.Windows.Forms.Button();
-            this.panel_palette_resources = new System.Windows.Forms.Panel();
             this.toolTip_panel = new System.Windows.Forms.ToolTip(this.components);
             this.button_newSuggestion = new System.Windows.Forms.Button();
             this.trackBar_history = new System.Windows.Forms.TrackBar();
@@ -90,21 +78,18 @@
             this.dataGridViewComboBoxColumn2 = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.dataGridViewButtonColumn1 = new System.Windows.Forms.DataGridViewButtonColumn();
             this.areasBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_innovation)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_userplacement)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_objective)).BeginInit();
             this.groupBox_mainsliders.SuspendLayout();
             this.groupBox_objectives.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_numberItens)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_maxmonsters)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_mapobjects)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_hordes)).BeginInit();
             this.groupBox_selection.SuspendLayout();
             this.menuStrip1.SuspendLayout();
-            this.groupBox_layer_difficulty.SuspendLayout();
-            this.groupBox_layer_itens.SuspendLayout();
-            this.groupBox_layer_monsters.SuspendLayout();
-            this.groupBox_layer_resources.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_history)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.areaBindingSource)).BeginInit();
@@ -148,7 +133,6 @@
             this.trackBar_innovation.TabIndex = 3;
             this.trackBar_innovation.TickStyle = System.Windows.Forms.TickStyle.None;
             this.trackBar_innovation.Value = 100;
-            this.trackBar_innovation.Scroll += new System.EventHandler(this.trackBar_innovation_Scroll);
             // 
             // trackBar_userplacement
             // 
@@ -160,7 +144,6 @@
             this.trackBar_userplacement.TabIndex = 4;
             this.trackBar_userplacement.TickStyle = System.Windows.Forms.TickStyle.None;
             this.trackBar_userplacement.Value = 100;
-            this.trackBar_userplacement.Scroll += new System.EventHandler(this.trackBar_userplacement_Scroll);
             // 
             // trackBar_objective
             // 
@@ -172,7 +155,6 @@
             this.trackBar_objective.TabIndex = 5;
             this.trackBar_objective.TickStyle = System.Windows.Forms.TickStyle.None;
             this.trackBar_objective.Value = 100;
-            this.trackBar_objective.Scroll += new System.EventHandler(this.trackBar_objective_Scroll);
             // 
             // groupBox_mainsliders
             // 
@@ -191,7 +173,7 @@
             // 
             // groupBox_objectives
             // 
-            this.groupBox_objectives.Controls.Add(this.numericUpDown1);
+            this.groupBox_objectives.Controls.Add(this.numericUpDown_numberItens);
             this.groupBox_objectives.Controls.Add(this.label_maxitens);
             this.groupBox_objectives.Controls.Add(this.numericUpDown_maxmonsters);
             this.groupBox_objectives.Controls.Add(this.trackBar_mapobjects);
@@ -206,13 +188,13 @@
             this.groupBox_objectives.TabStop = false;
             this.groupBox_objectives.Text = "Objective Parameters ";
             // 
-            // numericUpDown1
+            // numericUpDown_numberItens
             // 
-            this.numericUpDown1.Location = new System.Drawing.Point(160, 50);
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(103, 20);
-            this.numericUpDown1.TabIndex = 10;
-            this.numericUpDown1.Value = new decimal(new int[] {
+            this.numericUpDown_numberItens.Location = new System.Drawing.Point(160, 50);
+            this.numericUpDown_numberItens.Name = "numericUpDown_numberItens";
+            this.numericUpDown_numberItens.Size = new System.Drawing.Size(103, 20);
+            this.numericUpDown_numberItens.TabIndex = 10;
+            this.numericUpDown_numberItens.Value = new decimal(new int[] {
             5,
             0,
             0,
@@ -238,7 +220,6 @@
             0,
             0,
             0});
-            this.numericUpDown_maxmonsters.ValueChanged += new System.EventHandler(this.numericUpDown_maxmonsters_ValueChanged);
             // 
             // trackBar_mapobjects
             // 
@@ -248,7 +229,6 @@
             this.trackBar_mapobjects.Size = new System.Drawing.Size(143, 45);
             this.trackBar_mapobjects.TabIndex = 6;
             this.trackBar_mapobjects.TickStyle = System.Windows.Forms.TickStyle.None;
-            this.trackBar_mapobjects.Scroll += new System.EventHandler(this.trackBar_mapobjects_Scroll);
             // 
             // trackBar_hordes
             // 
@@ -258,7 +238,6 @@
             this.trackBar_hordes.Size = new System.Drawing.Size(142, 45);
             this.trackBar_hordes.TabIndex = 5;
             this.trackBar_hordes.TickStyle = System.Windows.Forms.TickStyle.None;
-            this.trackBar_hordes.Scroll += new System.EventHandler(this.trackBar_hordes_Scroll);
             // 
             // label_mapobjects
             // 
@@ -458,156 +437,12 @@
             this.creditsToolStripMenuItem.Size = new System.Drawing.Size(111, 22);
             this.creditsToolStripMenuItem.Text = "Credits";
             // 
-            // groupBox_layer_difficulty
-            // 
-            this.groupBox_layer_difficulty.Controls.Add(this.button_visibility_difficulty);
-            this.groupBox_layer_difficulty.Controls.Add(this.panel_palett_difficulty);
-            this.groupBox_layer_difficulty.Enabled = false;
-            this.groupBox_layer_difficulty.Location = new System.Drawing.Point(12, 408);
-            this.groupBox_layer_difficulty.Name = "groupBox_layer_difficulty";
-            this.groupBox_layer_difficulty.Size = new System.Drawing.Size(171, 56);
-            this.groupBox_layer_difficulty.TabIndex = 15;
-            this.groupBox_layer_difficulty.TabStop = false;
-            this.groupBox_layer_difficulty.Text = "Difficulty";
-            // 
-            // button_visibility_difficulty
-            // 
-            this.button_visibility_difficulty.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.button_visibility_difficulty.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
-            this.button_visibility_difficulty.FlatAppearance.MouseDownBackColor = System.Drawing.SystemColors.Control;
-            this.button_visibility_difficulty.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.Control;
-            this.button_visibility_difficulty.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button_visibility_difficulty.ImageIndex = 0;
-            this.button_visibility_difficulty.ImageList = this.imageList1;
-            this.button_visibility_difficulty.Location = new System.Drawing.Point(134, 24);
-            this.button_visibility_difficulty.Name = "button_visibility_difficulty";
-            this.button_visibility_difficulty.Size = new System.Drawing.Size(31, 26);
-            this.button_visibility_difficulty.TabIndex = 2;
-            this.button_visibility_difficulty.UseVisualStyleBackColor = true;
-            this.button_visibility_difficulty.Click += new System.EventHandler(this.button_visibility_difficulty_Click);
-            // 
             // imageList1
             // 
             this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
             this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
             this.imageList1.Images.SetKeyName(0, "eyeclosed.png");
             this.imageList1.Images.SetKeyName(1, "eye-2x.png");
-            // 
-            // panel_palett_difficulty
-            // 
-            this.panel_palett_difficulty.Location = new System.Drawing.Point(6, 26);
-            this.panel_palett_difficulty.Name = "panel_palett_difficulty";
-            this.panel_palett_difficulty.Size = new System.Drawing.Size(90, 25);
-            this.panel_palett_difficulty.TabIndex = 0;
-            this.panel_palett_difficulty.MouseClick += new System.Windows.Forms.MouseEventHandler(this.panel_difficulty_click);
-            // 
-            // groupBox_layer_itens
-            // 
-            this.groupBox_layer_itens.Controls.Add(this.button_visibility_itens);
-            this.groupBox_layer_itens.Controls.Add(this.panel_palette_itens);
-            this.groupBox_layer_itens.Enabled = false;
-            this.groupBox_layer_itens.Location = new System.Drawing.Point(12, 470);
-            this.groupBox_layer_itens.Name = "groupBox_layer_itens";
-            this.groupBox_layer_itens.Size = new System.Drawing.Size(171, 56);
-            this.groupBox_layer_itens.TabIndex = 16;
-            this.groupBox_layer_itens.TabStop = false;
-            this.groupBox_layer_itens.Text = "Itens";
-            // 
-            // button_visibility_itens
-            // 
-            this.button_visibility_itens.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.button_visibility_itens.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
-            this.button_visibility_itens.FlatAppearance.MouseDownBackColor = System.Drawing.SystemColors.Control;
-            this.button_visibility_itens.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.Control;
-            this.button_visibility_itens.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button_visibility_itens.ImageIndex = 0;
-            this.button_visibility_itens.ImageList = this.imageList1;
-            this.button_visibility_itens.Location = new System.Drawing.Point(134, 24);
-            this.button_visibility_itens.Name = "button_visibility_itens";
-            this.button_visibility_itens.Size = new System.Drawing.Size(31, 26);
-            this.button_visibility_itens.TabIndex = 2;
-            this.button_visibility_itens.UseVisualStyleBackColor = true;
-            this.button_visibility_itens.Click += new System.EventHandler(this.button_visibility_itens_Click);
-            // 
-            // panel_palette_itens
-            // 
-            this.panel_palette_itens.Location = new System.Drawing.Point(6, 26);
-            this.panel_palette_itens.Name = "panel_palette_itens";
-            this.panel_palette_itens.Size = new System.Drawing.Size(90, 25);
-            this.panel_palette_itens.TabIndex = 0;
-            this.panel_palette_itens.MouseClick += new System.Windows.Forms.MouseEventHandler(this.panel_itens_click);
-            // 
-            // groupBox_layer_monsters
-            // 
-            this.groupBox_layer_monsters.Controls.Add(this.button_visibility_monsters);
-            this.groupBox_layer_monsters.Controls.Add(this.panel_palette_monsters);
-            this.groupBox_layer_monsters.Enabled = false;
-            this.groupBox_layer_monsters.Location = new System.Drawing.Point(12, 532);
-            this.groupBox_layer_monsters.Name = "groupBox_layer_monsters";
-            this.groupBox_layer_monsters.Size = new System.Drawing.Size(171, 56);
-            this.groupBox_layer_monsters.TabIndex = 17;
-            this.groupBox_layer_monsters.TabStop = false;
-            this.groupBox_layer_monsters.Text = "Monsters";
-            // 
-            // button_visibility_monsters
-            // 
-            this.button_visibility_monsters.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.button_visibility_monsters.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
-            this.button_visibility_monsters.FlatAppearance.MouseDownBackColor = System.Drawing.SystemColors.Control;
-            this.button_visibility_monsters.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.Control;
-            this.button_visibility_monsters.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button_visibility_monsters.ImageIndex = 0;
-            this.button_visibility_monsters.ImageList = this.imageList1;
-            this.button_visibility_monsters.Location = new System.Drawing.Point(134, 24);
-            this.button_visibility_monsters.Name = "button_visibility_monsters";
-            this.button_visibility_monsters.Size = new System.Drawing.Size(31, 26);
-            this.button_visibility_monsters.TabIndex = 2;
-            this.button_visibility_monsters.UseVisualStyleBackColor = true;
-            this.button_visibility_monsters.Click += new System.EventHandler(this.button_visibility_monsters_Click);
-            // 
-            // panel_palette_monsters
-            // 
-            this.panel_palette_monsters.Location = new System.Drawing.Point(6, 26);
-            this.panel_palette_monsters.Name = "panel_palette_monsters";
-            this.panel_palette_monsters.Size = new System.Drawing.Size(90, 25);
-            this.panel_palette_monsters.TabIndex = 0;
-            this.panel_palette_monsters.MouseClick += new System.Windows.Forms.MouseEventHandler(this.panel_monsters_click);
-            // 
-            // groupBox_layer_resources
-            // 
-            this.groupBox_layer_resources.Controls.Add(this.button_visibility_resources);
-            this.groupBox_layer_resources.Controls.Add(this.panel_palette_resources);
-            this.groupBox_layer_resources.Enabled = false;
-            this.groupBox_layer_resources.Location = new System.Drawing.Point(12, 594);
-            this.groupBox_layer_resources.Name = "groupBox_layer_resources";
-            this.groupBox_layer_resources.Size = new System.Drawing.Size(171, 56);
-            this.groupBox_layer_resources.TabIndex = 17;
-            this.groupBox_layer_resources.TabStop = false;
-            this.groupBox_layer_resources.Text = "Resources";
-            // 
-            // button_visibility_resources
-            // 
-            this.button_visibility_resources.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.button_visibility_resources.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
-            this.button_visibility_resources.FlatAppearance.MouseDownBackColor = System.Drawing.SystemColors.Control;
-            this.button_visibility_resources.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.Control;
-            this.button_visibility_resources.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button_visibility_resources.ImageIndex = 0;
-            this.button_visibility_resources.ImageList = this.imageList1;
-            this.button_visibility_resources.Location = new System.Drawing.Point(134, 24);
-            this.button_visibility_resources.Name = "button_visibility_resources";
-            this.button_visibility_resources.Size = new System.Drawing.Size(31, 26);
-            this.button_visibility_resources.TabIndex = 2;
-            this.button_visibility_resources.UseVisualStyleBackColor = true;
-            this.button_visibility_resources.Click += new System.EventHandler(this.button_visibility_resources_Click);
-            // 
-            // panel_palette_resources
-            // 
-            this.panel_palette_resources.Location = new System.Drawing.Point(6, 26);
-            this.panel_palette_resources.Name = "panel_palette_resources";
-            this.panel_palette_resources.Size = new System.Drawing.Size(90, 25);
-            this.panel_palette_resources.TabIndex = 0;
-            this.panel_palette_resources.MouseClick += new System.Windows.Forms.MouseEventHandler(this.panel_resources_click);
             // 
             // button_newSuggestion
             // 
@@ -641,9 +476,9 @@
             this.difficultyDataGridViewTextBoxColumn,
             this.Visible});
             this.dataGridView.DataSource = this.areaBindingSource;
-            this.dataGridView.Location = new System.Drawing.Point(940, 270);
+            this.dataGridView.Location = new System.Drawing.Point(12, 408);
             this.dataGridView.Name = "dataGridView";
-            this.dataGridView.Size = new System.Drawing.Size(213, 170);
+            this.dataGridView.Size = new System.Drawing.Size(274, 170);
             this.dataGridView.TabIndex = 20;
             this.dataGridView.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellValueChanged);
             this.dataGridView.CurrentCellDirtyStateChanged += new System.EventHandler(this.dataGridView_CurrentCellDirtyStateChanged);
@@ -699,21 +534,24 @@
             // 
             this.dataGridViewButtonColumn1.HeaderText = "Visible";
             this.dataGridViewButtonColumn1.Name = "dataGridViewButtonColumn1";
-
+            // 
+            // progressBar1
+            // 
+            this.progressBar1.Location = new System.Drawing.Point(947, 270);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(206, 15);
+            this.progressBar1.TabIndex = 21;
             // 
             // Monsters
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1165, 685);
+            this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.dataGridView);
             this.Controls.Add(this.trackBar_history);
             this.Controls.Add(this.textBox_logger);
             this.Controls.Add(this.button_newSuggestion);
-            this.Controls.Add(this.groupBox_layer_resources);
-            this.Controls.Add(this.groupBox_layer_monsters);
-            this.Controls.Add(this.groupBox_layer_itens);
-            this.Controls.Add(this.groupBox_layer_difficulty);
             this.Controls.Add(this.button_settings);
             this.Controls.Add(this.groupBox_selection);
             this.Controls.Add(this.button_previous);
@@ -735,17 +573,13 @@
             this.groupBox_mainsliders.PerformLayout();
             this.groupBox_objectives.ResumeLayout(false);
             this.groupBox_objectives.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_numberItens)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_maxmonsters)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_mapobjects)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_hordes)).EndInit();
             this.groupBox_selection.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            this.groupBox_layer_difficulty.ResumeLayout(false);
-            this.groupBox_layer_itens.ResumeLayout(false);
-            this.groupBox_layer_monsters.ResumeLayout(false);
-            this.groupBox_layer_resources.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_history)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.areaBindingSource)).EndInit();
@@ -788,25 +622,13 @@
         private System.Windows.Forms.ToolStripMenuItem uISettingsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem creditsToolStripMenuItem;
-        private System.Windows.Forms.GroupBox groupBox_layer_difficulty;
-        private System.Windows.Forms.Panel panel_palett_difficulty;
-        private System.Windows.Forms.Button button_visibility_difficulty;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.ImageList imageList1;
-        private System.Windows.Forms.GroupBox groupBox_layer_itens;
-        private System.Windows.Forms.Button button_visibility_itens;
-        private System.Windows.Forms.Panel panel_palette_itens;
-        private System.Windows.Forms.GroupBox groupBox_layer_monsters;
-        private System.Windows.Forms.Button button_visibility_monsters;
-        private System.Windows.Forms.Panel panel_palette_monsters;
-        private System.Windows.Forms.GroupBox groupBox_layer_resources;
-        private System.Windows.Forms.Button button_visibility_resources;
-        private System.Windows.Forms.Panel panel_palette_resources;
         private System.Windows.Forms.ToolTip toolTip_panel;
         private System.Windows.Forms.Button button_newSuggestion;
         private System.Windows.Forms.Button button_select;
         private System.Windows.Forms.TrackBar trackBar_history;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.NumericUpDown numericUpDown_numberItens;
         private System.Windows.Forms.Label label_maxitens;
         private System.Windows.Forms.DataGridViewCheckBoxColumn visibleDataGridViewCheckBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn aDataGridViewTextBoxColumn;
@@ -819,5 +641,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn nameDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewComboBoxColumn difficultyDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewCheckBoxColumn Visible;
+        private System.Windows.Forms.ProgressBar progressBar1;
     }
 }

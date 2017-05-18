@@ -16,10 +16,9 @@ namespace Log2CyclePrototype
     {
         private FileSystemWatcher fsw;
         private Core core;
-        private MD5 md5;
 
         int count = 0;
-        byte[] lastHash;
+        string lastFileText;
 
         public FileWatcher(Core core)
         {
@@ -31,12 +30,8 @@ namespace Log2CyclePrototype
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public void Start()
         {
-            md5 = MD5.Create();
 
-            using (var stream = File.OpenRead(DirectoryManager.DungeonFilePath))
-            {
-                lastHash = md5.ComputeHash(stream);
-            }
+            lastFileText = System.IO.File.ReadAllText(DirectoryManager.DungeonFilePath);
 
             try
             {
@@ -67,40 +62,19 @@ namespace Log2CyclePrototype
             count++;
             if (count < 2) return; //needed because watcher fires twice
 
-            byte[] hash;
+            string fileText = System.IO.File.ReadAllText(DirectoryManager.DungeonFilePath);
 
-            using (var stream = File.OpenRead(DirectoryManager.DungeonFilePath))
+            if (!fileText.Equals(lastFileText))
             {
-                hash = md5.ComputeHash(stream);
-            }
+                lastFileText = fileText;
 
-            if (!Equality(hash, lastHash))
-            {
                 Console.WriteLine("File: " + e.FullPath + " " + e.ChangeType);
 
-                core.LoadMapFromFile();
+                core.FileChanged = true;
             }
 
             count = 0;
         }
 
-        public bool Equality(byte[] a1, byte[] b1)
-        {
-            int i;
-            if (a1.Length == b1.Length)
-            {
-                i = 0;
-                while (i < a1.Length && (a1[i] == b1[i])) //Earlier it was a1[i]!=b1[i]
-                {
-                    i++;
-                }
-                if (i == a1.Length)
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
     }
 }

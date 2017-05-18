@@ -301,7 +301,24 @@ namespace Log2CyclePrototype.LoG2API
                 sb.AppendFormat(@"{0}{1}", '\n', c.Monster.ElementType);
             foreach(MapElement e in c.ElementsInCell)
             {
-                sb.AppendFormat(@"{0}{1}", '\n', e.ElementType);
+                if(e.ElementType.Equals("cudgel") ||
+                   e.ElementType.Equals("machete") ||
+                   e.ElementType.Equals("rapier") ||
+                   e.ElementType.Equals("battle_axe") ||
+                   e.ElementType.Equals("potion_healing") ||
+                   e.ElementType.Equals("borra") ||
+                   e.ElementType.Equals("bread") ||
+                   e.ElementType.Equals("peasant_cap") ||
+                   e.ElementType.Equals("peasant_breeches") ||
+                   e.ElementType.Equals("peasant_tunic") ||
+                   e.ElementType.Equals("sandals") ||
+                   e.ElementType.Equals("leather_cap") ||
+                   e.ElementType.Equals("leather_brigandine") ||
+                   e.ElementType.Equals("leather_pants") ||
+                   e.ElementType.Equals("leather_boots"))
+                {
+                    sb.AppendFormat(@"{0}{1}", '\n', e.ElementType);
+                }
             }
 
             return sb.ToString();
