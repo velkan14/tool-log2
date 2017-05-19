@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Log2CyclePrototype
+namespace EditorBuddyMonster
 {
     class CustomCrossover : IGeneticOperator
     {

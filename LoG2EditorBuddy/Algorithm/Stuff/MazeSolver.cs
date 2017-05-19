@@ -1,6 +1,6 @@
 using System;
 
-namespace Log2CyclePrototype
+namespace EditorBuddyMonster
 {
 	/// <summary>
 	/// Summary description for MazeSolver.

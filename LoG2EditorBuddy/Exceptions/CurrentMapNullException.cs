@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Log2CyclePrototype.Exceptions
+namespace EditorBuddyMonster.Exceptions
 {
     /// <summary>
     /// Represents a Custom Exception used to treat attempts to access null CurrentMap prior to parsing.

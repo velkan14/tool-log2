@@ -6,13 +6,13 @@
 
 using GAF;
 using GAF.Threading;
-using Log2CyclePrototype;
+using EditorBuddyMonster;
 using System;
 using System.Collections.Generic;
 using System.Threading;
-using Log2CyclePrototype.Utilities;
+using EditorBuddyMonster.Utilities;
 using System.Diagnostics;
-using Log2CyclePrototype.LoG2API;
+using EditorBuddyMonster.LoG2API;
 
 namespace GAF.Operators
 {

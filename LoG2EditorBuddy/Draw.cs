@@ -1,6 +1,6 @@
-﻿using Log2CyclePrototype.LoG2API;
-using Log2CyclePrototype.LoG2API.Elements;
-using Log2CyclePrototype.Utilities;
+﻿using EditorBuddyMonster.LoG2API;
+using EditorBuddyMonster.LoG2API.Elements;
+using EditorBuddyMonster.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Log2CyclePrototype
+namespace EditorBuddyMonster
 {
     class Draw
     {

@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Windows.Forms;
 
-namespace Log2CyclePrototype.WinAPI
+namespace EditorBuddyMonster.WinAPI
 {
     public enum CursorType
     {

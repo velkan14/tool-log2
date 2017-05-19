@@ -11,17 +11,17 @@
     </ApplicationIcon>
     <AssemblyKeyContainerName>
     </AssemblyKeyContainerName>
-    <AssemblyName>Log2CyclePrototype</AssemblyName>
+    <AssemblyName>EditorBuddyMonster</AssemblyName>
     <AssemblyOriginatorKeyFile>
     </AssemblyOriginatorKeyFile>
     <DefaultClientScript>JScript</DefaultClientScript>
     <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
     <DefaultTargetSchema>IE50</DefaultTargetSchema>
     <DelaySign>false</DelaySign>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>Log2CyclePrototype</RootNamespace>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>EditorBuddyMonster</RootNamespace>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
-    <StartupObject>Log2CyclePrototype.MainClass</StartupObject>
+    <StartupObject>EditorBuddyMonster.MainClass</StartupObject>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <UpgradeBackupLocation>
@@ -53,7 +53,7 @@
     <ConfigurationOverrideFile>
     </ConfigurationOverrideFile>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DocumentationFile>bin\Debug\Log2CyclePrototype.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\EditorBuddyMonster.xml</DocumentationFile>
     <DebugSymbols>true</DebugSymbols>
     <FileAlignment>4096</FileAlignment>
     <NoStdLib>false</NoStdLib>
@@ -199,6 +199,7 @@
     <Compile Include="UserSelection.cs" />
     <Compile Include="Utilities\DirectoryManager.cs" />
     <Compile Include="Utilities\ListQueue.cs" />
+    <Compile Include="Utilities\NativeMethods.cs" />
     <Compile Include="Utilities\ProgramResources.cs" />
     <Compile Include="Utilities\Prompt.cs" />
     <Compile Include="Utilities\Utilities.cs" />
@@ -308,6 +309,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\red_back.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\monster.bmp" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

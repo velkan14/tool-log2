@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Log2CyclePrototype.Utilities
+namespace EditorBuddyMonster.Utilities
 {
 
 

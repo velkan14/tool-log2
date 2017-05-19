@@ -1,4 +1,4 @@
-﻿using Log2CyclePrototype.Utilities;
+﻿using EditorBuddyMonster.Utilities;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Text;
 
-namespace Log2CyclePrototype.LoG2API
+namespace EditorBuddyMonster.LoG2API
 {
     [Serializable]
     abstract public class MapElement

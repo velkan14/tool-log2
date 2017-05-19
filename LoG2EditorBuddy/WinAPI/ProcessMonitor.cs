@@ -1,11 +1,11 @@
-﻿using Log2CyclePrototype.Utilities;
+﻿using EditorBuddyMonster.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Management;
 using System.Text;
 
-namespace Log2CyclePrototype.WinAPI
+namespace EditorBuddyMonster.WinAPI
 {
     class ProcessMonitor
     {

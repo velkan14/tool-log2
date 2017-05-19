@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
-namespace Log2CyclePrototype.WinAPI
+namespace EditorBuddyMonster.WinAPI
 {
     //TODO probability to screw up mouse speed if we close the program when holding the knob. but thats not gonna happen, is it? Kappa
 

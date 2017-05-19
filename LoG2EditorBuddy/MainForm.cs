@@ -7,16 +7,16 @@ using System.Diagnostics;
 using System.Security.Permissions;
 using GAF;
 using System.Collections.Generic;
-using Log2CyclePrototype.Utilities;
+using EditorBuddyMonster.Utilities;
 using System.Threading;
-using Log2CyclePrototype.Exceptions;
+using EditorBuddyMonster.Exceptions;
 using System.Reflection;
-using Log2CyclePrototype.WinAPI;
+using EditorBuddyMonster.WinAPI;
 using System.Drawing.Drawing2D;
-using Log2CyclePrototype.LoG2API.Elements;
-using Log2CyclePrototype.LoG2API;
+using EditorBuddyMonster.LoG2API.Elements;
+using EditorBuddyMonster.LoG2API;
 
-namespace Log2CyclePrototype
+namespace EditorBuddyMonster
 {
 
     class MainForm : System.Windows.Forms.Form
@@ -906,7 +906,7 @@ namespace Log2CyclePrototype
             // SugestionVisibilityButton
             // 
             this.SugestionVisibilityButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.SugestionVisibilityButton.Image = global::Log2CyclePrototype.Properties.Resources.visibility_icon;
+            this.SugestionVisibilityButton.Image = global::EditorBuddyMonster.Properties.Resources.visibility_icon;
             this.SugestionVisibilityButton.Location = new System.Drawing.Point(753, 600);
             this.SugestionVisibilityButton.Name = "SugestionVisibilityButton";
             this.SugestionVisibilityButton.Size = new System.Drawing.Size(40, 40);
@@ -918,7 +918,7 @@ namespace Log2CyclePrototype
             // ClearSelectionButton
             // 
             this.ClearSelectionButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ClearSelectionButton.Image = global::Log2CyclePrototype.Properties.Resources.eraser_filled;
+            this.ClearSelectionButton.Image = global::EditorBuddyMonster.Properties.Resources.eraser_filled;
             this.ClearSelectionButton.ImageAlign = System.Drawing.ContentAlignment.BottomRight;
             this.ClearSelectionButton.Location = new System.Drawing.Point(600, 600);
             this.ClearSelectionButton.Name = "ClearSelectionButton";
@@ -931,7 +931,7 @@ namespace Log2CyclePrototype
             // InvertSelectionButton
             // 
             this.InvertSelectionButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.InvertSelectionButton.Image = global::Log2CyclePrototype.Properties.Resources.invert_selection;
+            this.InvertSelectionButton.Image = global::EditorBuddyMonster.Properties.Resources.invert_selection;
             this.InvertSelectionButton.Location = new System.Drawing.Point(702, 600);
             this.InvertSelectionButton.Name = "InvertSelectionButton";
             this.InvertSelectionButton.Size = new System.Drawing.Size(40, 40);
@@ -944,7 +944,7 @@ namespace Log2CyclePrototype
             // 
             this.HitmeButton.Enabled = false;
             this.HitmeButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.HitmeButton.Image = global::Log2CyclePrototype.Properties.Resources.hitme_icon_small;
+            this.HitmeButton.Image = global::EditorBuddyMonster.Properties.Resources.hitme_icon_small;
             this.HitmeButton.Location = new System.Drawing.Point(831, 600);
             this.HitmeButton.Name = "HitmeButton";
             this.HitmeButton.Size = new System.Drawing.Size(40, 40);
@@ -957,7 +957,7 @@ namespace Log2CyclePrototype
             // NextSolutionButton
             // 
             this.NextSolutionButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.NextSolutionButton.Image = global::Log2CyclePrototype.Properties.Resources.next_icon_small;
+            this.NextSolutionButton.Image = global::EditorBuddyMonster.Properties.Resources.next_icon_small;
             this.NextSolutionButton.Location = new System.Drawing.Point(877, 600);
             this.NextSolutionButton.Name = "NextSolutionButton";
             this.NextSolutionButton.Size = new System.Drawing.Size(40, 40);
@@ -969,7 +969,7 @@ namespace Log2CyclePrototype
             // PreviousSolutionButton
             // 
             this.PreviousSolutionButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.PreviousSolutionButton.Image = global::Log2CyclePrototype.Properties.Resources.previous_icon_small;
+            this.PreviousSolutionButton.Image = global::EditorBuddyMonster.Properties.Resources.previous_icon_small;
             this.PreviousSolutionButton.Location = new System.Drawing.Point(404, 600);
             this.PreviousSolutionButton.Name = "PreviousSolutionButton";
             this.PreviousSolutionButton.Size = new System.Drawing.Size(40, 40);
@@ -981,7 +981,7 @@ namespace Log2CyclePrototype
             // advancedSettingsButton
             // 
             this.advancedSettingsButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.advancedSettingsButton.Image = global::Log2CyclePrototype.Properties.Resources.wrench_icon_small;
+            this.advancedSettingsButton.Image = global::EditorBuddyMonster.Properties.Resources.wrench_icon_small;
             this.advancedSettingsButton.Location = new System.Drawing.Point(18, 600);
             this.advancedSettingsButton.Name = "advancedSettingsButton";
             this.advancedSettingsButton.Size = new System.Drawing.Size(40, 40);
@@ -993,7 +993,7 @@ namespace Log2CyclePrototype
             // ApplyButton
             // 
             this.ApplyButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ApplyButton.Image = global::Log2CyclePrototype.Properties.Resources.apply_icon_small;
+            this.ApplyButton.Image = global::EditorBuddyMonster.Properties.Resources.apply_icon_small;
             this.ApplyButton.Location = new System.Drawing.Point(651, 600);
             this.ApplyButton.Name = "ApplyButton";
             this.ApplyButton.Size = new System.Drawing.Size(40, 40);
@@ -1005,7 +1005,7 @@ namespace Log2CyclePrototype
             // RevertButton
             // 
             this.RevertButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.RevertButton.Image = global::Log2CyclePrototype.Properties.Resources.undo_icon_small;
+            this.RevertButton.Image = global::EditorBuddyMonster.Properties.Resources.undo_icon_small;
             this.RevertButton.Location = new System.Drawing.Point(545, 600);
             this.RevertButton.Name = "RevertButton";
             this.RevertButton.Size = new System.Drawing.Size(40, 40);

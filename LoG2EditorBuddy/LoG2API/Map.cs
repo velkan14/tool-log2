@@ -1,11 +1,11 @@
-﻿using Log2CyclePrototype.LoG2API.Elements;
+﻿using EditorBuddyMonster.LoG2API.Elements;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
 
-namespace Log2CyclePrototype.LoG2API
+namespace EditorBuddyMonster.LoG2API
 {
 
     [Serializable]

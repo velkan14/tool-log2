@@ -1,5 +1,5 @@
 ﻿using GAF;
-using Log2CyclePrototype.LoG2API;
+using EditorBuddyMonster.LoG2API;
 //using Log2CyclePrototype.Algorithm;
 //using Log2CyclePrototype.LoG2API;
 using Newtonsoft.Json;
@@ -13,7 +13,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Log2CyclePrototype.Utilities
+namespace EditorBuddyMonster.Utilities
 {
     /// <summary>
     /// Utility class to help with logging

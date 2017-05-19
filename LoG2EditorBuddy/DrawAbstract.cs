@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Log2CyclePrototype
+namespace EditorBuddyMonster
 {
     public abstract class DrawAbstract
     {

@@ -1,7 +1,7 @@
 ﻿using GAF;
 using GAF.Operators;
-using Log2CyclePrototype.LoG2API;
-using Log2CyclePrototype.Utilities;
+using EditorBuddyMonster.LoG2API;
+using EditorBuddyMonster.Utilities;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,7 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Log2CyclePrototype
+namespace EditorBuddyMonster
 {
     class NoveltyAlgorithmTestClass
     {

@@ -1,4 +1,4 @@
-﻿namespace Log2CyclePrototype.Controls
+﻿namespace EditorBuddyMonster.Controls
 {
     partial class TrianglePicker
     {

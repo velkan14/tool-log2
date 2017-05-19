@@ -5,14 +5,14 @@ using GAF;
 using GAF.Operators;
 using System.Diagnostics;
 //using Log2CyclePrototype.Algorithm;
-using Log2CyclePrototype.Utilities;
+using EditorBuddyMonster.Utilities;
 using System.Drawing;
-using Log2CyclePrototype.LoG2API;
+using EditorBuddyMonster.LoG2API;
 
 //using Log2CyclePrototype.LoG2API;
 
 
-namespace Log2CyclePrototype
+namespace EditorBuddyMonster
 {
 
     public enum PopulationCarryMethod

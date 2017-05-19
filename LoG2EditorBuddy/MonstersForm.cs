@@ -1,9 +1,9 @@
 ﻿using gma.System.Windows;
-using Log2CyclePrototype.Exceptions;
-using Log2CyclePrototype.Layers;
-using Log2CyclePrototype.LoG2API;
-using Log2CyclePrototype.Utilities;
-using Log2CyclePrototype.WinAPI;
+using EditorBuddyMonster.Exceptions;
+using EditorBuddyMonster.Layers;
+using EditorBuddyMonster.LoG2API;
+using EditorBuddyMonster.Utilities;
+using EditorBuddyMonster.WinAPI;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -21,7 +21,7 @@ using System.Timers;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 
-namespace Log2CyclePrototype
+namespace EditorBuddyMonster
 {
     public partial class Monsters : Form
     {

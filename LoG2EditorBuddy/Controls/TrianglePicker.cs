@@ -7,10 +7,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Log2CyclePrototype.Utilities;
+using EditorBuddyMonster.Utilities;
 using System.Diagnostics;
 
-namespace Log2CyclePrototype.Controls
+namespace EditorBuddyMonster.Controls
 {
     public partial class TrianglePicker : UserControl
     {

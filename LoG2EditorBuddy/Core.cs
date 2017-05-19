@@ -1,16 +1,16 @@
 ﻿using GAF;
-using Log2CyclePrototype.LoG2API;
-using Log2CyclePrototype.Utilities;
+using EditorBuddyMonster.LoG2API;
+using EditorBuddyMonster.Utilities;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
 using System;
-using Log2CyclePrototype.Algorithm;
+using EditorBuddyMonster.Algorithm;
 using System.Timers;
 
-namespace Log2CyclePrototype
+namespace EditorBuddyMonster
 {
     public class Core
     {
@@ -100,7 +100,7 @@ namespace Log2CyclePrototype
 
             hook = new Hook(this);
             fileWatcher = new FileWatcher(this);
-            timer = new System.Timers.Timer(1000 * 60);
+            timer = new System.Timers.Timer(1000 * 20);
 
             suggestionsMap = new List<Map>();
         }
@@ -165,7 +165,7 @@ namespace Log2CyclePrototype
                 Console.WriteLine("Map Loaded");
                 LoadMapFromFile();
             }
-            NewSuggestion(InnovationPercentage, GuidelinePercentage, UserPercentage, NumberMonsters, NumberItens, HordesPercentage);
+            //NewSuggestion(InnovationPercentage, GuidelinePercentage, UserPercentage, NumberMonsters, NumberItens, HordesPercentage);
         }
 
         /***********************************************************************************/
@@ -250,6 +250,11 @@ namespace Log2CyclePrototype
             monsters.ReDrawMap();
 
             algorithmRunning = false;
+
+            if (NativeMethods.SetForegroundWindow((IntPtr)NativeMethods.GetForegroundWindow()))
+            {
+                Logger.AppendText("fffff");
+            }
         }
 
         internal void ReloadLOG()

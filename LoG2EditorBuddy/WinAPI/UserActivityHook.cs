@@ -8,9 +8,9 @@ using System.Drawing;
 using System.Diagnostics;
 using System.IO;
 using WindowsInput;
-using Log2CyclePrototype;
-using Log2CyclePrototype.Utilities;
-using Log2CyclePrototype.LoG2API;
+using EditorBuddyMonster;
+using EditorBuddyMonster.Utilities;
+using EditorBuddyMonster.LoG2API;
 
 namespace gma.System.Windows
 {

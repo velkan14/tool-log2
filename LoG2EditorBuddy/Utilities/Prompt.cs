@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Log2CyclePrototype.Utilities
+namespace EditorBuddyMonster.Utilities
 {
     public static class Prompt
     {

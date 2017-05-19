@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Log2CyclePrototype.Properties {
+namespace EditorBuddyMonster.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Log2CyclePrototype.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Log2CyclePrototype.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("EditorBuddyMonster.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -166,6 +166,16 @@ namespace Log2CyclePrototype.Properties {
         internal static System.Drawing.Bitmap invert_selection {
             get {
                 object obj = ResourceManager.GetObject("invert_selection", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap monster {
+            get {
+                object obj = ResourceManager.GetObject("monster", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

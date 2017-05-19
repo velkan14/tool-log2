@@ -1,4 +1,4 @@
-﻿namespace Log2CyclePrototype.LoG2API
+﻿namespace EditorBuddyMonster.LoG2API
 {
     public class Connector
     {

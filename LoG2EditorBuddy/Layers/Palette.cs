@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Log2CyclePrototype.Layers
+namespace EditorBuddyMonster.Layers
 {
     class Palette
     {

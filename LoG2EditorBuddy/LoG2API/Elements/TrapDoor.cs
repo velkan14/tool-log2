@@ -1,4 +1,4 @@
-﻿using Log2CyclePrototype.Utilities;
+﻿using EditorBuddyMonster.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Log2CyclePrototype.LoG2API.Elements
+namespace EditorBuddyMonster.LoG2API.Elements
 {
     public class TrapDoor : MapElement
     {

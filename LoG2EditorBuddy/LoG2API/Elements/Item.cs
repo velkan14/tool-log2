@@ -1,9 +1,9 @@
-﻿using Log2CyclePrototype.Utilities;
+﻿using EditorBuddyMonster.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 
-namespace Log2CyclePrototype.LoG2API.Elements
+namespace EditorBuddyMonster.LoG2API.Elements
 {
     public class Item : MapElement
     {

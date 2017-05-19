@@ -4,9 +4,9 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Log2CyclePrototype.Utilities;
+using EditorBuddyMonster.Utilities;
 
-namespace Log2CyclePrototype.LoG2API.Elements
+namespace EditorBuddyMonster.LoG2API.Elements
 {
     class Altar : MapElement
     {

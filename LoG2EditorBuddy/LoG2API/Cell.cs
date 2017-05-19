@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using Log2CyclePrototype.LoG2API.Elements;
+using EditorBuddyMonster.LoG2API.Elements;
 using System.Linq;
 
-namespace Log2CyclePrototype.LoG2API
+namespace EditorBuddyMonster.LoG2API
 {
     [Serializable]
     public class Cell

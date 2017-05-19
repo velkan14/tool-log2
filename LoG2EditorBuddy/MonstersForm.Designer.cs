@@ -1,4 +1,4 @@
-﻿namespace Log2CyclePrototype
+﻿namespace EditorBuddyMonster
 {
     partial class Monsters
     {
@@ -511,7 +511,7 @@
             // 
             // areaBindingSource
             // 
-            this.areaBindingSource.DataSource = typeof(Log2CyclePrototype.Layers.Area);
+            this.areaBindingSource.DataSource = typeof(EditorBuddyMonster.Layers.Area);
             // 
             // dataGridViewComboBoxColumn1
             // 

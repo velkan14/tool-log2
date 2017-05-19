@@ -1,7 +1,7 @@
 ﻿using GAF;
-using Log2CyclePrototype.Exceptions;
-using Log2CyclePrototype.LoG2API.Elements;
-using Log2CyclePrototype.Utilities;
+using EditorBuddyMonster.Exceptions;
+using EditorBuddyMonster.LoG2API.Elements;
+using EditorBuddyMonster.Utilities;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,7 +12,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 
 
-namespace Log2CyclePrototype.LoG2API
+namespace EditorBuddyMonster.LoG2API
 {
 
     /// <summary>

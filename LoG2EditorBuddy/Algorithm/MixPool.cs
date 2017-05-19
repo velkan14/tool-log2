@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GAF;
-using Log2CyclePrototype.LoG2API;
+using EditorBuddyMonster.LoG2API;
 using GAF.Operators;
-using Log2CyclePrototype.Layers;
+using EditorBuddyMonster.Layers;
 
-namespace Log2CyclePrototype.Algorithm
+namespace EditorBuddyMonster.Algorithm
 {
     class MixPool : GuidelinePool
     {
