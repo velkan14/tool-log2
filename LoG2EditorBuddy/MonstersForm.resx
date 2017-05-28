@@ -121,14 +121,14 @@
     <value>17, 17</value>
   </metadata>
   <metadata name="imageList1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>296, 17</value>
+    <value>267, 9</value>
   </metadata>
   <data name="imageList1.ImageStream" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
         AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
         LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAACZTeXN0
         ZW0uV2luZG93cy5Gb3Jtcy5JbWFnZUxpc3RTdHJlYW1lcgEAAAAERGF0YQcCAgAAAAkDAAAADwMAAAA6
-        AwAAAk1TRnQBSQFMAgEBAgEAAfABAQHwAQEBEAEAARABAAT/ARkBAAj/AUIBTQE2BwABNgMAASgDAAFA
+        AwAAAk1TRnQBSQFMAgEBAgEAATABAgEwAQIBEAEAARABAAT/ARkBAAj/AUIBTQE2BwABNgMAASgDAAFA
         AwABEAMAAQEBAAEYBgABDPYAA/UD+qIAA/wDxwNhAyQDHgNbA8ID8QP+A80D8A8AA/wDvgNYAxIDEANS
         A7sD/HUAA+UDMg8AA0AD9wPNAwYDwQwAA+IDLBIAAygD4W8AA9MDBQMAA0AD2wb8A9YD7wO6AwYDbAwA
         A88DBQMAA0QD3Qb8A90DQgMAAwQDzmkAA+QDBQMAA0ID+wYAA/oD+wPsAw4DAAMEA+QGAAPdAwQDAANE
@@ -144,14 +144,11 @@
         AUEBgwHBBAABwAEDAcABAwQAAcABBwHgAQcEAAGAAQ8B8AEPBAABxwP/BAAB7wP/BAAL
 </value>
   </data>
-  <metadata name="backgroundWorker1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>132, 17</value>
-  </metadata>
   <metadata name="toolTip_panel.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>406, 17</value>
+    <value>377, 5</value>
   </metadata>
   <metadata name="areaBindingSource.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>176, 56</value>
+    <value>119, 10</value>
   </metadata>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>59</value>

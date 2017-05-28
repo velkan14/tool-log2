@@ -41,9 +41,7 @@
             this.numericUpDown_numberItens = new System.Windows.Forms.NumericUpDown();
             this.label_maxitens = new System.Windows.Forms.Label();
             this.numericUpDown_maxmonsters = new System.Windows.Forms.NumericUpDown();
-            this.trackBar_mapobjects = new System.Windows.Forms.TrackBar();
             this.trackBar_hordes = new System.Windows.Forms.TrackBar();
-            this.label_mapobjects = new System.Windows.Forms.Label();
             this.label_hordes = new System.Windows.Forms.Label();
             this.label_maxmonsters = new System.Windows.Forms.Label();
             this.textBox_logger = new System.Windows.Forms.TextBox();
@@ -65,20 +63,19 @@
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.creditsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
-            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.toolTip_panel = new System.Windows.Forms.ToolTip(this.components);
             this.button_newSuggestion = new System.Windows.Forms.Button();
             this.trackBar_history = new System.Windows.Forms.TrackBar();
             this.dataGridView = new System.Windows.Forms.DataGridView();
-            this.dataGridViewComboBoxColumn1 = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.dataGridViewComboBoxColumn2 = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.dataGridViewButtonColumn1 = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
-            this.areaBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.nameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.difficultyDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.itemAccessibilityDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.dataGridViewCheckBoxColumn1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.areaBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.dataGridViewComboBoxColumn1 = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.dataGridViewComboBoxColumn2 = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.dataGridViewButtonColumn1 = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_innovation)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_userplacement)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_objective)).BeginInit();
@@ -86,7 +83,6 @@
             this.groupBox_objectives.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_numberItens)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_maxmonsters)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar_mapobjects)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_hordes)).BeginInit();
             this.groupBox_selection.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -175,14 +171,12 @@
             this.groupBox_objectives.Controls.Add(this.numericUpDown_numberItens);
             this.groupBox_objectives.Controls.Add(this.label_maxitens);
             this.groupBox_objectives.Controls.Add(this.numericUpDown_maxmonsters);
-            this.groupBox_objectives.Controls.Add(this.trackBar_mapobjects);
             this.groupBox_objectives.Controls.Add(this.trackBar_hordes);
-            this.groupBox_objectives.Controls.Add(this.label_mapobjects);
             this.groupBox_objectives.Controls.Add(this.label_hordes);
             this.groupBox_objectives.Controls.Add(this.label_maxmonsters);
             this.groupBox_objectives.Location = new System.Drawing.Point(12, 215);
             this.groupBox_objectives.Name = "groupBox_objectives";
-            this.groupBox_objectives.Size = new System.Drawing.Size(274, 187);
+            this.groupBox_objectives.Size = new System.Drawing.Size(274, 108);
             this.groupBox_objectives.TabIndex = 7;
             this.groupBox_objectives.TabStop = false;
             this.groupBox_objectives.Text = "Objective Parameters ";
@@ -220,15 +214,6 @@
             0,
             0});
             // 
-            // trackBar_mapobjects
-            // 
-            this.trackBar_mapobjects.Location = new System.Drawing.Point(126, 127);
-            this.trackBar_mapobjects.Maximum = 100;
-            this.trackBar_mapobjects.Name = "trackBar_mapobjects";
-            this.trackBar_mapobjects.Size = new System.Drawing.Size(143, 45);
-            this.trackBar_mapobjects.TabIndex = 6;
-            this.trackBar_mapobjects.TickStyle = System.Windows.Forms.TickStyle.None;
-            // 
             // trackBar_hordes
             // 
             this.trackBar_hordes.Location = new System.Drawing.Point(126, 76);
@@ -237,15 +222,6 @@
             this.trackBar_hordes.Size = new System.Drawing.Size(142, 45);
             this.trackBar_hordes.TabIndex = 5;
             this.trackBar_hordes.TickStyle = System.Windows.Forms.TickStyle.None;
-            // 
-            // label_mapobjects
-            // 
-            this.label_mapobjects.AutoSize = true;
-            this.label_mapobjects.Location = new System.Drawing.Point(11, 127);
-            this.label_mapobjects.Name = "label_mapobjects";
-            this.label_mapobjects.Size = new System.Drawing.Size(67, 13);
-            this.label_mapobjects.TabIndex = 3;
-            this.label_mapobjects.Text = "Map Objects";
             // 
             // label_hordes
             // 
@@ -476,46 +452,13 @@
             this.itemAccessibilityDataGridViewTextBoxColumn,
             this.dataGridViewCheckBoxColumn1});
             this.dataGridView.DataSource = this.areaBindingSource;
-            this.dataGridView.Location = new System.Drawing.Point(12, 408);
+            this.dataGridView.Location = new System.Drawing.Point(12, 329);
             this.dataGridView.Name = "dataGridView";
-            this.dataGridView.Size = new System.Drawing.Size(274, 231);
+            this.dataGridView.Size = new System.Drawing.Size(274, 284);
             this.dataGridView.TabIndex = 20;
             this.dataGridView.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellValueChanged);
             this.dataGridView.CurrentCellDirtyStateChanged += new System.EventHandler(this.dataGridView_CurrentCellDirtyStateChanged);
             this.dataGridView.SelectionChanged += new System.EventHandler(this.dataGridView_SelectionChanged);
-            // 
-            // dataGridViewComboBoxColumn1
-            // 
-            this.dataGridViewComboBoxColumn1.DataPropertyName = "Difficulty";
-            this.dataGridViewComboBoxColumn1.HeaderText = "Difficulty";
-            this.dataGridViewComboBoxColumn1.Items.AddRange(new object[] {
-            "Easy",
-            "Medium",
-            "Hard"});
-            this.dataGridViewComboBoxColumn1.Name = "dataGridViewComboBoxColumn1";
-            // 
-            // dataGridViewComboBoxColumn2
-            // 
-            this.dataGridViewComboBoxColumn2.DataPropertyName = "Difficulty";
-            this.dataGridViewComboBoxColumn2.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.ComboBox;
-            this.dataGridViewComboBoxColumn2.HeaderText = "Difficulty";
-            this.dataGridViewComboBoxColumn2.Name = "dataGridViewComboBoxColumn2";
-            // 
-            // dataGridViewButtonColumn1
-            // 
-            this.dataGridViewButtonColumn1.HeaderText = "Visible";
-            this.dataGridViewButtonColumn1.Name = "dataGridViewButtonColumn1";
-            // 
-            // progressBar1
-            // 
-            this.progressBar1.Location = new System.Drawing.Point(947, 270);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(206, 15);
-            this.progressBar1.TabIndex = 21;
-            // 
-            // areaBindingSource
-            // 
-            this.areaBindingSource.DataSource = typeof(EditorBuddyMonster.Layers.Area);
             // 
             // nameDataGridViewTextBoxColumn
             // 
@@ -545,6 +488,39 @@
             this.dataGridViewCheckBoxColumn1.DataPropertyName = "Visible";
             this.dataGridViewCheckBoxColumn1.HeaderText = "Visible";
             this.dataGridViewCheckBoxColumn1.Name = "dataGridViewCheckBoxColumn1";
+            // 
+            // areaBindingSource
+            // 
+            this.areaBindingSource.DataSource = typeof(EditorBuddyMonster.Layers.Area);
+            // 
+            // dataGridViewComboBoxColumn1
+            // 
+            this.dataGridViewComboBoxColumn1.DataPropertyName = "Difficulty";
+            this.dataGridViewComboBoxColumn1.HeaderText = "Difficulty";
+            this.dataGridViewComboBoxColumn1.Items.AddRange(new object[] {
+            "Easy",
+            "Medium",
+            "Hard"});
+            this.dataGridViewComboBoxColumn1.Name = "dataGridViewComboBoxColumn1";
+            // 
+            // dataGridViewComboBoxColumn2
+            // 
+            this.dataGridViewComboBoxColumn2.DataPropertyName = "Difficulty";
+            this.dataGridViewComboBoxColumn2.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.ComboBox;
+            this.dataGridViewComboBoxColumn2.HeaderText = "Difficulty";
+            this.dataGridViewComboBoxColumn2.Name = "dataGridViewComboBoxColumn2";
+            // 
+            // dataGridViewButtonColumn1
+            // 
+            this.dataGridViewButtonColumn1.HeaderText = "Visible";
+            this.dataGridViewButtonColumn1.Name = "dataGridViewButtonColumn1";
+            // 
+            // progressBar1
+            // 
+            this.progressBar1.Location = new System.Drawing.Point(947, 270);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(206, 15);
+            this.progressBar1.TabIndex = 21;
             // 
             // Monsters
             // 
@@ -579,7 +555,6 @@
             this.groupBox_objectives.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_numberItens)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_maxmonsters)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar_mapobjects)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_hordes)).EndInit();
             this.groupBox_selection.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
@@ -603,9 +578,7 @@
         private System.Windows.Forms.GroupBox groupBox_mainsliders;
         private System.Windows.Forms.GroupBox groupBox_objectives;
         private System.Windows.Forms.NumericUpDown numericUpDown_maxmonsters;
-        private System.Windows.Forms.TrackBar trackBar_mapobjects;
         private System.Windows.Forms.TrackBar trackBar_hordes;
-        private System.Windows.Forms.Label label_mapobjects;
         private System.Windows.Forms.Label label_hordes;
         private System.Windows.Forms.Label label_maxmonsters;
         private System.Windows.Forms.TextBox textBox_logger;
@@ -625,7 +598,6 @@
         private System.Windows.Forms.ToolStripMenuItem uISettingsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem creditsToolStripMenuItem;
-        private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.ImageList imageList1;
         private System.Windows.Forms.ToolTip toolTip_panel;
         private System.Windows.Forms.Button button_newSuggestion;
