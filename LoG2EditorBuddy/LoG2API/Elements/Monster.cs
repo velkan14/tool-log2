@@ -126,6 +126,7 @@ namespace EditorBuddyMonster.LoG2API.Elements
             get
             {
                 if (ElementType.Equals("turtle")) return srcRectTopMedium;
+                if (ElementType.Equals("mummy")) return srcRectTopLight;
                 return srcRectTop;
             }
         }
@@ -135,6 +136,7 @@ namespace EditorBuddyMonster.LoG2API.Elements
             get
             {
                 if (ElementType.Equals("turtle")) return srcRectRightMedium;
+                if (ElementType.Equals("mummy")) return srcRectRightLight;
                 return srcRectRight;
             }
         }
@@ -144,6 +146,7 @@ namespace EditorBuddyMonster.LoG2API.Elements
             get
             {
                 if (ElementType.Equals("turtle")) return srcRectDownMedium;
+                if (ElementType.Equals("mummy")) return srcRectDownLight;
                 return srcRectDown;
             }
         }
@@ -153,6 +156,7 @@ namespace EditorBuddyMonster.LoG2API.Elements
             get
             {
                 if (ElementType.Equals("turtle")) return srcRectLeftMedium;
+                if (ElementType.Equals("mummy")) return srcRectLeftLight;
                 return srcRectLeft;
             }
         }

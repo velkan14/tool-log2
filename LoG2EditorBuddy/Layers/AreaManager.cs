@@ -24,7 +24,22 @@ namespace EditorBuddyMonster.Layers
         Map map;
 
         int cellWidth = 0, cellHeight = 0;
-        private Brush selectionBrushAdd = new SolidBrush(Color.FromArgb(128, 72, 145, 220));
+        //private static Brush selectionBrushAdd = new SolidBrush(Color.FromArgb(128, 72, 145, 220));
+        //private static Pen pen = new Pen(new SolidBrush(Color.FromArgb(51, 153, 255)), 1);
+        /*private static Brush selectionBrushAddEasy = new SolidBrush(Color.FromArgb(128, 255, 170, 170));
+        private static Pen penEasy = new Pen(new SolidBrush(Color.FromArgb(255, 170, 170)), 2);
+        private static Brush selectionBrushAddMedium = new SolidBrush(Color.FromArgb(128, 170, 57, 75));
+        private static Pen penMedium = new Pen(new SolidBrush(Color.FromArgb(170, 57, 57)), 2);
+        private static Brush selectionBrushAddHard = new SolidBrush(Color.FromArgb(128, 85, 0, 0));
+        private static Pen penHard = new Pen(new SolidBrush(Color.FromArgb(85, 0, 0)), 2);*/
+
+        private static Brush selectionBrushAddEasy = new SolidBrush(Color.FromArgb(128, 72, 145, 220));
+        private static Pen penEasy = new Pen(new SolidBrush(Color.FromArgb(51, 153, 255)), 2);
+        private static Brush selectionBrushAddMedium = new SolidBrush(Color.FromArgb(128, 220, 214, 72));
+        private static Pen penMedium = new Pen(new SolidBrush(Color.FromArgb(255, 247, 51)), 2);
+        private static Brush selectionBrushAddHard = new SolidBrush(Color.FromArgb(128, 220, 72, 72));
+        private static Pen penHard = new Pen(new SolidBrush(Color.FromArgb(255, 51, 51)), 2);
+
 
         public AreaManager(Map map, Panel gridPanel)
         {
@@ -51,12 +66,12 @@ namespace EditorBuddyMonster.Layers
             area1.Add(map.GetCellAt(17, 13));
             area1.Add(map.GetCellAt(16, 13));
             area1.Add(map.GetCellAt(16, 14));
-            
+
             area2.Add(map.GetCellAt(16, 12));
             area2.Add(map.GetCellAt(16, 11));
             area2.Add(map.GetCellAt(16, 10));
             area2.Add(map.GetCellAt(15, 11));
-            area2.Add(map.GetCellAt(15, 12 ));
+            area2.Add(map.GetCellAt(15, 12));
 
             area3.Add(map.GetCellAt(18, 15));
             area3.Add(map.GetCellAt(19, 15));
@@ -126,13 +141,13 @@ namespace EditorBuddyMonster.Layers
             area6.Add(map.GetCellAt(10, 21));
 
             AreaList.Add(new Area("Area 1", area1));
-            AreaList.Add(new Area("Area 2",area2));
-            AreaList.Add(new Area("Area 3",area3));
-            AreaList.Add(new Area("Area 4",area4));
+            AreaList.Add(new Area("Area 2", area2));
+            AreaList.Add(new Area("Area 3", area3));
+            AreaList.Add(new Area("Area 4", area4));
             AreaList.Add(new Area("Area 5", area5));
             AreaList.Add(new Area("Area 6", area6));
 
-            foreach(Area a in AreaList)
+            foreach (Area a in AreaList)
             {
                 a.StartCell = GetStartCell(a);
             }
@@ -251,7 +266,7 @@ namespace EditorBuddyMonster.Layers
                 AreaList[i].Visible = manager.AreaList[i].Visible;
                 AreaList[i].Selected = manager.AreaList[i].Selected;
             }
-            
+
         }
 
         public Cell GetStartCell(Area area)
@@ -309,66 +324,78 @@ namespace EditorBuddyMonster.Layers
         {
             using (Graphics g = Graphics.FromImage(backgroundImage))
             {
-                using (Pen pen = new Pen(new SolidBrush(Color.FromArgb(51, 153, 255)), 1))
+                foreach (Area area in AreaList)
                 {
-                    foreach(Area area in AreaList)
+                    if (area.Visible)
                     {
-                        if (area.Visible)
+                        foreach (var p in area.Cells)
                         {
-                            foreach (var p in area.Cells)
+                            if (p.X > 0)//test left
                             {
-                                if (p.X > 0)//test left
+                                var indexLeft = area.Cells.FindIndex(point => (point.X == (p.X - 1) && point.Y == p.Y));
+                                if (indexLeft == -1)
                                 {
-                                    var indexLeft = area.Cells.FindIndex(point => (point.X == (p.X - 1) && point.Y == p.Y));
-                                    if (indexLeft == -1)
-                                        DrawBorder(p.X, p.Y, pen, BorderSide.Left, g);
+                                    DrawBorder(p.X, p.Y, area, BorderSide.Left, g);
                                 }
-                                else
-                                {
-                                    DrawBorder(p.X, p.Y, pen, BorderSide.Left, g);
-                                }
+                                    
+                            }
+                            else
+                            {
+                                DrawBorder(p.X, p.Y, area, BorderSide.Left, g);
+                            }
 
-                                if (p.X < map.Width - 1) //test right
-                                {
-                                    var indexRight = area.Cells.FindIndex(point => (point.X == (p.X + 1) && point.Y == p.Y));
-                                    if (indexRight == -1)
-                                        DrawBorder(p.X, p.Y, pen, BorderSide.Right, g);
-                                }
-                                else
-                                {
-                                    DrawBorder(p.X, p.Y, pen, BorderSide.Right, g);
-                                }
-                                if (p.Y > 0) //test up
-                                {
-                                    var indexUp = area.Cells.FindIndex(point => (point.X == p.X && point.Y == (p.Y - 1)));
-                                    if (indexUp == -1)
-                                        DrawBorder(p.X, p.Y, pen, BorderSide.Top, g);
-                                }
-                                else
-                                {
-                                    DrawBorder(p.X, p.Y, pen, BorderSide.Top, g);
-                                }
-                                if (p.Y < map.Height - 1) //test bottom
-                                {
-                                    var indexBot = area.Cells.FindIndex(point => (point.X == p.X && point.Y == (p.Y + 1)));
-                                    if (indexBot == -1)
-                                        DrawBorder(p.X, p.Y, pen, BorderSide.Bottom, g);
-                                }
-                                else
-                                {
-                                    DrawBorder(p.X, p.Y, pen, BorderSide.Bottom, g);
-                                }
+                            if (p.X < map.Width - 1) //test right
+                            {
+                                var indexRight = area.Cells.FindIndex(point => (point.X == (p.X + 1) && point.Y == p.Y));
+                                if (indexRight == -1)
+                                    DrawBorder(p.X, p.Y, area, BorderSide.Right, g);
+                            }
+                            else
+                            {
+                                DrawBorder(p.X, p.Y, area, BorderSide.Right, g);
+                            }
+                            if (p.Y > 0) //test up
+                            {
+                                var indexUp = area.Cells.FindIndex(point => (point.X == p.X && point.Y == (p.Y - 1)));
+                                if (indexUp == -1)
+                                    DrawBorder(p.X, p.Y, area, BorderSide.Top, g);
+                            }
+                            else
+                            {
+                                DrawBorder(p.X, p.Y, area, BorderSide.Top, g);
+                            }
+                            if (p.Y < map.Height - 1) //test bottom
+                            {
+                                var indexBot = area.Cells.FindIndex(point => (point.X == p.X && point.Y == (p.Y + 1)));
+                                if (indexBot == -1)
+                                    DrawBorder(p.X, p.Y, area, BorderSide.Bottom, g);
+                            }
+                            else
+                            {
+                                DrawBorder(p.X, p.Y, area, BorderSide.Bottom, g);
+                            }
 
-                                if(area.Selected) g.FillRectangle(selectionBrushAdd, p.X * cellWidth, p.Y * cellHeight, cellWidth, cellHeight);
+                            if (area.Selected)
+                            {
+                                if (area.Difficulty == RoomDifficulty.Safe) g.FillRectangle(selectionBrushAddEasy, p.X * cellWidth, p.Y * cellHeight, cellWidth, cellHeight);
+                                else if (area.Difficulty == RoomDifficulty.Medium) g.FillRectangle(selectionBrushAddMedium, p.X * cellWidth, p.Y * cellHeight, cellWidth, cellHeight);
+                                else if (area.Difficulty == RoomDifficulty.Extreme) g.FillRectangle(selectionBrushAddHard, p.X * cellWidth, p.Y * cellHeight, cellWidth, cellHeight);
+
                             }
                         }
-                        
                     }
-                    
+
                 }
             }
 
             return backgroundImage;
+        }
+
+        private void DrawBorder(int x, int y, Area area, BorderSide s, Graphics g)
+        {
+            if (area.Difficulty == RoomDifficulty.Safe) DrawBorder(x, y, penEasy, s, g);
+            else if (area.Difficulty == RoomDifficulty.Medium) DrawBorder(x, y, penMedium, s, g);
+            else if (area.Difficulty == RoomDifficulty.Extreme) DrawBorder(x, y, penHard, s, g);
         }
 
         private void DrawBorder(int x, int y, Pen p, BorderSide s, Graphics graphics)
@@ -394,7 +421,7 @@ namespace EditorBuddyMonster.Layers
 
         internal void SetSelected(string value)
         {
-            foreach(Area a in AreaList)
+            foreach (Area a in AreaList)
             {
                 if (a.Name.Equals(value))
                 {
