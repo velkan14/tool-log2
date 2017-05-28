@@ -459,6 +459,22 @@ namespace EditorBuddyMonster.LoG2API
             return mapObject;
         }
 
+        internal static Map MapFromChromosome(Map originalMap, Chromosome solution, List<Point> selectedPoints)
+        {
+            Map newMap = MapFromChromosome(originalMap, solution);
+
+            Map map = originalMap.CloneJson() as Map;
+
+            foreach (Point p in selectedPoints)
+            {
+                map.SetCell((Cell)newMap.GetCellAt(p.X, p.Y).CloneJson());
+            }
+
+            ReloadElementsMap(map);
+
+            return map;
+        }
+
         /// <summary>
         /// Creates a Map object from a Chromosome
         /// </summary>

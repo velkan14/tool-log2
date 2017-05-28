@@ -36,6 +36,7 @@ namespace EditorBuddyMonster
         private Brush selectionBrushRemove = new SolidBrush(Color.FromArgb(128, 255, 59, 78));
 
         public bool Attached { get; private set; }
+        public bool HasSelection { get { return userSelectedPoints.Count > 0; } }
 
         public UserSelection(Monsters windowInterface, Core core, Panel gridPanel)
         {
@@ -65,6 +66,7 @@ namespace EditorBuddyMonster
                 gridPanel.MouseMove -= this.MouseMove;
                 gridPanel.MouseUp -= this.MouseUp;
                 Attached = false;
+                ClearSelection();
             }
         }
 

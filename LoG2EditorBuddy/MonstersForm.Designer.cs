@@ -67,15 +67,16 @@
             this.button_newSuggestion = new System.Windows.Forms.Button();
             this.trackBar_history = new System.Windows.Forms.TrackBar();
             this.dataGridView = new System.Windows.Forms.DataGridView();
+            this.dataGridViewComboBoxColumn1 = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.dataGridViewComboBoxColumn2 = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.dataGridViewButtonColumn1 = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.toolTip_Parameters = new System.Windows.Forms.ToolTip(this.components);
             this.nameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.difficultyDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.itemAccessibilityDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.dataGridViewCheckBoxColumn1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.areaBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.dataGridViewComboBoxColumn1 = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.dataGridViewComboBoxColumn2 = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.dataGridViewButtonColumn1 = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_innovation)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_userplacement)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_objective)).BeginInit();
@@ -125,8 +126,12 @@
             this.trackBar_innovation.Name = "trackBar_innovation";
             this.trackBar_innovation.Orientation = System.Windows.Forms.Orientation.Vertical;
             this.trackBar_innovation.Size = new System.Drawing.Size(45, 120);
-            this.trackBar_innovation.TabIndex = 3;
-            this.trackBar_innovation.TickStyle = System.Windows.Forms.TickStyle.None;
+            this.trackBar_innovation.SmallChange = 5;
+            this.trackBar_innovation.TabIndex = 5;
+            this.trackBar_innovation.Tag = "";
+            this.trackBar_innovation.TickFrequency = 25;
+            this.toolTip_Parameters.SetToolTip(this.trackBar_innovation, "Innovation: a pool that gives suggestions with different positions and types of m" +
+        "onsters.");
             this.trackBar_innovation.Value = 100;
             // 
             // trackBar_userplacement
@@ -137,7 +142,8 @@
             this.trackBar_userplacement.Orientation = System.Windows.Forms.Orientation.Vertical;
             this.trackBar_userplacement.Size = new System.Drawing.Size(45, 120);
             this.trackBar_userplacement.TabIndex = 4;
-            this.trackBar_userplacement.TickStyle = System.Windows.Forms.TickStyle.None;
+            this.trackBar_userplacement.TickFrequency = 25;
+            this.toolTip_Parameters.SetToolTip(this.trackBar_userplacement, "User placement pool gives suggestions that are closer with the base suggestion.");
             this.trackBar_userplacement.Value = 100;
             // 
             // trackBar_objective
@@ -148,7 +154,9 @@
             this.trackBar_objective.Orientation = System.Windows.Forms.Orientation.Vertical;
             this.trackBar_objective.Size = new System.Drawing.Size(45, 120);
             this.trackBar_objective.TabIndex = 5;
-            this.trackBar_objective.TickStyle = System.Windows.Forms.TickStyle.None;
+            this.trackBar_objective.TickFrequency = 25;
+            this.toolTip_Parameters.SetToolTip(this.trackBar_objective, "Objective is a pool that gives suggestions based on the Objective Paramenters inf" +
+        "ormation.");
             this.trackBar_objective.Value = 100;
             // 
             // groupBox_mainsliders
@@ -165,6 +173,7 @@
             this.groupBox_mainsliders.TabIndex = 6;
             this.groupBox_mainsliders.TabStop = false;
             this.groupBox_mainsliders.Text = "Algorithm Behaviour";
+            this.toolTip_Parameters.SetToolTip(this.groupBox_mainsliders, "Defines the percentage usage of each pool when generating the final suggestion.");
             // 
             // groupBox_objectives
             // 
@@ -176,10 +185,12 @@
             this.groupBox_objectives.Controls.Add(this.label_maxmonsters);
             this.groupBox_objectives.Location = new System.Drawing.Point(12, 215);
             this.groupBox_objectives.Name = "groupBox_objectives";
-            this.groupBox_objectives.Size = new System.Drawing.Size(274, 108);
+            this.groupBox_objectives.Size = new System.Drawing.Size(274, 130);
             this.groupBox_objectives.TabIndex = 7;
             this.groupBox_objectives.TabStop = false;
             this.groupBox_objectives.Text = "Objective Parameters ";
+            this.toolTip_Parameters.SetToolTip(this.groupBox_objectives, "Defines parameters that will be used to generate suggestions on the Objective poo" +
+        "l, was well on the final suggestion that is presented to the user.");
             // 
             // numericUpDown_numberItens
             // 
@@ -187,6 +198,7 @@
             this.numericUpDown_numberItens.Name = "numericUpDown_numberItens";
             this.numericUpDown_numberItens.Size = new System.Drawing.Size(103, 20);
             this.numericUpDown_numberItens.TabIndex = 10;
+            this.toolTip_panel.SetToolTip(this.numericUpDown_numberItens, "Defines the ideal number of itens that the suggestions should have.");
             this.numericUpDown_numberItens.Value = new decimal(new int[] {
             5,
             0,
@@ -201,6 +213,7 @@
             this.label_maxitens.Size = new System.Drawing.Size(70, 13);
             this.label_maxitens.TabIndex = 9;
             this.label_maxitens.Text = "Number Itens";
+            this.toolTip_Parameters.SetToolTip(this.label_maxitens, "Defines the ideal number of itens that the suggestions should have.");
             // 
             // numericUpDown_maxmonsters
             // 
@@ -208,6 +221,7 @@
             this.numericUpDown_maxmonsters.Name = "numericUpDown_maxmonsters";
             this.numericUpDown_maxmonsters.Size = new System.Drawing.Size(103, 20);
             this.numericUpDown_maxmonsters.TabIndex = 8;
+            this.toolTip_panel.SetToolTip(this.numericUpDown_maxmonsters, "Defines the ideal number of monsters that the suggestions should have.");
             this.numericUpDown_maxmonsters.Value = new decimal(new int[] {
             5,
             0,
@@ -221,7 +235,10 @@
             this.trackBar_hordes.Name = "trackBar_hordes";
             this.trackBar_hordes.Size = new System.Drawing.Size(142, 45);
             this.trackBar_hordes.TabIndex = 5;
-            this.trackBar_hordes.TickStyle = System.Windows.Forms.TickStyle.None;
+            this.trackBar_hordes.TickFrequency = 25;
+            this.toolTip_panel.SetToolTip(this.trackBar_hordes, "Defines the ideal percentage of hordes that the suggestions should have. Hordes a" +
+        "re monsters that spaw close to each other.");
+            this.trackBar_hordes.Value = 50;
             // 
             // label_hordes
             // 
@@ -231,6 +248,8 @@
             this.label_hordes.Size = new System.Drawing.Size(41, 13);
             this.label_hordes.TabIndex = 2;
             this.label_hordes.Text = "Hordes";
+            this.toolTip_Parameters.SetToolTip(this.label_hordes, "Defines the ideal percentage of hordes that the suggestions should have. Hordes a" +
+        "re monsters that spaw close to each other.");
             // 
             // label_maxmonsters
             // 
@@ -240,6 +259,7 @@
             this.label_maxmonsters.Size = new System.Drawing.Size(90, 13);
             this.label_maxmonsters.TabIndex = 0;
             this.label_maxmonsters.Text = "Number Monsters";
+            this.toolTip_Parameters.SetToolTip(this.label_maxmonsters, "Defines the ideal number of monsters that the suggestions should have.");
             // 
             // textBox_logger
             // 
@@ -309,6 +329,7 @@
             // 
             // button_export
             // 
+            this.button_export.Enabled = false;
             this.button_export.Location = new System.Drawing.Point(88, 49);
             this.button_export.Name = "button_export";
             this.button_export.Size = new System.Drawing.Size(75, 23);
@@ -349,6 +370,7 @@
             // 
             // button_settings
             // 
+            this.button_settings.Enabled = false;
             this.button_settings.Location = new System.Drawing.Point(1028, 126);
             this.button_settings.Name = "button_settings";
             this.button_settings.Size = new System.Drawing.Size(75, 23);
@@ -433,7 +455,7 @@
             // trackBar_history
             // 
             this.trackBar_history.Enabled = false;
-            this.trackBar_history.Location = new System.Drawing.Point(947, 158);
+            this.trackBar_history.Location = new System.Drawing.Point(947, 164);
             this.trackBar_history.Maximum = 1;
             this.trackBar_history.Name = "trackBar_history";
             this.trackBar_history.Size = new System.Drawing.Size(206, 45);
@@ -452,13 +474,42 @@
             this.itemAccessibilityDataGridViewTextBoxColumn,
             this.dataGridViewCheckBoxColumn1});
             this.dataGridView.DataSource = this.areaBindingSource;
-            this.dataGridView.Location = new System.Drawing.Point(12, 329);
+            this.dataGridView.Location = new System.Drawing.Point(12, 351);
             this.dataGridView.Name = "dataGridView";
             this.dataGridView.Size = new System.Drawing.Size(274, 284);
             this.dataGridView.TabIndex = 20;
             this.dataGridView.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellValueChanged);
             this.dataGridView.CurrentCellDirtyStateChanged += new System.EventHandler(this.dataGridView_CurrentCellDirtyStateChanged);
             this.dataGridView.SelectionChanged += new System.EventHandler(this.dataGridView_SelectionChanged);
+            // 
+            // dataGridViewComboBoxColumn1
+            // 
+            this.dataGridViewComboBoxColumn1.DataPropertyName = "Difficulty";
+            this.dataGridViewComboBoxColumn1.HeaderText = "Difficulty";
+            this.dataGridViewComboBoxColumn1.Items.AddRange(new object[] {
+            "Easy",
+            "Medium",
+            "Hard"});
+            this.dataGridViewComboBoxColumn1.Name = "dataGridViewComboBoxColumn1";
+            // 
+            // dataGridViewComboBoxColumn2
+            // 
+            this.dataGridViewComboBoxColumn2.DataPropertyName = "Difficulty";
+            this.dataGridViewComboBoxColumn2.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.ComboBox;
+            this.dataGridViewComboBoxColumn2.HeaderText = "Difficulty";
+            this.dataGridViewComboBoxColumn2.Name = "dataGridViewComboBoxColumn2";
+            // 
+            // dataGridViewButtonColumn1
+            // 
+            this.dataGridViewButtonColumn1.HeaderText = "Visible";
+            this.dataGridViewButtonColumn1.Name = "dataGridViewButtonColumn1";
+            // 
+            // progressBar1
+            // 
+            this.progressBar1.Location = new System.Drawing.Point(947, 270);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(206, 15);
+            this.progressBar1.TabIndex = 21;
             // 
             // nameDataGridViewTextBoxColumn
             // 
@@ -492,35 +543,6 @@
             // areaBindingSource
             // 
             this.areaBindingSource.DataSource = typeof(EditorBuddyMonster.Layers.Area);
-            // 
-            // dataGridViewComboBoxColumn1
-            // 
-            this.dataGridViewComboBoxColumn1.DataPropertyName = "Difficulty";
-            this.dataGridViewComboBoxColumn1.HeaderText = "Difficulty";
-            this.dataGridViewComboBoxColumn1.Items.AddRange(new object[] {
-            "Easy",
-            "Medium",
-            "Hard"});
-            this.dataGridViewComboBoxColumn1.Name = "dataGridViewComboBoxColumn1";
-            // 
-            // dataGridViewComboBoxColumn2
-            // 
-            this.dataGridViewComboBoxColumn2.DataPropertyName = "Difficulty";
-            this.dataGridViewComboBoxColumn2.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.ComboBox;
-            this.dataGridViewComboBoxColumn2.HeaderText = "Difficulty";
-            this.dataGridViewComboBoxColumn2.Name = "dataGridViewComboBoxColumn2";
-            // 
-            // dataGridViewButtonColumn1
-            // 
-            this.dataGridViewButtonColumn1.HeaderText = "Visible";
-            this.dataGridViewButtonColumn1.Name = "dataGridViewButtonColumn1";
-            // 
-            // progressBar1
-            // 
-            this.progressBar1.Location = new System.Drawing.Point(947, 270);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(206, 15);
-            this.progressBar1.TabIndex = 21;
             // 
             // Monsters
             // 
@@ -617,5 +639,6 @@
         private System.Windows.Forms.DataGridViewComboBoxColumn difficultyDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewComboBoxColumn itemAccessibilityDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewCheckBoxColumn dataGridViewCheckBoxColumn1;
+        private System.Windows.Forms.ToolTip toolTip_Parameters;
     }
 }

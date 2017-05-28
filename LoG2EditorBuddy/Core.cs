@@ -244,7 +244,12 @@ namespace EditorBuddyMonster
 
             Chromosome c = mixAlgorithm.Solution.GetTop(1)[0];
             Logger.AppendText("Fitness: " + c.Fitness);
-            suggestionsMap.Add(APIClass.MapFromChromosome(OriginalMap, c));
+
+            if (monsters.USelection.HasSelection)
+            {
+                suggestionsMap.Add(APIClass.MapFromChromosome(OriginalMap, c, monsters.USelection.GetSelectedPoints()));
+            }
+            else suggestionsMap.Add(APIClass.MapFromChromosome(OriginalMap, c));
             IndexMap = suggestionsMap.Count - 1;
             monsters.UpdateTrackHistory();
             monsters.ReDrawMap();

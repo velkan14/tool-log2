@@ -27,7 +27,7 @@ namespace EditorBuddyMonster
     {
         private Draw drawer;
         private Core core;
-        private UserSelection userSelection;
+        public UserSelection USelection { get; private set; }
         public AreaManager AreasManager { get; private set; }
         Image lastImage;
 
@@ -66,7 +66,7 @@ namespace EditorBuddyMonster
 
         public void MapLoaded()
         {
-            userSelection = new UserSelection(this, core, gridPanel);
+            USelection = new UserSelection(this, core, gridPanel);
 
             AreasManager = new AreaManager(core.OriginalMap, gridPanel);
 
@@ -81,8 +81,7 @@ namespace EditorBuddyMonster
                 }
 
                 groupBox_selection.Enabled = true;
-
-                button_undo.Enabled = true;
+                
                 button_previous.Enabled = true;
                 button_next.Enabled = true;
                 button_newSuggestion.Enabled = true;
@@ -100,13 +99,13 @@ namespace EditorBuddyMonster
 
         private void button_clear_Click(object sender, EventArgs e)
         {
-            userSelection.ClearSelection();
+            USelection.ClearSelection();
             ReDraw();
         }
 
         private void button_invert_Click(object sender, EventArgs e)
         {
-            if (userSelection.InvertSelection())
+            if (USelection.InvertSelection())
             {
                 ReDraw();
             }
@@ -118,13 +117,16 @@ namespace EditorBuddyMonster
 
         private void button_select_Click(object sender, EventArgs e)
         {
-            if (!userSelection.Attached)
+            if (!USelection.Attached)
             {
-                userSelection.Attach();
+                USelection.Attach();
+                button_select.FlatStyle = FlatStyle.Flat;
             }
             else
             {
-                userSelection.Dettach();
+                USelection.Dettach();
+
+                button_select.FlatStyle = FlatStyle.Standard;
                 ReDraw();
             }
             
@@ -172,7 +174,7 @@ namespace EditorBuddyMonster
 
         private void button_export_Click(object sender, EventArgs e)
         {
-            List<Point> selectPoints = userSelection.GetSelectedPoints();
+            List<Point> selectPoints = USelection.GetSelectedPoints();
 
             if (selectPoints.Count == 0)
             {
@@ -263,7 +265,7 @@ namespace EditorBuddyMonster
         {
             Image image = lastImage.Clone() as Image;
 
-            if (userSelection != null && userSelection.Attached) image = userSelection.Draw(gridPanel.Width, gridPanel.Height, image);
+            if (USelection != null && USelection.Attached) image = USelection.Draw(gridPanel.Width, gridPanel.Height, image);
 
             image = AreasManager.Draw(gridPanel.Width, gridPanel.Height, image);
 
