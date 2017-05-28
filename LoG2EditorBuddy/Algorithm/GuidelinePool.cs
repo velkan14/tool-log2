@@ -139,17 +139,17 @@ namespace EditorBuddyMonster.Algorithm
             {
                 switch (a.Difficulty)
                 {
-                    case (Difficulty.Easy):
+                    case (RoomDifficulty.Safe):
                         {
                             totalTiles += a.Size;
                             break;
                         }
-                    case (Difficulty.Medium):
+                    case (RoomDifficulty.Medium):
                         {
                             totalTiles += a.Size * 2;
                             break;
                         }
-                    case (Difficulty.Hard):
+                    case (RoomDifficulty.Extreme):
                         {
                             totalTiles += a.Size * 3;
                             break;
@@ -221,7 +221,7 @@ namespace EditorBuddyMonster.Algorithm
 
                 switch (area.Difficulty)
                 {
-                    case Difficulty.Easy:
+                    case RoomDifficulty.Safe:
                         {
                             double numberMonsterArea = NumberMonster(area.Size, 1);
                             double numberMonsterFit = 0.0;
@@ -246,7 +246,7 @@ namespace EditorBuddyMonster.Algorithm
 
                         }
                         break;
-                    case Difficulty.Medium:
+                    case RoomDifficulty.Medium:
                         {
                             double numberMonsterArea = NumberMonster(area.Size, 2);
                             double numberMonsterFit = 0.0;
@@ -270,7 +270,7 @@ namespace EditorBuddyMonster.Algorithm
 
                         }
                         break;
-                    case Difficulty.Hard:
+                    case RoomDifficulty.Extreme:
                         {
                             double numberMonsterArea = NumberMonster(area.Size, 3);
                             double numberMonsterFit = 0.0;

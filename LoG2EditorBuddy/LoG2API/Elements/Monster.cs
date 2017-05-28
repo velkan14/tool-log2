@@ -95,6 +95,15 @@ namespace EditorBuddyMonster.LoG2API.Elements
         private static Rectangle srcRectDown = new Rectangle(120, 0, 20, 20);
         private static Rectangle srcRectLeft = new Rectangle(140, 0, 20, 20);
 
+        private static Rectangle srcRectTopLight = new Rectangle(0, 36*20, 20, 20);
+        private static Rectangle srcRectRightLight = new Rectangle(20, 36 * 20, 20, 20);
+        private static Rectangle srcRectDownLight = new Rectangle(40, 36 * 20, 20, 20);
+        private static Rectangle srcRectLeftLight = new Rectangle(60, 36 * 20, 20, 20);
+
+        private static Rectangle srcRectTopMedium = new Rectangle(80, 36 * 20, 20, 20);
+        private static Rectangle srcRectRightMedium = new Rectangle(100, 36 * 20, 20, 20);
+        private static Rectangle srcRectDownMedium = new Rectangle(120, 36 * 20, 20, 20);
+        private static Rectangle srcRectLeftMedium = new Rectangle(140, 36 * 20, 20, 20);
 
         public override string ElementType
         {
@@ -116,6 +125,7 @@ namespace EditorBuddyMonster.LoG2API.Elements
         {
             get
             {
+                if (ElementType.Equals("turtle")) return srcRectTopMedium;
                 return srcRectTop;
             }
         }
@@ -124,6 +134,7 @@ namespace EditorBuddyMonster.LoG2API.Elements
         {
             get
             {
+                if (ElementType.Equals("turtle")) return srcRectRightMedium;
                 return srcRectRight;
             }
         }
@@ -132,6 +143,7 @@ namespace EditorBuddyMonster.LoG2API.Elements
         {
             get
             {
+                if (ElementType.Equals("turtle")) return srcRectDownMedium;
                 return srcRectDown;
             }
         }
@@ -140,6 +152,7 @@ namespace EditorBuddyMonster.LoG2API.Elements
         {
             get
             {
+                if (ElementType.Equals("turtle")) return srcRectLeftMedium;
                 return srcRectLeft;
             }
         }

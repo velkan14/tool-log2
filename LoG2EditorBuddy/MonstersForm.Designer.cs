@@ -70,15 +70,15 @@
             this.button_newSuggestion = new System.Windows.Forms.Button();
             this.trackBar_history = new System.Windows.Forms.TrackBar();
             this.dataGridView = new System.Windows.Forms.DataGridView();
-            this.nameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.difficultyDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.Visible = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.areaBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.dataGridViewComboBoxColumn1 = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.dataGridViewComboBoxColumn2 = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.dataGridViewButtonColumn1 = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.areasBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.areaBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.nameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.difficultyDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.itemAccessibilityDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.dataGridViewCheckBoxColumn1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_innovation)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_userplacement)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_objective)).BeginInit();
@@ -93,7 +93,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_history)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.areaBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.areasBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // label_innovation
@@ -474,44 +473,16 @@
             this.dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.nameDataGridViewTextBoxColumn,
             this.difficultyDataGridViewTextBoxColumn,
-            this.Visible});
+            this.itemAccessibilityDataGridViewTextBoxColumn,
+            this.dataGridViewCheckBoxColumn1});
             this.dataGridView.DataSource = this.areaBindingSource;
             this.dataGridView.Location = new System.Drawing.Point(12, 408);
             this.dataGridView.Name = "dataGridView";
-            this.dataGridView.Size = new System.Drawing.Size(274, 170);
+            this.dataGridView.Size = new System.Drawing.Size(274, 231);
             this.dataGridView.TabIndex = 20;
             this.dataGridView.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellValueChanged);
             this.dataGridView.CurrentCellDirtyStateChanged += new System.EventHandler(this.dataGridView_CurrentCellDirtyStateChanged);
             this.dataGridView.SelectionChanged += new System.EventHandler(this.dataGridView_SelectionChanged);
-            // 
-            // nameDataGridViewTextBoxColumn
-            // 
-            this.nameDataGridViewTextBoxColumn.DataPropertyName = "Name";
-            this.nameDataGridViewTextBoxColumn.HeaderText = "Name";
-            this.nameDataGridViewTextBoxColumn.Name = "nameDataGridViewTextBoxColumn";
-            this.nameDataGridViewTextBoxColumn.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.nameDataGridViewTextBoxColumn.Width = 60;
-            // 
-            // difficultyDataGridViewTextBoxColumn
-            // 
-            this.difficultyDataGridViewTextBoxColumn.DataPropertyName = "Difficulty";
-            this.difficultyDataGridViewTextBoxColumn.HeaderText = "Difficulty";
-            this.difficultyDataGridViewTextBoxColumn.Name = "difficultyDataGridViewTextBoxColumn";
-            this.difficultyDataGridViewTextBoxColumn.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.difficultyDataGridViewTextBoxColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.difficultyDataGridViewTextBoxColumn.Width = 70;
-            // 
-            // Visible
-            // 
-            this.Visible.DataPropertyName = "Visible";
-            this.Visible.HeaderText = "Visible";
-            this.Visible.Name = "Visible";
-            this.Visible.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.Visible.Width = 40;
-            // 
-            // areaBindingSource
-            // 
-            this.areaBindingSource.DataSource = typeof(EditorBuddyMonster.Layers.Area);
             // 
             // dataGridViewComboBoxColumn1
             // 
@@ -541,6 +512,39 @@
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(206, 15);
             this.progressBar1.TabIndex = 21;
+            // 
+            // areaBindingSource
+            // 
+            this.areaBindingSource.DataSource = typeof(EditorBuddyMonster.Layers.Area);
+            // 
+            // nameDataGridViewTextBoxColumn
+            // 
+            this.nameDataGridViewTextBoxColumn.DataPropertyName = "Name";
+            this.nameDataGridViewTextBoxColumn.HeaderText = "Name";
+            this.nameDataGridViewTextBoxColumn.Name = "nameDataGridViewTextBoxColumn";
+            this.nameDataGridViewTextBoxColumn.Width = 60;
+            // 
+            // difficultyDataGridViewTextBoxColumn
+            // 
+            this.difficultyDataGridViewTextBoxColumn.DataPropertyName = "Difficulty";
+            this.difficultyDataGridViewTextBoxColumn.HeaderText = "Dangerous";
+            this.difficultyDataGridViewTextBoxColumn.Name = "difficultyDataGridViewTextBoxColumn";
+            this.difficultyDataGridViewTextBoxColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.difficultyDataGridViewTextBoxColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // itemAccessibilityDataGridViewTextBoxColumn
+            // 
+            this.itemAccessibilityDataGridViewTextBoxColumn.DataPropertyName = "ItemAccessibility";
+            this.itemAccessibilityDataGridViewTextBoxColumn.HeaderText = "Item Accessibility";
+            this.itemAccessibilityDataGridViewTextBoxColumn.Name = "itemAccessibilityDataGridViewTextBoxColumn";
+            this.itemAccessibilityDataGridViewTextBoxColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.itemAccessibilityDataGridViewTextBoxColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // dataGridViewCheckBoxColumn1
+            // 
+            this.dataGridViewCheckBoxColumn1.DataPropertyName = "Visible";
+            this.dataGridViewCheckBoxColumn1.HeaderText = "Visible";
+            this.dataGridViewCheckBoxColumn1.Name = "dataGridViewCheckBoxColumn1";
             // 
             // Monsters
             // 
@@ -583,7 +587,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_history)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.areaBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.areasBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -632,15 +635,15 @@
         private System.Windows.Forms.Label label_maxitens;
         private System.Windows.Forms.DataGridViewCheckBoxColumn visibleDataGridViewCheckBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn aDataGridViewTextBoxColumn;
-        private System.Windows.Forms.BindingSource areasBindingSource;
         private System.Windows.Forms.DataGridView dataGridView;
-        private System.Windows.Forms.BindingSource areaBindingSource;
         private System.Windows.Forms.DataGridViewComboBoxColumn dataGridViewComboBoxColumn1;
         private System.Windows.Forms.DataGridViewComboBoxColumn dataGridViewComboBoxColumn2;
         private System.Windows.Forms.DataGridViewButtonColumn dataGridViewButtonColumn1;
+        private System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.BindingSource areaBindingSource;
         private System.Windows.Forms.DataGridViewTextBoxColumn nameDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewComboBoxColumn difficultyDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn Visible;
-        private System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.DataGridViewComboBoxColumn itemAccessibilityDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn dataGridViewCheckBoxColumn1;
     }
 }

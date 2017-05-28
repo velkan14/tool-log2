@@ -202,6 +202,7 @@
     <Compile Include="Utilities\NativeMethods.cs" />
     <Compile Include="Utilities\ProgramResources.cs" />
     <Compile Include="Utilities\Prompt.cs" />
+    <Compile Include="Utilities\StringEnum.cs" />
     <Compile Include="Utilities\Utilities.cs" />
     <Compile Include="LoG2API\Cell.cs" />
     <Compile Include="AssemblyInfo.cs">
@@ -255,6 +256,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Properties\DataSources\EditorBuddyMonster.Layers.Area.datasource" />
     <None Include="Properties\DataSources\Log2CyclePrototype.Layers.Area.datasource" />
     <None Include="Properties\DataSources\Log2CyclePrototype.Layers.Areas.datasource" />
     <None Include="Resources\wrench_icon.png" />

@@ -60,7 +60,8 @@ namespace EditorBuddyMonster
 
             Logger.EntryWritten += Logger_EntryWritten;
 
-            difficultyDataGridViewTextBoxColumn.DataSource = Enum.GetValues(typeof(Difficulty));
+            difficultyDataGridViewTextBoxColumn.DataSource = Enum.GetValues(typeof(RoomDifficulty));
+            itemAccessibilityDataGridViewTextBoxColumn.DataSource = Enum.GetValues(typeof(ItemAccessibility));
         }
 
         public void MapLoaded()
@@ -340,5 +341,6 @@ namespace EditorBuddyMonster
                 progressBar1.Value = 0;
             }));
         }
+        
     }
 }

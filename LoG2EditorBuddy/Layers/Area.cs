@@ -14,7 +14,9 @@ namespace EditorBuddyMonster.Layers
         public List<Cell> Cells { get; set; }
         public Cell StartCell { get; set; }
         public bool Visible { get; set; }
-        public Difficulty Difficulty { get; set; }
+        public RoomDifficulty Difficulty { get; set; }
+        public ItemAccessibility ItemAccessibility { get; set; }
+
         public bool Selected { get; internal set; }
         public int Size { get { return Cells.Count; } }
 
@@ -22,7 +24,7 @@ namespace EditorBuddyMonster.Layers
         {
             Name = name;
             Cells = cells;
-            Difficulty = Difficulty.Easy;
+            Difficulty = RoomDifficulty.Safe;
             Visible = true;
         }
 
