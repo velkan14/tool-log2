@@ -84,7 +84,6 @@ namespace EditorBuddyMonster
                 return;
             }
 
-            monsters.ResetProgress();
             RunAlgorithm(innovationPercentage, guidelinePercentage, userPercentage, numberMonsters, numberItens, hordesPercentage);
         }
 
@@ -188,7 +187,7 @@ namespace EditorBuddyMonster
             {
                 MaxMonsters = numberMonsters,
                 MaxItens = numberItens,
-                HordesPercentage = hordesPercentage,
+                HordesPercentage = hordesPercentage / 100.0,
                 UserPercentage = userPercentage / 100.0,
                 InnovationPercentage = innovationPercentage / 100.0,
                 GuidelinePercentage = guidelinePercentage / 100.0
@@ -255,11 +254,6 @@ namespace EditorBuddyMonster
             monsters.ReDrawMap();
 
             algorithmRunning = false;
-
-            if (NativeMethods.SetForegroundWindow((IntPtr)NativeMethods.GetForegroundWindow()))
-            {
-                Logger.AppendText("fffff");
-            }
         }
 
         internal void ReloadLOG()

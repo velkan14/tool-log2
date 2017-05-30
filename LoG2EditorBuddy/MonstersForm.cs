@@ -39,7 +39,7 @@ namespace EditorBuddyMonster
         private int NumberItens { get { return Convert.ToInt32(numericUpDown_numberItens.Value); } }
         private int HordesPercentage { get { return trackBar_hordes.Value; } }
 
-    public Monsters()
+        public Monsters()
         {
             InitializeComponent();
         }
@@ -70,18 +70,18 @@ namespace EditorBuddyMonster
 
             AreasManager = new AreaManager(core.OriginalMap, gridPanel);
 
-            
+
 
             Invoke((MethodInvoker)(() =>
             {
                 areaBindingSource.Clear();
-                foreach(Area a in AreasManager.AreaList)
+                foreach (Area a in AreasManager.AreaList)
                 {
                     areaBindingSource.Add(a);
                 }
 
                 groupBox_selection.Enabled = true;
-                
+
                 button_previous.Enabled = true;
                 button_next.Enabled = true;
                 button_newSuggestion.Enabled = true;
@@ -129,7 +129,7 @@ namespace EditorBuddyMonster
                 button_select.FlatStyle = FlatStyle.Standard;
                 ReDraw();
             }
-            
+
         }
 
         #endregion
@@ -190,7 +190,7 @@ namespace EditorBuddyMonster
             }
         }
 
-        
+
 
 
         private void button_next_Click(object sender, EventArgs e)
@@ -215,6 +215,7 @@ namespace EditorBuddyMonster
 
         private void button_newRun_Click(object sender, EventArgs e)
         {
+            ResetProgress();
             core.NewSuggestion(InnovationPercentage, GuidelinePercentage, UserPercentage, NumberMonsters, NumberItens, HordesPercentage);
         }
 
@@ -234,11 +235,13 @@ namespace EditorBuddyMonster
                 if (row.Selected)
                 {
                     AreasManager.SetSelected((string)row.Cells[0].Value);
-                } else{
+                }
+                else
+                {
                     AreasManager.SetUnselected((string)row.Cells[0].Value);
                 }
             }
-            if(dataGridView.CurrentRow != null) AreasManager.SetSelected((string)dataGridView.CurrentRow.Cells[0].Value);
+            if (dataGridView.CurrentRow != null) AreasManager.SetSelected((string)dataGridView.CurrentRow.Cells[0].Value);
             if (lastImage != null) ReDraw();
         }
 
@@ -294,7 +297,8 @@ namespace EditorBuddyMonster
         public void Progress(int n, int value)
         {
 
-            Invoke((MethodInvoker)(() => {
+            Invoke((MethodInvoker)(() =>
+            {
                 switch (n)
                 {
                     case 0:
@@ -319,12 +323,12 @@ namespace EditorBuddyMonster
                         }
                 }
                 progressBar1.Value = Convert.ToInt32(Math.Min(100, (1.0 / 4.0) * conP + (1.0 / 4.0) * innoP + (1.0 / 4.0) * guideP + (1.0 / 4.0) * mixP));
-                if (conP + innoP + guideP + mixP > 400)
+                /*if (conP + innoP + guideP + mixP > 400)
                 {
                     System.Timers.Timer t = new System.Timers.Timer(10000);
                     t.Elapsed += new ElapsedEventHandler(Reset);
                     t.Enabled = true;
-                }
+                }*/
             }));
         }
 
@@ -332,17 +336,15 @@ namespace EditorBuddyMonster
         {
             ResetProgress();
         }
-        public void ResetProgress()
-        {
 
-            Invoke((MethodInvoker)(() => {
-                conP = 0;
-                innoP = 0;
-                guideP = 0;
-                mixP = 0;
-                progressBar1.Value = 0;
-            }));
+        private void ResetProgress()
+        {
+            conP = 0;
+            innoP = 0;
+            guideP = 0;
+            mixP = 0;
+            progressBar1.Value = 0;
         }
-        
+
     }
 }

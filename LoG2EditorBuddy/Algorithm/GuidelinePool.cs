@@ -175,8 +175,11 @@ namespace EditorBuddyMonster.Algorithm
         protected double CalculateFitness(Chromosome chromosome)
         {
             double totalFitness = 0.0; // Value between 0 and 1. 1 is the fittest
+            double totalItensFitness = 0.0;
+
             int totalMonsters = 0;
             int totalItens = 0;
+            int totalHordes = 0;
 
             string binaryString = chromosome.ToBinaryString();
 
@@ -237,11 +240,10 @@ namespace EditorBuddyMonster.Algorithm
 
                             if (numberMonsters != 0.0)
                             {
-                                fitness = (1.0 / 4.0) * numberMonsterFit +
-                                    (1.0 / 4.0) * FunctionRising(FloodFill(startCell, cellsArea, listCells, HasMonster, true), area.Size) +
-                                    (1.0 / 4.0) * FunctionDecreasing(numberHordes, numberMonsters) +
-                                    (1.0 / 4.0) * FunctionUpDown((numberMonsterEasy + numberMonsterMedium * 2.0 + numberMonsterHard * 4.0) * GetMonsterMultiplier(numberMonsters), area.Size / 9.0);
-                                
+                                fitness = numberMonsterFit
+                                    * FunctionRising(FloodFill(startCell, cellsArea, listCells, HasMonster, true), area.Size)
+                                    * FunctionUpDown((numberMonsterEasy + numberMonsterMedium * 2.0 + numberMonsterHard * 4.0) * GetMonsterMultiplier(numberMonsters), area.Size / 9.0);
+
                             }
 
                         }
@@ -262,10 +264,9 @@ namespace EditorBuddyMonster.Algorithm
 
                             if (numberMonsters != 0.0)
                             {
-                                fitness = (1.0 / 4.0) * numberMonsterFit +
-                                    (1.0 / 4.0) * FunctionMedium(FloodFill(startCell, cellsArea, listCells, HasMonster, true), area.Size) +
-                                    (1.0 / 4.0) * FunctionMedium(numberHordes, numberMonsters) +
-                                    (1.0 / 4.0) * FunctionUpDown((numberMonsterEasy * 1.0 + numberMonsterMedium * 2.0 + numberMonsterHard * 4.0) * GetMonsterMultiplier(numberMonsters), (area.Size /9.0 )* 2.0);
+                                fitness = numberMonsterFit
+                                    * FunctionMedium(FloodFill(startCell, cellsArea, listCells, HasMonster, true), area.Size)
+                                    * FunctionUpDown((numberMonsterEasy * 1.0 + numberMonsterMedium * 2.0 + numberMonsterHard * 4.0) * GetMonsterMultiplier(numberMonsters), (area.Size / 9.0) * 2.0);
                             }
 
                         }
@@ -286,30 +287,49 @@ namespace EditorBuddyMonster.Algorithm
 
                             if (numberMonsters != 0.0)
                             {
-                                fitness = (1.0 / 4.0) * numberMonsterFit +
-                                    (1.0 / 4.0) * FunctionDecreasing(FloodFill(startCell, cellsArea, listCells, HasMonster, true), area.Size) +
-                                    (1.0 / 4.0) * FunctionRising(numberHordes, numberMonsters) +
-                                    (1.0 / 4.0) * FunctionUpDown((numberMonsterEasy + numberMonsterMedium * 2.0 + numberMonsterHard * 4.0) * GetMonsterMultiplier(numberMonsters), (area.Size/9.0) * 3.0);
+                                fitness = numberMonsterFit
+                                    * FunctionDecreasing(FloodFill(startCell, cellsArea, listCells, HasMonster, true), area.Size)
+                                    * FunctionUpDown((numberMonsterEasy + numberMonsterMedium * 2.0 + numberMonsterHard * 4.0) * GetMonsterMultiplier(numberMonsters), (area.Size / 9.0) * 3.0);
 
                             }
                         }
                         break;
                 }
+
+                /** ITENS **/
+                double hasArmor = FloodFill(startCell, cellsArea, listCells, HasArmor, true);
+                double hasWeapon = FloodFill(startCell, cellsArea, listCells, HasWeapon, true);
+                double hasResource = FloodFill(startCell, cellsArea, listCells, HasResource, true);
+
+                switch (area.ItemAccessibility)
+                {
+                    case ItemAccessibility.SafeToGet:
+                        {
+                            totalItensFitness += (1.0 / areaManager.AreaList.Count) * FunctionDecreasing(hasArmor, area.Size)
+                                      * FunctionDecreasing(hasWeapon, area.Size)
+                                      * FunctionDecreasing(hasResource, area.Size);
+                            break;
+                        }
+                    case ItemAccessibility.HardToGet:
+                        {
+                            totalItensFitness += (1.0 / areaManager.AreaList.Count) * FunctionRising(hasArmor, area.Size)
+                                      * FunctionRising(hasWeapon, area.Size)
+                                      * FunctionRising(hasResource, area.Size);
+                            break;
+                        }
+                }
+
+                /**** ****/
+
                 if (fitness < 0.0) fitness = 0.0;
 
                 totalFitness += (1.0 / areaManager.AreaList.Count) * fitness;
                 totalMonsters += numberMonsters;
                 totalItens += numberItens;
-
+                totalHordes += numberHordes;
             }
 
-            double hasArmor = FloodFill(areaManager.AreaList[0].StartCell, cells, listCells, HasArmor, true);
-            double hasWeapon = FloodFill(areaManager.AreaList[0].StartCell, cells, listCells, HasWeapon, true);
-            double hasResource = FloodFill(areaManager.AreaList[0].StartCell, cells, listCells, HasResource, true);
-            
-            double itensFitness = (1.0 / 3.0) * FunctionDecreasing(hasArmor, cells.Count) +
-                                  (1.0 / 3.0) * FunctionDecreasing(hasWeapon, cells.Count) +
-                                  (1.0 / 3.0) * FunctionDecreasing(hasResource, cells.Count);
+
 
             /* Objective of Max Itens*/
             double maxItensFitness = 0.0;
@@ -332,9 +352,13 @@ namespace EditorBuddyMonster.Algorithm
             {
                 maxMonstersFitness = FunctionUpDown(totalMonsters, MaxMonsters);
             }
+            double hordesFit = 0.0;
+            //Console.WriteLine("Monsters: {0}, Hordes: {1}, Percentage: {2}, Fit: {3}", totalMonsters, totalHordes, HordesPercentage, FunctionUpDown((double)totalHordes / (double)totalMonsters, HordesPercentage));
+            if (totalHordes == 0 && HordesPercentage == 0) hordesFit = 1.0;
+            else hordesFit = FunctionUpDown((double)totalHordes / (double)totalMonsters, HordesPercentage);
 
             /* Percentages of all fitness */
-            totalFitness = 0.5 * (0.2 * maxMonstersFitness + 0.8 * totalFitness) + 0.5 * (0.8 * itensFitness + 0.2 * maxItensFitness);
+            totalFitness = (0.2 * maxMonstersFitness + 0.4 * totalFitness + 0.4 * hordesFit) * (0.8 * totalItensFitness + 0.2 * maxItensFitness) ;
 
             return totalFitness;
         }
@@ -353,7 +377,7 @@ namespace EditorBuddyMonster.Algorithm
                 if (has(startCell.X, startCell.Y, listCells)) return 0;
             }
 
-            
+
             ListQueue<CellStruct> queue = new ListQueue<CellStruct>();
             CellStruct firstCell = listCells.FirstOrDefault(c => c.x == startCell.X && c.y == startCell.Y);
             firstCell.visited = true;
@@ -401,7 +425,7 @@ namespace EditorBuddyMonster.Algorithm
             return tileTraversed;
         }
 
-        
+
 
         private static bool HasCell(int x, int y, List<CellStruct> listCells)
         {
