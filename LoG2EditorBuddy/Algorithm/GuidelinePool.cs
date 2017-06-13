@@ -71,13 +71,13 @@ namespace EditorBuddyMonster.Algorithm
 
             //we can create an empty population as we will be creating the 
             //initial solutions manually.
-            var population = new Population(InitialPopulation, cells.Count * APIClass.NUMBER_GENES, true, true);
+            var population = new Population(InitialPopulation, cells.Count * ChromosomeUtils.NUMBER_GENES, true, true);
 
             //create the elite operator
             var elite = new Elite(ElitismPercentage);
 
             //create the crossover operator
-            var crossover = new CrossoverIndex(CrossOverPercentage, APIClass.NUMBER_GENES, true, GAF.Operators.CrossoverType.DoublePoint, ReplacementMethod.GenerationalReplacement);
+            var crossover = new CrossoverIndex(CrossOverPercentage, ChromosomeUtils.NUMBER_GENES, true, GAF.Operators.CrossoverType.DoublePoint, ReplacementMethod.GenerationalReplacement);
 
             //create the mutation operator
             var mutate = new BinaryMutate(MutationPercentage);
@@ -187,9 +187,9 @@ namespace EditorBuddyMonster.Algorithm
 
             for (int i = 0; i < cells.Count; i++)
             {
-                string s = binaryString.Substring(i * APIClass.NUMBER_GENES, APIClass.NUMBER_GENES);
+                string s = binaryString.Substring(i * ChromosomeUtils.NUMBER_GENES, ChromosomeUtils.NUMBER_GENES);
                 int j = Convert.ToInt32(s, 2);
-                listCells.Add(new CellStruct(j, cells[i].X, cells[i].Y));
+                listCells.Add(new CellStruct(0, j, cells[i].X, cells[i].Y));
             }
 
             foreach (Area area in areaManager.AreaList)

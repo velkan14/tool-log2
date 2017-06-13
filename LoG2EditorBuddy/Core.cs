@@ -215,17 +215,21 @@ namespace EditorBuddyMonster
         {
             if(innovationAlgorithm.HasSolution && convergenceAlgorithm.HasSolution && guidelineAlgorithm.HasSolution)
             {
+                /*foreach(Chromosome c in convergenceAlgorithm.Solution.Solutions)
+                {
+                    suggestionsMap.Add(ChromosomeUtils.MapFromChromosome(OriginalMap, c));
+                }*/
                 var conv = convergenceAlgorithm.Solution.GetTop(1)[0];
                 var inno = innovationAlgorithm.Solution.GetTop(1)[0];
                 var obj = guidelineAlgorithm.Solution.GetTop(1)[0];
 
-                /*Logger.AppendText("Innovation: " + inno.Fitness);
+                Logger.AppendText("Innovation: " + inno.Fitness);
                 Logger.AppendText("Convergence: " + conv.Fitness);
-                Logger.AppendText("Objective: " + obj.Fitness);*/
+                Logger.AppendText("Objective: " + obj.Fitness);
 
-                //suggestionsMap.Add(APIClass.MapFromChromosome(OriginalMap, inno));
-                //suggestionsMap.Add(APIClass.MapFromChromosome(OriginalMap, conv));
-                //suggestionsMap.Add(APIClass.MapFromChromosome(OriginalMap, obj));*/
+                //suggestionsMap.Add(ChromosomeUtils.MapFromChromosome(OriginalMap, inno));
+                //suggestionsMap.Add(ChromosomeUtils.MapFromChromosome(OriginalMap, conv));
+                //suggestionsMap.Add(ChromossomeUtils.MapFromChromosome(OriginalMap, obj));
 
                 AlgorithmRunComplete callback = new AlgorithmRunComplete(MixRunCompleteCallback);
 
@@ -246,9 +250,9 @@ namespace EditorBuddyMonster
 
             if (monsters.USelection.HasSelection)
             {
-                suggestionsMap.Add(APIClass.MapFromChromosome(OriginalMap, c, monsters.USelection.GetSelectedPoints()));
+                suggestionsMap.Add(ChromosomeUtils.MapFromChromosome(OriginalMap, c, monsters.USelection.GetSelectedPoints()));
             }
-            else suggestionsMap.Add(APIClass.MapFromChromosome(OriginalMap, c));
+            else suggestionsMap.Add(ChromosomeUtils.MapFromChromosome(OriginalMap, c));
             IndexMap = suggestionsMap.Count - 1;
             monsters.UpdateTrackHistory();
             monsters.ReDrawMap();

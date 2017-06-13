@@ -91,31 +91,31 @@ namespace EditorBuddyMonster.Algorithm
 
             //we can create an empty population as we will be creating the 
             //initial solutions manually.
-            var population = new Population(InitialPopulation, cells.Count * APIClass.NUMBER_GENES, true, true);
+            var population = new Population(InitialPopulation, cells.Count * ChromosomeUtils.NUMBER_GENES, true, true);
 
             population.Solutions.Clear();
 
-            Chromosome chrom = APIClass.ChromosomeFromMap(originalMap);
+            Chromosome chrom = ChromosomeUtils.ChromosomeFromMap(originalMap);
 
+            string binaryString = chrom.ToBinaryString();
             for (int i = 0; i < InitialPopulation; i++)
             {
-                population.Solutions.Add(new Chromosome(chrom.ToBinaryString()));
+                population.Solutions.Add(new Chromosome(binaryString));
             }
 
             //create the elite operator
             var elite = new Elite(ElitismPercentage);
 
-            //create the crossover operator
-            var crossover = new CrossoverIndex(CrossOverPercentage, APIClass.NUMBER_GENES, true, GAF.Operators.CrossoverType.DoublePoint, ReplacementMethod.GenerationalReplacement);
+            var mutate = new MutateInterval(MutationPercentage, ChromosomeUtils.NUMBER_GENES);
 
-            //create the mutation operator
-            var mutate = new BinaryMutate(MutationPercentage);
+            var swap = new MutateSwapInterval(MutationPercentage, ChromosomeUtils.NUMBER_GENES);
+
             //create the GA
             var ga = new GeneticAlgorithm(population, CalculateFitnessBinary);
 
             //add the operators
             ga.Operators.Add(elite);
-            ga.Operators.Add(crossover);
+            ga.Operators.Add(swap);
             ga.Operators.Add(mutate);
 
             ga.OnRunComplete += OnRunComplete;
@@ -145,9 +145,9 @@ namespace EditorBuddyMonster.Algorithm
 
             for (int i = 0; i < cells.Count; i++)
             {
-                string s = binaryString.Substring(i * APIClass.NUMBER_GENES, APIClass.NUMBER_GENES);
+                string s = binaryString.Substring(i * ChromosomeUtils.NUMBER_GENES, ChromosomeUtils.NUMBER_GENES);
                 int j = Convert.ToInt32(s, 2);
-                listCells.Add(new CellStruct(j, cells[i].X, cells[i].Y));
+                listCells.Add(new CellStruct(0, j, cells[i].X, cells[i].Y));
             }
 
             foreach (Cell c in cells)

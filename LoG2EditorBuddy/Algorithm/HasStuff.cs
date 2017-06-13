@@ -8,12 +8,26 @@ namespace EditorBuddyMonster.Algorithm
 {
     class HasStuff
     {
+        public static bool IsEmpty(CellStruct cell)
+        {
+            if(cell.type == 0 || cell.type > 64)
+            {
+                return true;
+            }
+            return false;
+        }
+
         public static bool HasItem(int x, int y, List<CellStruct> listCells)
         {
             CellStruct cell = listCells.FirstOrDefault(c => c.x == x && c.y == y);
 
             if (cell == null) return false;
 
+            return HasItem(cell);
+        }
+
+        public static bool HasItem(CellStruct cell)
+        {
             int j = cell.type;
 
             if (j == 33 || j == 34 || j == 35)
@@ -100,6 +114,11 @@ namespace EditorBuddyMonster.Algorithm
 
             if (cell == null) return false;
 
+            return HasWeapon(cell);
+        }
+
+        public static bool HasWeapon(CellStruct cell)
+        {
             int j = cell.type;
 
             if (j == 33 || j == 34 || j == 35)
@@ -131,6 +150,11 @@ namespace EditorBuddyMonster.Algorithm
 
             if (cell == null) return false;
 
+            return HasResource(cell);
+        }
+
+        public static bool HasResource(CellStruct cell)
+        {
             int j = cell.type;
 
             if (j == 45 || j == 46 || j == 47 || j == 48)
@@ -157,6 +181,11 @@ namespace EditorBuddyMonster.Algorithm
 
             if (cell == null) return false;
 
+            return HasArmor(cell);
+        }
+
+        public static bool HasArmor(CellStruct cell)
+        {
             int j = cell.type;
 
             if (j == 55 || j == 56)
@@ -208,6 +237,11 @@ namespace EditorBuddyMonster.Algorithm
 
             if (cell == null) return false;
 
+            return HasMonster(cell);
+        }
+
+        public static bool HasMonster(CellStruct cell)
+        {
             int j = cell.type;
 
             if (j == 1 || j == 2 || j == 3 || j == 4 || j == 5 || j == 6 || j == 7 || j == 8 || j == 9 || j == 10 || j == 11)
@@ -232,6 +266,10 @@ namespace EditorBuddyMonster.Algorithm
         {
             CellStruct cell = listCells.FirstOrDefault(c => c.x == x && c.y == y);
 
+            return HasTurtle(cell);
+        }
+        public static bool HasTurtle(CellStruct cell)
+        {
             int j = cell.type;
 
             if (j == 1 || j == 2 || j == 3 || j == 4 || j == 5 || j == 6 || j == 7 || j == 8 || j == 9 || j == 10 || j == 11)
@@ -246,6 +284,11 @@ namespace EditorBuddyMonster.Algorithm
         {
             CellStruct cell = listCells.FirstOrDefault(c => c.x == x && c.y == y);
 
+            return HasMummy(cell);
+        }
+
+        public static bool HasMummy(CellStruct cell)
+        {
             int j = cell.type;
 
             if (j == 12 || j == 13 || j == 14 || j == 15 || j == 16 || j == 17 || j == 18 || j == 19 || j == 20 || j == 21 || j == 22)
@@ -260,6 +303,11 @@ namespace EditorBuddyMonster.Algorithm
         {
             CellStruct cell = listCells.FirstOrDefault(c => c.x == x && c.y == y);
 
+            return HasSkeleton(cell);
+        }
+
+        public static bool HasSkeleton(CellStruct cell)
+        {
             int j = cell.type;
 
             if (j == 23 || j == 24 || j == 25 || j == 26 || j == 27 || j == 28 || j == 29 || j == 30 || j == 31 || j == 32)

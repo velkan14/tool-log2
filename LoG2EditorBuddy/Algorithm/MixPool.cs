@@ -52,7 +52,7 @@ namespace EditorBuddyMonster.Algorithm
 
             //we can create an empty population as we will be creating the 
             //initial solutions manually.
-            var population = new Population(InitialPopulation, cells.Count * APIClass.NUMBER_GENES, true, true, ParentSelectionMethod.StochasticUniversalSampling);
+            var population = new Population(InitialPopulation, cells.Count * ChromosomeUtils.NUMBER_GENES, true, true, ParentSelectionMethod.StochasticUniversalSampling);
 
             population.Solutions.Clear();
 
@@ -74,7 +74,7 @@ namespace EditorBuddyMonster.Algorithm
             var elite = new Elite(ElitismPercentage);
 
             //create the crossover operator
-            var crossover = new CrossoverIndex(CrossOverPercentage, APIClass.NUMBER_GENES, true, GAF.Operators.CrossoverType.DoublePoint, ReplacementMethod.GenerationalReplacement);
+            var crossover = new CrossoverIndex(CrossOverPercentage, ChromosomeUtils.NUMBER_GENES, true, GAF.Operators.CrossoverType.DoublePoint, ReplacementMethod.GenerationalReplacement);
 
             //create the mutation operator
             var mutate = new BinaryMutate(MutationPercentage);

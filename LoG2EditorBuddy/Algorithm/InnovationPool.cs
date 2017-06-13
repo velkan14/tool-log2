@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace EditorBuddyMonster
 {
-    class InnovationPool
+    class InnovationPool : HasStuff
     {
         public int InitialPopulation { get; set; }
         public int GenerationLimit { get; set; }
@@ -30,6 +30,7 @@ namespace EditorBuddyMonster
         public bool HasSolution { get; private set; }
         public Population Solution { get; private set; }
 
+        List<CellStruct> mapCells = new List<CellStruct>();
 
         public InnovationPool(Monsters monsters)
         {
@@ -39,7 +40,7 @@ namespace EditorBuddyMonster
             GenerationLimit = 30;
             MutationPercentage = 0.35;
             CrossOverPercentage = 0.4;
-            ElitismPercentage = 5;
+            ElitismPercentage = 10;
 
             running = false;
             HasSolution = false;
@@ -54,17 +55,38 @@ namespace EditorBuddyMonster
 
             this.callback = callback;
 
+            Chromosome chrom = ChromosomeUtils.ChromosomeFromMap(originalMap, true);
+
+            string binaryString = chrom.ToBinaryString();
+
+            for (int i = 0; i < cells.Count; i++)
+            {
+                string s = binaryString.Substring(i * ChromosomeUtils.NUMBER_GENES_TOTAL + ChromosomeUtils.NUMBER_GENES_ID, ChromosomeUtils.NUMBER_GENES);
+                string sID = binaryString.Substring(i * ChromosomeUtils.NUMBER_GENES_TOTAL, ChromosomeUtils.NUMBER_GENES_ID);
+                int type = Convert.ToInt32(s, 2);
+                int id = Convert.ToInt32(sID, 2);
+
+                mapCells.Add(new CellStruct(id, type, cells[i].X, cells[i].Y));
+            }
+
             //we can create an empty population as we will be creating the 
             //initial solutions manually.
-            var population = new Population(InitialPopulation, cells.Count * APIClass.NUMBER_GENES);
+            var population = new Population(InitialPopulation, cells.Count * ChromosomeUtils.NUMBER_GENES_TOTAL, true, true);
+
+            population.Solutions.Clear();
+
+            for (int i = 0; i < InitialPopulation; i++)
+            {
+                population.Solutions.Add(new Chromosome(binaryString));
+            }
 
             //create the elite operator
             var elite = new Elite(ElitismPercentage);
 
-            //create the crossover operator
-            var crossover = new CrossoverIndex(CrossOverPercentage, APIClass.NUMBER_GENES, true, GAF.Operators.CrossoverType.DoublePoint, ReplacementMethod.GenerationalReplacement);
             //create the mutation operator
-            var mutate = new BinaryMutate(MutationPercentage);
+            var mutate = new MutateInterval(MutationPercentage, ChromosomeUtils.NUMBER_GENES, ChromosomeUtils.NUMBER_GENES_ID);
+
+            var swap = new MutateSwapInterval(MutationPercentage, ChromosomeUtils.NUMBER_GENES_TOTAL);
             //create the GA
             var ga = new GeneticAlgorithm(population, CalculateFitnessBinary);
 
@@ -73,8 +95,8 @@ namespace EditorBuddyMonster
 
             //add the operators
             ga.Operators.Add(elite);
-            ga.Operators.Add(crossover);
             ga.Operators.Add(mutate);
+            ga.Operators.Add(swap);
             
 
             //run the GA
@@ -84,189 +106,149 @@ namespace EditorBuddyMonster
 
         private double CalculateFitnessBinary(Chromosome chromosome)
         {
-            double positionFitness = 0.0; // Value between 0 and 1. 1 is the fittest
-
+            double fitness = 0.0; // Value between 0 and 1. 1 is the fittest
+            
+            List<CellStruct> listMonsters = new List<CellStruct>();
+            
             string binaryString = chromosome.ToBinaryString();
 
             for (int i = 0; i < cells.Count; i++)
             {
-                string s = binaryString.Substring(i * APIClass.NUMBER_GENES, APIClass.NUMBER_GENES);
-                int j = Convert.ToInt32(s, 2);
+                string s = binaryString.Substring(i * ChromosomeUtils.NUMBER_GENES_TOTAL + ChromosomeUtils.NUMBER_GENES_ID, ChromosomeUtils.NUMBER_GENES);
+                string sID = binaryString.Substring(i * ChromosomeUtils.NUMBER_GENES_TOTAL, ChromosomeUtils.NUMBER_GENES_ID);
 
-                if (j == 1 || j == 2 || j == 3 || j == 4 || j == 5 || j == 6 || j == 7 || j == 8 || j == 9 || j == 10 || j == 11)
+                int type = Convert.ToInt32(s, 2);
+                int id = Convert.ToInt32(sID, 2);
+                CellStruct tmp = new CellStruct(id, type, cells[i].X, cells[i].Y);
+
+                if (HasMonster(tmp))
                 {
-                    //Turtle
-                    if (!cells[i].Exists("turtle"))
-                    {
-                        positionFitness++;
-                    }
+                    listMonsters.Add(tmp);
                 }
-                else if (j == 12 || j == 13 || j == 14 || j == 15 || j == 16 || j == 17 || j == 18 || j == 19 || j == 20 || j == 21 || j == 22)
-                {
-                    //Mummy
-                    if (!cells[i].Exists("mummy"))
-                    {
-                        positionFitness++;
-                    }
-                }
-                else if (j == 23 || j == 24 || j == 25 || j == 26 || j == 27 || j == 28 || j == 29 || j == 30 || j == 31 || j == 32)
-                {
-                    //Skeleton
-                    if (!cells[i].Exists("skeleton_trooper"))
-                    {
-                        positionFitness++;
-                    }
-                }
-                else if (j == 33 || j == 34 || j == 35)
-                {
-                    //Cudgel
-                    if (!cells[i].Exists("cudgel"))
-                    {
-                        positionFitness++;
-                    }
-                }
-                else if (j == 36 || j == 37 || j == 38)
-                {
-                    //Machete
-                    if (!cells[i].Exists("machete"))
-                    {
-                        positionFitness++;
-                    }
-                }
-                else if (j == 39 || j == 40 || j == 41)
-                {
-                    //Rapier
-                    if (!cells[i].Exists("rapier"))
-                    {
-                        positionFitness++;
-                    }
-                }
-                else if (j == 42 || j == 43 || j == 44)
-                {
-                    //Battle Axe
-                    if (!cells[i].Exists("battle_axe"))
-                    {
-                        positionFitness++;
-                    }
-                }
-                else if (j == 45 || j == 46 || j == 47 || j == 48)
-                {
-                    //Potion
-                    if (!cells[i].Exists("potion_healing"))
-                    {
-                        positionFitness++;
-                    }
-                }
-                else if (j == 49 || j == 50 || j == 51)
-                {
-                    //Borra
-                    if (!cells[i].Exists("borra"))
-                    {
-                        positionFitness++;
-                    }
-                }
-                else if (j == 52 || j == 53 || j == 54)
-                {
-                    //Bread
-                    if (!cells[i].Exists("bread"))
-                    {
-                        positionFitness++;
-                    }
-                }
-                else if (j == 55 || j == 56)
-                {
-                    //Peasant cap
-                    if (!cells[i].Exists("peasant_cap"))
-                    {
-                        positionFitness++;
-                    }
-                }
-                else if (j == 57 || j == 58)
-                {
-                    //Peasant breeches
-                    if (!cells[i].Exists("peasant_breeches"))
-                    {
-                        positionFitness++;
-                    }
-                }
-                else if (j == 59)
-                {
-                    //Peasant tunic
-                    if (!cells[i].Exists("peasant_tunic"))
-                    {
-                        positionFitness++;
-                    }
-                }
-                else if (j == 60)
-                {
-                    //Sandals
-                    if (!cells[i].Exists("sandals"))
-                    {
-                        positionFitness++;
-                    }
-                }
-                else if (j == 61)
-                {
-                    //Leather cap
-                    if (!cells[i].Exists("leather_cap"))
-                    {
-                        positionFitness++;
-                    }
-                }
-                else if (j == 62)
-                {
-                    //Leather brigandine
-                    if (!cells[i].Exists("leather_brigandine"))
-                    {
-                        positionFitness++;
-                    }
-                }
-                else if (j == 63)
-                {
-                    //Leather pants
-                    if (!cells[i].Exists("leather_pants"))
-                    {
-                        positionFitness++;
-                    }
-                }
-                else if (j == 64)
-                {
-                    //Leather boots
-                    if (!cells[i].Exists("leather_boots"))
-                    {
-                        positionFitness++;
-                    }
-                }
-                else
-                {
-                    //Nothing
-                    if (!cells[i].Exists("turtle") &&
-                        !cells[i].Exists("mummy") &&
-                        !cells[i].Exists("skeleton_trooper") &&
-                        !cells[i].Exists("cudgel") &&
-                        !cells[i].Exists("machete") &&
-                        !cells[i].Exists("rapier") &&
-                        !cells[i].Exists("battle_axe") &&
-                        !cells[i].Exists("potion_healing") &&
-                        !cells[i].Exists("borra") &&
-                        !cells[i].Exists("bread") &&
-                        !cells[i].Exists("peasant_cap") &&
-                        !cells[i].Exists("peasant_breeches") &&
-                        !cells[i].Exists("peasant_tunic") &&
-                        !cells[i].Exists("sandals") &&
-                        !cells[i].Exists("leather_cap") &&
-                        !cells[i].Exists("leather_brigandine") &&
-                        !cells[i].Exists("leather_pants") &&
-                        !cells[i].Exists("leather_boots"))
-                    {
-                        positionFitness++;
-                    }
-                }
+                
             }
 
-            positionFitness = positionFitness / cells.Count;
+            foreach(CellStruct c in listMonsters)
+            {
+                CellStruct originalCell = mapCells.FirstOrDefault(x => x.id == c.id);
 
-            return positionFitness;
+                fitness += Equality(c, originalCell) * Distance(c, mapCells);
+            }
+
+            fitness = fitness / listMonsters.Count;
+            
+            return fitness;
+        }
+
+        private double Distance(CellStruct c, List<CellStruct> originalCells)
+        {
+            int distance = FloodFill(c, originalCells);
+            return (double) distance / (double) originalCells.Count;
+        }
+
+        private static int FloodFill(CellStruct startCell, List<CellStruct> listCells)
+        {
+            int tileTraversed = 0;
+
+            for (int i = 0; i < listCells.Count; i++)
+            {
+                listCells[i].visited = false;
+            }
+
+            ListQueue<CellStruct> queue = new ListQueue<CellStruct>();
+            CellStruct firstCell = listCells.FirstOrDefault(c => c.x == startCell.x && c.y == startCell.y);
+
+            if (startCell.id == firstCell.id) return 0;
+
+            firstCell.visited = true;
+            queue.Enqueue(firstCell);
+
+            while (queue.Count != 0)
+            {
+                CellStruct node = queue.Dequeue();
+                tileTraversed++;
+
+                //west
+                if (HasCellUnvisited(node.x - 1, node.y, listCells))
+                {
+                    CellStruct openNode = listCells.FirstOrDefault(c => c.x == node.x - 1 && c.y == node.y);
+
+                    if (openNode.id == startCell.id) return tileTraversed;
+                    openNode.visited = true;
+                    queue.Enqueue(openNode);
+                }
+                //east
+                if (HasCellUnvisited(node.x + 1, node.y, listCells))
+                {
+                    CellStruct openNode = listCells.FirstOrDefault(c => c.x == node.x + 1 && c.y == node.y);
+                    if (openNode.id == startCell.id) return tileTraversed;
+                    openNode.visited = true;
+                    queue.Enqueue(openNode);
+                }
+                //north
+                if (HasCellUnvisited(node.x, node.y - 1, listCells))
+                {
+                    CellStruct openNode = listCells.FirstOrDefault(c => c.x == node.x && c.y == node.y - 1);
+                    if (openNode.id == startCell.id) return tileTraversed;
+                    openNode.visited = true;
+                    queue.Enqueue(openNode);
+                }
+                //south
+                if (HasCellUnvisited(node.x, node.y + 1, listCells))
+                {
+                    CellStruct openNode = listCells.FirstOrDefault(c => c.x == node.x && c.y == node.y + 1);
+                    if (openNode.id == startCell.id) return tileTraversed;
+                    openNode.visited = true;
+                    queue.Enqueue(openNode);
+                }
+            }
+            return tileTraversed;
+        }
+
+        private static bool HasCellUnvisited(int x, int y, List<CellStruct> listCells)
+        {
+            foreach (CellStruct cs in listCells)
+            {
+                if (cs.x == x && cs.y == y && cs.visited == false)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private double Equality(CellStruct c, CellStruct originalCell)
+        {
+            if (SameType(c, originalCell) && !AreEquals(c, originalCell))
+            {
+                return 1.0;
+            }
+            return 0.0;
+        }
+
+        private bool SameType(CellStruct c, CellStruct originalCell)
+        {
+            if(HasMonster(c) && HasMonster(originalCell) ||
+               HasItem(c) && HasItem(originalCell))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        private bool AreEquals(CellStruct c, CellStruct originalCell)
+        {
+            if(HasArmor(c) && HasArmor(originalCell) ||
+                HasResource(c) && HasResource(originalCell) ||
+                HasWeapon(c) && HasWeapon(originalCell) ||
+                HasMummy(c) && HasMummy(originalCell) ||
+                HasTurtle(c) && HasTurtle(originalCell) ||
+                HasSkeleton(c) && HasSkeleton(originalCell) ||
+                IsEmpty(c) && IsEmpty(originalCell))
+            {
+                return true;
+            }
+            return false;
         }
 
         protected bool TerminateFunction(Population population, int currentGeneration, long currentEvaluation)

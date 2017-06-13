@@ -141,6 +141,8 @@
     <Compile Include="Algorithm\ConvergencePool.cs" />
     <Compile Include="Algorithm\CrossoverIndex.cs" />
     <Compile Include="Algorithm\HasStuff.cs" />
+    <Compile Include="Algorithm\MutateInterval.cs" />
+    <Compile Include="Algorithm\MutateSwapInterval.cs" />
     <Compile Include="Algorithm\Stuff\CustomCrossover.cs" />
     <Compile Include="Algorithm\Stuff\CustomSwapMutate.cs" />
     <Compile Include="Algorithm\Stuff\CrossoverT.cs" />
@@ -168,6 +170,7 @@
     <Compile Include="Layers\Layer.cs" />
     <Compile Include="Layers\Palette.cs" />
     <Compile Include="Layers\Value.cs" />
+    <Compile Include="LoG2API\ChromosomeUtils.cs" />
     <Compile Include="LoG2API\Elements\Alcove.cs" />
     <Compile Include="LoG2API\Elements\Altar.cs" />
     <Compile Include="LoG2API\Elements\Button.cs" />
