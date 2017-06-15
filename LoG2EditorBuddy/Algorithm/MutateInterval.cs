@@ -13,29 +13,22 @@ namespace EditorBuddyMonster.Algorithm
     class MutateInterval : HasStuff, IGeneticOperator
     {
         private int Interval;
-        private int IdSize;
         private int invokedEvaluations;
         public bool Enabled { get; set;}
         public double MutationProbability { get; private set; }
         public bool AllowDuplicates { get; private set; }
         public Population NewPopulation { get; private set; }
 
-        public MutateInterval(double mutationProbability, int interval) : this(mutationProbability, interval, 0, false)
-        {
-
-        }
-
-        public MutateInterval(double mutationProbability, int interval, int idSize) : this(mutationProbability, interval, idSize, false)
+        public MutateInterval(double mutationProbability, int interval) : this(mutationProbability, interval, false)
         {
             
         }
 
-        public MutateInterval(double mutationProbability, int interval, int idSize, bool allowDuplicates)
+        public MutateInterval(double mutationProbability, int interval, bool allowDuplicates)
         {
             MutationProbability = mutationProbability;
             AllowDuplicates = allowDuplicates;
             Interval = interval;
-            IdSize = idSize;
 
             Enabled = true;
         }
@@ -113,23 +106,21 @@ namespace EditorBuddyMonster.Algorithm
 
             string binaryString = childToMutate.ToBinaryString();
 
-            int count = binaryString.Length / (Interval + IdSize);
-            int total = Interval + IdSize;
+            int count = binaryString.Length / Interval;
+
             for (int i = 0; i < count; i++)
             {
-                string s = binaryString.Substring(i * total + IdSize, Interval);
-                //string sID = binaryString.Substring(i * total, IdSize);
+                string s = binaryString.Substring(i * Interval, Interval);
 
                 int type = Convert.ToInt32(s, 2);
-                //int id = Convert.ToInt32(sID, 2);
 
-                CellStruct tmpCell = new CellStruct(0, type, 0, 0);
+                CellStruct tmpCell = new CellStruct(type, 0, 0);
                 if (HasMonster(tmpCell))
                 {
                     var rd = RandomProvider.GetThreadRandom().NextDouble();
                     if (rd <= MutationProbability)
                     {
-                        int index = i * total + IdSize;
+                        int index = i * Interval;
 
                         var rdType = RandomProvider.GetThreadRandom().Next(0,3);
 
@@ -177,7 +168,7 @@ namespace EditorBuddyMonster.Algorithm
 
             /*for (int i = 0; i < childToMutate.Genes.Count; i++)
             {
-                if (!IsGeneId(i) && IsMarked(i, binaryString))
+                if (IsMarked(i, binaryString))
                 {
                     //check probability by generating a random number between zero and one and if 
                     //this number is less than or equal to the given mutation probability 
@@ -206,21 +197,16 @@ namespace EditorBuddyMonster.Algorithm
             int index = 0;
             do
             {
-                index += Interval + IdSize;
+                index += Interval;
             } while (index < i);
-            index -= Interval + IdSize;
+            index -= Interval;
 
-            string s = binaryString.Substring(index + IdSize, Interval);
-            if(!IsEmpty(new CellStruct(0, Convert.ToInt32(s, 2), 0, 0)))
+            string s = binaryString.Substring(index, Interval);
+            if(!IsEmpty(new CellStruct(Convert.ToInt32(s, 2), 0, 0)))
             {
                 return true;
             }
             return false;
-        }
-
-        private bool IsGeneId(int i)
-        {
-            return i % (Interval+IdSize) < IdSize;
         }
 
         private void MutateGene(Gene gene)

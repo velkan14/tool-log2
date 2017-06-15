@@ -215,7 +215,7 @@ namespace EditorBuddyMonster
         {
             if(innovationAlgorithm.HasSolution && convergenceAlgorithm.HasSolution && guidelineAlgorithm.HasSolution)
             {
-                /*foreach(Chromosome c in convergenceAlgorithm.Solution.Solutions)
+                /*foreach(Chromosome c in innovationAlgorithm.Solution.Solutions)
                 {
                     suggestionsMap.Add(ChromosomeUtils.MapFromChromosome(OriginalMap, c));
                 }*/
@@ -228,7 +228,7 @@ namespace EditorBuddyMonster
                 Logger.AppendText("Objective: " + obj.Fitness);
 
                 //suggestionsMap.Add(ChromosomeUtils.MapFromChromosome(OriginalMap, inno));
-                //suggestionsMap.Add(ChromosomeUtils.MapFromChromosome(OriginalMap, conv));
+                suggestionsMap.Add(ChromosomeUtils.MapFromChromosome(OriginalMap, conv));
                 //suggestionsMap.Add(ChromossomeUtils.MapFromChromosome(OriginalMap, obj));
 
                 AlgorithmRunComplete callback = new AlgorithmRunComplete(MixRunCompleteCallback);

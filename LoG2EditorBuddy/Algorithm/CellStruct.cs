@@ -8,15 +8,13 @@ namespace EditorBuddyMonster.Algorithm
 {
     class CellStruct
     {
-        public int id;
         public int type;
         public int x;
         public int y;
         public bool visited;
 
-        public CellStruct(int id, int type, int x, int y)
+        public CellStruct(int type, int x, int y)
         {
-            this.id = id;
             this.type = type;
             this.x = x;
             this.y = y;

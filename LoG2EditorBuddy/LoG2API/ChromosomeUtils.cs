@@ -13,21 +13,13 @@ namespace EditorBuddyMonster.LoG2API
     static class ChromosomeUtils
     {
         public static int NUMBER_GENES = 8;
-        public static int NUMBER_GENES_ID = 10; //We have 1024 tiles max
-        public static int NUMBER_GENES_TOTAL { get { return NUMBER_GENES + NUMBER_GENES_ID; } }
 
         public static Chromosome ChromosomeFromMap(Map map)
-        {
-            return ChromosomeFromMap(map, false);
-        }
-
-        public static Chromosome ChromosomeFromMap(Map map, bool withID)
         {
             StringBuilder sb = new StringBuilder();
 
             List<Cell> cells = map.SpawnCells;
-
-            int id = 0;
+            
             foreach (Cell c in cells)
             {
                 int type = 0;
@@ -117,17 +109,9 @@ namespace EditorBuddyMonster.LoG2API
                 }
 
                 string s = IntToBinaryString(type).PadLeft(NUMBER_GENES, '0');
-
-                if (withID)
-                {
-                    string idString = IntToBinaryString(id).PadLeft(NUMBER_GENES_ID, '0');
-                    sb.Append(idString);
-                    id++;
-                }
                 
                 sb.Append(s);
             }
-            if (withID)  Console.WriteLine(sb.ToString());
             return new Chromosome(sb.ToString());
         }
 
@@ -137,12 +121,7 @@ namespace EditorBuddyMonster.LoG2API
             string binaryString = solution.ToBinaryString();
 
             List<Cell> cells = mapObject.SpawnCells;
-
-            bool withId = false;
-            if(solution.Genes.Count == NUMBER_GENES_TOTAL * cells.Count)
-            {
-                withId = true;
-            }
+            
             for (int i = 0; i < cells.Count; i++)
             {
                 cells[i].Monster = null;
@@ -161,15 +140,8 @@ namespace EditorBuddyMonster.LoG2API
                 cells[i].RemoveElement("leather_pants");
                 cells[i].RemoveElement("leather_boots");
 
-                string s = "";
-                if (withId)
-                {
-                    s = binaryString.Substring(i * NUMBER_GENES_TOTAL + NUMBER_GENES_ID, NUMBER_GENES);
-                }
-                else
-                {
-                    s = binaryString.Substring(i * NUMBER_GENES, NUMBER_GENES);
-                }
+                string s = binaryString.Substring(i * NUMBER_GENES, NUMBER_GENES);
+
                 int j = Convert.ToInt32(s, 2);
 
                 if (j == 1 || j == 2 || j == 3 || j == 4 || j == 5 || j == 6 || j == 7 || j == 8 || j == 9 || j == 10 || j == 11)

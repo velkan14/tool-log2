@@ -189,7 +189,7 @@ namespace EditorBuddyMonster.Algorithm
             {
                 string s = binaryString.Substring(i * ChromosomeUtils.NUMBER_GENES, ChromosomeUtils.NUMBER_GENES);
                 int j = Convert.ToInt32(s, 2);
-                listCells.Add(new CellStruct(0, j, cells[i].X, cells[i].Y));
+                listCells.Add(new CellStruct(j, cells[i].X, cells[i].Y));
             }
 
             foreach (Area area in areaManager.AreaList)

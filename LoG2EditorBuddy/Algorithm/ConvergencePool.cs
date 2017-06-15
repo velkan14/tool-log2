@@ -18,20 +18,26 @@ namespace EditorBuddyMonster.Algorithm
         public double CrossOverPercentage { get; set; }
         public int ElitismPercentage { get; set; }
 
-        private bool running;
-        private Delegate callback;
+        protected bool running;
+        protected Delegate callback;
 
-        private Map originalMap;
-        private List<Cell> cells;
+        protected Map originalMap;
+        protected List<Cell> cells;
+        protected Monsters monsters;
 
-        private int maxItens = 0;
-        private int maxMonsters = 0;
-        private int emptyTiles = 0;
-        private Monsters monsters;
+        public bool HasSolution { get; protected set; }
+        public Population Solution { get; protected set; }
 
-        public bool HasSolution { get; private set; }
-        public Population Solution { get; private set; }
+        List<CellStruct> mapCells = new List<CellStruct>();
 
+        int numberOfSkeletons = 0;
+        int numberOfMummy = 0;
+        int numberOfTurtle = 0;
+        int numberOfArmor = 0;
+        int numberOfResource = 0;
+        int numberOfWeapon = 0;
+        int numberOfMonsters = 0;
+        int numberOfItens = 0;
 
         public ConvergencePool(Monsters monsters)
         {
@@ -39,9 +45,9 @@ namespace EditorBuddyMonster.Algorithm
 
             InitialPopulation = 30;
             GenerationLimit = 30;
-            MutationPercentage = 0.7;
-            CrossOverPercentage = 0.7;
-            ElitismPercentage = 5;
+            MutationPercentage = 0.35;
+            CrossOverPercentage = 0.4;
+            ElitismPercentage = 10;
 
             running = false;
             HasSolution = false;
@@ -52,42 +58,50 @@ namespace EditorBuddyMonster.Algorithm
             if (running) return;
 
             originalMap = currentMap.CloneJson() as Map;
-
             cells = originalMap.SpawnCells;
 
-            foreach (Cell c in cells)
+            this.callback = callback;
+
+            Chromosome chrom = ChromosomeUtils.ChromosomeFromMap(originalMap);
+
+            string binaryString = chrom.ToBinaryString();
+
+            for (int i = 0; i < cells.Count; i++)
             {
-                if (c.Exists("turtle") ||
-                   c.Exists("mummy") ||
-                   c.Exists("skeleton_trooper"))
+                string s = binaryString.Substring(i * ChromosomeUtils.NUMBER_GENES, ChromosomeUtils.NUMBER_GENES);
+                int type = Convert.ToInt32(s, 2);
+
+                CellStruct cell = new CellStruct(type, cells[i].X, cells[i].Y);
+                mapCells.Add(cell);
+
+                if (HasSkeleton(cell))
                 {
-                    maxMonsters++;
+                    numberOfSkeletons++;
                 }
-                else if (c.Exists("cudgel") ||
-                   c.Exists("machete") ||
-                   c.Exists("rapier") ||
-                   c.Exists("battle_axe") ||
-                   c.Exists("potion_healing") ||
-                   c.Exists("borra") ||
-                   c.Exists("bread") ||
-                   c.Exists("peasant_cap") ||
-                   c.Exists("peasant_breeches") ||
-                   c.Exists("peasant_tunic") ||
-                   c.Exists("sandals") ||
-                   c.Exists("leather_cap") ||
-                   c.Exists("leather_brigandine") ||
-                   c.Exists("leather_pants") ||
-                   c.Exists("leather_boots"))
+                else if (HasMummy(cell))
                 {
-                    maxItens++;
+                    numberOfMummy++;
                 }
-                else
+                else if (HasTurtle(cell))
                 {
-                    emptyTiles++;
+                    numberOfTurtle++;
+                }
+                else if (HasArmor(cell))
+                {
+                    numberOfArmor++;
+                }
+                else if (HasResource(cell))
+                {
+                    numberOfResource++;
+                }
+                else if (HasWeapon(cell))
+                {
+                    numberOfWeapon++;
                 }
             }
 
-            this.callback = callback;
+            numberOfMonsters = numberOfSkeletons + numberOfTurtle + numberOfMummy;
+            numberOfItens = numberOfArmor + numberOfResource + numberOfWeapon;
 
             //we can create an empty population as we will be creating the 
             //initial solutions manually.
@@ -95,9 +109,6 @@ namespace EditorBuddyMonster.Algorithm
 
             population.Solutions.Clear();
 
-            Chromosome chrom = ChromosomeUtils.ChromosomeFromMap(originalMap);
-
-            string binaryString = chrom.ToBinaryString();
             for (int i = 0; i < InitialPopulation; i++)
             {
                 population.Solutions.Add(new Chromosome(binaryString));
@@ -106,132 +117,166 @@ namespace EditorBuddyMonster.Algorithm
             //create the elite operator
             var elite = new Elite(ElitismPercentage);
 
+            //create the mutation operator
             var mutate = new MutateInterval(MutationPercentage, ChromosomeUtils.NUMBER_GENES);
 
             var swap = new MutateSwapInterval(MutationPercentage, ChromosomeUtils.NUMBER_GENES);
-
             //create the GA
             var ga = new GeneticAlgorithm(population, CalculateFitnessBinary);
 
+            //hook up to some useful events
+            ga.OnRunComplete += OnRunComplete;
+
             //add the operators
             ga.Operators.Add(elite);
-            ga.Operators.Add(swap);
             ga.Operators.Add(mutate);
+            ga.Operators.Add(swap);
 
-            ga.OnRunComplete += OnRunComplete;
 
             //run the GA
             running = true;
             ga.Run(TerminateFunction);
         }
 
-        /* Para quando x <= n */
-        private double FunctionRising(double x, double n)
-        {
-            return System.Math.Min(System.Math.Abs(x / n), 1.0);
-        }
-
-        private double CalculateFitnessBinary(Chromosome chromosome)
+        protected double CalculateFitnessBinary(Chromosome chromosome)
         {
             double fitness = 0.0; // Value between 0 and 1. 1 is the fittest
-            int numberItens = 0;
-            int numberMonsters = 0;
-            int numberEqual = 0;
-            int numberEmpty = 0;
+
+            int numberSkeletons = 0;
+            int numberMummy = 0;
+            int numberTurtle = 0;
+            int numberArmor = 0;
+            int numberResource = 0;
+            int numberWeapon = 0;
+
+            List<CellStruct> listThing = new List<CellStruct>();
 
             string binaryString = chromosome.ToBinaryString();
-
-            List<CellStruct> listCells = new List<CellStruct>();
 
             for (int i = 0; i < cells.Count; i++)
             {
                 string s = binaryString.Substring(i * ChromosomeUtils.NUMBER_GENES, ChromosomeUtils.NUMBER_GENES);
-                int j = Convert.ToInt32(s, 2);
-                listCells.Add(new CellStruct(0, j, cells[i].X, cells[i].Y));
+
+                int type = Convert.ToInt32(s, 2);
+                CellStruct tmp = new CellStruct(type, cells[i].X, cells[i].Y);
+
+                if (HasMonster(tmp) || HasItem(tmp))
+                {
+                    listThing.Add(tmp);
+                }
+
+                if (HasSkeleton(tmp))
+                {
+                    numberSkeletons++;
+                }
+                else if (HasMummy(tmp))
+                {
+                    numberMummy++;
+                }
+                else if (HasTurtle(tmp))
+                {
+                    numberTurtle++;
+                }
+                else if (HasArmor(tmp))
+                {
+                    numberArmor++;
+                }
+                else if (HasResource(tmp))
+                {
+                    numberResource++;
+                }
+                else if (HasWeapon(tmp))
+                {
+                    numberWeapon++;
+                }
             }
 
-            foreach (Cell c in cells)
+            int position = 0;
+            foreach (CellStruct c in listThing)
             {
-                if (HasMonster(c.X, c.Y, listCells) && c.Monster != null)
-                {
-                    numberMonsters++;
-                    if (HasTurtle(c.X, c.Y, listCells) && c.Exists("turtle")) numberEqual++;
-                    if (HasMummy(c.X, c.Y, listCells) && c.Exists("mummy")) numberEqual++;
-                    if (HasSkeleton(c.X, c.Y, listCells) && c.Exists("skeleton_trooper")) numberEqual++;
-                }
-                if (HasItem(c.X, c.Y, listCells) && (c.Exists("cudgel") ||
-                   c.Exists("machete") ||
-                   c.Exists("rapier") ||
-                   c.Exists("battle_axe") ||
-                   c.Exists("potion_healing") ||
-                   c.Exists("borra") ||
-                   c.Exists("bread") ||
-                   c.Exists("peasant_cap") ||
-                   c.Exists("peasant_breeches") ||
-                   c.Exists("peasant_tunic") ||
-                   c.Exists("sandals") ||
-                   c.Exists("leather_cap") ||
-                   c.Exists("leather_brigandine") ||
-                   c.Exists("leather_pants") ||
-                   c.Exists("leather_boots")))
-                {
-                    numberItens++;
-                    if (HasResource(c.X, c.Y, listCells) && (c.Exists("cudgel") ||
-                   c.Exists("machete") ||
-                   c.Exists("rapier") ||
-                   c.Exists("battle_axe"))) numberEqual++;
-                    if (HasWeapon(c.X, c.Y, listCells) && (c.Exists("potion_healing") ||
-                   c.Exists("borra") ||
-                   c.Exists("bread"))) numberEqual++;
-                    if (HasArmor(c.X, c.Y, listCells) &&(c.Exists("peasant_cap") ||
-                   c.Exists("peasant_breeches") ||
-                   c.Exists("peasant_tunic") ||
-                   c.Exists("sandals") ||
-                   c.Exists("leather_cap") ||
-                   c.Exists("leather_brigandine") ||
-                   c.Exists("leather_pants") ||
-                   c.Exists("leather_boots"))) numberEqual++;
-                }
-                if(!HasMonster(c.X, c.Y, listCells) && !HasItem(c.X, c.Y, listCells) && 
-                    !c.Exists("turtle") &&
-                   !c.Exists("mummy") &&
-                   !c.Exists("skeleton_trooper") &&
-                   !c.Exists("cudgel") &&
-                   !c.Exists("machete") &&
-                   !c.Exists("rapier") &&
-                   !c.Exists("battle_axe") &&
-                   !c.Exists("potion_healing") &&
-                   !c.Exists("borra") &&
-                   !c.Exists("bread") &&
-                   !c.Exists("peasant_cap") &&
-                   !c.Exists("peasant_breeches") &&
-                   !c.Exists("peasant_tunic") &&
-                   !c.Exists("sandals") &&
-                   !c.Exists("leather_cap") &&
-                   !c.Exists("leather_brigandine") &&
-                   !c.Exists("leather_pants") &&
-                   !c.Exists("leather_boots"))
-                {
-                    numberEmpty++;
-                }
+                CellStruct originalCell = mapCells.FirstOrDefault(k => k.x == c.x && k.y == c.y);
 
-
+                if (SameType(c, originalCell))
+                {
+                    position++;
+                }
             }
-            fitness = (1.0 / 4.0) * FunctionRising(numberMonsters, maxMonsters) +
-                    (1.0 / 4.0) * FunctionRising(numberItens, maxItens) +
-                   (1.0 / 4.0) * FunctionRising(numberEqual, maxMonsters) +
-                   (1.0 / 4.0) * FunctionRising(numberEmpty, emptyTiles);
+
+            int numberItens = numberResource + numberArmor + numberWeapon;
+            int numberMonsters = numberSkeletons + numberMummy + numberTurtle;
+
+            double fitnessNumber = FunctionUpDown(numberMonsters, numberOfMonsters) *
+                                   FunctionUpDown(numberItens, numberOfItens);
+
+            double fitnessPosition = FunctionUpDown(position, numberOfItens + numberOfMonsters);
+
+            double fitnessType = FunctionUpDown(numberArmor, numberOfArmor) *
+                      FunctionUpDown(numberMummy, numberOfMummy) *
+                      FunctionUpDown(numberResource, numberOfResource) *
+                      FunctionUpDown(numberSkeletons, numberOfSkeletons) *
+                      FunctionUpDown(numberTurtle, numberOfTurtle) *
+                      FunctionUpDown(numberWeapon, numberOfWeapon);
+
+            fitness = (1.0 / 2.0) * fitnessNumber + (1.0 / 4.0) * fitnessPosition + (1.0 / 4.0) * fitnessType;
+
 
             return fitness;
         }
 
-        private bool TerminateFunction(Population population, int currentGeneration, long currentEvaluation)
+        protected double FunctionUpDown(double x, double n)
+        {
+            if (n == 0)
+            {
+                return System.Math.Max(0.0, -System.Math.Abs(x / 2.0) + 1.0);
+            }
+            return System.Math.Max(0.0, -System.Math.Abs((x / n) - 1.0) + 1.0);
+        }
+
+        protected double Invert(double x)
+        {
+            return 1.0 - x;
+        }
+        protected double Equality(CellStruct c, CellStruct originalCell)
+        {
+            if (SameType(c, originalCell) && !AreEquals(c, originalCell))
+            {
+                return 1.0;
+            }
+            return 0.0;
+        }
+
+        protected bool SameType(CellStruct c, CellStruct originalCell)
+        {
+            if (HasMonster(c) && HasMonster(originalCell) ||
+               HasItem(c) && HasItem(originalCell))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        protected bool AreEquals(CellStruct c, CellStruct originalCell)
+        {
+            if (HasArmor(c) && HasArmor(originalCell) ||
+                HasResource(c) && HasResource(originalCell) ||
+                HasWeapon(c) && HasWeapon(originalCell) ||
+                HasMummy(c) && HasMummy(originalCell) ||
+                HasTurtle(c) && HasTurtle(originalCell) ||
+                HasSkeleton(c) && HasSkeleton(originalCell) ||
+                IsEmpty(c) && IsEmpty(originalCell))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        protected bool TerminateFunction(Population population, int currentGeneration, long currentEvaluation)
         {
             monsters.Progress(0, 100 * currentGeneration / GenerationLimit);
             return currentGeneration > GenerationLimit;
         }
 
-        private void OnRunComplete(object sender, GaEventArgs e)
+        protected void OnRunComplete(object sender, GaEventArgs e)
         {
             Solution = e.Population;
 
