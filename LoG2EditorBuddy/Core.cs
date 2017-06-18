@@ -175,15 +175,15 @@ namespace EditorBuddyMonster
 
             algorithmRunning = true;
 
-            innovationAlgorithm = new InnovationPool(monsters);
-            guidelineAlgorithm = new GuidelinePool(monsters)
+            innovationAlgorithm = new InnovationPool(monsters, OriginalMap, callback);
+            guidelineAlgorithm = new GuidelinePool(monsters, OriginalMap, callback)
             {
                 MaxMonsters = numberMonsters,
                 MaxItens = numberItens,
                 HordesPercentage = hordesPercentage / 100.0
             };
-            convergenceAlgorithm = new ConvergencePool(monsters);
-            mixAlgorithm = new MixPool(monsters)
+            convergenceAlgorithm = new ConvergencePool(monsters, OriginalMap, callback);
+            mixAlgorithm = new MixPool(monsters, OriginalMap, new AlgorithmRunComplete(MixRunCompleteCallback))
             {
                 MaxMonsters = numberMonsters,
                 MaxItens = numberItens,
@@ -195,30 +195,24 @@ namespace EditorBuddyMonster
 
             ThreadPool.QueueUserWorkItem(new WaitCallback(_ =>
             {
-                convergenceAlgorithm.Run(CurrentMap, callback);
+                convergenceAlgorithm.Run();
             }));
 
             ThreadPool.QueueUserWorkItem(new WaitCallback(_ =>
             {
-                innovationAlgorithm.Run(CurrentMap, callback);
+                innovationAlgorithm.Run();
             }));
 
             ThreadPool.QueueUserWorkItem(new WaitCallback(_ =>
             {
-                guidelineAlgorithm.Run(CurrentMap, monsters.AreasManager, callback);
+                guidelineAlgorithm.Run(monsters.AreasManager);
             }));
-
-            Logger.AppendText("Started Algorithm");
         }
 
         void AlgorithmRunCompleteCallback()
         {
             if(innovationAlgorithm.HasSolution && convergenceAlgorithm.HasSolution && guidelineAlgorithm.HasSolution)
             {
-                /*foreach(Chromosome c in innovationAlgorithm.Solution.Solutions)
-                {
-                    suggestionsMap.Add(ChromosomeUtils.MapFromChromosome(OriginalMap, c));
-                }*/
                 var conv = convergenceAlgorithm.Solution.GetTop(1)[0];
                 var inno = innovationAlgorithm.Solution.GetTop(1)[0];
                 var obj = guidelineAlgorithm.Solution.GetTop(1)[0];
@@ -228,23 +222,20 @@ namespace EditorBuddyMonster
                 Logger.AppendText("Objective: " + obj.Fitness);
 
                 //suggestionsMap.Add(ChromosomeUtils.MapFromChromosome(OriginalMap, inno));
-                suggestionsMap.Add(ChromosomeUtils.MapFromChromosome(OriginalMap, conv));
+                //suggestionsMap.Add(ChromosomeUtils.MapFromChromosome(OriginalMap, conv));
                 //suggestionsMap.Add(ChromossomeUtils.MapFromChromosome(OriginalMap, obj));
 
                 AlgorithmRunComplete callback = new AlgorithmRunComplete(MixRunCompleteCallback);
 
                 ThreadPool.QueueUserWorkItem(new WaitCallback(_ =>
                 {
-                    mixAlgorithm.Run(CurrentMap, monsters.AreasManager, convergenceAlgorithm.Solution, innovationAlgorithm.Solution, guidelineAlgorithm.Solution, callback);
+                    mixAlgorithm.Run(monsters.AreasManager, convergenceAlgorithm.Solution, innovationAlgorithm.Solution, guidelineAlgorithm.Solution);
                 }));
             }
         }
 
         void MixRunCompleteCallback()
         {
-            Debug.WriteLine("Recieved Solution!");
-            Logger.AppendText("Suggestion updated!\n");
-
             Chromosome c = mixAlgorithm.Solution.GetTop(1)[0];
             Logger.AppendText("Fitness: " + c.Fitness);
 

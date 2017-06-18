@@ -7,11 +7,20 @@ using GAF;
 using EditorBuddyMonster.LoG2API;
 using GAF.Operators;
 using EditorBuddyMonster.Layers;
+using EditorBuddyMonster.Algorithm.Fitness;
+using EditorBuddyMonster.Utilities;
 
 namespace EditorBuddyMonster.Algorithm
 {
-    class MixPool : GuidelinePool
+    class MixPool
     {
+        public int InitialPopulation { get; set; }
+        public int GenerationLimit { get; set; }
+        public double MutationPercentage { get; set; }
+        public double CrossOverPercentage { get; set; }
+        public int ElitismPercentage { get; set; }
+
+
         /*******************************************************/
         /*********************Parameters************************/
         /*******************************************************/
@@ -19,15 +28,41 @@ namespace EditorBuddyMonster.Algorithm
         public double InnovationPercentage { get; set; }
         public double UserPercentage { get; set; }
 
+        public int MaxMonsters { get; set; }
+        public int MaxItens { get; set; }
+        public double HordesPercentage { get; set; }
         /*******************************************************/
 
-        public MixPool(Monsters monsters) : base(monsters)
+        protected bool running;
+        protected Delegate callback;
+
+        protected Map originalMap;
+        protected List<Cell> cells;
+        protected Monsters monsters;
+
+        public bool HasSolution { get; protected set; }
+        public Population Solution { get; protected set; }
+
+        ConvergenceFitness convergenceFitness;
+        GuidelineFitness guidelineFitness;
+
+        double guidelineP = 0.0;
+        double userP = 0.0;
+        double innovationP = 0.0;
+
+        public MixPool(Monsters monsters, Map currentMap, Delegate callback)
         {
+            this.monsters = monsters;
+            this.callback = callback;
+
+            originalMap = currentMap.CloneJson() as Map;
+
             InitialPopulation = 30;
             GenerationLimit = 30;
             MutationPercentage = 1.0;
             CrossOverPercentage = 0.4;
             ElitismPercentage = 5;
+
 
             /*GuidelinePercentage = 1.0f;
             InnovationPercentage = 0.4f;
@@ -40,34 +75,35 @@ namespace EditorBuddyMonster.Algorithm
             HasSolution = false;
         }
 
-        internal void Run(Map currentMap, AreaManager areaManager, Population conv, Population inno, Population obj, Delegate callback)
+        internal void Run(AreaManager areaManager, Population conv, Population inno, Population obj)
         {
             if (running) return;
+            
+            cells = originalMap.SpawnCells;
+            
+            
+            Chromosome chrom = ChromosomeUtils.ChromosomeFromMap(originalMap);
 
-            originalMap = currentMap;
-            cells = currentMap.SpawnCells;
+            string binaryString = chrom.ToBinaryString();
 
-            this.areaManager = areaManager;
-            this.callback = callback;
+            convergenceFitness = new ConvergenceFitness(cells, binaryString);
+            guidelineFitness = new GuidelineFitness(cells, areaManager, MaxMonsters, MaxItens, HordesPercentage);
+
+            double total = GuidelinePercentage + UserPercentage + InnovationPercentage;
+            guidelineP = GuidelinePercentage / total;
+            userP = UserPercentage / total;
+            innovationP = InnovationPercentage / total;
+            Console.WriteLine("Guideline: {0}; User: {1}; Innovation: {2}", guidelineP, userP, innovationP);
 
             //we can create an empty population as we will be creating the 
             //initial solutions manually.
             var population = new Population(InitialPopulation, cells.Count * ChromosomeUtils.NUMBER_GENES, true, true, ParentSelectionMethod.StochasticUniversalSampling);
 
             population.Solutions.Clear();
-
-            double total = GuidelinePercentage + UserPercentage + InnovationPercentage;
-            int objective = (int)System.Math.Round((GuidelinePercentage / total) * InitialPopulation);
-            int user = (int)System.Math.Round((UserPercentage / total) * InitialPopulation);
-            int innov = (int)System.Math.Round((InnovationPercentage / total) * InitialPopulation);
-
-            int fix = InitialPopulation - (objective + user + innov);
-
-            user += fix;
             
-            population.Solutions.AddRange(obj.GetTop(objective));
-            population.Solutions.AddRange(obj.GetTop(user));
-            population.Solutions.AddRange(obj.GetTop(innov));
+            population.Solutions.AddRange(obj.GetTop(10));
+            population.Solutions.AddRange(inno.GetTop(10));
+            population.Solutions.AddRange(conv.GetTop(10));
 
 
             //create the elite operator
@@ -84,7 +120,7 @@ namespace EditorBuddyMonster.Algorithm
             //add the operators
             ga.Operators.Add(elite);
             ga.Operators.Add(crossover);
-            ga.Operators.Add(mutate);
+            //ga.Operators.Add(mutate);
 
             ga.OnRunComplete += OnRunComplete;
 
@@ -93,10 +129,35 @@ namespace EditorBuddyMonster.Algorithm
             ga.Run(TerminateFunction);
         }
 
+        protected double CalculateFitness(Chromosome chromosome)
+        {
+            double totalFitness = 0.0;
+
+            double convFit = convergenceFitness.CalculateFitness(chromosome);
+            double innoFit = 1.0 - convFit;
+            double guidFit = guidelineFitness.CalculateFitness(chromosome);
+            
+            totalFitness = guidelineP * guidFit +
+                            userP * convFit +
+                            innovationP * innoFit;
+
+            return totalFitness;
+        }
+
         protected bool TerminateFunction(Population population, int currentGeneration, long currentEvaluation)
         {
             monsters.Progress(3, 100 * currentGeneration / GenerationLimit);
             return currentGeneration > GenerationLimit;
+        }
+
+        protected void OnRunComplete(object sender, GaEventArgs e)
+        {
+            Solution = e.Population;
+
+            running = false;
+            HasSolution = true;
+
+            callback.DynamicInvoke();
         }
     }
 }
