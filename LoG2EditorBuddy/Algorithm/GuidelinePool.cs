@@ -35,7 +35,7 @@ namespace EditorBuddyMonster.Algorithm
         public int MaxItens { get; set; }
         public double HordesPercentage { get; set; }
 
-        GuidelineMonster fitness;
+        Guideline fitness;
 
         public GuidelinePool(Monsters monsters, Map currentMap, Delegate callback)
         {
@@ -63,7 +63,7 @@ namespace EditorBuddyMonster.Algorithm
 
             
 
-            fitness = new GuidelineMonster(cells, areaManager, MaxMonsters, MaxItens, HordesPercentage);
+            fitness = new Guideline(cells, areaManager, MaxMonsters, MaxItens, HordesPercentage);
 
             //we can create an empty population as we will be creating the 
             //initial solutions manually.

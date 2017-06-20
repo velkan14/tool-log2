@@ -44,7 +44,7 @@ namespace EditorBuddyMonster.Algorithm
         public Population Solution { get; protected set; }
 
         ConvergenceFitness convergenceFitness;
-        GuidelineMonster guidelineFitness;
+        Guideline guidelineFitness;
 
         double guidelineP = 0.0;
         double userP = 0.0;
@@ -87,7 +87,7 @@ namespace EditorBuddyMonster.Algorithm
             string binaryString = chrom.ToBinaryString();
 
             convergenceFitness = new ConvergenceFitness(cells, binaryString);
-            guidelineFitness = new GuidelineMonster(cells, areaManager, MaxMonsters, MaxItens, HordesPercentage);
+            guidelineFitness = new Guideline(cells, areaManager, MaxMonsters, MaxItens, HordesPercentage);
 
             double total = GuidelinePercentage + UserPercentage + InnovationPercentage;
             guidelineP = GuidelinePercentage / total;

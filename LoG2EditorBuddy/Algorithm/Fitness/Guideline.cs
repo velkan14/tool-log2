@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace EditorBuddyMonster.Algorithm.Fitness
 {
-    class GuidelineMonster : HasStuff
+    class Guideline : HasStuff
     {
         protected List<Cell> cells;
         protected AreaManager areaManager;
@@ -22,7 +22,7 @@ namespace EditorBuddyMonster.Algorithm.Fitness
 
         private delegate bool HasSomething(int x, int y, List<CellStruct> listCells);
 
-        public GuidelineMonster(List<Cell> spawnCells, AreaManager areaManager, int maxMonsters, int maxItens, double hordesPercentage)
+        public Guideline(List<Cell> spawnCells, AreaManager areaManager, int maxMonsters, int maxItens, double hordesPercentage)
         {
             this.cells = spawnCells;
             this.areaManager = areaManager;
@@ -35,9 +35,9 @@ namespace EditorBuddyMonster.Algorithm.Fitness
         {
             double totalFitness = 0.0; // Value between 0 and 1. 1 is the fittest
             int numberMonsters = 0;
-            //int numberItems = 0;
+            int numberItems = 0;
             double monsterFit = 1.0;
-            //double itemFit = 1.0;
+            double itemFit = 1.0;
 
             string binaryString = chromosome.ToBinaryString();
 
@@ -64,11 +64,11 @@ namespace EditorBuddyMonster.Algorithm.Fitness
                         monsterDifficulty += GetMonsterDifficulty(c, area, listCells);
                         numberMonsters++;
                     }
-                    /*else if (HasItem(c.X, c.Y, listCells))
+                    else if (HasItem(c.X, c.Y, listCells))
                     {
                         itemFit *= GetItemFitness(c, area, listCells);
                         numberItems++;
-                    }*/
+                    }
                 }
 
                 double size = area.Size / 9.0;
@@ -103,7 +103,7 @@ namespace EditorBuddyMonster.Algorithm.Fitness
             {
                 maxMonstersFitness = FunctionNBest(numberMonsters, MaxMonsters);
             }
-            /*double maxItensFitness = 0.0;
+            double maxItensFitness = 0.0;
             if (MaxItens == 0)
             {
                 maxItensFitness = FunctionZero(numberItems);
@@ -111,9 +111,9 @@ namespace EditorBuddyMonster.Algorithm.Fitness
             else
             {
                 maxItensFitness = FunctionNBest(numberItems, MaxItens);
-            }*/
+            }
 
-            totalFitness = maxMonstersFitness * monsterFit;
+            totalFitness = maxMonstersFitness * monsterFit * (0.5 * maxItensFitness + 0.5 * itemFit);
             return totalFitness;
         }
 
@@ -142,7 +142,7 @@ namespace EditorBuddyMonster.Algorithm.Fitness
                     }
             }
 
-            return distanceToEntrance * closeToMonster;
+            return distanceToEntrance;
         }
 
         private double GetMonsterDifficulty(Cell cell, Area area, List<CellStruct> listCells)
