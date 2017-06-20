@@ -139,6 +139,7 @@
   <ItemGroup>
     <Compile Include="Algorithm\CellStruct.cs" />
     <Compile Include="Algorithm\ConvergencePool.cs" />
+    <Compile Include="Algorithm\Fitness\GuidelineMonster.cs" />
     <Compile Include="Algorithm\Operator\CrossoverIndex.cs" />
     <Compile Include="Algorithm\Fitness\ConvergenceFitness.cs" />
     <Compile Include="Algorithm\Fitness\GuidelineFitness.cs" />

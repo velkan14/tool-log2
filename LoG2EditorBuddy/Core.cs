@@ -223,7 +223,7 @@ namespace EditorBuddyMonster
 
                 //suggestionsMap.Add(ChromosomeUtils.MapFromChromosome(OriginalMap, inno));
                 //suggestionsMap.Add(ChromosomeUtils.MapFromChromosome(OriginalMap, conv));
-                //suggestionsMap.Add(ChromossomeUtils.MapFromChromosome(OriginalMap, obj));
+                //suggestionsMap.Add(ChromosomeUtils.MapFromChromosome(OriginalMap, obj));
 
                 AlgorithmRunComplete callback = new AlgorithmRunComplete(MixRunCompleteCallback);
 
