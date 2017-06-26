@@ -130,7 +130,7 @@ namespace EditorBuddyMonster.Algorithm.Fitness
 
                         }
                         break;
-                    case RoomDifficulty.Extreme:
+                    case RoomDifficulty.Hard:
                         {
                             double numberMonsterArea = NumberMonster(area.Size, 3);
                             double numberMonsterFit = 0.0;
@@ -349,7 +349,7 @@ namespace EditorBuddyMonster.Algorithm.Fitness
                             totalTiles += a.Size * 2;
                             break;
                         }
-                    case (RoomDifficulty.Extreme):
+                    case (RoomDifficulty.Hard):
                         {
                             totalTiles += a.Size * 3;
                             break;

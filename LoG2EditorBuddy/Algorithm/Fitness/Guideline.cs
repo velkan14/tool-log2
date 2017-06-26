@@ -84,14 +84,15 @@ namespace EditorBuddyMonster.Algorithm.Fitness
                             areaMonsterFit = Function(monsterDifficulty, size / 2.0, 0, size);
                         }
                         break;
-                    case RoomDifficulty.Extreme:
+                    case RoomDifficulty.Hard:
                         {
                             areaMonsterFit = Function(monsterDifficulty, size, 0, size);
                         }
                         break;
                 }
 
-                monsterFit *= (1.0 / area.Size) * areaMonsterFit;
+                //monsterFit += (1.0 / area.Size) * areaMonsterFit;
+                monsterFit *= areaMonsterFit;
             }
 
             double maxMonstersFitness = 0.0;
@@ -360,7 +361,7 @@ namespace EditorBuddyMonster.Algorithm.Fitness
                             totalTiles += a.Size * 2;
                             break;
                         }
-                    case (RoomDifficulty.Extreme):
+                    case (RoomDifficulty.Hard):
                         {
                             totalTiles += a.Size * 3;
                             break;

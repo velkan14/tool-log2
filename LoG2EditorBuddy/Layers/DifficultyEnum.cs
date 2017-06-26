@@ -10,7 +10,7 @@ namespace EditorBuddyMonster.Layers
 {
     public enum RoomDifficulty
     {
-        [StringValue("Cordless Power Drill")] Extreme = 0,
+        [StringValue("Cordless Power Drill")] Hard = 0,
         [StringValue("Cordless Power ")] Medium = 1,
         [StringValue("Cordless")] Safe = 2
     }

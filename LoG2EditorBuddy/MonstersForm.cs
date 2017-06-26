@@ -346,5 +346,15 @@ namespace EditorBuddyMonster
             progressBar1.Value = 0;
         }
 
+        private void SnapTick_ValueChanged(object sender, EventArgs e)
+        {
+            TrackBar tmp = (TrackBar)sender;
+            if (tmp.Value < 25)
+                tmp.Value = 0;
+            else if (tmp.Value >= 25 && tmp.Value < 75)
+                tmp.Value = 50;
+            else if(tmp.Value >= 75)
+                tmp.Value = 100;
+        }
     }
 }

@@ -379,7 +379,7 @@ namespace EditorBuddyMonster.Layers
                             {
                                 if (area.Difficulty == RoomDifficulty.Safe) g.FillRectangle(selectionBrushAddEasy, p.X * cellWidth, p.Y * cellHeight, cellWidth, cellHeight);
                                 else if (area.Difficulty == RoomDifficulty.Medium) g.FillRectangle(selectionBrushAddMedium, p.X * cellWidth, p.Y * cellHeight, cellWidth, cellHeight);
-                                else if (area.Difficulty == RoomDifficulty.Extreme) g.FillRectangle(selectionBrushAddHard, p.X * cellWidth, p.Y * cellHeight, cellWidth, cellHeight);
+                                else if (area.Difficulty == RoomDifficulty.Hard) g.FillRectangle(selectionBrushAddHard, p.X * cellWidth, p.Y * cellHeight, cellWidth, cellHeight);
 
                             }
                         }
@@ -395,7 +395,7 @@ namespace EditorBuddyMonster.Layers
         {
             if (area.Difficulty == RoomDifficulty.Safe) DrawBorder(x, y, penEasy, s, g);
             else if (area.Difficulty == RoomDifficulty.Medium) DrawBorder(x, y, penMedium, s, g);
-            else if (area.Difficulty == RoomDifficulty.Extreme) DrawBorder(x, y, penHard, s, g);
+            else if (area.Difficulty == RoomDifficulty.Hard) DrawBorder(x, y, penHard, s, g);
         }
 
         private void DrawBorder(int x, int y, Pen p, BorderSide s, Graphics graphics)
