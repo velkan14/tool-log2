@@ -138,8 +138,8 @@ namespace EditorBuddyMonster.Algorithm
             double guidFit = guidelineFitness.CalculateFitness(chromosome);
             
             totalFitness =  guidelineP * guidFit +
-                            0.1 * userP * convFit +
-                            0.5 * innovationP * innoFit;
+                            0.2*userP * convFit +
+                            0.5*innovationP * innoFit;
 
             return totalFitness;
         }

@@ -10,7 +10,7 @@ namespace EditorBuddyMonster.Algorithm
     {
         public static bool IsEmpty(CellStruct cell)
         {
-            if(cell.type == 0 || cell.type > 64)
+            if(cell.type == 0 || cell.type > 65)
             {
                 return true;
             }
@@ -29,18 +29,7 @@ namespace EditorBuddyMonster.Algorithm
         public static bool HasItem(CellStruct cell)
         {
             int j = cell.type;
-
-            if (j == 33 || j == 34 || j == 35)
-            {
-                //Cudgel
-                return true;
-            }
-            else if (j == 36 || j == 37 || j == 38)
-            {
-                //Machete
-                return true;
-            }
-            else if (j == 39 || j == 40 || j == 41)
+            if (j == 39 || j == 40 || j == 41)
             {
                 //Rapier
                 return true;
@@ -50,57 +39,37 @@ namespace EditorBuddyMonster.Algorithm
                 //Battle Axe
                 return true;
             }
-            else if (j == 45 || j == 46 || j == 47 || j == 48)
+            else if (j == 45 || j == 46 || j == 47)
             {
                 //Potion
                 return true;
             }
-            else if (j == 49 || j == 50 || j == 51)
+            else if (j == 48 || j == 49 || j == 50)
             {
                 //Borra
                 return true;
             }
-            else if (j == 52 || j == 53 || j == 54)
+            else if (j == 51 || j == 52 || j == 53)
             {
                 //Bread
                 return true;
             }
-            else if (j == 55 || j == 56)
-            {
-                //Peasant cap
-                return true;
-            }
-            else if (j == 57 || j == 58)
-            {
-                //Peasant breeches
-                return true;
-            }
-            else if (j == 59)
-            {
-                //Peasant tunic
-                return true;
-            }
-            else if (j == 60)
-            {
-                //Sandals
-                return true;
-            }
-            else if (j == 61)
+            else if (j == 54 || j == 55 || j == 56)
             {
                 //Leather cap
                 return true;
             }
-            else if (j == 62)
+            else if (j == 57 || j == 58 || j == 59)
             {
                 //Leather brigandine
                 return true;
             }
-            else if (j == 63)
+            else if (j == 60 || j == 61 || j == 62)
             {
                 //Leather pants
                 return true;
             }
-            else if (j == 64)
+            else if (j == 63 || j == 64 || j == 65)
             {
                 //Leather boots
                 return true;
@@ -121,17 +90,7 @@ namespace EditorBuddyMonster.Algorithm
         {
             int j = cell.type;
 
-            if (j == 33 || j == 34 || j == 35)
-            {
-                //Cudgel
-                return true;
-            }
-            else if (j == 36 || j == 37 || j == 38)
-            {
-                //Machete
-                return true;
-            }
-            else if (j == 39 || j == 40 || j == 41)
+            if (j == 39 || j == 40 || j == 41)
             {
                 //Rapier
                 return true;
@@ -157,17 +116,17 @@ namespace EditorBuddyMonster.Algorithm
         {
             int j = cell.type;
 
-            if (j == 45 || j == 46 || j == 47 || j == 48)
+            if (j == 45 || j == 46 || j == 47)
             {
                 //Potion
                 return true;
             }
-            else if (j == 49 || j == 50 || j == 51)
+            else if (j == 48 || j == 49 || j == 50)
             {
                 //Borra
                 return true;
             }
-            else if (j == 52 || j == 53 || j == 54)
+            else if (j == 51 || j == 52 || j == 53)
             {
                 //Bread
                 return true;
@@ -188,42 +147,22 @@ namespace EditorBuddyMonster.Algorithm
         {
             int j = cell.type;
 
-            if (j == 55 || j == 56)
-            {
-                //Peasant cap
-                return true;
-            }
-            else if (j == 57 || j == 58)
-            {
-                //Peasant breeches
-                return true;
-            }
-            else if (j == 59)
-            {
-                //Peasant tunic
-                return true;
-            }
-            else if (j == 60)
-            {
-                //Sandals
-                return true;
-            }
-            else if (j == 61)
+            if (j == 54 || j == 55 || j == 56)
             {
                 //Leather cap
                 return true;
             }
-            else if (j == 62)
+            else if (j == 57 || j == 58 || j == 59)
             {
                 //Leather brigandine
                 return true;
             }
-            else if (j == 63)
+            else if (j == 60 || j == 61 || j == 62)
             {
                 //Leather pants
                 return true;
             }
-            else if (j == 64)
+            else if (j == 63 || j == 64 || j == 65)
             {
                 //Leather boots
                 return true;
@@ -244,17 +183,17 @@ namespace EditorBuddyMonster.Algorithm
         {
             int j = cell.type;
 
-            if (j == 1 || j == 2 || j == 3 || j == 4 || j == 5 || j == 6 || j == 7 || j == 8 || j == 9 || j == 10 || j == 11)
+            if (j == 1 || j == 2 || j == 3 || j == 4 || j == 5 || j == 6 || j == 7 || j == 8 || j == 9 || j == 10 || j == 11 || j == 12 || j == 13)
             {
                 //Turtle
                 return true;
             }
-            else if (j == 12 || j == 13 || j == 14 || j == 15 || j == 16 || j == 17 || j == 18 || j == 19 || j == 20 || j == 21 || j == 22)
+            else if (j == 14 || j == 15 || j == 16 || j == 17 || j == 18 || j == 19 || j == 20 || j == 21 || j == 22 || j == 23 || j == 24 || j == 25 || j == 26)
             {
                 //Mummy
                 return true;
             }
-            else if (j == 23 || j == 24 || j == 25 || j == 26 || j == 27 || j == 28 || j == 29 || j == 30 || j == 31 || j == 32)
+            else if (j == 27 || j == 28 || j == 29 || j == 30 || j == 31 || j == 32 || j == 33 || j == 34 || j == 35 || j == 36 || j == 37 || j == 38)
             {
                 //Skeleton
                 return true;
@@ -272,7 +211,7 @@ namespace EditorBuddyMonster.Algorithm
         {
             int j = cell.type;
 
-            if (j == 1 || j == 2 || j == 3 || j == 4 || j == 5 || j == 6 || j == 7 || j == 8 || j == 9 || j == 10 || j == 11)
+            if (j == 1 || j == 2 || j == 3 || j == 4 || j == 5 || j == 6 || j == 7 || j == 8 || j == 9 || j == 10 || j == 11 || j == 12 || j == 13)
             {
                 //Turtle
                 return true;
@@ -291,7 +230,7 @@ namespace EditorBuddyMonster.Algorithm
         {
             int j = cell.type;
 
-            if (j == 12 || j == 13 || j == 14 || j == 15 || j == 16 || j == 17 || j == 18 || j == 19 || j == 20 || j == 21 || j == 22)
+            if (j == 14 || j == 15 || j == 16 || j == 17 || j == 18 || j == 19 || j == 20 || j == 21 || j == 22 || j == 23 || j == 24 || j == 25 || j == 26)
             {
                 //Mummy
                 return true;
@@ -310,7 +249,7 @@ namespace EditorBuddyMonster.Algorithm
         {
             int j = cell.type;
 
-            if (j == 23 || j == 24 || j == 25 || j == 26 || j == 27 || j == 28 || j == 29 || j == 30 || j == 31 || j == 32)
+            if (j == 27 || j == 28 || j == 29 || j == 30 || j == 31 || j == 32 || j == 33 || j == 34 || j == 35 || j == 36 || j == 37 || j == 38)
             {
                 //Skeleton
                 return true;

@@ -70,7 +70,8 @@ namespace EditorBuddyMonster
 
                 Console.WriteLine("File: " + e.FullPath + " " + e.ChangeType);
 
-                core.FileChanged = true;
+                core.LoadMapFromFile();
+                //core.FileChanged = true;
             }
 
             count = 0;

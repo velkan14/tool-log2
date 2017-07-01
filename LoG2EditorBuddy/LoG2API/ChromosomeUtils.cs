@@ -34,23 +34,15 @@ namespace EditorBuddyMonster.LoG2API
                 }
                 else if (c.Exists("mummy"))
                 {
-                    type = 12;
+                    type = 14;
                 }
                 else if (c.Exists("skeleton_trooper"))
                 {
-                    type = 23;
+                    type = 27;
                 }
 
                 //------ Check weapons ------
-                if (c.Exists("cudgel"))
-                {
-                    type = 33;
-                }
-                else if (c.Exists("machete"))
-                {
-                    type = 36;
-                }
-                else if (c.Exists("rapier"))
+                if (c.Exists("rapier"))
                 {
                     type = 39;
                 }
@@ -66,46 +58,29 @@ namespace EditorBuddyMonster.LoG2API
                 }
                 else if (c.Exists("borra"))
                 {
-                    type = 49;
+                    type = 48;
                 }
                 else if (c.Exists("bread"))
                 {
-                    type = 52;
+                    type = 51;
                 }
 
                 //------ Check Armor ------
-                if (c.Exists("peasant_cap"))
+                if (c.Exists("leather_cap"))
                 {
-                    type = 55;
-                }
-                else if (c.Exists("peasant_breeches"))
-                {
-                    type = 57;
-                }
-                else if (c.Exists("peasant_tunic"))
-                {
-                    type = 59;
-                }
-                else if (c.Exists("sandals"))
-                {
-                    type = 60;
-                }
-
-                else if (c.Exists("leather_cap"))
-                {
-                    type = 61;
+                    type = 54;
                 }
                 else if (c.Exists("leather_brigandine"))
                 {
-                    type = 62;
+                    type = 57;
                 }
                 else if (c.Exists("leather_pants"))
                 {
-                    type = 63;
+                    type = 60;
                 }
                 else if (c.Exists("leather_boots"))
                 {
-                    type = 64;
+                    type = 63;
                 }
 
                 string s = IntToBinaryString(type).PadLeft(NUMBER_GENES, '0');
@@ -125,16 +100,11 @@ namespace EditorBuddyMonster.LoG2API
             for (int i = 0; i < cells.Count; i++)
             {
                 cells[i].Monster = null;
-                cells[i].RemoveElement("cudgel");
-                cells[i].RemoveElement("machete");
                 cells[i].RemoveElement("rapier");
                 cells[i].RemoveElement("battle_axe");
                 cells[i].RemoveElement("potion_healing");
                 cells[i].RemoveElement("borra");
                 cells[i].RemoveElement("bread");
-                cells[i].RemoveElement("peasant_cap");
-                cells[i].RemoveElement("peasant_breeches");
-                cells[i].RemoveElement("peasant_tunic");
                 cells[i].RemoveElement("leather_cap");
                 cells[i].RemoveElement("leather_brigandine");
                 cells[i].RemoveElement("leather_pants");
@@ -144,30 +114,20 @@ namespace EditorBuddyMonster.LoG2API
 
                 int j = Convert.ToInt32(s, 2);
 
-                if (j == 1 || j == 2 || j == 3 || j == 4 || j == 5 || j == 6 || j == 7 || j == 8 || j == 9 || j == 10 || j == 11)
+                if (j == 1 || j == 2 || j == 3 || j == 4 || j == 5 || j == 6 || j == 7 || j == 8 || j == 9 || j == 10 || j == 11 || j == 12 || j == 13)
                 {
                     //Turtle
                     cells[i].Monster = new Monster("turtle", cells[i].X, cells[i].Y, 0, 0, "turtle_" + i);
                 }
-                else if (j == 12 || j == 13 || j == 14 || j == 15 || j == 16 || j == 17 || j == 18 || j == 19 || j == 20 || j == 21 || j == 22)
+                else if (j == 14 || j == 15 || j == 16 || j == 17 || j == 18 || j == 19 || j == 20 || j == 21 || j == 22 || j == 23 || j == 24 || j == 25 || j == 26)
                 {
                     //Mummy
                     cells[i].Monster = new Monster("mummy", cells[i].X, cells[i].Y, 0, 0, "mummy_" + i);
                 }
-                else if (j == 23 || j == 24 || j == 25 || j == 26 || j == 27 || j == 28 || j == 29 || j == 30 || j == 31 || j == 32)
+                else if (j == 27 || j == 28 || j == 29 || j == 30 || j == 31 || j == 32 || j == 33 || j == 34 || j == 35 || j == 36 || j == 37 || j == 38)
                 {
                     //Skeleton
                     cells[i].Monster = new Monster("skeleton_trooper", cells[i].X, cells[i].Y, 0, 0, "skeleton_trooper_" + i);
-                }
-                else if (j == 33 || j == 34 || j == 35)
-                {
-                    //Cudgel
-                    cells[i].AddElement(new Weapon("cudgel", cells[i].X, cells[i].Y, 0, 0, "cudgel_" + i));
-                }
-                else if (j == 36 || j == 37 || j == 38)
-                {
-                    //Machete
-                    cells[i].AddElement(new Weapon("machete", cells[i].X, cells[i].Y, 0, 0, "machete_" + i));
                 }
                 else if (j == 39 || j == 40 || j == 41)
                 {
@@ -179,57 +139,37 @@ namespace EditorBuddyMonster.LoG2API
                     //Battle Axe
                     cells[i].AddElement(new Weapon("battle_axe", cells[i].X, cells[i].Y, 0, 0, "battle_axe_" + i));
                 }
-                else if (j == 45 || j == 46 || j == 47 || j == 48)
+                else if (j == 45 || j == 46 || j == 47)
                 {
                     //Potion
                     cells[i].AddElement(new Item("potion_healing", cells[i].X, cells[i].Y, 0, 0, "potion_healing_" + i));
                 }
-                else if (j == 49 || j == 50 || j == 51)
+                else if (j == 48 || j == 49 || j == 50)
                 {
                     //Borra
                     cells[i].AddElement(new Item("borra", cells[i].X, cells[i].Y, 0, 0, "borra_" + i));
                 }
-                else if (j == 52 || j == 53 || j == 54)
+                else if (j == 51 || j == 52 || j == 53)
                 {
                     //Bread
                     cells[i].AddElement(new Item("bread", cells[i].X, cells[i].Y, 0, 0, "bread_" + i));
                 }
-                else if (j == 55 || j == 56)
-                {
-                    //Peasant cap
-                    cells[i].AddElement(new Item("peasant_cap", cells[i].X, cells[i].Y, 0, 0, "peasant_cap_" + i));
-                }
-                else if (j == 57 || j == 58)
-                {
-                    //Peasant breeches
-                    cells[i].AddElement(new Item("peasant_breeches", cells[i].X, cells[i].Y, 0, 0, "peasant_breeches_" + i));
-                }
-                else if (j == 59)
-                {
-                    //Peasant tunic
-                    cells[i].AddElement(new Item("peasant_tunic", cells[i].X, cells[i].Y, 0, 0, "peasant_tunic_" + i));
-                }
-                else if (j == 60)
-                {
-                    //Sandals
-                    cells[i].AddElement(new Item("sandals", cells[i].X, cells[i].Y, 0, 0, "sandals_" + i));
-                }
-                else if (j == 61)
+                else if (j == 54 || j == 55 || j == 56)
                 {
                     //Leather cap
                     cells[i].AddElement(new Item("leather_cap", cells[i].X, cells[i].Y, 0, 0, "leather_cap_" + i));
                 }
-                else if (j == 62)
+                else if (j == 57 || j == 58 || j == 59)
                 {
                     //Leather brigandine
                     cells[i].AddElement(new Item("leather_brigandine", cells[i].X, cells[i].Y, 0, 0, "leather_brigandine_" + i));
                 }
-                else if (j == 63)
+                else if (j == 60 || j == 61 || j == 62)
                 {
                     //Leather pants
                     cells[i].AddElement(new Item("leather_pants", cells[i].X, cells[i].Y, 0, 0, "leather_pants_" + i));
                 }
-                else if (j == 64)
+                else if (j == 63 || j == 64 || j == 65)
                 {
                     //Leather boots
                     cells[i].AddElement(new Item("leather_boots", cells[i].X, cells[i].Y, 0, 0, "leather_boots_" + i));

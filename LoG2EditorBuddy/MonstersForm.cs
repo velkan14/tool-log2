@@ -38,6 +38,9 @@ namespace EditorBuddyMonster
         private int NumberMonsters { get { return Convert.ToInt32(numericUpDown_maxmonsters.Value); } }
         private int NumberItens { get { return Convert.ToInt32(numericUpDown_numberItens.Value); } }
         private int HordesPercentage { get { return trackBar_hordes.Value; } }
+        
+        public bool Redraw { get; set; }
+        public bool RedrawMap { get; set; }
 
         public Monsters()
         {
@@ -70,8 +73,6 @@ namespace EditorBuddyMonster
 
             AreasManager = new AreaManager(core.OriginalMap, gridPanel);
 
-
-
             Invoke((MethodInvoker)(() =>
             {
                 areaBindingSource.Clear();
@@ -86,6 +87,7 @@ namespace EditorBuddyMonster
                 button_next.Enabled = true;
                 button_newSuggestion.Enabled = true;
                 button_select.Enabled = true;
+                button_export.Enabled = true;
 
                 trackBar_history.Enabled = true;
             }));
@@ -261,12 +263,18 @@ namespace EditorBuddyMonster
 
         private void button_settings_Click(object sender, EventArgs e)
         {
-            progressBar1.Increment(100);
         }
 
-        public void ReDraw()
+        public void Draw()
         {
-            Image image = lastImage.Clone() as Image;
+            if (RedrawMap)
+            {
+                lastImage = core.CurrentMap.Draw(gridPanel.Width, gridPanel.Height);
+
+                RedrawMap = false;
+            }
+
+                Image image = lastImage.Clone() as Image;
 
             if (USelection != null && USelection.Attached) image = USelection.Draw(gridPanel.Width, gridPanel.Height, image);
 
@@ -274,20 +282,18 @@ namespace EditorBuddyMonster
 
             gridPanel.BackgroundImage = image;
 
-            if (gridPanel.InvokeRequired)
-            {
-                Invoke((MethodInvoker)(() => { gridPanel.Refresh(); })); //needed when calling the callback from a different thread
-            }
-            else
-            {
-                gridPanel.Refresh();
-            }
+            gridPanel.Refresh();
+        }
+
+        public void ReDraw()
+        {
+            Redraw = true;
         }
 
         public void ReDrawMap()
         {
-            lastImage = core.CurrentMap.Draw(gridPanel.Width, gridPanel.Height);
-            ReDraw();
+            Redraw = true;
+            RedrawMap = true;
         }
 
         int conP = 0;
@@ -355,6 +361,27 @@ namespace EditorBuddyMonster
                 tmp.Value = 50;
             else if(tmp.Value >= 75)
                 tmp.Value = 100;
+        }
+
+        private void button_undo_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            if (Redraw)
+            {
+                if (this.InvokeRequired)
+                {
+                    Invoke((MethodInvoker)(() => { Draw(); })); //needed when calling the callback from a different thread
+                }
+                else
+                {
+                    Draw();
+                }
+            }
+            Redraw = false;
         }
     }
 }

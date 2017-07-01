@@ -35,39 +35,74 @@ namespace EditorBuddyMonster.Algorithm
         public int MaxItens { get; set; }
         public double HordesPercentage { get; set; }
 
+        Population population;
         Guideline fitness;
 
-        public GuidelinePool(Monsters monsters, Map currentMap, Delegate callback)
+        public GuidelinePool(Monsters monsters, Map currentMap, Delegate callback, AreaManager areaManager, int maxMonsters, int maxItens, double hordesPercentage)
         {
             this.monsters = monsters;
             this.callback = callback;
+
+            this.MaxMonsters = maxMonsters;
+            this.MaxItens = maxItens;
+            this.HordesPercentage = hordesPercentage;
 
             originalMap = currentMap.CloneJson() as Map;
 
             InitialPopulation = 30;
             GenerationLimit = 30;
-            MutationPercentage = 0.6;
-            CrossOverPercentage = 0.5;
+            MutationPercentage = 0.8;
+            CrossOverPercentage = 0.7;
             ElitismPercentage = 10;
 
             running = false;
             HasSolution = false;
-        }
 
-        public void Run(AreaManager areaManager)
-        {
-            if (running) return;
-
-            
             cells = originalMap.SpawnCells;
-
-            
 
             fitness = new Guideline(cells, areaManager, MaxMonsters, MaxItens, HordesPercentage);
 
             //we can create an empty population as we will be creating the 
             //initial solutions manually.
-            var population = new Population(InitialPopulation, cells.Count * ChromosomeUtils.NUMBER_GENES, true, true);
+            population = new Population(InitialPopulation, cells.Count * ChromosomeUtils.NUMBER_GENES, true, true);
+        }
+
+        public GuidelinePool(Monsters monsters, Map currentMap, Delegate callback, AreaManager areaManager, int maxMonsters, int maxItens, double hordesPercentage, Population pop)
+        {
+            this.monsters = monsters;
+            this.callback = callback;
+
+            this.MaxMonsters = maxMonsters;
+            this.MaxItens = maxItens;
+            this.HordesPercentage = hordesPercentage;
+
+            originalMap = currentMap.CloneJson() as Map;
+
+            InitialPopulation = 30;
+            GenerationLimit = 30;
+            MutationPercentage = 0.8;
+            CrossOverPercentage = 0.7;
+            ElitismPercentage = 10;
+
+            running = false;
+            HasSolution = false;
+
+            cells = originalMap.SpawnCells;
+
+            fitness = new Guideline(cells, areaManager, MaxMonsters, MaxItens, HordesPercentage);
+
+            //we can create an empty population as we will be creating the 
+            //initial solutions manually.
+            population = new Population(InitialPopulation, cells.Count * ChromosomeUtils.NUMBER_GENES, true, true);
+
+            population.Solutions.Clear();
+
+            population.Solutions.AddRange(pop.GetTop(InitialPopulation));
+        }
+
+        public void Run()
+        {
+            if (running) return;
 
             //create the elite operator
             var elite = new Elite(ElitismPercentage);

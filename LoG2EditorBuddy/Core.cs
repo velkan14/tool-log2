@@ -66,6 +66,18 @@ namespace EditorBuddyMonster
             }
         }
 
+        private void AddSuggestion(Map map)
+        {
+            if(suggestionsMap.Count > 3)
+            {
+                suggestionsMap.RemoveAt(1);
+            }
+            suggestionsMap.Add(map);
+            IndexMap = suggestionsMap.Count - 1;
+            monsters.UpdateTrackHistory();
+            monsters.ReDrawMap();
+        }
+
         internal void NewSuggestion(int innovationPercentage, int guidelinePercentage, int userPercentage, int numberMonsters, int numberItens, int hordesPercentage)
         {
             InnovationPercentage = innovationPercentage;
@@ -136,13 +148,18 @@ namespace EditorBuddyMonster
             {
                 OriginalMap = APIClass.ParseMapFile();
                 FileChanged = false;
-                suggestionsMap.Add(OriginalMap);
+
+
+                if (suggestionsMap.Count > 0) suggestionsMap[0] = OriginalMap;
+                else suggestionsMap.Add(OriginalMap);
 
                 IndexMap = suggestionsMap.Count - 1;
 
                 monsters.MapLoaded();
                 monsters.UpdateTrackHistory();
                 monsters.ReDrawMap();
+
+
 
                 if (!timer.Enabled)
                 {
@@ -175,14 +192,32 @@ namespace EditorBuddyMonster
 
             algorithmRunning = true;
 
-            innovationAlgorithm = new InnovationPool(monsters, OriginalMap, callback);
-            guidelineAlgorithm = new GuidelinePool(monsters, OriginalMap, callback)
+            if(innovationAlgorithm != null && innovationAlgorithm.HasSolution)
             {
-                MaxMonsters = numberMonsters,
-                MaxItens = numberItens,
-                HordesPercentage = hordesPercentage / 100.0
-            };
-            convergenceAlgorithm = new ConvergencePool(monsters, OriginalMap, callback);
+                innovationAlgorithm = new InnovationPool(monsters, OriginalMap, callback, innovationAlgorithm.Solution);
+            }
+            else
+            {
+                innovationAlgorithm = new InnovationPool(monsters, OriginalMap, callback);
+            }
+            
+            if(guidelineAlgorithm != null && guidelineAlgorithm.HasSolution)
+            {
+                guidelineAlgorithm = new GuidelinePool(monsters, OriginalMap, callback, monsters.AreasManager, numberMonsters, numberItens, hordesPercentage / 100.0, guidelineAlgorithm.Solution);
+            }
+            else
+            {
+                guidelineAlgorithm = new GuidelinePool(monsters, OriginalMap, callback, monsters.AreasManager, numberMonsters, numberItens, hordesPercentage / 100.0);
+            }
+            
+            if(convergenceAlgorithm != null && convergenceAlgorithm.HasSolution)
+            {
+                convergenceAlgorithm = new ConvergencePool(monsters, OriginalMap, callback, convergenceAlgorithm.Solution);
+            } else
+            {
+                convergenceAlgorithm = new ConvergencePool(monsters, OriginalMap, callback);
+            }
+            
             mixAlgorithm = new MixPool(monsters, OriginalMap, new AlgorithmRunComplete(MixRunCompleteCallback))
             {
                 MaxMonsters = numberMonsters,
@@ -205,7 +240,7 @@ namespace EditorBuddyMonster
 
             ThreadPool.QueueUserWorkItem(new WaitCallback(_ =>
             {
-                guidelineAlgorithm.Run(monsters.AreasManager);
+                guidelineAlgorithm.Run();
             }));
         }
 
@@ -241,12 +276,9 @@ namespace EditorBuddyMonster
 
             if (monsters.USelection.HasSelection)
             {
-                suggestionsMap.Add(ChromosomeUtils.MapFromChromosome(OriginalMap, c, monsters.USelection.GetSelectedPoints()));
+                AddSuggestion(ChromosomeUtils.MapFromChromosome(OriginalMap, c, monsters.USelection.GetSelectedPoints()));
             }
-            else suggestionsMap.Add(ChromosomeUtils.MapFromChromosome(OriginalMap, c));
-            IndexMap = suggestionsMap.Count - 1;
-            monsters.UpdateTrackHistory();
-            monsters.ReDrawMap();
+            else AddSuggestion(ChromosomeUtils.MapFromChromosome(OriginalMap, c));
 
             algorithmRunning = false;
         }

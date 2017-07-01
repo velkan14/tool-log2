@@ -33,16 +33,8 @@ namespace EditorBuddyMonster
 
         List<CellStruct> mapCells = new List<CellStruct>();
 
-        int numberOfSkeletons = 0;
-        int numberOfMummy = 0;
-        int numberOfTurtle = 0;
-        int numberOfArmor = 0;
-        int numberOfResource = 0;
-        int numberOfWeapon = 0;
-        int numberOfMonsters = 0;
-        int numberOfItens = 0;
-
         ConvergenceFitness fitness;
+        Population population;
 
         public InnovationPool(Monsters monsters, Map currentMap, Delegate callback)
         {
@@ -59,16 +51,10 @@ namespace EditorBuddyMonster
 
             running = false;
             HasSolution = false;
-        }
 
-        public void Run()
-        {
-            if (running) return;
-
-            
             cells = originalMap.SpawnCells;
 
-            
+
 
             Chromosome chrom = ChromosomeUtils.ChromosomeFromMap(originalMap);
 
@@ -79,7 +65,7 @@ namespace EditorBuddyMonster
 
             //we can create an empty population as we will be creating the 
             //initial solutions manually.
-            var population = new Population(InitialPopulation, cells.Count * ChromosomeUtils.NUMBER_GENES, true, true);
+            population = new Population(InitialPopulation, cells.Count * ChromosomeUtils.NUMBER_GENES, true, true);
 
             population.Solutions.Clear();
 
@@ -87,6 +73,45 @@ namespace EditorBuddyMonster
             {
                 population.Solutions.Add(new Chromosome(binaryString));
             }
+        }
+
+        public InnovationPool(Monsters monsters, Map currentMap, Delegate callback, Population pop)
+        {
+            this.monsters = monsters;
+            this.callback = callback;
+
+            originalMap = currentMap.CloneJson() as Map;
+
+            InitialPopulation = 30;
+            GenerationLimit = 30;
+            MutationPercentage = 0.35;
+            CrossOverPercentage = 0.4;
+            ElitismPercentage = 10;
+
+            running = false;
+            HasSolution = false;
+
+            cells = originalMap.SpawnCells;
+
+            Chromosome chrom = ChromosomeUtils.ChromosomeFromMap(originalMap);
+
+            string binaryString = chrom.ToBinaryString();
+
+
+            fitness = new ConvergenceFitness(cells, binaryString);
+
+            //we can create an empty population as we will be creating the 
+            //initial solutions manually.
+            population = new Population(InitialPopulation, cells.Count * ChromosomeUtils.NUMBER_GENES, true, true);
+
+            population.Solutions.Clear();
+
+            population.Solutions.AddRange(pop.GetTop(InitialPopulation));
+        }
+
+        public void Run()
+        {
+            if (running) return;
 
             //create the elite operator
             var elite = new Elite(ElitismPercentage);

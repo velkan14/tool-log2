@@ -36,8 +36,11 @@ namespace EditorBuddyMonster.Algorithm.Fitness
             double totalFitness = 0.0; // Value between 0 and 1. 1 is the fittest
             int numberMonsters = 0;
             int numberItems = 0;
+            int numberHordes = 0;
+
             double monsterFit = 1.0;
             double itemFit = 1.0;
+
 
             string binaryString = chromosome.ToBinaryString();
 
@@ -63,6 +66,7 @@ namespace EditorBuddyMonster.Algorithm.Fitness
                     {
                         monsterDifficulty += GetMonsterDifficulty(c, area, listCells);
                         numberMonsters++;
+                        if (FloodFill(c, listCells, HasMonster, false) <= 1) numberHordes++;
                     }
                     else if (HasItem(c.X, c.Y, listCells))
                     {
@@ -113,6 +117,11 @@ namespace EditorBuddyMonster.Algorithm.Fitness
             {
                 maxItensFitness = FunctionNBest(numberItems, MaxItens);
             }
+            double hordesFit = 0.0;
+
+            Console.WriteLine("Monsters: {0}, Hordes: {1}, Percentage: {2}, Fit: {3}", numberMonsters, numberHordes, HordesPercentage, Function((double)numberHordes / (double)numberMonsters, HordesPercentage, 0.0, 1.0));
+            if (numberHordes == 0 && HordesPercentage == 0) hordesFit = 1.0;
+            else hordesFit = Function((double)numberHordes / (double)numberMonsters, HordesPercentage, 0.0, 1.0);
 
             totalFitness = maxMonstersFitness * monsterFit * (0.5 * maxItensFitness + 0.5 * itemFit);
             return totalFitness;
