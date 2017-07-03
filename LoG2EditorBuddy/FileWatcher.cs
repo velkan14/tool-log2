@@ -68,7 +68,7 @@ namespace EditorBuddyMonster
             {
                 lastFileText = fileText;
 
-                Console.WriteLine("File: " + e.FullPath + " " + e.ChangeType);
+                //Console.WriteLine("File: " + e.FullPath + " " + e.ChangeType);
 
                 core.LoadMapFromFile();
                 //core.FileChanged = true;

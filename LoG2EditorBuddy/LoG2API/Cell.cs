@@ -10,7 +10,8 @@ namespace EditorBuddyMonster.LoG2API
     public class Cell
     {
 
-        protected static Image imageIcons = Image.FromFile("../../img/icons.png"); //FIXME
+        //protected static Image imageIcons = Image.FromFile("../../img/icons.png"); //FIXME
+        protected static Image imageIcons = EditorBuddyMonster.Properties.Resources.icons;
 
         public enum Type
         {

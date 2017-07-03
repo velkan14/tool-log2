@@ -11,7 +11,8 @@ namespace EditorBuddyMonster.LoG2API
     [Serializable]
     abstract public class MapElement
     {
-        protected static Image imageIcons = Image.FromFile("../../img/icons.png");
+        //protected static Image imageIcons = Image.FromFile("../../img/icons.png");
+        protected static Image imageIcons = EditorBuddyMonster.Properties.Resources.icons;
 
         private MapElement _connectedTo;
 

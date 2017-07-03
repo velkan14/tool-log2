@@ -119,7 +119,6 @@ namespace EditorBuddyMonster.Algorithm.Fitness
             }
             double hordesFit = 0.0;
 
-            Console.WriteLine("Monsters: {0}, Hordes: {1}, Percentage: {2}, Fit: {3}", numberMonsters, numberHordes, HordesPercentage, Function((double)numberHordes / (double)numberMonsters, HordesPercentage, 0.0, 1.0));
             if (numberHordes == 0 && HordesPercentage == 0) hordesFit = 1.0;
             else hordesFit = Function((double)numberHordes / (double)numberMonsters, HordesPercentage, 0.0, 1.0);
 

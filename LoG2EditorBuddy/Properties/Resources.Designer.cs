@@ -123,6 +123,16 @@ namespace EditorBuddyMonster.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap eyeclosed {
+            get {
+                object obj = ResourceManager.GetObject("eyeclosed", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap green_back {
             get {
                 object obj = ResourceManager.GetObject("green_back", resourceCulture);
@@ -136,6 +146,16 @@ namespace EditorBuddyMonster.Properties {
         internal static System.Drawing.Bitmap hitme_icon_small {
             get {
                 object obj = ResourceManager.GetObject("hitme_icon_small", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icons {
+            get {
+                object obj = ResourceManager.GetObject("icons", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -226,6 +246,16 @@ namespace EditorBuddyMonster.Properties {
         internal static System.Drawing.Bitmap visibility_icon {
             get {
                 object obj = ResourceManager.GetObject("visibility_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap visible {
+            get {
+                object obj = ResourceManager.GetObject("visible", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

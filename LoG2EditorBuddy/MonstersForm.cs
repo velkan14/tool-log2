@@ -65,6 +65,8 @@ namespace EditorBuddyMonster
 
             difficultyDataGridViewTextBoxColumn.DataSource = Enum.GetValues(typeof(RoomDifficulty));
             itemAccessibilityDataGridViewTextBoxColumn.DataSource = Enum.GetValues(typeof(ItemAccessibility));
+
+            
         }
 
         public void MapLoaded()

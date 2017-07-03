@@ -93,7 +93,6 @@ namespace EditorBuddyMonster.Algorithm
             guidelineP = GuidelinePercentage / total;
             userP = UserPercentage / total;
             innovationP = InnovationPercentage / total;
-            Console.WriteLine("Guideline: {0}; User: {1}; Innovation: {2}", guidelineP, userP, innovationP);
 
             //we can create an empty population as we will be creating the 
             //initial solutions manually.
