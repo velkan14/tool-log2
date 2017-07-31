@@ -31,6 +31,7 @@ namespace EditorBuddyMonster
         public AreaManager AreasManager { get; private set; }
         Image lastImage;
 
+        NotifyIcon notifyIcon;
 
         private int InnovationPercentage { get { return trackBar_innovation.Value; } }
         private int GuidelinePercentage { get { return trackBar_objective.Value; } }
@@ -51,7 +52,9 @@ namespace EditorBuddyMonster
         {
             core = new Core(this, InnovationPercentage, GuidelinePercentage, UserPercentage, NumberMonsters, NumberItens, HordesPercentage);
 
-
+            notifyIcon = new NotifyIcon();
+            notifyIcon.Icon = SystemIcons.Information;
+            notifyIcon.Visible = true;
 
             //Solves flickering when redrawing gridPanel and triangle Panel
             typeof(Panel).InvokeMember("DoubleBuffered",
@@ -91,6 +94,7 @@ namespace EditorBuddyMonster
                 button_select.Enabled = true;
                 button_export.Enabled = true;
 
+                toggleSwitch_view.Enabled = true;
                 trackBar_history.Enabled = true;
             }));
         }
@@ -157,18 +161,7 @@ namespace EditorBuddyMonster
 
         private void selectProjectDirectoryToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var fd = new FolderBrowserDialog();
-            DialogResult dr = fd.ShowDialog();
-
-            if (dr == DialogResult.OK)
-            {
-                if (!core.LoadDirectory(fd.SelectedPath))
-                {
-                    Logger.AppendText(@"Directory is not valid. Please pick a project directory containing a "".dungeon_editor"" file");
-                }
-
-            }
-            else Logger.AppendText("Project directory not picked, please pick a LoG2 Project Directory");
+            LoadDirectory();
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -214,7 +207,10 @@ namespace EditorBuddyMonster
         private void gridPanel_MouseClick(object sender, MouseEventArgs e)
         {
             int durationMilliseconds = 10000;
-            toolTip_panel.Show(core.CurrentMap.getToolTipInfo(e.X, e.Y, gridPanel.Width, gridPanel.Height), gridPanel, e.X, e.Y, durationMilliseconds);
+            string tooltip = "";
+            if (!toggleSwitch_view.Checked) tooltip = core.OriginalMap.getToolTipInfo(e.X, e.Y, gridPanel.Width, gridPanel.Height);
+            else tooltip = core.CurrentMap.getToolTipInfo(e.X, e.Y, gridPanel.Width, gridPanel.Height);
+            toolTip_panel.Show(tooltip, gridPanel, e.X, e.Y, durationMilliseconds);
         }
 
         private void button_newRun_Click(object sender, EventArgs e)
@@ -271,7 +267,8 @@ namespace EditorBuddyMonster
         {
             if (RedrawMap)
             {
-                lastImage = core.CurrentMap.Draw(gridPanel.Width, gridPanel.Height);
+                if(!toggleSwitch_view.Checked) lastImage = core.OriginalMap.Draw(gridPanel.Width, gridPanel.Height);
+                else lastImage = core.CurrentMap.Draw(gridPanel.Width, gridPanel.Height);
 
                 RedrawMap = false;
             }
@@ -340,6 +337,25 @@ namespace EditorBuddyMonster
             }));
         }
 
+        internal void NotifyUser()
+        {
+            if (this.InvokeRequired)
+            {
+                Invoke((MethodInvoker)(() => {
+                    notifyIcon.BalloonTipTitle = "Suggestion";
+                    notifyIcon.BalloonTipText = "Hey! I just got a suggestion for you to check!";
+                    notifyIcon.ShowBalloonTip(30000);
+                })); //needed when calling the callback from a different thread
+            }
+            else
+            {
+                notifyIcon.BalloonTipTitle = "Suggestion";
+                notifyIcon.BalloonTipText = "Hey! I just got a suggestion for you to check!";
+                notifyIcon.ShowBalloonTip(30000);
+            }
+            
+        }
+
         private void Reset(object sender, ElapsedEventArgs e)
         {
             ResetProgress();
@@ -384,6 +400,41 @@ namespace EditorBuddyMonster
                 }
             }
             Redraw = false;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            LoadDirectory();
+        }
+
+        private void LoadDirectory()
+        {
+            var fd = new FolderBrowserDialog();
+            DialogResult dr = fd.ShowDialog();
+
+            if (dr == DialogResult.OK)
+            {
+                if (core.LoadDirectory(fd.SelectedPath))
+                {
+                    button_select_project.Enabled = false;
+                }
+                else
+                {
+                    Logger.AppendText(@"Directory is not valid. Please pick a project directory containing a "".dungeon_editor"" file");
+                }
+
+            }
+            else Logger.AppendText("Project directory not picked, please pick a LoG2 Project Directory");
+        }
+
+        private void toggleSwitch_view_CheckedChanged(object sender, EventArgs e)
+        {
+            ReDrawMap();
+        }
+
+        private void gridPanel_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }

@@ -54,7 +54,6 @@ namespace EditorBuddyMonster.Layers
             List<Cell> area3 = new List<Cell>();
             List<Cell> area4 = new List<Cell>();
             List<Cell> area5 = new List<Cell>();
-            List<Cell> area6 = new List<Cell>();
 
             //area1.Add(map.GetCellAt(20, 11));
             //area1.Add(map.GetCellAt(20, 12));
@@ -100,52 +99,51 @@ namespace EditorBuddyMonster.Layers
             area3.Add(map.GetCellAt(18, 20));
             area3.Add(map.GetCellAt(20, 20));
 
-            area4.Add(map.GetCellAt(20, 22));
-            area4.Add(map.GetCellAt(20, 21));
+            area3.Add(map.GetCellAt(20, 22));
+            area3.Add(map.GetCellAt(20, 21));
 
-            area5.Add(map.GetCellAt(13, 17));
-            area5.Add(map.GetCellAt(14, 17));
-            area5.Add(map.GetCellAt(13, 18));
-            area5.Add(map.GetCellAt(12, 19));
-            area5.Add(map.GetCellAt(13, 19));
-            area5.Add(map.GetCellAt(14, 19));
-            area5.Add(map.GetCellAt(11, 20));
-            area5.Add(map.GetCellAt(12, 20));
-            area5.Add(map.GetCellAt(14, 20));
-            area5.Add(map.GetCellAt(15, 20));
-            area5.Add(map.GetCellAt(12, 21));
-            area5.Add(map.GetCellAt(13, 21));
-            area5.Add(map.GetCellAt(14, 21));
-            area5.Add(map.GetCellAt(15, 21));
-            area5.Add(map.GetCellAt(13, 22));
-            area5.Add(map.GetCellAt(15, 22));
-            area5.Add(map.GetCellAt(13, 23));
-            area5.Add(map.GetCellAt(14, 23));
-            area5.Add(map.GetCellAt(15, 23));
+            area4.Add(map.GetCellAt(13, 17));
+            area4.Add(map.GetCellAt(14, 17));
+            area4.Add(map.GetCellAt(13, 18));
+            area4.Add(map.GetCellAt(12, 19));
+            area4.Add(map.GetCellAt(13, 19));
+            area4.Add(map.GetCellAt(14, 19));
+            area4.Add(map.GetCellAt(11, 20));
+            area4.Add(map.GetCellAt(12, 20));
+            area4.Add(map.GetCellAt(14, 20));
+            area4.Add(map.GetCellAt(15, 20));
+            area4.Add(map.GetCellAt(12, 21));
+            area4.Add(map.GetCellAt(13, 21));
+            area4.Add(map.GetCellAt(14, 21));
+            area4.Add(map.GetCellAt(15, 21));
+            area4.Add(map.GetCellAt(13, 22));
+            area4.Add(map.GetCellAt(15, 22));
+            area4.Add(map.GetCellAt(13, 23));
+            area4.Add(map.GetCellAt(14, 23));
+            area4.Add(map.GetCellAt(15, 23));
 
-            area6.Add(map.GetCellAt(6, 19));
-            area6.Add(map.GetCellAt(7, 19));
-            area6.Add(map.GetCellAt(8, 19));
-            area6.Add(map.GetCellAt(9, 19));
-            area6.Add(map.GetCellAt(10, 19));
+            area5.Add(map.GetCellAt(6, 19));
+            area5.Add(map.GetCellAt(7, 19));
+            area5.Add(map.GetCellAt(8, 19));
+            area5.Add(map.GetCellAt(9, 19));
+            area5.Add(map.GetCellAt(10, 19));
             //area6.Add(map.GetCellAt(5, 20));
-            area6.Add(map.GetCellAt(6, 20));
+            area5.Add(map.GetCellAt(6, 20));
             //area6.Add(map.GetCellAt(7, 20));
-            area6.Add(map.GetCellAt(8, 20));
-            area6.Add(map.GetCellAt(9, 20));
-            area6.Add(map.GetCellAt(10, 20));
-            area6.Add(map.GetCellAt(6, 21));
-            area6.Add(map.GetCellAt(7, 21));
-            area6.Add(map.GetCellAt(8, 21));
-            area6.Add(map.GetCellAt(9, 21));
-            area6.Add(map.GetCellAt(10, 21));
+            area5.Add(map.GetCellAt(8, 20));
+            area5.Add(map.GetCellAt(9, 20));
+            area5.Add(map.GetCellAt(10, 20));
+            area5.Add(map.GetCellAt(6, 21));
+            area5.Add(map.GetCellAt(7, 21));
+            area5.Add(map.GetCellAt(8, 21));
+            area5.Add(map.GetCellAt(9, 21));
+            area5.Add(map.GetCellAt(10, 21));
 
             AreaList.Add(new Area("Area 1", area1));
             AreaList.Add(new Area("Area 2", area2));
             AreaList.Add(new Area("Area 3", area3));
             AreaList.Add(new Area("Area 4", area4));
             AreaList.Add(new Area("Area 5", area5));
-            AreaList.Add(new Area("Area 6", area6));
 
             foreach (Area a in AreaList)
             {

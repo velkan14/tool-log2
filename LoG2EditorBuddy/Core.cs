@@ -25,7 +25,7 @@ namespace EditorBuddyMonster
         private GuidelinePool guidelineAlgorithm;
         private ConvergencePool convergenceAlgorithm;
         private MixPool mixAlgorithm;
-        
+
         private List<Map> suggestionsMap;
         bool validDirectory = false;
 
@@ -37,9 +37,9 @@ namespace EditorBuddyMonster
         public int IndexMap { get; set; }
 
         public bool HasMap { get { if (OriginalMap == null) return false; else return true; } }
-        public bool FileChanged { get; set; }
-        System.Timers.Timer timer;
 
+        System.Timers.Timer timer;
+        private bool suggestionOnTime;
 
         private int InnovationPercentage { get; set; }
         private int GuidelinePercentage { get; set; }
@@ -51,7 +51,7 @@ namespace EditorBuddyMonster
         public void NextMap()
         {
             IndexMap++;
-            if(IndexMap >= suggestionsMap.Count)
+            if (IndexMap >= suggestionsMap.Count)
             {
                 IndexMap--;
             }
@@ -60,7 +60,7 @@ namespace EditorBuddyMonster
         public void PreviousMap()
         {
             IndexMap--;
-            if(IndexMap < 0)
+            if (IndexMap < 0)
             {
                 IndexMap = 0;
             }
@@ -68,9 +68,9 @@ namespace EditorBuddyMonster
 
         private void AddSuggestion(Map map)
         {
-            if(suggestionsMap.Count > 3)
+            if (suggestionsMap.Count > 2)
             {
-                suggestionsMap.RemoveAt(1);
+                suggestionsMap.RemoveAt(0);
             }
             suggestionsMap.Add(map);
             IndexMap = suggestionsMap.Count - 1;
@@ -111,7 +111,7 @@ namespace EditorBuddyMonster
 
             hook = new Hook(this);
             fileWatcher = new FileWatcher(this);
-            timer = new System.Timers.Timer(1000 * 20);
+            timer = new System.Timers.Timer(1000 * 120);
 
             suggestionsMap = new List<Map>();
         }
@@ -147,13 +147,12 @@ namespace EditorBuddyMonster
             if (validDirectory)
             {
                 OriginalMap = APIClass.ParseMapFile();
-                FileChanged = false;
 
-
-                if (suggestionsMap.Count > 0) suggestionsMap[0] = OriginalMap;
-                else suggestionsMap.Add(OriginalMap);
-
-                IndexMap = suggestionsMap.Count - 1;
+                if (suggestionsMap.Count == 0)
+                {
+                    suggestionsMap.Add(OriginalMap);
+                    IndexMap = suggestionsMap.Count - 1;
+                }
 
                 monsters.MapLoaded();
                 monsters.UpdateTrackHistory();
@@ -163,25 +162,23 @@ namespace EditorBuddyMonster
 
                 if (!timer.Enabled)
                 {
-                    
+
                     timer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
                     timer.Enabled = true;
                     timer.AutoReset = true;
                     Console.WriteLine("Timer set");
                 }
-                
+
             }
         }
 
         private void OnTimedEvent(object sender, ElapsedEventArgs e)
         {
             Console.WriteLine("Timer event");
-            if (FileChanged)
-            {
-                Console.WriteLine("Map Loaded");
-                LoadMapFromFile();
-            }
-            //NewSuggestion(InnovationPercentage, GuidelinePercentage, UserPercentage, NumberMonsters, NumberItens, HordesPercentage);
+
+            NewSuggestion(InnovationPercentage, GuidelinePercentage, UserPercentage, NumberMonsters, NumberItens, HordesPercentage);
+
+            suggestionOnTime = true;
         }
 
         /***********************************************************************************/
@@ -192,7 +189,7 @@ namespace EditorBuddyMonster
 
             algorithmRunning = true;
 
-            if(innovationAlgorithm != null && innovationAlgorithm.HasSolution)
+            if (innovationAlgorithm != null && innovationAlgorithm.HasSolution)
             {
                 innovationAlgorithm = new InnovationPool(monsters, OriginalMap, callback, innovationAlgorithm.Solution);
             }
@@ -200,8 +197,8 @@ namespace EditorBuddyMonster
             {
                 innovationAlgorithm = new InnovationPool(monsters, OriginalMap, callback);
             }
-            
-            if(guidelineAlgorithm != null && guidelineAlgorithm.HasSolution)
+
+            if (guidelineAlgorithm != null && guidelineAlgorithm.HasSolution)
             {
                 guidelineAlgorithm = new GuidelinePool(monsters, OriginalMap, callback, monsters.AreasManager, numberMonsters, numberItens, hordesPercentage / 100.0, guidelineAlgorithm.Solution);
             }
@@ -209,15 +206,16 @@ namespace EditorBuddyMonster
             {
                 guidelineAlgorithm = new GuidelinePool(monsters, OriginalMap, callback, monsters.AreasManager, numberMonsters, numberItens, hordesPercentage / 100.0);
             }
-            
-            if(convergenceAlgorithm != null && convergenceAlgorithm.HasSolution)
+
+            if (convergenceAlgorithm != null && convergenceAlgorithm.HasSolution)
             {
                 convergenceAlgorithm = new ConvergencePool(monsters, OriginalMap, callback, convergenceAlgorithm.Solution);
-            } else
+            }
+            else
             {
                 convergenceAlgorithm = new ConvergencePool(monsters, OriginalMap, callback);
             }
-            
+
             mixAlgorithm = new MixPool(monsters, OriginalMap, new AlgorithmRunComplete(MixRunCompleteCallback))
             {
                 MaxMonsters = numberMonsters,
@@ -246,15 +244,15 @@ namespace EditorBuddyMonster
 
         void AlgorithmRunCompleteCallback()
         {
-            if(innovationAlgorithm.HasSolution && convergenceAlgorithm.HasSolution && guidelineAlgorithm.HasSolution)
+            if (innovationAlgorithm.HasSolution && convergenceAlgorithm.HasSolution && guidelineAlgorithm.HasSolution)
             {
                 var conv = convergenceAlgorithm.Solution.GetTop(1)[0];
                 var inno = innovationAlgorithm.Solution.GetTop(1)[0];
                 var obj = guidelineAlgorithm.Solution.GetTop(1)[0];
 
-                Logger.AppendText("Innovation: " + inno.Fitness);
-                Logger.AppendText("Convergence: " + conv.Fitness);
-                Logger.AppendText("Objective: " + obj.Fitness);
+                //Logger.AppendText("Innovation: " + inno.Fitness);
+                //Logger.AppendText("Convergence: " + conv.Fitness);
+                //Logger.AppendText("Objective: " + obj.Fitness);
 
                 //suggestionsMap.Add(ChromosomeUtils.MapFromChromosome(OriginalMap, inno));
                 //suggestionsMap.Add(ChromosomeUtils.MapFromChromosome(OriginalMap, conv));
@@ -283,6 +281,8 @@ namespace EditorBuddyMonster
             AddSuggestion(ChromosomeUtils.MapFromChromosome(OriginalMap, c));
 
             algorithmRunning = false;
+
+            if (suggestionOnTime) monsters.NotifyUser();
         }
 
         internal void ReloadLOG()

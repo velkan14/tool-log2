@@ -69,7 +69,6 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.selectProjectDirectoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.uISettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.creditsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
@@ -86,10 +85,11 @@
             this.dataGridViewButtonColumn1 = new System.Windows.Forms.DataGridViewButtonColumn();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.toolTip_Parameters = new System.Windows.Forms.ToolTip(this.components);
-            this.label9 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
             this.timer_redraw = new System.Windows.Forms.Timer(this.components);
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.toggleSwitch_view = new JCS.ToggleSwitch();
+            this.button_select_project = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_innovation)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_userplacement)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_objective)).BeginInit();
@@ -194,7 +194,7 @@
             this.groupBox_mainsliders.Controls.Add(this.label_userplacement);
             this.groupBox_mainsliders.Controls.Add(this.trackBar_innovation);
             this.groupBox_mainsliders.Controls.Add(this.trackBar_userplacement);
-            this.groupBox_mainsliders.Location = new System.Drawing.Point(12, 36);
+            this.groupBox_mainsliders.Location = new System.Drawing.Point(12, 65);
             this.groupBox_mainsliders.Name = "groupBox_mainsliders";
             this.groupBox_mainsliders.Size = new System.Drawing.Size(310, 173);
             this.groupBox_mainsliders.TabIndex = 6;
@@ -294,7 +294,7 @@
             this.groupBox_objectives.Controls.Add(this.trackBar_hordes);
             this.groupBox_objectives.Controls.Add(this.label_hordes);
             this.groupBox_objectives.Controls.Add(this.label_maxmonsters);
-            this.groupBox_objectives.Location = new System.Drawing.Point(12, 215);
+            this.groupBox_objectives.Location = new System.Drawing.Point(12, 244);
             this.groupBox_objectives.Name = "groupBox_objectives";
             this.groupBox_objectives.Size = new System.Drawing.Size(310, 130);
             this.groupBox_objectives.TabIndex = 7;
@@ -417,12 +417,13 @@
             this.gridPanel.Name = "gridPanel";
             this.gridPanel.Size = new System.Drawing.Size(641, 641);
             this.gridPanel.TabIndex = 9;
+            this.gridPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.gridPanel_Paint);
             this.gridPanel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.gridPanel_MouseClick);
             // 
             // button_next
             // 
             this.button_next.Enabled = false;
-            this.button_next.Location = new System.Drawing.Point(103, 89);
+            this.button_next.Location = new System.Drawing.Point(103, 112);
             this.button_next.Name = "button_next";
             this.button_next.Size = new System.Drawing.Size(75, 23);
             this.button_next.TabIndex = 10;
@@ -433,7 +434,7 @@
             // button_previous
             // 
             this.button_previous.Enabled = false;
-            this.button_previous.Location = new System.Drawing.Point(6, 89);
+            this.button_previous.Location = new System.Drawing.Point(6, 112);
             this.button_previous.Name = "button_previous";
             this.button_previous.Size = new System.Drawing.Size(75, 23);
             this.button_previous.TabIndex = 11;
@@ -501,7 +502,6 @@
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
-            this.uISettingsToolStripMenuItem,
             this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -532,12 +532,6 @@
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
-            // uISettingsToolStripMenuItem
-            // 
-            this.uISettingsToolStripMenuItem.Name = "uISettingsToolStripMenuItem";
-            this.uISettingsToolStripMenuItem.Size = new System.Drawing.Size(75, 20);
-            this.uISettingsToolStripMenuItem.Text = "UI Settings";
-            // 
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -562,7 +556,7 @@
             // button_newSuggestion
             // 
             this.button_newSuggestion.Enabled = false;
-            this.button_newSuggestion.Location = new System.Drawing.Point(6, 118);
+            this.button_newSuggestion.Location = new System.Drawing.Point(6, 141);
             this.button_newSuggestion.Name = "button_newSuggestion";
             this.button_newSuggestion.Size = new System.Drawing.Size(171, 23);
             this.button_newSuggestion.TabIndex = 18;
@@ -573,7 +567,7 @@
             // trackBar_history
             // 
             this.trackBar_history.Enabled = false;
-            this.trackBar_history.Location = new System.Drawing.Point(7, 32);
+            this.trackBar_history.Location = new System.Drawing.Point(7, 61);
             this.trackBar_history.Maximum = 1;
             this.trackBar_history.Name = "trackBar_history";
             this.trackBar_history.Size = new System.Drawing.Size(171, 45);
@@ -591,7 +585,7 @@
             this.difficultyDataGridViewTextBoxColumn,
             this.itemAccessibilityDataGridViewTextBoxColumn});
             this.dataGridView.DataSource = this.areaBindingSource;
-            this.dataGridView.Location = new System.Drawing.Point(12, 351);
+            this.dataGridView.Location = new System.Drawing.Point(12, 380);
             this.dataGridView.Name = "dataGridView";
             this.dataGridView.Size = new System.Drawing.Size(310, 284);
             this.dataGridView.TabIndex = 20;
@@ -650,29 +644,10 @@
             // 
             // progressBar1
             // 
-            this.progressBar1.Location = new System.Drawing.Point(6, 147);
+            this.progressBar1.Location = new System.Drawing.Point(6, 170);
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(171, 15);
             this.progressBar1.TabIndex = 21;
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(6, 64);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(29, 13);
-            this.label9.TabIndex = 22;
-            this.label9.Text = "User";
-            this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(150, 64);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(27, 13);
-            this.label10.TabIndex = 23;
-            this.label10.Text = "Last";
             // 
             // timer_redraw
             // 
@@ -681,25 +656,63 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.button_newSuggestion);
-            this.groupBox1.Controls.Add(this.label10);
-            this.groupBox1.Controls.Add(this.button_next);
             this.groupBox1.Controls.Add(this.label9);
+            this.groupBox1.Controls.Add(this.toggleSwitch_view);
+            this.groupBox1.Controls.Add(this.button_newSuggestion);
+            this.groupBox1.Controls.Add(this.button_next);
             this.groupBox1.Controls.Add(this.button_previous);
             this.groupBox1.Controls.Add(this.progressBar1);
             this.groupBox1.Controls.Add(this.trackBar_history);
             this.groupBox1.Location = new System.Drawing.Point(975, 126);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(183, 178);
+            this.groupBox1.Size = new System.Drawing.Size(183, 207);
             this.groupBox1.TabIndex = 24;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Suggestions";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(6, 27);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(91, 13);
+            this.label9.TabIndex = 29;
+            this.label9.Text = "View Suggestions";
+            // 
+            // toggleSwitch_view
+            // 
+            this.toggleSwitch_view.Enabled = false;
+            this.toggleSwitch_view.Location = new System.Drawing.Point(127, 24);
+            this.toggleSwitch_view.Name = "toggleSwitch_view";
+            this.toggleSwitch_view.OffFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.toggleSwitch_view.OffForeColor = System.Drawing.Color.White;
+            this.toggleSwitch_view.OffSideAlignment = JCS.ToggleSwitch.ToggleSwitchAlignment.Far;
+            this.toggleSwitch_view.OffText = "Off";
+            this.toggleSwitch_view.OnFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.toggleSwitch_view.OnForeColor = System.Drawing.Color.White;
+            this.toggleSwitch_view.OnSideAlignment = JCS.ToggleSwitch.ToggleSwitchAlignment.Near;
+            this.toggleSwitch_view.OnText = "On";
+            this.toggleSwitch_view.Size = new System.Drawing.Size(50, 19);
+            this.toggleSwitch_view.Style = JCS.ToggleSwitch.ToggleSwitchStyle.Carbon;
+            this.toggleSwitch_view.TabIndex = 28;
+            this.toggleSwitch_view.CheckedChanged += new JCS.ToggleSwitch.CheckedChangedDelegate(this.toggleSwitch_view_CheckedChanged);
+            // 
+            // button_select_project
+            // 
+            this.button_select_project.Location = new System.Drawing.Point(12, 36);
+            this.button_select_project.Name = "button_select_project";
+            this.button_select_project.Size = new System.Drawing.Size(113, 23);
+            this.button_select_project.TabIndex = 25;
+            this.button_select_project.Text = "Select Project";
+            this.button_select_project.UseVisualStyleBackColor = true;
+            this.button_select_project.Click += new System.EventHandler(this.button1_Click);
             // 
             // Monsters
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1165, 685);
+            this.Controls.Add(this.button_select_project);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.dataGridView);
             this.Controls.Add(this.textBox_logger);
@@ -711,7 +724,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Monsters";
-            this.Text = "Monsters Placement Prototype";
+            this.Text = "Povoater";
             this.Load += new System.EventHandler(this.Monsters_Load);
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_innovation)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_userplacement)).EndInit();
@@ -762,7 +775,6 @@
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem selectProjectDirectoryToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem uISettingsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem creditsToolStripMenuItem;
         private System.Windows.Forms.ImageList imageList1;
@@ -796,9 +808,10 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn nameDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewComboBoxColumn difficultyDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewComboBoxColumn itemAccessibilityDataGridViewTextBoxColumn;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Timer timer_redraw;
         private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Button button_select_project;
+        private JCS.ToggleSwitch toggleSwitch_view;
+        private System.Windows.Forms.Label label9;
     }
 }
