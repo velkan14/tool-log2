@@ -25,7 +25,6 @@ namespace EditorBuddyMonster
 {
     public partial class Monsters : Form
     {
-        private Draw drawer;
         private Core core;
         public UserSelection USelection { get; private set; }
         public AreaManager AreasManager { get; private set; }
@@ -33,9 +32,67 @@ namespace EditorBuddyMonster
 
         NotifyIcon notifyIcon;
 
-        private int InnovationPercentage { get { return trackBar_innovation.Value; } }
-        private int GuidelinePercentage { get { return trackBar_objective.Value; } }
-        private int UserPercentage { get { return trackBar_userplacement.Value; } }
+        private bool AdvanceMode { get { return toggleSwitch_advanceMode.Checked; } }
+
+        private int InnovationPercentage {
+            get {
+                if (AdvanceMode)
+                {
+                    return trackBar_innovation.Value;
+                }
+                else
+                {
+                    if (toggleSwitch_innovation.Checked)
+                    {
+                        return 100;
+                    }
+                    else
+                    {
+                        return 0;
+                    }
+                }
+            }
+        }
+        private int GuidelinePercentage {
+            get
+            {
+                if (AdvanceMode)
+                {
+                    return trackBar_objective.Value;
+                }
+                else
+                {
+                    if (toggleSwitch_objective.Checked)
+                    {
+                        return 100;
+                    }
+                    else
+                    {
+                        return 0;
+                    }
+                }
+            }
+        }
+        private int UserPercentage {
+            get
+            {
+                if (AdvanceMode)
+                {
+                    return trackBar_userplacement.Value;
+                }
+                else
+                {
+                    if (toggleSwitch_userplacement.Checked)
+                    {
+                        return 100;
+                    }
+                    else
+                    {
+                        return 0;
+                    }
+                }
+            }
+        }
         private int NumberMonsters { get { return Convert.ToInt32(numericUpDown_maxmonsters.Value); } }
         private int NumberItens { get { return Convert.ToInt32(numericUpDown_numberItens.Value); } }
         private int HordesPercentage { get { return trackBar_hordes.Value; } }
@@ -61,22 +118,21 @@ namespace EditorBuddyMonster
             BindingFlags.SetProperty | BindingFlags.Instance | BindingFlags.NonPublic,
             null, gridPanel, new object[] { true });
 
-
-            drawer = new Draw(gridPanel);
+            Redraw = false;
 
             Logger.EntryWritten += Logger_EntryWritten;
 
             difficultyDataGridViewTextBoxColumn.DataSource = Enum.GetValues(typeof(RoomDifficulty));
             itemAccessibilityDataGridViewTextBoxColumn.DataSource = Enum.GetValues(typeof(ItemAccessibility));
 
-            
+            toggleSwitch1_CheckedChanged(null, null);
         }
 
         public void MapLoaded()
         {
             USelection = new UserSelection(this, core, gridPanel);
 
-            AreasManager = new AreaManager(core.OriginalMap, gridPanel);
+            if(AreasManager == null) AreasManager = new AreaManager(core.OriginalMap, gridPanel);
 
             Invoke((MethodInvoker)(() =>
             {
@@ -342,14 +398,14 @@ namespace EditorBuddyMonster
             if (this.InvokeRequired)
             {
                 Invoke((MethodInvoker)(() => {
-                    notifyIcon.BalloonTipTitle = "Suggestion";
-                    notifyIcon.BalloonTipText = "Hey! I just got a suggestion for you to check!";
+                    notifyIcon.BalloonTipTitle = "Povoater";
+                    notifyIcon.BalloonTipText = "Hey! I just got a suggestion for you to check! If you don't like it, you can try to configure me.";
                     notifyIcon.ShowBalloonTip(30000);
                 })); //needed when calling the callback from a different thread
             }
             else
             {
-                notifyIcon.BalloonTipTitle = "Suggestion";
+                notifyIcon.BalloonTipTitle = "Povoater";
                 notifyIcon.BalloonTipText = "Hey! I just got a suggestion for you to check!";
                 notifyIcon.ShowBalloonTip(30000);
             }
@@ -429,11 +485,55 @@ namespace EditorBuddyMonster
 
         private void toggleSwitch_view_CheckedChanged(object sender, EventArgs e)
         {
-            ReDrawMap();
+            if (toggleSwitch_view.Enabled)
+            {
+                ReDrawMap();
+            }
         }
 
-        private void gridPanel_Paint(object sender, PaintEventArgs e)
+        private void toggleSwitch1_CheckedChanged(object sender, EventArgs e)
         {
+            if (toggleSwitch_advanceMode.Checked)
+            {
+                trackBar_userplacement.Visible = true;
+                trackBar_objective.Visible = true;
+                trackBar_innovation.Visible = true;
+                toggleSwitch_userplacement.Visible = false;
+                toggleSwitch_objective.Visible = false;
+                toggleSwitch_innovation.Visible = false;
+                label_on1.Visible = true;
+                label_on2.Visible = true;
+                label_on3.Visible = true;
+                label_off1.Visible = true;
+                label_off2.Visible = true;
+                label_off3.Visible = true;
+            }
+            else
+            {
+                trackBar_userplacement.Visible = false;
+                trackBar_objective.Visible = false;
+                trackBar_innovation.Visible = false;
+                toggleSwitch_userplacement.Visible = true;
+                toggleSwitch_objective.Visible = true;
+                toggleSwitch_innovation.Visible = true;
+                label_on1.Visible = false;
+                label_on2.Visible = false;
+                label_on3.Visible = false;
+                label_off1.Visible = false;
+                label_off2.Visible = false;
+                label_off3.Visible = false;
+            }
+        }
+
+        private void updateCore(object sender, EventArgs e)
+        {
+            core.InnovationPercentage = InnovationPercentage;
+            core.GuidelinePercentage = GuidelinePercentage;
+            core.UserPercentage = UserPercentage;
+
+            core.NumberItens = NumberItens;
+            core.NumberMonsters = NumberMonsters;
+            core.HordesPercentage = HordesPercentage;
 
         }
     }

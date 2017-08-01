@@ -41,12 +41,12 @@ namespace EditorBuddyMonster
         System.Timers.Timer timer;
         private bool suggestionOnTime;
 
-        private int InnovationPercentage { get; set; }
-        private int GuidelinePercentage { get; set; }
-        private int UserPercentage { get; set; }
-        private int NumberMonsters { get; set; }
-        private int NumberItens { get; set; }
-        private int HordesPercentage { get; set; }
+        public int InnovationPercentage { get; set; }
+        public int GuidelinePercentage { get; set; }
+        public int UserPercentage { get; set; }
+        public int NumberMonsters { get; set; }
+        public int NumberItens { get; set; }
+        public int HordesPercentage { get; set; }
 
         public void NextMap()
         {
@@ -80,13 +80,6 @@ namespace EditorBuddyMonster
 
         internal void NewSuggestion(int innovationPercentage, int guidelinePercentage, int userPercentage, int numberMonsters, int numberItens, int hordesPercentage)
         {
-            InnovationPercentage = innovationPercentage;
-            GuidelinePercentage = guidelinePercentage;
-            UserPercentage = userPercentage;
-            NumberMonsters = numberMonsters;
-            NumberItens = numberItens;
-            HordesPercentage = hordesPercentage;
-
             if (algorithmRunning)
                 return;
 
@@ -96,6 +89,7 @@ namespace EditorBuddyMonster
                 return;
             }
 
+            timer.Stop();
             RunAlgorithm(innovationPercentage, guidelinePercentage, userPercentage, numberMonsters, numberItens, hordesPercentage);
         }
 
@@ -282,7 +276,13 @@ namespace EditorBuddyMonster
 
             algorithmRunning = false;
 
-            if (suggestionOnTime) monsters.NotifyUser();
+            if (suggestionOnTime)
+            {
+                monsters.NotifyUser();
+                suggestionOnTime = false;
+            }
+            
+            timer.Start();
         }
 
         internal void ReloadLOG()

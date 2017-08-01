@@ -37,15 +37,15 @@
             this.trackBar_userplacement = new System.Windows.Forms.TrackBar();
             this.trackBar_objective = new System.Windows.Forms.TrackBar();
             this.groupBox_mainsliders = new System.Windows.Forms.GroupBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label_on = new System.Windows.Forms.Label();
+            this.toggleSwitch_objective = new JCS.ToggleSwitch();
+            this.toggleSwitch_userplacement = new JCS.ToggleSwitch();
+            this.toggleSwitch_innovation = new JCS.ToggleSwitch();
+            this.label_off3 = new System.Windows.Forms.Label();
+            this.label_on3 = new System.Windows.Forms.Label();
+            this.label_off2 = new System.Windows.Forms.Label();
+            this.label_on2 = new System.Windows.Forms.Label();
+            this.label_off1 = new System.Windows.Forms.Label();
+            this.label_on1 = new System.Windows.Forms.Label();
             this.groupBox_objectives = new System.Windows.Forms.GroupBox();
             this.label_high = new System.Windows.Forms.Label();
             this.label_medium = new System.Windows.Forms.Label();
@@ -90,6 +90,8 @@
             this.label9 = new System.Windows.Forms.Label();
             this.toggleSwitch_view = new JCS.ToggleSwitch();
             this.button_select_project = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
+            this.toggleSwitch_advanceMode = new JCS.ToggleSwitch();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_innovation)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_userplacement)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_objective)).BeginInit();
@@ -109,7 +111,7 @@
             // label_innovation
             // 
             this.label_innovation.AutoSize = true;
-            this.label_innovation.Location = new System.Drawing.Point(11, 31);
+            this.label_innovation.Location = new System.Drawing.Point(11, 21);
             this.label_innovation.Name = "label_innovation";
             this.label_innovation.Size = new System.Drawing.Size(57, 13);
             this.label_innovation.TabIndex = 0;
@@ -118,7 +120,7 @@
             // label_userplacement
             // 
             this.label_userplacement.AutoSize = true;
-            this.label_userplacement.Location = new System.Drawing.Point(113, 31);
+            this.label_userplacement.Location = new System.Drawing.Point(113, 21);
             this.label_userplacement.Name = "label_userplacement";
             this.label_userplacement.Size = new System.Drawing.Size(82, 13);
             this.label_userplacement.TabIndex = 1;
@@ -127,7 +129,7 @@
             // label_objective
             // 
             this.label_objective.AutoSize = true;
-            this.label_objective.Location = new System.Drawing.Point(220, 31);
+            this.label_objective.Location = new System.Drawing.Point(231, 21);
             this.label_objective.Name = "label_objective";
             this.label_objective.Size = new System.Drawing.Size(52, 13);
             this.label_objective.TabIndex = 2;
@@ -148,11 +150,11 @@
             this.toolTip_Parameters.SetToolTip(this.trackBar_innovation, "Innovation: a pool that gives suggestions with different positions and types of m" +
         "onsters.");
             this.trackBar_innovation.Value = 100;
-            this.trackBar_innovation.ValueChanged += new System.EventHandler(this.SnapTick_ValueChanged);
+            this.trackBar_innovation.ValueChanged += new System.EventHandler(this.updateCore);
             // 
             // trackBar_userplacement
             // 
-            this.trackBar_userplacement.Location = new System.Drawing.Point(116, 47);
+            this.trackBar_userplacement.Location = new System.Drawing.Point(135, 47);
             this.trackBar_userplacement.Maximum = 100;
             this.trackBar_userplacement.Name = "trackBar_userplacement";
             this.trackBar_userplacement.Orientation = System.Windows.Forms.Orientation.Vertical;
@@ -161,11 +163,11 @@
             this.trackBar_userplacement.TickFrequency = 50;
             this.toolTip_Parameters.SetToolTip(this.trackBar_userplacement, "User placement pool gives suggestions that are closer with the base suggestion.");
             this.trackBar_userplacement.Value = 100;
-            this.trackBar_userplacement.ValueChanged += new System.EventHandler(this.SnapTick_ValueChanged);
+            this.trackBar_userplacement.ValueChanged += new System.EventHandler(this.updateCore);
             // 
             // trackBar_objective
             // 
-            this.trackBar_objective.Location = new System.Drawing.Point(223, 47);
+            this.trackBar_objective.Location = new System.Drawing.Point(234, 47);
             this.trackBar_objective.Maximum = 100;
             this.trackBar_objective.Name = "trackBar_objective";
             this.trackBar_objective.Orientation = System.Windows.Forms.Orientation.Vertical;
@@ -175,26 +177,26 @@
             this.toolTip_Parameters.SetToolTip(this.trackBar_objective, "Objective is a pool that gives suggestions based on the Objective Paramenters inf" +
         "ormation.");
             this.trackBar_objective.Value = 100;
-            this.trackBar_objective.ValueChanged += new System.EventHandler(this.SnapTick_ValueChanged);
+            this.trackBar_objective.ValueChanged += new System.EventHandler(this.updateCore);
             // 
             // groupBox_mainsliders
             // 
-            this.groupBox_mainsliders.Controls.Add(this.label6);
-            this.groupBox_mainsliders.Controls.Add(this.label7);
-            this.groupBox_mainsliders.Controls.Add(this.label8);
-            this.groupBox_mainsliders.Controls.Add(this.label3);
-            this.groupBox_mainsliders.Controls.Add(this.label4);
-            this.groupBox_mainsliders.Controls.Add(this.label5);
-            this.groupBox_mainsliders.Controls.Add(this.label2);
-            this.groupBox_mainsliders.Controls.Add(this.label1);
-            this.groupBox_mainsliders.Controls.Add(this.label_on);
+            this.groupBox_mainsliders.Controls.Add(this.toggleSwitch_objective);
+            this.groupBox_mainsliders.Controls.Add(this.toggleSwitch_userplacement);
+            this.groupBox_mainsliders.Controls.Add(this.toggleSwitch_innovation);
+            this.groupBox_mainsliders.Controls.Add(this.label_off3);
+            this.groupBox_mainsliders.Controls.Add(this.label_on3);
+            this.groupBox_mainsliders.Controls.Add(this.label_off2);
+            this.groupBox_mainsliders.Controls.Add(this.label_on2);
+            this.groupBox_mainsliders.Controls.Add(this.label_off1);
+            this.groupBox_mainsliders.Controls.Add(this.label_on1);
             this.groupBox_mainsliders.Controls.Add(this.label_innovation);
             this.groupBox_mainsliders.Controls.Add(this.label_objective);
             this.groupBox_mainsliders.Controls.Add(this.trackBar_objective);
             this.groupBox_mainsliders.Controls.Add(this.label_userplacement);
             this.groupBox_mainsliders.Controls.Add(this.trackBar_innovation);
             this.groupBox_mainsliders.Controls.Add(this.trackBar_userplacement);
-            this.groupBox_mainsliders.Location = new System.Drawing.Point(12, 65);
+            this.groupBox_mainsliders.Location = new System.Drawing.Point(12, 105);
             this.groupBox_mainsliders.Name = "groupBox_mainsliders";
             this.groupBox_mainsliders.Size = new System.Drawing.Size(310, 173);
             this.groupBox_mainsliders.TabIndex = 6;
@@ -202,86 +204,95 @@
             this.groupBox_mainsliders.Text = "Algorithm Behaviour";
             this.toolTip_Parameters.SetToolTip(this.groupBox_mainsliders, "Defines the percentage usage of each pool when generating the final suggestion.");
             // 
-            // label6
+            // toggleSwitch_objective
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(254, 100);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(44, 13);
-            this.label6.TabIndex = 14;
-            this.label6.Text = "Medium";
+            this.toggleSwitch_objective.Checked = true;
+            this.toggleSwitch_objective.Location = new System.Drawing.Point(227, 60);
+            this.toggleSwitch_objective.Name = "toggleSwitch_objective";
+            this.toggleSwitch_objective.OffFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.toggleSwitch_objective.OnFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.toggleSwitch_objective.Size = new System.Drawing.Size(70, 29);
+            this.toggleSwitch_objective.Style = JCS.ToggleSwitch.ToggleSwitchStyle.Fancy;
+            this.toggleSwitch_objective.TabIndex = 16;
+            this.toggleSwitch_objective.CheckedChanged += new JCS.ToggleSwitch.CheckedChangedDelegate(this.updateCore);
             // 
-            // label7
+            // toggleSwitch_userplacement
             // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(254, 145);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(21, 13);
-            this.label7.TabIndex = 13;
-            this.label7.Text = "Off";
+            this.toggleSwitch_userplacement.Checked = true;
+            this.toggleSwitch_userplacement.Location = new System.Drawing.Point(118, 60);
+            this.toggleSwitch_userplacement.Name = "toggleSwitch_userplacement";
+            this.toggleSwitch_userplacement.OffFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.toggleSwitch_userplacement.OnFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.toggleSwitch_userplacement.Size = new System.Drawing.Size(70, 29);
+            this.toggleSwitch_userplacement.Style = JCS.ToggleSwitch.ToggleSwitchStyle.Fancy;
+            this.toggleSwitch_userplacement.TabIndex = 15;
+            this.toggleSwitch_userplacement.CheckedChanged += new JCS.ToggleSwitch.CheckedChangedDelegate(this.updateCore);
             // 
-            // label8
+            // toggleSwitch_innovation
             // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(254, 54);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(29, 13);
-            this.label8.TabIndex = 12;
-            this.label8.Text = "High";
+            this.toggleSwitch_innovation.Checked = true;
+            this.toggleSwitch_innovation.Location = new System.Drawing.Point(6, 60);
+            this.toggleSwitch_innovation.Name = "toggleSwitch_innovation";
+            this.toggleSwitch_innovation.OffFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.toggleSwitch_innovation.OnFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.toggleSwitch_innovation.Size = new System.Drawing.Size(70, 29);
+            this.toggleSwitch_innovation.Style = JCS.ToggleSwitch.ToggleSwitchStyle.Fancy;
+            this.toggleSwitch_innovation.TabIndex = 14;
+            this.toggleSwitch_innovation.CheckedChanged += new JCS.ToggleSwitch.CheckedChangedDelegate(this.updateCore);
             // 
-            // label3
+            // label_off3
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(148, 100);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(44, 13);
-            this.label3.TabIndex = 11;
-            this.label3.Text = "Medium";
+            this.label_off3.AutoSize = true;
+            this.label_off3.Location = new System.Drawing.Point(268, 145);
+            this.label_off3.Name = "label_off3";
+            this.label_off3.Size = new System.Drawing.Size(21, 13);
+            this.label_off3.TabIndex = 13;
+            this.label_off3.Text = "Off";
             // 
-            // label4
+            // label_on3
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(148, 145);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(21, 13);
-            this.label4.TabIndex = 10;
-            this.label4.Text = "Off";
+            this.label_on3.AutoSize = true;
+            this.label_on3.Location = new System.Drawing.Point(260, 54);
+            this.label_on3.Name = "label_on3";
+            this.label_on3.Size = new System.Drawing.Size(29, 13);
+            this.label_on3.TabIndex = 12;
+            this.label_on3.Text = "High";
             // 
-            // label5
+            // label_off2
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(148, 54);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(29, 13);
-            this.label5.TabIndex = 9;
-            this.label5.Text = "High";
+            this.label_off2.AutoSize = true;
+            this.label_off2.Location = new System.Drawing.Point(167, 145);
+            this.label_off2.Name = "label_off2";
+            this.label_off2.Size = new System.Drawing.Size(21, 13);
+            this.label_off2.TabIndex = 10;
+            this.label_off2.Text = "Off";
             // 
-            // label2
+            // label_on2
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(41, 100);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(44, 13);
-            this.label2.TabIndex = 8;
-            this.label2.Text = "Medium";
+            this.label_on2.AutoSize = true;
+            this.label_on2.Location = new System.Drawing.Point(159, 54);
+            this.label_on2.Name = "label_on2";
+            this.label_on2.Size = new System.Drawing.Size(29, 13);
+            this.label_on2.TabIndex = 9;
+            this.label_on2.Text = "High";
             // 
-            // label1
+            // label_off1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(41, 145);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(21, 13);
-            this.label1.TabIndex = 7;
-            this.label1.Text = "Off";
+            this.label_off1.AutoSize = true;
+            this.label_off1.Location = new System.Drawing.Point(41, 145);
+            this.label_off1.Name = "label_off1";
+            this.label_off1.Size = new System.Drawing.Size(21, 13);
+            this.label_off1.TabIndex = 7;
+            this.label_off1.Text = "Off";
             // 
-            // label_on
+            // label_on1
             // 
-            this.label_on.AutoSize = true;
-            this.label_on.Location = new System.Drawing.Point(41, 54);
-            this.label_on.Name = "label_on";
-            this.label_on.Size = new System.Drawing.Size(29, 13);
-            this.label_on.TabIndex = 6;
-            this.label_on.Text = "High";
+            this.label_on1.AutoSize = true;
+            this.label_on1.Location = new System.Drawing.Point(41, 54);
+            this.label_on1.Name = "label_on1";
+            this.label_on1.Size = new System.Drawing.Size(29, 13);
+            this.label_on1.TabIndex = 6;
+            this.label_on1.Text = "High";
             // 
             // groupBox_objectives
             // 
@@ -294,7 +305,7 @@
             this.groupBox_objectives.Controls.Add(this.trackBar_hordes);
             this.groupBox_objectives.Controls.Add(this.label_hordes);
             this.groupBox_objectives.Controls.Add(this.label_maxmonsters);
-            this.groupBox_objectives.Location = new System.Drawing.Point(12, 244);
+            this.groupBox_objectives.Location = new System.Drawing.Point(12, 284);
             this.groupBox_objectives.Name = "groupBox_objectives";
             this.groupBox_objectives.Size = new System.Drawing.Size(310, 130);
             this.groupBox_objectives.TabIndex = 7;
@@ -342,6 +353,7 @@
             0,
             0,
             0});
+            this.numericUpDown_numberItens.ValueChanged += new System.EventHandler(this.updateCore);
             // 
             // label_maxitens
             // 
@@ -365,6 +377,7 @@
             0,
             0,
             0});
+            this.numericUpDown_maxmonsters.ValueChanged += new System.EventHandler(this.updateCore);
             // 
             // trackBar_hordes
             // 
@@ -377,7 +390,7 @@
             this.toolTip_panel.SetToolTip(this.trackBar_hordes, "Defines the ideal percentage of hordes that the suggestions should have. Hordes a" +
         "re monsters that spaw close to each other.");
             this.trackBar_hordes.Value = 50;
-            this.trackBar_hordes.ValueChanged += new System.EventHandler(this.SnapTick_ValueChanged);
+            this.trackBar_hordes.ValueChanged += new System.EventHandler(this.updateCore);
             // 
             // label_hordes
             // 
@@ -417,7 +430,6 @@
             this.gridPanel.Name = "gridPanel";
             this.gridPanel.Size = new System.Drawing.Size(641, 641);
             this.gridPanel.TabIndex = 9;
-            this.gridPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.gridPanel_Paint);
             this.gridPanel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.gridPanel_MouseClick);
             // 
             // button_next
@@ -585,9 +597,9 @@
             this.difficultyDataGridViewTextBoxColumn,
             this.itemAccessibilityDataGridViewTextBoxColumn});
             this.dataGridView.DataSource = this.areaBindingSource;
-            this.dataGridView.Location = new System.Drawing.Point(12, 380);
+            this.dataGridView.Location = new System.Drawing.Point(12, 420);
             this.dataGridView.Name = "dataGridView";
-            this.dataGridView.Size = new System.Drawing.Size(310, 284);
+            this.dataGridView.Size = new System.Drawing.Size(310, 257);
             this.dataGridView.TabIndex = 20;
             this.dataGridView.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellValueChanged);
             this.dataGridView.CurrentCellDirtyStateChanged += new System.EventHandler(this.dataGridView_CurrentCellDirtyStateChanged);
@@ -681,19 +693,18 @@
             // 
             // toggleSwitch_view
             // 
+            this.toggleSwitch_view.Checked = true;
             this.toggleSwitch_view.Enabled = false;
             this.toggleSwitch_view.Location = new System.Drawing.Point(127, 24);
             this.toggleSwitch_view.Name = "toggleSwitch_view";
             this.toggleSwitch_view.OffFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.toggleSwitch_view.OffForeColor = System.Drawing.Color.White;
             this.toggleSwitch_view.OffSideAlignment = JCS.ToggleSwitch.ToggleSwitchAlignment.Far;
-            this.toggleSwitch_view.OffText = "Off";
             this.toggleSwitch_view.OnFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.toggleSwitch_view.OnForeColor = System.Drawing.Color.White;
             this.toggleSwitch_view.OnSideAlignment = JCS.ToggleSwitch.ToggleSwitchAlignment.Near;
-            this.toggleSwitch_view.OnText = "On";
             this.toggleSwitch_view.Size = new System.Drawing.Size(50, 19);
-            this.toggleSwitch_view.Style = JCS.ToggleSwitch.ToggleSwitchStyle.Carbon;
+            this.toggleSwitch_view.Style = JCS.ToggleSwitch.ToggleSwitchStyle.Fancy;
             this.toggleSwitch_view.TabIndex = 28;
             this.toggleSwitch_view.CheckedChanged += new JCS.ToggleSwitch.CheckedChangedDelegate(this.toggleSwitch_view_CheckedChanged);
             // 
@@ -707,11 +718,33 @@
             this.button_select_project.UseVisualStyleBackColor = true;
             this.button_select_project.Click += new System.EventHandler(this.button1_Click);
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(12, 76);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(86, 13);
+            this.label2.TabIndex = 26;
+            this.label2.Text = "Advanced Mode";
+            // 
+            // toggleSwitch_advanceMode
+            // 
+            this.toggleSwitch_advanceMode.Location = new System.Drawing.Point(259, 76);
+            this.toggleSwitch_advanceMode.Name = "toggleSwitch_advanceMode";
+            this.toggleSwitch_advanceMode.OffFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.toggleSwitch_advanceMode.OnFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.toggleSwitch_advanceMode.Size = new System.Drawing.Size(50, 19);
+            this.toggleSwitch_advanceMode.Style = JCS.ToggleSwitch.ToggleSwitchStyle.Fancy;
+            this.toggleSwitch_advanceMode.TabIndex = 27;
+            this.toggleSwitch_advanceMode.CheckedChanged += new JCS.ToggleSwitch.CheckedChangedDelegate(this.toggleSwitch1_CheckedChanged);
+            // 
             // Monsters
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1165, 685);
+            this.Controls.Add(this.toggleSwitch_advanceMode);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.button_select_project);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.dataGridView);
@@ -796,15 +829,12 @@
         private System.Windows.Forms.Label label_high;
         private System.Windows.Forms.Label label_medium;
         private System.Windows.Forms.Label label_low;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label_on;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label_off1;
+        private System.Windows.Forms.Label label_on1;
+        private System.Windows.Forms.Label label_off3;
+        private System.Windows.Forms.Label label_on3;
+        private System.Windows.Forms.Label label_off2;
+        private System.Windows.Forms.Label label_on2;
         private System.Windows.Forms.DataGridViewTextBoxColumn nameDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewComboBoxColumn difficultyDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewComboBoxColumn itemAccessibilityDataGridViewTextBoxColumn;
@@ -813,5 +843,10 @@
         private System.Windows.Forms.Button button_select_project;
         private JCS.ToggleSwitch toggleSwitch_view;
         private System.Windows.Forms.Label label9;
+        private JCS.ToggleSwitch toggleSwitch_objective;
+        private JCS.ToggleSwitch toggleSwitch_userplacement;
+        private JCS.ToggleSwitch toggleSwitch_innovation;
+        private System.Windows.Forms.Label label2;
+        private JCS.ToggleSwitch toggleSwitch_advanceMode;
     }
 }
