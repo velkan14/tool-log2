@@ -1,4 +1,4 @@
-﻿namespace EditorBuddyMonster
+﻿namespace Povoater
 {
     partial class Monsters
     {
@@ -39,7 +39,9 @@
             this.groupBox_mainsliders = new System.Windows.Forms.GroupBox();
             this.toggleSwitch_objective = new JCS.ToggleSwitch();
             this.toggleSwitch_userplacement = new JCS.ToggleSwitch();
+            this.button_newSuggestion = new System.Windows.Forms.Button();
             this.toggleSwitch_innovation = new JCS.ToggleSwitch();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.label_off3 = new System.Windows.Forms.Label();
             this.label_on3 = new System.Windows.Forms.Label();
             this.label_off2 = new System.Windows.Forms.Label();
@@ -51,6 +53,7 @@
             this.label_medium = new System.Windows.Forms.Label();
             this.label_low = new System.Windows.Forms.Label();
             this.numericUpDown_numberItens = new System.Windows.Forms.NumericUpDown();
+            this.dataGridView = new System.Windows.Forms.DataGridView();
             this.label_maxitens = new System.Windows.Forms.Label();
             this.numericUpDown_maxmonsters = new System.Windows.Forms.NumericUpDown();
             this.trackBar_hordes = new System.Windows.Forms.TrackBar();
@@ -73,76 +76,88 @@
             this.creditsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.toolTip_panel = new System.Windows.Forms.ToolTip(this.components);
-            this.button_newSuggestion = new System.Windows.Forms.Button();
             this.trackBar_history = new System.Windows.Forms.TrackBar();
-            this.dataGridView = new System.Windows.Forms.DataGridView();
+            this.dataGridViewComboBoxColumn1 = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.dataGridViewComboBoxColumn2 = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.dataGridViewButtonColumn1 = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.toolTip_Parameters = new System.Windows.Forms.ToolTip(this.components);
+            this.timer_redraw = new System.Windows.Forms.Timer(this.components);
+            this.label9 = new System.Windows.Forms.Label();
+            this.button_select_project = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
+            this.toggleSwitch_advanceMode = new JCS.ToggleSwitch();
+            this.toggleSwitch_view = new JCS.ToggleSwitch();
+            this.groupBox_label = new System.Windows.Forms.GroupBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.nameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.difficultyDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.itemAccessibilityDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.areaBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.dataGridViewComboBoxColumn1 = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.dataGridViewComboBoxColumn2 = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.dataGridViewButtonColumn1 = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
-            this.toolTip_Parameters = new System.Windows.Forms.ToolTip(this.components);
-            this.timer_redraw = new System.Windows.Forms.Timer(this.components);
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label9 = new System.Windows.Forms.Label();
-            this.toggleSwitch_view = new JCS.ToggleSwitch();
-            this.button_select_project = new System.Windows.Forms.Button();
-            this.label2 = new System.Windows.Forms.Label();
-            this.toggleSwitch_advanceMode = new JCS.ToggleSwitch();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_innovation)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_userplacement)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_objective)).BeginInit();
             this.groupBox_mainsliders.SuspendLayout();
             this.groupBox_objectives.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_numberItens)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_maxmonsters)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_hordes)).BeginInit();
             this.groupBox_selection.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_history)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
+            this.groupBox_label.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.areaBindingSource)).BeginInit();
-            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label_innovation
             // 
             this.label_innovation.AutoSize = true;
-            this.label_innovation.Location = new System.Drawing.Point(11, 21);
+            this.label_innovation.Location = new System.Drawing.Point(8, 21);
             this.label_innovation.Name = "label_innovation";
-            this.label_innovation.Size = new System.Drawing.Size(57, 13);
+            this.label_innovation.Padding = new System.Windows.Forms.Padding(3);
+            this.label_innovation.Size = new System.Drawing.Size(68, 19);
             this.label_innovation.TabIndex = 0;
-            this.label_innovation.Text = "Innovation";
+            this.label_innovation.Text = "More Novel";
             // 
             // label_userplacement
             // 
             this.label_userplacement.AutoSize = true;
-            this.label_userplacement.Location = new System.Drawing.Point(113, 21);
+            this.label_userplacement.Location = new System.Drawing.Point(105, 21);
             this.label_userplacement.Name = "label_userplacement";
-            this.label_userplacement.Size = new System.Drawing.Size(82, 13);
+            this.label_userplacement.Padding = new System.Windows.Forms.Padding(3);
+            this.label_userplacement.Size = new System.Drawing.Size(77, 19);
             this.label_userplacement.TabIndex = 1;
-            this.label_userplacement.Text = "User Placement";
+            this.label_userplacement.Text = "More Refined";
             // 
             // label_objective
             // 
             this.label_objective.AutoSize = true;
-            this.label_objective.Location = new System.Drawing.Point(231, 21);
+            this.label_objective.Location = new System.Drawing.Point(194, 21);
             this.label_objective.Name = "label_objective";
-            this.label_objective.Size = new System.Drawing.Size(52, 13);
+            this.label_objective.Padding = new System.Windows.Forms.Padding(3);
+            this.label_objective.Size = new System.Drawing.Size(104, 19);
             this.label_objective.TabIndex = 2;
-            this.label_objective.Text = "Objective";
+            this.label_objective.Text = "Parameter Oriented";
             // 
             // trackBar_innovation
             // 
             this.trackBar_innovation.LargeChange = 50;
-            this.trackBar_innovation.Location = new System.Drawing.Point(14, 47);
+            this.trackBar_innovation.Location = new System.Drawing.Point(14, 43);
             this.trackBar_innovation.Maximum = 100;
             this.trackBar_innovation.Name = "trackBar_innovation";
             this.trackBar_innovation.Orientation = System.Windows.Forms.Orientation.Vertical;
-            this.trackBar_innovation.Size = new System.Drawing.Size(45, 120);
+            this.trackBar_innovation.Size = new System.Drawing.Size(45, 80);
             this.trackBar_innovation.SmallChange = 50;
             this.trackBar_innovation.TabIndex = 5;
             this.trackBar_innovation.Tag = "";
@@ -154,11 +169,11 @@
             // 
             // trackBar_userplacement
             // 
-            this.trackBar_userplacement.Location = new System.Drawing.Point(135, 47);
+            this.trackBar_userplacement.Location = new System.Drawing.Point(114, 43);
             this.trackBar_userplacement.Maximum = 100;
             this.trackBar_userplacement.Name = "trackBar_userplacement";
             this.trackBar_userplacement.Orientation = System.Windows.Forms.Orientation.Vertical;
-            this.trackBar_userplacement.Size = new System.Drawing.Size(45, 120);
+            this.trackBar_userplacement.Size = new System.Drawing.Size(45, 80);
             this.trackBar_userplacement.TabIndex = 4;
             this.trackBar_userplacement.TickFrequency = 50;
             this.toolTip_Parameters.SetToolTip(this.trackBar_userplacement, "User placement pool gives suggestions that are closer with the base suggestion.");
@@ -167,11 +182,11 @@
             // 
             // trackBar_objective
             // 
-            this.trackBar_objective.Location = new System.Drawing.Point(234, 47);
+            this.trackBar_objective.Location = new System.Drawing.Point(217, 43);
             this.trackBar_objective.Maximum = 100;
             this.trackBar_objective.Name = "trackBar_objective";
             this.trackBar_objective.Orientation = System.Windows.Forms.Orientation.Vertical;
-            this.trackBar_objective.Size = new System.Drawing.Size(45, 120);
+            this.trackBar_objective.Size = new System.Drawing.Size(45, 80);
             this.trackBar_objective.TabIndex = 5;
             this.trackBar_objective.TickFrequency = 50;
             this.toolTip_Parameters.SetToolTip(this.trackBar_objective, "Objective is a pool that gives suggestions based on the Objective Paramenters inf" +
@@ -183,7 +198,9 @@
             // 
             this.groupBox_mainsliders.Controls.Add(this.toggleSwitch_objective);
             this.groupBox_mainsliders.Controls.Add(this.toggleSwitch_userplacement);
+            this.groupBox_mainsliders.Controls.Add(this.button_newSuggestion);
             this.groupBox_mainsliders.Controls.Add(this.toggleSwitch_innovation);
+            this.groupBox_mainsliders.Controls.Add(this.progressBar1);
             this.groupBox_mainsliders.Controls.Add(this.label_off3);
             this.groupBox_mainsliders.Controls.Add(this.label_on3);
             this.groupBox_mainsliders.Controls.Add(this.label_off2);
@@ -196,18 +213,18 @@
             this.groupBox_mainsliders.Controls.Add(this.label_userplacement);
             this.groupBox_mainsliders.Controls.Add(this.trackBar_innovation);
             this.groupBox_mainsliders.Controls.Add(this.trackBar_userplacement);
-            this.groupBox_mainsliders.Location = new System.Drawing.Point(12, 105);
+            this.groupBox_mainsliders.Location = new System.Drawing.Point(12, 65);
             this.groupBox_mainsliders.Name = "groupBox_mainsliders";
-            this.groupBox_mainsliders.Size = new System.Drawing.Size(310, 173);
+            this.groupBox_mainsliders.Size = new System.Drawing.Size(310, 234);
             this.groupBox_mainsliders.TabIndex = 6;
             this.groupBox_mainsliders.TabStop = false;
-            this.groupBox_mainsliders.Text = "Algorithm Behaviour";
+            this.groupBox_mainsliders.Text = "Suggestion Type";
             this.toolTip_Parameters.SetToolTip(this.groupBox_mainsliders, "Defines the percentage usage of each pool when generating the final suggestion.");
             // 
             // toggleSwitch_objective
             // 
             this.toggleSwitch_objective.Checked = true;
-            this.toggleSwitch_objective.Location = new System.Drawing.Point(227, 60);
+            this.toggleSwitch_objective.Location = new System.Drawing.Point(210, 64);
             this.toggleSwitch_objective.Name = "toggleSwitch_objective";
             this.toggleSwitch_objective.OffFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.toggleSwitch_objective.OnFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -219,7 +236,7 @@
             // toggleSwitch_userplacement
             // 
             this.toggleSwitch_userplacement.Checked = true;
-            this.toggleSwitch_userplacement.Location = new System.Drawing.Point(118, 60);
+            this.toggleSwitch_userplacement.Location = new System.Drawing.Point(112, 64);
             this.toggleSwitch_userplacement.Name = "toggleSwitch_userplacement";
             this.toggleSwitch_userplacement.OffFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.toggleSwitch_userplacement.OnFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -228,10 +245,22 @@
             this.toggleSwitch_userplacement.TabIndex = 15;
             this.toggleSwitch_userplacement.CheckedChanged += new JCS.ToggleSwitch.CheckedChangedDelegate(this.updateCore);
             // 
+            // button_newSuggestion
+            // 
+            this.button_newSuggestion.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.button_newSuggestion.Enabled = false;
+            this.button_newSuggestion.Location = new System.Drawing.Point(65, 145);
+            this.button_newSuggestion.Name = "button_newSuggestion";
+            this.button_newSuggestion.Size = new System.Drawing.Size(197, 46);
+            this.button_newSuggestion.TabIndex = 18;
+            this.button_newSuggestion.Text = "New Suggestion";
+            this.button_newSuggestion.UseVisualStyleBackColor = true;
+            this.button_newSuggestion.Click += new System.EventHandler(this.button_newRun_Click);
+            // 
             // toggleSwitch_innovation
             // 
             this.toggleSwitch_innovation.Checked = true;
-            this.toggleSwitch_innovation.Location = new System.Drawing.Point(6, 60);
+            this.toggleSwitch_innovation.Location = new System.Drawing.Point(10, 64);
             this.toggleSwitch_innovation.Name = "toggleSwitch_innovation";
             this.toggleSwitch_innovation.OffFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.toggleSwitch_innovation.OnFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -240,10 +269,18 @@
             this.toggleSwitch_innovation.TabIndex = 14;
             this.toggleSwitch_innovation.CheckedChanged += new JCS.ToggleSwitch.CheckedChangedDelegate(this.updateCore);
             // 
+            // progressBar1
+            // 
+            this.progressBar1.Location = new System.Drawing.Point(14, 206);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(290, 19);
+            this.progressBar1.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+            this.progressBar1.TabIndex = 21;
+            // 
             // label_off3
             // 
             this.label_off3.AutoSize = true;
-            this.label_off3.Location = new System.Drawing.Point(268, 145);
+            this.label_off3.Location = new System.Drawing.Point(249, 104);
             this.label_off3.Name = "label_off3";
             this.label_off3.Size = new System.Drawing.Size(21, 13);
             this.label_off3.TabIndex = 13;
@@ -252,7 +289,7 @@
             // label_on3
             // 
             this.label_on3.AutoSize = true;
-            this.label_on3.Location = new System.Drawing.Point(260, 54);
+            this.label_on3.Location = new System.Drawing.Point(249, 48);
             this.label_on3.Name = "label_on3";
             this.label_on3.Size = new System.Drawing.Size(29, 13);
             this.label_on3.TabIndex = 12;
@@ -261,7 +298,7 @@
             // label_off2
             // 
             this.label_off2.AutoSize = true;
-            this.label_off2.Location = new System.Drawing.Point(167, 145);
+            this.label_off2.Location = new System.Drawing.Point(151, 104);
             this.label_off2.Name = "label_off2";
             this.label_off2.Size = new System.Drawing.Size(21, 13);
             this.label_off2.TabIndex = 10;
@@ -270,7 +307,7 @@
             // label_on2
             // 
             this.label_on2.AutoSize = true;
-            this.label_on2.Location = new System.Drawing.Point(159, 54);
+            this.label_on2.Location = new System.Drawing.Point(153, 48);
             this.label_on2.Name = "label_on2";
             this.label_on2.Size = new System.Drawing.Size(29, 13);
             this.label_on2.TabIndex = 9;
@@ -279,7 +316,7 @@
             // label_off1
             // 
             this.label_off1.AutoSize = true;
-            this.label_off1.Location = new System.Drawing.Point(41, 145);
+            this.label_off1.Location = new System.Drawing.Point(49, 104);
             this.label_off1.Name = "label_off1";
             this.label_off1.Size = new System.Drawing.Size(21, 13);
             this.label_off1.TabIndex = 7;
@@ -288,7 +325,7 @@
             // label_on1
             // 
             this.label_on1.AutoSize = true;
-            this.label_on1.Location = new System.Drawing.Point(41, 54);
+            this.label_on1.Location = new System.Drawing.Point(49, 48);
             this.label_on1.Name = "label_on1";
             this.label_on1.Size = new System.Drawing.Size(29, 13);
             this.label_on1.TabIndex = 6;
@@ -300,24 +337,25 @@
             this.groupBox_objectives.Controls.Add(this.label_medium);
             this.groupBox_objectives.Controls.Add(this.label_low);
             this.groupBox_objectives.Controls.Add(this.numericUpDown_numberItens);
+            this.groupBox_objectives.Controls.Add(this.dataGridView);
             this.groupBox_objectives.Controls.Add(this.label_maxitens);
             this.groupBox_objectives.Controls.Add(this.numericUpDown_maxmonsters);
             this.groupBox_objectives.Controls.Add(this.trackBar_hordes);
             this.groupBox_objectives.Controls.Add(this.label_hordes);
             this.groupBox_objectives.Controls.Add(this.label_maxmonsters);
-            this.groupBox_objectives.Location = new System.Drawing.Point(12, 284);
+            this.groupBox_objectives.Location = new System.Drawing.Point(975, 36);
             this.groupBox_objectives.Name = "groupBox_objectives";
-            this.groupBox_objectives.Size = new System.Drawing.Size(310, 130);
+            this.groupBox_objectives.Size = new System.Drawing.Size(265, 330);
             this.groupBox_objectives.TabIndex = 7;
             this.groupBox_objectives.TabStop = false;
-            this.groupBox_objectives.Text = "Global Parameters ";
+            this.groupBox_objectives.Text = "Parameters ";
             this.toolTip_Parameters.SetToolTip(this.groupBox_objectives, "Defines parameters that will be used to generate suggestions on the Objective poo" +
         "l, was well on the final suggestion that is presented to the user.");
             // 
             // label_high
             // 
             this.label_high.AutoSize = true;
-            this.label_high.Location = new System.Drawing.Point(268, 108);
+            this.label_high.Location = new System.Drawing.Point(235, 108);
             this.label_high.Name = "label_high";
             this.label_high.Size = new System.Drawing.Size(29, 13);
             this.label_high.TabIndex = 13;
@@ -326,7 +364,7 @@
             // label_medium
             // 
             this.label_medium.AutoSize = true;
-            this.label_medium.Location = new System.Drawing.Point(205, 108);
+            this.label_medium.Location = new System.Drawing.Point(172, 108);
             this.label_medium.Name = "label_medium";
             this.label_medium.Size = new System.Drawing.Size(44, 13);
             this.label_medium.TabIndex = 12;
@@ -335,7 +373,7 @@
             // label_low
             // 
             this.label_low.AutoSize = true;
-            this.label_low.Location = new System.Drawing.Point(153, 108);
+            this.label_low.Location = new System.Drawing.Point(120, 108);
             this.label_low.Name = "label_low";
             this.label_low.Size = new System.Drawing.Size(27, 13);
             this.label_low.TabIndex = 11;
@@ -343,9 +381,9 @@
             // 
             // numericUpDown_numberItens
             // 
-            this.numericUpDown_numberItens.Location = new System.Drawing.Point(195, 50);
+            this.numericUpDown_numberItens.Location = new System.Drawing.Point(193, 50);
             this.numericUpDown_numberItens.Name = "numericUpDown_numberItens";
-            this.numericUpDown_numberItens.Size = new System.Drawing.Size(103, 20);
+            this.numericUpDown_numberItens.Size = new System.Drawing.Size(66, 20);
             this.numericUpDown_numberItens.TabIndex = 10;
             this.toolTip_panel.SetToolTip(this.numericUpDown_numberItens, "Defines the ideal number of itens that the suggestions should have.");
             this.numericUpDown_numberItens.Value = new decimal(new int[] {
@@ -354,6 +392,28 @@
             0,
             0});
             this.numericUpDown_numberItens.ValueChanged += new System.EventHandler(this.updateCore);
+            // 
+            // dataGridView
+            // 
+            this.dataGridView.AllowUserToResizeColumns = false;
+            this.dataGridView.AllowUserToResizeRows = false;
+            this.dataGridView.AutoGenerateColumns = false;
+            this.dataGridView.BackgroundColor = System.Drawing.SystemColors.Control;
+            this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.nameDataGridViewTextBoxColumn,
+            this.difficultyDataGridViewTextBoxColumn,
+            this.itemAccessibilityDataGridViewTextBoxColumn});
+            this.dataGridView.DataSource = this.areaBindingSource;
+            this.dataGridView.Location = new System.Drawing.Point(6, 130);
+            this.dataGridView.Name = "dataGridView";
+            this.dataGridView.RowHeadersWidth = 20;
+            this.dataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridView.Size = new System.Drawing.Size(253, 194);
+            this.dataGridView.TabIndex = 20;
+            this.dataGridView.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellValueChanged);
+            this.dataGridView.CurrentCellDirtyStateChanged += new System.EventHandler(this.dataGridView_CurrentCellDirtyStateChanged);
+            this.dataGridView.SelectionChanged += new System.EventHandler(this.dataGridView_SelectionChanged);
             // 
             // label_maxitens
             // 
@@ -367,9 +427,9 @@
             // 
             // numericUpDown_maxmonsters
             // 
-            this.numericUpDown_maxmonsters.Location = new System.Drawing.Point(195, 24);
+            this.numericUpDown_maxmonsters.Location = new System.Drawing.Point(193, 24);
             this.numericUpDown_maxmonsters.Name = "numericUpDown_maxmonsters";
-            this.numericUpDown_maxmonsters.Size = new System.Drawing.Size(103, 20);
+            this.numericUpDown_maxmonsters.Size = new System.Drawing.Size(66, 20);
             this.numericUpDown_maxmonsters.TabIndex = 8;
             this.toolTip_panel.SetToolTip(this.numericUpDown_maxmonsters, "Defines the ideal number of monsters that the suggestions should have.");
             this.numericUpDown_maxmonsters.Value = new decimal(new int[] {
@@ -381,7 +441,7 @@
             // 
             // trackBar_hordes
             // 
-            this.trackBar_hordes.Location = new System.Drawing.Point(156, 76);
+            this.trackBar_hordes.Location = new System.Drawing.Point(120, 76);
             this.trackBar_hordes.Maximum = 100;
             this.trackBar_hordes.Name = "trackBar_hordes";
             this.trackBar_hordes.Size = new System.Drawing.Size(142, 45);
@@ -415,29 +475,30 @@
             // 
             // textBox_logger
             // 
-            this.textBox_logger.Location = new System.Drawing.Point(975, 442);
+            this.textBox_logger.Location = new System.Drawing.Point(12, 532);
             this.textBox_logger.Multiline = true;
             this.textBox_logger.Name = "textBox_logger";
             this.textBox_logger.ReadOnly = true;
             this.textBox_logger.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox_logger.Size = new System.Drawing.Size(178, 231);
+            this.textBox_logger.Size = new System.Drawing.Size(310, 144);
             this.textBox_logger.TabIndex = 8;
             // 
             // gridPanel
             // 
             this.gridPanel.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.gridPanel.Enabled = false;
             this.gridPanel.Location = new System.Drawing.Point(328, 36);
             this.gridPanel.Name = "gridPanel";
-            this.gridPanel.Size = new System.Drawing.Size(641, 641);
+            this.gridPanel.Size = new System.Drawing.Size(640, 640);
             this.gridPanel.TabIndex = 9;
             this.gridPanel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.gridPanel_MouseClick);
             // 
             // button_next
             // 
             this.button_next.Enabled = false;
-            this.button_next.Location = new System.Drawing.Point(103, 112);
+            this.button_next.Location = new System.Drawing.Point(247, 320);
             this.button_next.Name = "button_next";
-            this.button_next.Size = new System.Drawing.Size(75, 23);
+            this.button_next.Size = new System.Drawing.Size(75, 40);
             this.button_next.TabIndex = 10;
             this.button_next.Text = "Next";
             this.button_next.UseVisualStyleBackColor = true;
@@ -446,9 +507,9 @@
             // button_previous
             // 
             this.button_previous.Enabled = false;
-            this.button_previous.Location = new System.Drawing.Point(6, 112);
+            this.button_previous.Location = new System.Drawing.Point(12, 320);
             this.button_previous.Name = "button_previous";
-            this.button_previous.Size = new System.Drawing.Size(75, 23);
+            this.button_previous.Size = new System.Drawing.Size(75, 40);
             this.button_previous.TabIndex = 11;
             this.button_previous.Text = "Previous";
             this.button_previous.UseVisualStyleBackColor = true;
@@ -461,17 +522,17 @@
             this.groupBox_selection.Controls.Add(this.button_invert);
             this.groupBox_selection.Controls.Add(this.button_clear);
             this.groupBox_selection.Enabled = false;
-            this.groupBox_selection.Location = new System.Drawing.Point(975, 36);
+            this.groupBox_selection.Location = new System.Drawing.Point(975, 372);
             this.groupBox_selection.Name = "groupBox_selection";
-            this.groupBox_selection.Size = new System.Drawing.Size(183, 84);
+            this.groupBox_selection.Size = new System.Drawing.Size(265, 79);
             this.groupBox_selection.TabIndex = 12;
             this.groupBox_selection.TabStop = false;
-            this.groupBox_selection.Text = "Selection";
+            this.groupBox_selection.Text = "Export";
             // 
             // button_select
             // 
             this.button_select.Enabled = false;
-            this.button_select.Location = new System.Drawing.Point(7, 20);
+            this.button_select.Location = new System.Drawing.Point(6, 19);
             this.button_select.Name = "button_select";
             this.button_select.Size = new System.Drawing.Size(75, 23);
             this.button_select.TabIndex = 4;
@@ -482,9 +543,9 @@
             // button_export
             // 
             this.button_export.Enabled = false;
-            this.button_export.Location = new System.Drawing.Point(102, 49);
+            this.button_export.Location = new System.Drawing.Point(6, 48);
             this.button_export.Name = "button_export";
-            this.button_export.Size = new System.Drawing.Size(75, 23);
+            this.button_export.Size = new System.Drawing.Size(253, 23);
             this.button_export.TabIndex = 3;
             this.button_export.Text = "Export";
             this.button_export.UseVisualStyleBackColor = true;
@@ -492,7 +553,7 @@
             // 
             // button_invert
             // 
-            this.button_invert.Location = new System.Drawing.Point(7, 49);
+            this.button_invert.Location = new System.Drawing.Point(103, 19);
             this.button_invert.Name = "button_invert";
             this.button_invert.Size = new System.Drawing.Size(75, 23);
             this.button_invert.TabIndex = 2;
@@ -502,7 +563,7 @@
             // 
             // button_clear
             // 
-            this.button_clear.Location = new System.Drawing.Point(102, 20);
+            this.button_clear.Location = new System.Drawing.Point(184, 19);
             this.button_clear.Name = "button_clear";
             this.button_clear.Size = new System.Drawing.Size(75, 23);
             this.button_clear.TabIndex = 1;
@@ -517,7 +578,7 @@
             this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1165, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1244, 24);
             this.menuStrip1.TabIndex = 14;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -557,6 +618,7 @@
             this.creditsToolStripMenuItem.Name = "creditsToolStripMenuItem";
             this.creditsToolStripMenuItem.Size = new System.Drawing.Size(111, 22);
             this.creditsToolStripMenuItem.Text = "Credits";
+            this.creditsToolStripMenuItem.Click += new System.EventHandler(this.creditsToolStripMenuItem_Click);
             // 
             // imageList1
             // 
@@ -565,72 +627,14 @@
             this.imageList1.Images.SetKeyName(0, "eyeclosed.png");
             this.imageList1.Images.SetKeyName(1, "eye-2x.png");
             // 
-            // button_newSuggestion
-            // 
-            this.button_newSuggestion.Enabled = false;
-            this.button_newSuggestion.Location = new System.Drawing.Point(6, 141);
-            this.button_newSuggestion.Name = "button_newSuggestion";
-            this.button_newSuggestion.Size = new System.Drawing.Size(171, 23);
-            this.button_newSuggestion.TabIndex = 18;
-            this.button_newSuggestion.Text = "New Suggestion";
-            this.button_newSuggestion.UseVisualStyleBackColor = true;
-            this.button_newSuggestion.Click += new System.EventHandler(this.button_newRun_Click);
-            // 
             // trackBar_history
             // 
             this.trackBar_history.Enabled = false;
-            this.trackBar_history.Location = new System.Drawing.Point(7, 61);
+            this.trackBar_history.Location = new System.Drawing.Point(93, 321);
             this.trackBar_history.Maximum = 1;
             this.trackBar_history.Name = "trackBar_history";
-            this.trackBar_history.Size = new System.Drawing.Size(171, 45);
+            this.trackBar_history.Size = new System.Drawing.Size(148, 45);
             this.trackBar_history.TabIndex = 19;
-            // 
-            // dataGridView
-            // 
-            this.dataGridView.AllowUserToResizeColumns = false;
-            this.dataGridView.AllowUserToResizeRows = false;
-            this.dataGridView.AutoGenerateColumns = false;
-            this.dataGridView.BackgroundColor = System.Drawing.SystemColors.Control;
-            this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.nameDataGridViewTextBoxColumn,
-            this.difficultyDataGridViewTextBoxColumn,
-            this.itemAccessibilityDataGridViewTextBoxColumn});
-            this.dataGridView.DataSource = this.areaBindingSource;
-            this.dataGridView.Location = new System.Drawing.Point(12, 420);
-            this.dataGridView.Name = "dataGridView";
-            this.dataGridView.Size = new System.Drawing.Size(310, 257);
-            this.dataGridView.TabIndex = 20;
-            this.dataGridView.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellValueChanged);
-            this.dataGridView.CurrentCellDirtyStateChanged += new System.EventHandler(this.dataGridView_CurrentCellDirtyStateChanged);
-            this.dataGridView.SelectionChanged += new System.EventHandler(this.dataGridView_SelectionChanged);
-            // 
-            // nameDataGridViewTextBoxColumn
-            // 
-            this.nameDataGridViewTextBoxColumn.DataPropertyName = "Name";
-            this.nameDataGridViewTextBoxColumn.HeaderText = "Name";
-            this.nameDataGridViewTextBoxColumn.Name = "nameDataGridViewTextBoxColumn";
-            this.nameDataGridViewTextBoxColumn.Width = 60;
-            // 
-            // difficultyDataGridViewTextBoxColumn
-            // 
-            this.difficultyDataGridViewTextBoxColumn.DataPropertyName = "Difficulty";
-            this.difficultyDataGridViewTextBoxColumn.HeaderText = "Danger Level";
-            this.difficultyDataGridViewTextBoxColumn.Name = "difficultyDataGridViewTextBoxColumn";
-            this.difficultyDataGridViewTextBoxColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.difficultyDataGridViewTextBoxColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            // 
-            // itemAccessibilityDataGridViewTextBoxColumn
-            // 
-            this.itemAccessibilityDataGridViewTextBoxColumn.DataPropertyName = "ItemAccessibility";
-            this.itemAccessibilityDataGridViewTextBoxColumn.HeaderText = "Item Accessibility";
-            this.itemAccessibilityDataGridViewTextBoxColumn.Name = "itemAccessibilityDataGridViewTextBoxColumn";
-            this.itemAccessibilityDataGridViewTextBoxColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.itemAccessibilityDataGridViewTextBoxColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            // 
-            // areaBindingSource
-            // 
-            this.areaBindingSource.DataSource = typeof(EditorBuddyMonster.Layers.Area);
             // 
             // dataGridViewComboBoxColumn1
             // 
@@ -654,59 +658,20 @@
             this.dataGridViewButtonColumn1.HeaderText = "Visible";
             this.dataGridViewButtonColumn1.Name = "dataGridViewButtonColumn1";
             // 
-            // progressBar1
-            // 
-            this.progressBar1.Location = new System.Drawing.Point(6, 170);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(171, 15);
-            this.progressBar1.TabIndex = 21;
-            // 
             // timer_redraw
             // 
             this.timer_redraw.Enabled = true;
+            this.timer_redraw.Interval = 60;
             this.timer_redraw.Tick += new System.EventHandler(this.timer1_Tick);
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.label9);
-            this.groupBox1.Controls.Add(this.toggleSwitch_view);
-            this.groupBox1.Controls.Add(this.button_newSuggestion);
-            this.groupBox1.Controls.Add(this.button_next);
-            this.groupBox1.Controls.Add(this.button_previous);
-            this.groupBox1.Controls.Add(this.progressBar1);
-            this.groupBox1.Controls.Add(this.trackBar_history);
-            this.groupBox1.Location = new System.Drawing.Point(975, 126);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(183, 207);
-            this.groupBox1.TabIndex = 24;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Suggestions";
             // 
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(6, 27);
+            this.label9.Location = new System.Drawing.Point(12, 462);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(91, 13);
             this.label9.TabIndex = 29;
             this.label9.Text = "View Suggestions";
-            // 
-            // toggleSwitch_view
-            // 
-            this.toggleSwitch_view.Checked = true;
-            this.toggleSwitch_view.Enabled = false;
-            this.toggleSwitch_view.Location = new System.Drawing.Point(127, 24);
-            this.toggleSwitch_view.Name = "toggleSwitch_view";
-            this.toggleSwitch_view.OffFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.toggleSwitch_view.OffForeColor = System.Drawing.Color.White;
-            this.toggleSwitch_view.OffSideAlignment = JCS.ToggleSwitch.ToggleSwitchAlignment.Far;
-            this.toggleSwitch_view.OnFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.toggleSwitch_view.OnForeColor = System.Drawing.Color.White;
-            this.toggleSwitch_view.OnSideAlignment = JCS.ToggleSwitch.ToggleSwitchAlignment.Near;
-            this.toggleSwitch_view.Size = new System.Drawing.Size(50, 19);
-            this.toggleSwitch_view.Style = JCS.ToggleSwitch.ToggleSwitchStyle.Fancy;
-            this.toggleSwitch_view.TabIndex = 28;
-            this.toggleSwitch_view.CheckedChanged += new JCS.ToggleSwitch.CheckedChangedDelegate(this.toggleSwitch_view_CheckedChanged);
             // 
             // button_select_project
             // 
@@ -721,7 +686,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 76);
+            this.label2.Location = new System.Drawing.Point(12, 496);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(86, 13);
             this.label2.TabIndex = 26;
@@ -729,7 +694,7 @@
             // 
             // toggleSwitch_advanceMode
             // 
-            this.toggleSwitch_advanceMode.Location = new System.Drawing.Point(259, 76);
+            this.toggleSwitch_advanceMode.Location = new System.Drawing.Point(259, 496);
             this.toggleSwitch_advanceMode.Name = "toggleSwitch_advanceMode";
             this.toggleSwitch_advanceMode.OffFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.toggleSwitch_advanceMode.OnFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -738,20 +703,189 @@
             this.toggleSwitch_advanceMode.TabIndex = 27;
             this.toggleSwitch_advanceMode.CheckedChanged += new JCS.ToggleSwitch.CheckedChangedDelegate(this.toggleSwitch1_CheckedChanged);
             // 
+            // toggleSwitch_view
+            // 
+            this.toggleSwitch_view.Checked = true;
+            this.toggleSwitch_view.Enabled = false;
+            this.toggleSwitch_view.Location = new System.Drawing.Point(259, 462);
+            this.toggleSwitch_view.Name = "toggleSwitch_view";
+            this.toggleSwitch_view.OffFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.toggleSwitch_view.OffForeColor = System.Drawing.Color.White;
+            this.toggleSwitch_view.OffSideAlignment = JCS.ToggleSwitch.ToggleSwitchAlignment.Far;
+            this.toggleSwitch_view.OnFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.toggleSwitch_view.OnForeColor = System.Drawing.Color.White;
+            this.toggleSwitch_view.OnSideAlignment = JCS.ToggleSwitch.ToggleSwitchAlignment.Near;
+            this.toggleSwitch_view.Size = new System.Drawing.Size(50, 19);
+            this.toggleSwitch_view.Style = JCS.ToggleSwitch.ToggleSwitchStyle.Fancy;
+            this.toggleSwitch_view.TabIndex = 28;
+            this.toggleSwitch_view.CheckedChanged += new JCS.ToggleSwitch.CheckedChangedDelegate(this.toggleSwitch_view_CheckedChanged);
+            // 
+            // groupBox_label
+            // 
+            this.groupBox_label.Controls.Add(this.label12);
+            this.groupBox_label.Controls.Add(this.label11);
+            this.groupBox_label.Controls.Add(this.label10);
+            this.groupBox_label.Controls.Add(this.label8);
+            this.groupBox_label.Controls.Add(this.label7);
+            this.groupBox_label.Controls.Add(this.label6);
+            this.groupBox_label.Controls.Add(this.label5);
+            this.groupBox_label.Controls.Add(this.label4);
+            this.groupBox_label.Controls.Add(this.label3);
+            this.groupBox_label.Controls.Add(this.label1);
+            this.groupBox_label.Controls.Add(this.pictureBox1);
+            this.groupBox_label.Location = new System.Drawing.Point(1067, 457);
+            this.groupBox_label.Name = "groupBox_label";
+            this.groupBox_label.Size = new System.Drawing.Size(95, 224);
+            this.groupBox_label.TabIndex = 30;
+            this.groupBox_label.TabStop = false;
+            this.groupBox_label.Text = "Legend";
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::Povoater.Properties.Resources.legend;
+            this.pictureBox1.Location = new System.Drawing.Point(6, 19);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(24, 200);
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
+            // 
+            // nameDataGridViewTextBoxColumn
+            // 
+            this.nameDataGridViewTextBoxColumn.DataPropertyName = "Name";
+            this.nameDataGridViewTextBoxColumn.HeaderText = "Name";
+            this.nameDataGridViewTextBoxColumn.Name = "nameDataGridViewTextBoxColumn";
+            this.nameDataGridViewTextBoxColumn.Width = 58;
+            // 
+            // difficultyDataGridViewTextBoxColumn
+            // 
+            this.difficultyDataGridViewTextBoxColumn.DataPropertyName = "Difficulty";
+            this.difficultyDataGridViewTextBoxColumn.HeaderText = "Danger Level";
+            this.difficultyDataGridViewTextBoxColumn.Name = "difficultyDataGridViewTextBoxColumn";
+            this.difficultyDataGridViewTextBoxColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.difficultyDataGridViewTextBoxColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.difficultyDataGridViewTextBoxColumn.Width = 75;
+            // 
+            // itemAccessibilityDataGridViewTextBoxColumn
+            // 
+            this.itemAccessibilityDataGridViewTextBoxColumn.DataPropertyName = "ItemAccessibility";
+            this.itemAccessibilityDataGridViewTextBoxColumn.HeaderText = "Item Accessibility";
+            this.itemAccessibilityDataGridViewTextBoxColumn.Name = "itemAccessibilityDataGridViewTextBoxColumn";
+            this.itemAccessibilityDataGridViewTextBoxColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.itemAccessibilityDataGridViewTextBoxColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.itemAccessibilityDataGridViewTextBoxColumn.Width = 98;
+            // 
+            // areaBindingSource
+            // 
+            this.areaBindingSource.DataSource = typeof(Povoater.Layers.Area);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(35, 24);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(34, 13);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "Turtle";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(36, 43);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(43, 13);
+            this.label3.TabIndex = 2;
+            this.label3.Text = "Mummy";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(36, 63);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(49, 13);
+            this.label4.TabIndex = 3;
+            this.label4.Text = "Skeleton";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(36, 84);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(31, 13);
+            this.label5.TabIndex = 4;
+            this.label5.Text = "Food";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(36, 104);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(40, 13);
+            this.label6.TabIndex = 5;
+            this.label6.Text = "Helmet";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(36, 125);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(37, 13);
+            this.label7.TabIndex = 6;
+            this.label7.Text = "Potion";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(37, 143);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(48, 13);
+            this.label8.TabIndex = 7;
+            this.label8.Text = "Weapon";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(36, 165);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(34, 13);
+            this.label10.TabIndex = 8;
+            this.label10.Text = "Armor";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(36, 185);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(30, 13);
+            this.label11.TabIndex = 9;
+            this.label11.Text = "Legs";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(36, 204);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(34, 13);
+            this.label12.TabIndex = 10;
+            this.label12.Text = "Boots";
+            // 
             // Monsters
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1165, 685);
-            this.Controls.Add(this.toggleSwitch_advanceMode);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.button_select_project);
-            this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.dataGridView);
+            this.ClientSize = new System.Drawing.Size(1244, 683);
+            this.Controls.Add(this.groupBox_label);
+            this.Controls.Add(this.groupBox_objectives);
             this.Controls.Add(this.textBox_logger);
+            this.Controls.Add(this.label9);
+            this.Controls.Add(this.toggleSwitch_advanceMode);
+            this.Controls.Add(this.toggleSwitch_view);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.trackBar_history);
+            this.Controls.Add(this.button_next);
+            this.Controls.Add(this.button_select_project);
+            this.Controls.Add(this.button_previous);
             this.Controls.Add(this.groupBox_selection);
             this.Controls.Add(this.gridPanel);
-            this.Controls.Add(this.groupBox_objectives);
             this.Controls.Add(this.groupBox_mainsliders);
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -767,16 +901,17 @@
             this.groupBox_objectives.ResumeLayout(false);
             this.groupBox_objectives.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_numberItens)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_maxmonsters)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_hordes)).EndInit();
             this.groupBox_selection.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_history)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
+            this.groupBox_label.ResumeLayout(false);
+            this.groupBox_label.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.areaBindingSource)).EndInit();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -835,18 +970,29 @@
         private System.Windows.Forms.Label label_on3;
         private System.Windows.Forms.Label label_off2;
         private System.Windows.Forms.Label label_on2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn nameDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewComboBoxColumn difficultyDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewComboBoxColumn itemAccessibilityDataGridViewTextBoxColumn;
         private System.Windows.Forms.Timer timer_redraw;
-        private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button button_select_project;
-        private JCS.ToggleSwitch toggleSwitch_view;
         private System.Windows.Forms.Label label9;
         private JCS.ToggleSwitch toggleSwitch_objective;
         private JCS.ToggleSwitch toggleSwitch_userplacement;
         private JCS.ToggleSwitch toggleSwitch_innovation;
         private System.Windows.Forms.Label label2;
         private JCS.ToggleSwitch toggleSwitch_advanceMode;
+        private JCS.ToggleSwitch toggleSwitch_view;
+        private System.Windows.Forms.DataGridViewTextBoxColumn nameDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewComboBoxColumn difficultyDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewComboBoxColumn itemAccessibilityDataGridViewTextBoxColumn;
+        private System.Windows.Forms.GroupBox groupBox_label;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label1;
     }
 }

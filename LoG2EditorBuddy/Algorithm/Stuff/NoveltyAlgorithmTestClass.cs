@@ -1,7 +1,7 @@
 ﻿using GAF;
 using GAF.Operators;
-using EditorBuddyMonster.LoG2API;
-using EditorBuddyMonster.Utilities;
+using Povoater.LoG2API;
+using Povoater.Utilities;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,7 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EditorBuddyMonster
+namespace Povoater
 {
     class NoveltyAlgorithmTestClass
     {

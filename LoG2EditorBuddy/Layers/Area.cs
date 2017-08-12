@@ -1,11 +1,11 @@
-﻿using EditorBuddyMonster.LoG2API;
+﻿using Povoater.LoG2API;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EditorBuddyMonster.Layers
+namespace Povoater.Layers
 {
     
     public class Area

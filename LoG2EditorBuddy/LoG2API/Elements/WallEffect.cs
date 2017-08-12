@@ -4,9 +4,9 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using EditorBuddyMonster.Utilities;
+using Povoater.Utilities;
 
-namespace EditorBuddyMonster.LoG2API.Elements
+namespace Povoater.LoG2API.Elements
 {
     class WallEffect : MapElement
     {

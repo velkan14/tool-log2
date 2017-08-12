@@ -1,4 +1,4 @@
-﻿using EditorBuddyMonster.LoG2API;
+﻿using Povoater.LoG2API;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace EditorBuddyMonster.Layers
+namespace Povoater.Layers
 {
     class Layer : DrawAbstract
     {

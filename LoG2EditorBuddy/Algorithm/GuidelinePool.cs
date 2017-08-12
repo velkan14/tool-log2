@@ -1,16 +1,16 @@
 ﻿using GAF;
 using GAF.Operators;
-using EditorBuddyMonster.Layers;
-using EditorBuddyMonster.LoG2API;
-using EditorBuddyMonster.Utilities;
+using Povoater.Layers;
+using Povoater.LoG2API;
+using Povoater.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using EditorBuddyMonster.Algorithm.Fitness;
+using Povoater.Algorithm.Fitness;
 
-namespace EditorBuddyMonster.Algorithm
+namespace Povoater.Algorithm
 {
     class GuidelinePool : HasStuff
     {

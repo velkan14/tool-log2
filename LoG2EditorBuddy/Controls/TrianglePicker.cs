@@ -7,10 +7,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using EditorBuddyMonster.Utilities;
+using Povoater.Utilities;
 using System.Diagnostics;
 
-namespace EditorBuddyMonster.Controls
+namespace Povoater.Controls
 {
     public partial class TrianglePicker : UserControl
     {

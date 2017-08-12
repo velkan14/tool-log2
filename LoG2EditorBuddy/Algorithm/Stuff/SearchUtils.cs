@@ -1,6 +1,6 @@
 ﻿using GAF;
-using EditorBuddyMonster.LoG2API;
-using EditorBuddyMonster.Utilities;
+using Povoater.LoG2API;
+using Povoater.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EditorBuddyMonster
+namespace Povoater
 {
     public static class SearchUtils
     {

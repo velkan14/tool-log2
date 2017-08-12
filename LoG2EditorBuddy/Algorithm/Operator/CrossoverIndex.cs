@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EditorBuddyMonster.Algorithm
+namespace Povoater.Algorithm
 {
     /// <summary>
     /// This operator will expand the new population to the same size 

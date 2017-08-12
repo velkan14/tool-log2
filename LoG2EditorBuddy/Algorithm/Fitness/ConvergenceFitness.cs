@@ -1,4 +1,4 @@
-﻿using EditorBuddyMonster.LoG2API;
+﻿using Povoater.LoG2API;
 using GAF;
 using System;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EditorBuddyMonster.Algorithm.Fitness
+namespace Povoater.Algorithm.Fitness
 {
     class ConvergenceFitness : HasStuff
     {

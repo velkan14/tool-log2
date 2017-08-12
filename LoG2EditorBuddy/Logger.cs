@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EditorBuddyMonster
+namespace Povoater
 {
     /// <summary>
     /// Logger class handles raised events

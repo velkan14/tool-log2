@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EditorBuddyMonster.Properties {
+namespace Povoater.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace EditorBuddyMonster.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("EditorBuddyMonster.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Povoater.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -186,6 +186,16 @@ namespace EditorBuddyMonster.Properties {
         internal static System.Drawing.Bitmap invert_selection {
             get {
                 object obj = ResourceManager.GetObject("invert_selection", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap legend {
+            get {
+                object obj = ResourceManager.GetObject("legend", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

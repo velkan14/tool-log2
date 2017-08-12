@@ -1,9 +1,9 @@
-﻿using EditorBuddyMonster.Utilities;
+﻿using Povoater.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 
-namespace EditorBuddyMonster.LoG2API.Elements
+namespace Povoater.LoG2API.Elements
 {
     public class StartingPoint : MapElement
     {

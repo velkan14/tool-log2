@@ -4,15 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EditorBuddyMonster.Utilities
+namespace Povoater.Utilities
 {
 
 
     public static class ProgramInfo{
-        public const string DevelopmentYear = "2016";
+        public const string DevelopmentYear = "2017";
         public const string ProgrammerName = "Daniel Amado";
         public const string ProfQueDeuBecaDeCarry = "Carlos Martinho";
-        public const string ProgramName = "LoG2 Editor Buddy";        
+        public const string ProgramName = "Povoater";        
     }
 
     public static class StringResources
@@ -52,7 +52,8 @@ namespace EditorBuddyMonster.Utilities
 
         public const string CreditsHelpString =
             ProgramInfo.ProgramName + " created by " + ProgramInfo.ProgrammerName + ", " + ProgramInfo.DevelopmentYear + "\n" +
-            "Special thanks to proffessor " + ProgramInfo.ProfQueDeuBecaDeCarry + " for guidance and suggestions.";
+            "Special thanks to proffessor " + ProgramInfo.ProfQueDeuBecaDeCarry + " for guidance and suggestions." + "\n\n" +
+            "Assets from  http://superpowers-html5.com/";
 
         public const string PickDirString = "Please pick a LoG2 project directory(containing a .dungeon_editor file).";
 

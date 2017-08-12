@@ -1,5 +1,5 @@
-﻿using EditorBuddyMonster.LoG2API;
-using EditorBuddyMonster.Utilities;
+﻿using Povoater.LoG2API;
+using Povoater.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -10,7 +10,7 @@ using System.Security.Permissions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EditorBuddyMonster
+namespace Povoater
 {
     class FileWatcher
     {

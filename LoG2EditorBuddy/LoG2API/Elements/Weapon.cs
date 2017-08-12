@@ -1,4 +1,4 @@
-﻿using EditorBuddyMonster.Utilities;
+﻿using Povoater.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EditorBuddyMonster.LoG2API.Elements
+namespace Povoater.LoG2API.Elements
 {
     class Weapon : MapElement
     {
@@ -93,10 +93,10 @@ namespace EditorBuddyMonster.LoG2API.Elements
             }
         }
 
-        private static Rectangle srcRectTop = new Rectangle(0, 60, 20, 20);
-        private static Rectangle srcRectRight = new Rectangle(20, 60, 20, 20);
-        private static Rectangle srcRectDown = new Rectangle(40, 60, 20, 20);
-        private static Rectangle srcRectLeft = new Rectangle(60, 60, 20, 20);
+        private static Rectangle srcRectTop = new Rectangle(80, 38 * 20, 20, 20);
+        private static Rectangle srcRectRight = new Rectangle(100, 38 * 20, 20, 20);
+        private static Rectangle srcRectDown = new Rectangle(120, 38 * 20, 20, 20);
+        private static Rectangle srcRectLeft = new Rectangle(140, 38 * 20, 20, 20);
 
         protected override Rectangle RectTop
         {

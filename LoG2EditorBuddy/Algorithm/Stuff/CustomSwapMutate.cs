@@ -6,13 +6,13 @@
 
 using GAF;
 using GAF.Threading;
-using EditorBuddyMonster;
+using Povoater;
 using System;
 using System.Collections.Generic;
 using System.Threading;
-using EditorBuddyMonster.Utilities;
+using Povoater.Utilities;
 using System.Diagnostics;
-using EditorBuddyMonster.LoG2API;
+using Povoater.LoG2API;
 
 namespace GAF.Operators
 {

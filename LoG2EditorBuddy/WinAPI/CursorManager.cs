@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Windows.Forms;
 
-namespace EditorBuddyMonster.WinAPI
+namespace Povoater.WinAPI
 {
     public enum CursorType
     {

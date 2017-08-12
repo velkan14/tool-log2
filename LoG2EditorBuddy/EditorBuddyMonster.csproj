@@ -10,17 +10,17 @@
     <ApplicationIcon>icon.ico</ApplicationIcon>
     <AssemblyKeyContainerName>
     </AssemblyKeyContainerName>
-    <AssemblyName>EditorBuddyMonster</AssemblyName>
+    <AssemblyName>Povoater</AssemblyName>
     <AssemblyOriginatorKeyFile>
     </AssemblyOriginatorKeyFile>
     <DefaultClientScript>JScript</DefaultClientScript>
     <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
     <DefaultTargetSchema>IE50</DefaultTargetSchema>
     <DelaySign>false</DelaySign>
-    <OutputType>WinExe</OutputType>
-    <RootNamespace>EditorBuddyMonster</RootNamespace>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Povoater</RootNamespace>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
-    <StartupObject>EditorBuddyMonster.MainClass</StartupObject>
+    <StartupObject>Povoater.MainClass</StartupObject>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <UpgradeBackupLocation>
@@ -52,7 +52,7 @@
     <ConfigurationOverrideFile>
     </ConfigurationOverrideFile>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DocumentationFile>bin\Debug\EditorBuddyMonster.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\Povoater.xml</DocumentationFile>
     <DebugSymbols>true</DebugSymbols>
     <FileAlignment>4096</FileAlignment>
     <NoStdLib>false</NoStdLib>
@@ -174,13 +174,16 @@
     <Compile Include="LoG2API\ChromosomeUtils.cs" />
     <Compile Include="LoG2API\Elements\Alcove.cs" />
     <Compile Include="LoG2API\Elements\Altar.cs" />
+    <Compile Include="LoG2API\Elements\Armor.cs" />
     <Compile Include="LoG2API\Elements\Button.cs" />
     <Compile Include="LoG2API\Connector.cs" />
     <Compile Include="LoG2API\Elements\EndingPoint.cs" />
+    <Compile Include="LoG2API\Elements\Food.cs" />
     <Compile Include="LoG2API\Elements\Item.cs" />
     <Compile Include="LoG2API\Elements\Lantern.cs" />
     <Compile Include="LoG2API\Elements\Lock.cs" />
     <Compile Include="LoG2API\Elements\Monster.cs" />
+    <Compile Include="LoG2API\Elements\Potion.cs" />
     <Compile Include="LoG2API\Elements\PressurePlate.cs" />
     <Compile Include="LoG2API\Elements\Scroll.cs" />
     <Compile Include="LoG2API\Elements\StartingPoint.cs" />
@@ -324,6 +327,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="icon.ico" />
+    <None Include="img\legend.png" />
     <None Include="img\visible.png" />
     <None Include="img\icons.png" />
     <None Include="img\eyeclosed.png" />

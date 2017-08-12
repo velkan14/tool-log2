@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EditorBuddyMonster.Algorithm
+namespace Povoater.Algorithm
 {
     class MutateInterval : HasStuff, IGeneticOperator
     {

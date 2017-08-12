@@ -8,21 +8,21 @@ using System.Threading.Tasks;
 
 namespace Povoater.LoG2API.Elements
 {
-    public class Scroll : MapElement
+    class Potion : MapElement
     {
-        public string TextWritten { get; set; }
-
-        public Scroll(string type, int x, int y, int orientation, int h, string uniqueID) : base(x, y, orientation, h, uniqueID)
+        public enum PotionType
         {
+            potion_healing
+        };
+
+        public PotionType type;
+
+        public Potion(string type, int x, int y, int orientation, int h, string uniqueID) : base(x, y, orientation, h, uniqueID)
+        {
+            Enum.TryParse(type, true, out this.type);
         }
 
-        public override string ElementType
-        {
-            get
-            {
-                return "scroll";
-            }
-        }
+        public override string ElementType { get { return type.ToString(); } }
 
         protected override string ConnectorName
         {
@@ -32,10 +32,10 @@ namespace Povoater.LoG2API.Elements
             }
         }
 
-        private static Rectangle srcRectTop = new Rectangle(0, 60, 20, 20);
-        private static Rectangle srcRectRight = new Rectangle(20, 60, 20, 20);
-        private static Rectangle srcRectDown = new Rectangle(40, 60, 20, 20);
-        private static Rectangle srcRectLeft = new Rectangle(60, 60, 20, 20);
+        private static Rectangle srcRectTop = new Rectangle(80, 37 * 20, 20, 20);
+        private static Rectangle srcRectRight = new Rectangle(100, 37 * 20, 20, 20);
+        private static Rectangle srcRectDown = new Rectangle(120, 37 * 20, 20, 20);
+        private static Rectangle srcRectLeft = new Rectangle(140, 37 * 20, 20, 20);
 
         protected override Rectangle RectTop
         {
@@ -87,25 +87,17 @@ namespace Povoater.LoG2API.Elements
 
         protected override string PrintElement(ListQueue<MapElement> elements)
         {
-            StringBuilder sb = new StringBuilder();
-
-            sb.AppendFormat(@"spawn(""{0}"",{1},{2},{3},{4},""{5}""){6}", ElementType, x, y, (int)orientation, h, uniqueID, '\n');
-            sb.AppendFormat(@"{0}.scrollitem:setScrollText(""{1}""){2}", uniqueID, TextWritten, '\n');
-
-            return sb.ToString();
-        }
-
-        public override void setAttribute(string name, string value)
-        {
-            if (name.Contains("setScrollText"))
-            {
-                TextWritten = value;
-            }
+            return String.Format(@"spawn(""{0}"",{1},{2},{3},{4},""{5}""){6}", ElementType, x, y, (int)orientation, h, uniqueID, '\n');
         }
 
         public override void setAttribute(string name, bool value)
         {
-            //Do Nothing
+            throw new NotImplementedException();
+        }
+
+        public override void setAttribute(string name, string value)
+        {
+            throw new NotImplementedException();
         }
     }
 }

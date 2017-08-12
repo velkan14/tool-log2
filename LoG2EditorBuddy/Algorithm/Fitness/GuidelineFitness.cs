@@ -1,6 +1,6 @@
-﻿using EditorBuddyMonster.Layers;
-using EditorBuddyMonster.LoG2API;
-using EditorBuddyMonster.Utilities;
+﻿using Povoater.Layers;
+using Povoater.LoG2API;
+using Povoater.Utilities;
 using GAF;
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EditorBuddyMonster.Algorithm.Fitness
+namespace Povoater.Algorithm.Fitness
 {
     class GuidelineFitness : HasStuff
     {

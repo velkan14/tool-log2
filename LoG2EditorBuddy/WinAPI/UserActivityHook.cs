@@ -8,9 +8,9 @@ using System.Drawing;
 using System.Diagnostics;
 using System.IO;
 using WindowsInput;
-using EditorBuddyMonster;
-using EditorBuddyMonster.Utilities;
-using EditorBuddyMonster.LoG2API;
+using Povoater;
+using Povoater.Utilities;
+using Povoater.LoG2API;
 
 namespace gma.System.Windows
 {

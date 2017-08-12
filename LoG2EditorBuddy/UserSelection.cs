@@ -1,5 +1,5 @@
-﻿using EditorBuddyMonster.LoG2API;
-using EditorBuddyMonster.WinAPI;
+﻿using Povoater.LoG2API;
+using Povoater.WinAPI;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace EditorBuddyMonster
+namespace Povoater
 {
     public class UserSelection : DrawAbstract
     {

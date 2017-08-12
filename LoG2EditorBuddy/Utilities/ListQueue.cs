@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EditorBuddyMonster.Utilities
+namespace Povoater.Utilities
 {
     public class ListQueue<T> : List<T>
     {

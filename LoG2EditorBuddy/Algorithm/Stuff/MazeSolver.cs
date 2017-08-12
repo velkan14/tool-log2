@@ -1,6 +1,6 @@
 using System;
 
-namespace EditorBuddyMonster
+namespace Povoater
 {
 	/// <summary>
 	/// Summary description for MazeSolver.

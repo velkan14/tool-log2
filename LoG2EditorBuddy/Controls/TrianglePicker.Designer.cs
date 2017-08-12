@@ -1,4 +1,4 @@
-﻿namespace EditorBuddyMonster.Controls
+﻿namespace Povoater.Controls
 {
     partial class TrianglePicker
     {

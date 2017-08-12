@@ -1,5 +1,5 @@
-﻿using EditorBuddyMonster.LoG2API;
-using EditorBuddyMonster.LoG2API.Elements;
+﻿using Povoater.LoG2API;
+using Povoater.LoG2API.Elements;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace EditorBuddyMonster.Layers
+namespace Povoater.Layers
 {
     public class AreaManager
     {

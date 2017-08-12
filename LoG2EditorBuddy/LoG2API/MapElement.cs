@@ -1,4 +1,4 @@
-﻿using EditorBuddyMonster.Utilities;
+﻿using Povoater.Utilities;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -6,13 +6,13 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Text;
 
-namespace EditorBuddyMonster.LoG2API
+namespace Povoater.LoG2API
 {
     [Serializable]
     abstract public class MapElement
     {
         //protected static Image imageIcons = Image.FromFile("../../img/icons.png");
-        protected static Image imageIcons = EditorBuddyMonster.Properties.Resources.icons;
+        protected static Image imageIcons = Povoater.Properties.Resources.icons;
 
         private MapElement _connectedTo;
 

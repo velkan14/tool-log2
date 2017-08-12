@@ -1,17 +1,17 @@
 ﻿using GAF;
 using GAF.Extensions;
 using GAF.Operators;
-using EditorBuddyMonster.Algorithm;
-using EditorBuddyMonster.LoG2API;
-using EditorBuddyMonster.Utilities;
+using Povoater.Algorithm;
+using Povoater.LoG2API;
+using Povoater.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using EditorBuddyMonster.Algorithm.Fitness;
+using Povoater.Algorithm.Fitness;
 
-namespace EditorBuddyMonster
+namespace Povoater
 {
     class InnovationPool : HasStuff
     {

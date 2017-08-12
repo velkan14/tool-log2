@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace EditorBuddyMonster.Utilities
+namespace Povoater.Utilities
 {
     public static class Prompt
     {

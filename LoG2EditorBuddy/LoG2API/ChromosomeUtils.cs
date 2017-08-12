@@ -1,5 +1,5 @@
-﻿using EditorBuddyMonster.LoG2API.Elements;
-using EditorBuddyMonster.Utilities;
+﻿using Povoater.LoG2API.Elements;
+using Povoater.Utilities;
 using GAF;
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EditorBuddyMonster.LoG2API
+namespace Povoater.LoG2API
 {
     static class ChromosomeUtils
     {
@@ -142,37 +142,37 @@ namespace EditorBuddyMonster.LoG2API
                 else if (j == 45 || j == 46 || j == 47)
                 {
                     //Potion
-                    cells[i].AddElement(new Item("potion_healing", cells[i].X, cells[i].Y, 0, 0, "potion_healing_" + i));
+                    cells[i].AddElement(new Potion("potion_healing", cells[i].X, cells[i].Y, 0, 0, "potion_healing_" + i));
                 }
                 else if (j == 48 || j == 49 || j == 50)
                 {
                     //Borra
-                    cells[i].AddElement(new Item("borra", cells[i].X, cells[i].Y, 0, 0, "borra_" + i));
+                    cells[i].AddElement(new Food("borra", cells[i].X, cells[i].Y, 0, 0, "borra_" + i));
                 }
                 else if (j == 51 || j == 52 || j == 53)
                 {
                     //Bread
-                    cells[i].AddElement(new Item("bread", cells[i].X, cells[i].Y, 0, 0, "bread_" + i));
+                    cells[i].AddElement(new Food("bread", cells[i].X, cells[i].Y, 0, 0, "bread_" + i));
                 }
                 else if (j == 54 || j == 55 || j == 56)
                 {
                     //Leather cap
-                    cells[i].AddElement(new Item("leather_cap", cells[i].X, cells[i].Y, 0, 0, "leather_cap_" + i));
+                    cells[i].AddElement(new Armor("leather_cap", cells[i].X, cells[i].Y, 0, 0, "leather_cap_" + i));
                 }
                 else if (j == 57 || j == 58 || j == 59)
                 {
                     //Leather brigandine
-                    cells[i].AddElement(new Item("leather_brigandine", cells[i].X, cells[i].Y, 0, 0, "leather_brigandine_" + i));
+                    cells[i].AddElement(new Armor("leather_brigandine", cells[i].X, cells[i].Y, 0, 0, "leather_brigandine_" + i));
                 }
                 else if (j == 60 || j == 61 || j == 62)
                 {
                     //Leather pants
-                    cells[i].AddElement(new Item("leather_pants", cells[i].X, cells[i].Y, 0, 0, "leather_pants_" + i));
+                    cells[i].AddElement(new Armor("leather_pants", cells[i].X, cells[i].Y, 0, 0, "leather_pants_" + i));
                 }
                 else if (j == 63 || j == 64 || j == 65)
                 {
                     //Leather boots
-                    cells[i].AddElement(new Item("leather_boots", cells[i].X, cells[i].Y, 0, 0, "leather_boots_" + i));
+                    cells[i].AddElement(new Armor("leather_boots", cells[i].X, cells[i].Y, 0, 0, "leather_boots_" + i));
                 }
                 else
                 {

@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EditorBuddyMonster.Utilities
+namespace Povoater.Utilities
 {
     #region Class StringEnum
 

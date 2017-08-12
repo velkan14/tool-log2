@@ -1,7 +1,7 @@
 ﻿using GAF;
-using EditorBuddyMonster.Exceptions;
-using EditorBuddyMonster.LoG2API.Elements;
-using EditorBuddyMonster.Utilities;
+using Povoater.Exceptions;
+using Povoater.LoG2API.Elements;
+using Povoater.Utilities;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,7 +12,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 
 
-namespace EditorBuddyMonster.LoG2API
+namespace Povoater.LoG2API
 {
 
     /// <summary>
@@ -106,6 +106,9 @@ namespace EditorBuddyMonster.LoG2API
             Altar.AltarType tmpAltarType;
             WallEffect.WallEffectType tmpWallEffectType;
             Weapon.WeaponType tmpWeaponType;
+            Armor.ArmorType tmpArmorType;
+            Food.FoodType tmpFoodType;
+            Potion.PotionType tmpPotionType;
 
             string fileText = System.IO.File.ReadAllText(DirectoryManager.DungeonFilePath);
 
@@ -268,6 +271,18 @@ namespace EditorBuddyMonster.LoG2API
                 else if(Enum.TryParse(id, true, out tmpWeaponType))
                 {
                     tmpElement = new Weapon(id, x, y, o, h, uniqueId);
+                }
+                else if (Enum.TryParse(id, true, out tmpArmorType))
+                {
+                    tmpElement = new Armor(id, x, y, o, h, uniqueId);
+                }
+                else if (Enum.TryParse(id, true, out tmpFoodType))
+                {
+                    tmpElement = new Food(id, x, y, o, h, uniqueId);
+                }
+                else if (Enum.TryParse(id, true, out tmpPotionType))
+                {
+                    tmpElement = new Potion(id, x, y, o, h, uniqueId);
                 }
                 else
                 {

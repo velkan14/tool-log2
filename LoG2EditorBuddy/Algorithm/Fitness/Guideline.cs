@@ -1,6 +1,6 @@
-﻿using EditorBuddyMonster.Layers;
-using EditorBuddyMonster.LoG2API;
-using EditorBuddyMonster.Utilities;
+﻿using Povoater.Layers;
+using Povoater.LoG2API;
+using Povoater.Utilities;
 using GAF;
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EditorBuddyMonster.Algorithm.Fitness
+namespace Povoater.Algorithm.Fitness
 {
     class Guideline : HasStuff
     {
@@ -38,7 +38,7 @@ namespace EditorBuddyMonster.Algorithm.Fitness
             int numberItems = 0;
             int numberHordes = 0;
 
-            double monsterFit = 1.0;
+            double monsterFit = 0.0;
             double itemFit = 1.0;
 
 
@@ -66,7 +66,8 @@ namespace EditorBuddyMonster.Algorithm.Fitness
                     {
                         monsterDifficulty += GetMonsterDifficulty(c, area, listCells);
                         numberMonsters++;
-                        if (FloodFill(c, listCells, HasMonster, false) <= 1) numberHordes++;
+                        int distanceToMonster = Distance(c, listCells, HasMonster, false);
+                        if (distanceToMonster <= 1) numberHordes++;
                     }
                     else if (HasItem(c.X, c.Y, listCells))
                     {
@@ -95,8 +96,8 @@ namespace EditorBuddyMonster.Algorithm.Fitness
                         break;
                 }
 
-                //monsterFit += (1.0 / area.Size) * areaMonsterFit;
-                monsterFit *= areaMonsterFit;
+                monsterFit += (1.0 / areaManager.AreaList.Count) * areaMonsterFit;
+                //monsterFit *= areaMonsterFit;
             }
 
             double maxMonstersFitness = 0.0;
@@ -131,22 +132,24 @@ namespace EditorBuddyMonster.Algorithm.Fitness
             double closeToMonster = 0.0;
             double distanceToEntrance = 0.0;
 
-            int distanceToMonster = FloodFill(cell, listCells, HasMonster, false);
+            int distanceToMonster = Distance(cell, listCells, HasMonster, false);
 
+            int distanceToStart = DistanceStartTarget(area.StartCell, cell, listCells);
             switch (area.ItemAccessibility)
             {
                 case ItemAccessibility.SafeToGet:
                     {
                         closeToMonster = Function(distanceToMonster, area.Size, 0, area.Size);
 
-                        distanceToEntrance = Function(DistanceStartTarget(area.StartCell, cell, listCells), 0, 0, area.Size);
+                        if (distanceToStart > area.Size) distanceToEntrance = 1.0;
+                        else distanceToEntrance = Function(distanceToStart, 0, 0, area.Size);
                         break;
                     }
                 case ItemAccessibility.HardToGet:
                     {
                         closeToMonster = Function(distanceToMonster, 0, 0, area.Size);
-
-                        distanceToEntrance = Function(DistanceStartTarget(area.StartCell, cell, listCells), area.Size, 0, area.Size);
+                        if (distanceToStart > area.Size) distanceToEntrance = 0.0;
+                        else distanceToEntrance = Function(distanceToStart, area.Size, 0, area.Size);
                         break;
                     }
             }
@@ -161,7 +164,11 @@ namespace EditorBuddyMonster.Algorithm.Fitness
             double horde = 0.0;
             CellStruct c = listCells.FirstOrDefault(x => x.x == cell.X && x.y == cell.Y);
 
-            distance = Function(DistanceStartTarget(area.StartCell, cell, listCells), 0, 0, area.Size);
+            int distanceToStart = DistanceStartTarget(area.StartCell, cell, listCells);
+            if (distanceToStart > area.Size)
+                Console.WriteLine(" ");
+
+            distance = Function(distanceToStart, 0, 0, area.Size);
 
             if(HasSkeleton(c))
             {
@@ -176,7 +183,7 @@ namespace EditorBuddyMonster.Algorithm.Fitness
                 type = 0.2;
             }
 
-            int distanceToMonster = FloodFill(cell, listCells, HasMonster, false);
+            int distanceToMonster = Distance(cell, listCells, HasMonster, false);
 
             if(distanceToMonster < 4) horde = Function(distanceToMonster, 1, 0, 3);
 
@@ -253,53 +260,120 @@ namespace EditorBuddyMonster.Algorithm.Fitness
             {
                 listCells[i].visited = false;
             }
-            
-            if (start.X == target.X && start.Y == target.Y) return 0;
 
+            List<CellStruct> list = new List<CellStruct>();
+            List<CellStruct> copyList = new List<CellStruct>();
 
-            ListQueue<CellStruct> queue = new ListQueue<CellStruct>();
             CellStruct firstCell = listCells.FirstOrDefault(c => c.x == start.X && c.y == start.Y);
             firstCell.visited = true;
-            queue.Enqueue(firstCell);
+            list.Add(firstCell);
 
-            while (queue.Count != 0)
+            while (list.Count != 0)
             {
-                CellStruct node = queue.Dequeue();
+                copyList.AddRange(list);
+                list.Clear();
+
+                foreach(CellStruct node in copyList)
+                {
+                    if (node.x == target.X && node.y == target.Y)
+                        return tileTraversed;
+
+                    //west
+                    if (HasCellUnvisited(node.x - 1, node.y, listCells))
+                    {
+                        CellStruct openNode = listCells.FirstOrDefault(c => c.x == node.x - 1 && c.y == node.y);
+                        openNode.visited = true;
+                        list.Add(openNode);
+                    }
+                    //east
+                    if (HasCellUnvisited(node.x + 1, node.y, listCells))
+                    {
+                        CellStruct openNode = listCells.FirstOrDefault(c => c.x == node.x + 1 && c.y == node.y);
+                        openNode.visited = true;
+                        list.Add(openNode);
+                    }
+                    //north
+                    if (HasCellUnvisited(node.x, node.y - 1, listCells))
+                    {
+                        CellStruct openNode = listCells.FirstOrDefault(c => c.x == node.x && c.y == node.y - 1);
+                        openNode.visited = true;
+                        list.Add(openNode);
+                    }
+                    //south
+                    if (HasCellUnvisited(node.x, node.y + 1, listCells))
+                    {
+                        CellStruct openNode = listCells.FirstOrDefault(c => c.x == node.x && c.y == node.y + 1);
+                        openNode.visited = true;
+                        list.Add(openNode);
+                    }
+                }
+
                 tileTraversed++;
+            }
+            return tileTraversed;
+        }
 
-                //west
-                if (HasCellUnvisited(node.x - 1, node.y, listCells))
-                {
-                    if (node.x - 1 == target.X && node.y == target.Y) return tileTraversed;
+        private static int Distance(Cell start, List<CellStruct> listCells, HasSomething has, bool checkFirst)
+        {
+            int tileTraversed = 0;
 
-                    CellStruct openNode = listCells.FirstOrDefault(c => c.x == node.x - 1 && c.y == node.y);
-                    openNode.visited = true;
-                    queue.Enqueue(openNode);
-                }
-                //east
-                if (HasCellUnvisited(node.x + 1, node.y, listCells))
+            for (int i = 0; i < listCells.Count; i++)
+            {
+                listCells[i].visited = false;
+            }
+
+            List<CellStruct> list = new List<CellStruct>();
+            List<CellStruct> copyList = new List<CellStruct>();
+
+            CellStruct firstCell = listCells.FirstOrDefault(c => c.x == start.X && c.y == start.Y);
+            firstCell.visited = true;
+            list.Add(firstCell);
+
+            while (list.Count != 0)
+            {
+                copyList.AddRange(list);
+                list.Clear();
+
+                foreach (CellStruct node in copyList)
                 {
-                    if (node.x + 1 == target.X && node.y == target.Y) return tileTraversed;
-                    CellStruct openNode = listCells.FirstOrDefault(c => c.x == node.x + 1 && c.y == node.y);
-                    openNode.visited = true;
-                    queue.Enqueue(openNode);
+                    if (has(node.x, node.y, listCells))
+                    {
+                        if (checkFirst && node.x == firstCell.x && node.y == firstCell.y) return tileTraversed;
+                        else if (node.x != firstCell.x || node.y != firstCell.y) return tileTraversed;
+                    }
+                        
+
+                    //west
+                    if (HasCellUnvisited(node.x - 1, node.y, listCells))
+                    {
+                        CellStruct openNode = listCells.FirstOrDefault(c => c.x == node.x - 1 && c.y == node.y);
+                        openNode.visited = true;
+                        list.Add(openNode);
+                    }
+                    //east
+                    if (HasCellUnvisited(node.x + 1, node.y, listCells))
+                    {
+                        CellStruct openNode = listCells.FirstOrDefault(c => c.x == node.x + 1 && c.y == node.y);
+                        openNode.visited = true;
+                        list.Add(openNode);
+                    }
+                    //north
+                    if (HasCellUnvisited(node.x, node.y - 1, listCells))
+                    {
+                        CellStruct openNode = listCells.FirstOrDefault(c => c.x == node.x && c.y == node.y - 1);
+                        openNode.visited = true;
+                        list.Add(openNode);
+                    }
+                    //south
+                    if (HasCellUnvisited(node.x, node.y + 1, listCells))
+                    {
+                        CellStruct openNode = listCells.FirstOrDefault(c => c.x == node.x && c.y == node.y + 1);
+                        openNode.visited = true;
+                        list.Add(openNode);
+                    }
                 }
-                //north
-                if (HasCellUnvisited(node.x, node.y - 1, listCells))
-                {
-                    if (node.x == target.X && node.y - 1 == target.Y) return tileTraversed;
-                    CellStruct openNode = listCells.FirstOrDefault(c => c.x == node.x && c.y == node.y - 1);
-                    openNode.visited = true;
-                    queue.Enqueue(openNode);
-                }
-                //south
-                if (HasCellUnvisited(node.x, node.y + 1, listCells))
-                {
-                    if (node.x == target.X && node.y + 1 == target.Y) return tileTraversed;
-                    CellStruct openNode = listCells.FirstOrDefault(c => c.x == node.x && c.y == node.y + 1);
-                    openNode.visited = true;
-                    queue.Enqueue(openNode);
-                }
+
+                tileTraversed++;
             }
             return tileTraversed;
         }
@@ -394,6 +468,9 @@ namespace EditorBuddyMonster.Algorithm.Fitness
         private double Function(double x, double n, double min, double max)
         {
             double result = 0.0;
+
+            if (n == x) return 1.0;
+
             if(x < n)
             {
                 result = (1 / (n - min)) * x + (-min / (n - min));

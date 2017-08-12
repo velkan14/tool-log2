@@ -1,9 +1,9 @@
 ﻿using gma.System.Windows;
-using EditorBuddyMonster.Exceptions;
-using EditorBuddyMonster.Layers;
-using EditorBuddyMonster.LoG2API;
-using EditorBuddyMonster.Utilities;
-using EditorBuddyMonster.WinAPI;
+using Povoater.Exceptions;
+using Povoater.Layers;
+using Povoater.LoG2API;
+using Povoater.Utilities;
+using Povoater.WinAPI;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -21,7 +21,7 @@ using System.Timers;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 
-namespace EditorBuddyMonster
+namespace Povoater
 {
     public partial class Monsters : Form
     {
@@ -44,7 +44,7 @@ namespace EditorBuddyMonster
                 {
                     if (toggleSwitch_innovation.Checked)
                     {
-                        return 100;
+                        return 50;
                     }
                     else
                     {
@@ -84,7 +84,7 @@ namespace EditorBuddyMonster
                 {
                     if (toggleSwitch_userplacement.Checked)
                     {
-                        return 100;
+                        return 25;
                     }
                     else
                     {
@@ -152,6 +152,8 @@ namespace EditorBuddyMonster
 
                 toggleSwitch_view.Enabled = true;
                 trackBar_history.Enabled = true;
+
+                gridPanel.Enabled = true;
             }));
         }
 
@@ -535,6 +537,11 @@ namespace EditorBuddyMonster
             core.NumberMonsters = NumberMonsters;
             core.HordesPercentage = HordesPercentage;
 
+        }
+
+        private void creditsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(StringResources.CreditsHelpString, "Credits");
         }
     }
 }

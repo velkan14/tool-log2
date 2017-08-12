@@ -1,16 +1,16 @@
 ﻿using GAF;
-using EditorBuddyMonster.LoG2API;
-using EditorBuddyMonster.Utilities;
+using Povoater.LoG2API;
+using Povoater.Utilities;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
 using System;
-using EditorBuddyMonster.Algorithm;
+using Povoater.Algorithm;
 using System.Timers;
 
-namespace EditorBuddyMonster
+namespace Povoater
 {
     public class Core
     {
@@ -240,9 +240,9 @@ namespace EditorBuddyMonster
         {
             if (innovationAlgorithm.HasSolution && convergenceAlgorithm.HasSolution && guidelineAlgorithm.HasSolution)
             {
-                var conv = convergenceAlgorithm.Solution.GetTop(1)[0];
-                var inno = innovationAlgorithm.Solution.GetTop(1)[0];
-                var obj = guidelineAlgorithm.Solution.GetTop(1)[0];
+                //var conv = convergenceAlgorithm.Solution.GetTop(1)[0];
+                //var inno = innovationAlgorithm.Solution.GetTop(1)[0];
+                //var obj = guidelineAlgorithm.Solution.GetTop(1)[0];
 
                 //Logger.AppendText("Innovation: " + inno.Fitness);
                 //Logger.AppendText("Convergence: " + conv.Fitness);

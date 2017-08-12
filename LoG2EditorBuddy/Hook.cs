@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace EditorBuddyMonster
+namespace Povoater
 {
     class Hook
     {
@@ -45,6 +45,11 @@ namespace EditorBuddyMonster
         internal void ReloadLOG()
         {
             if(activityHook.LoG2Found) activityHook.SendReloadCommand();
+            else
+            {
+                activityHook.Start();
+                if (activityHook.LoG2Found) activityHook.SendReloadCommand();
+            }
         }
     }
 }

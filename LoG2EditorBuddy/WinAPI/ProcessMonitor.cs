@@ -1,11 +1,11 @@
-﻿using EditorBuddyMonster.Utilities;
+﻿using Povoater.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Management;
 using System.Text;
 
-namespace EditorBuddyMonster.WinAPI
+namespace Povoater.WinAPI
 {
     class ProcessMonitor
     {

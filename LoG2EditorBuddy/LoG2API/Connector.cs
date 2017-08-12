@@ -1,4 +1,4 @@
-﻿namespace EditorBuddyMonster.LoG2API
+﻿namespace Povoater.LoG2API
 {
     public class Connector
     {

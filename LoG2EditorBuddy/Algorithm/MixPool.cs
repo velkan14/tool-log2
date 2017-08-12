@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GAF;
-using EditorBuddyMonster.LoG2API;
+using Povoater.LoG2API;
 using GAF.Operators;
-using EditorBuddyMonster.Layers;
-using EditorBuddyMonster.Algorithm.Fitness;
-using EditorBuddyMonster.Utilities;
+using Povoater.Layers;
+using Povoater.Algorithm.Fitness;
+using Povoater.Utilities;
 
-namespace EditorBuddyMonster.Algorithm
+namespace Povoater.Algorithm
 {
     class MixPool
     {
@@ -59,9 +59,9 @@ namespace EditorBuddyMonster.Algorithm
 
             InitialPopulation = 30;
             GenerationLimit = 30;
-            MutationPercentage = 1.0;
+            MutationPercentage = 0.8;
             CrossOverPercentage = 0.4;
-            ElitismPercentage = 5;
+            ElitismPercentage = 10;
 
 
             /*GuidelinePercentage = 1.0f;
@@ -93,7 +93,7 @@ namespace EditorBuddyMonster.Algorithm
             guidelineP = GuidelinePercentage / total;
             userP = UserPercentage / total;
             innovationP = InnovationPercentage / total;
-
+            
             //we can create an empty population as we will be creating the 
             //initial solutions manually.
             var population = new Population(InitialPopulation, cells.Count * ChromosomeUtils.NUMBER_GENES, true, true, ParentSelectionMethod.StochasticUniversalSampling);
@@ -103,7 +103,6 @@ namespace EditorBuddyMonster.Algorithm
             population.Solutions.AddRange(obj.GetTop(10));
             population.Solutions.AddRange(inno.GetTop(10));
             population.Solutions.AddRange(conv.GetTop(10));
-
 
             //create the elite operator
             var elite = new Elite(ElitismPercentage);
@@ -137,8 +136,8 @@ namespace EditorBuddyMonster.Algorithm
             double guidFit = guidelineFitness.CalculateFitness(chromosome);
             
             totalFitness =  guidelineP * guidFit +
-                            0.2*userP * convFit +
-                            0.5*innovationP * innoFit;
+                            /*0.2**/userP * convFit +
+                            /*0.5**/innovationP * innoFit;
 
             return totalFitness;
         }

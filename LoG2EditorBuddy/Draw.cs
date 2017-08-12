@@ -1,6 +1,6 @@
-﻿using EditorBuddyMonster.LoG2API;
-using EditorBuddyMonster.LoG2API.Elements;
-using EditorBuddyMonster.Utilities;
+﻿using Povoater.LoG2API;
+using Povoater.LoG2API.Elements;
+using Povoater.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace EditorBuddyMonster
+namespace Povoater
 {
     class Draw
     {
