@@ -110,7 +110,7 @@ namespace Povoater
             core = new Core(this, InnovationPercentage, GuidelinePercentage, UserPercentage, NumberMonsters, NumberItens, HordesPercentage);
 
             notifyIcon = new NotifyIcon();
-            notifyIcon.Icon = SystemIcons.Information;
+            notifyIcon.Icon = Icon.ExtractAssociatedIcon(Assembly.GetExecutingAssembly().Location);
             notifyIcon.Visible = true;
 
             //Solves flickering when redrawing gridPanel and triangle Panel
