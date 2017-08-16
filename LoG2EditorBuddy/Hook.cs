@@ -51,5 +51,10 @@ namespace Povoater
                 if (activityHook.LoG2Found) activityHook.SendReloadCommand();
             }
         }
+
+        internal void ShowPovoater()
+        {
+            activityHook.ShowPovoater();
+        }
     }
 }

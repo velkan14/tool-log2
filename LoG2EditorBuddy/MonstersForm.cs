@@ -543,5 +543,16 @@ namespace Povoater
         {
             MessageBox.Show(StringResources.CreditsHelpString, "Credits");
         }
+
+        private void MouseClick(object sender, MouseEventArgs e)
+        {
+            core.ResetTimer();
+        }
+
+        private void ShowPovoater(object sender, EventArgs e)
+        {
+            Console.WriteLine("Show");
+            core.ShowPovoater();
+        }
     }
 }

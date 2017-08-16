@@ -437,6 +437,7 @@ namespace gma.System.Windows
 
         private int procID;
         Process log2 = null;
+        Process povoater = null;
         public bool LoG2Found { get; private set; }
         private const int SW_HIDE = 0;
         private const int SW_RESTORE = 9;
@@ -700,6 +701,19 @@ namespace gma.System.Windows
             //    false);
         }
 
+        public void ShowPovoater()
+        {
+            SetForegroundWindow(povoater.MainWindowHandle);
+            SetFocus(povoater.MainWindowHandle);
+
+            //restore if minimized
+            if (IsIconic(povoater.MainWindowHandle))
+                ShowWindow(povoater.MainWindowHandle, SW_RESTORE);
+            else
+                ShowWindow(povoater.MainWindowHandle, SW_SHOWNORMAL);
+        }
+
+
 
         /// <summary>
         /// Installs both mouse and keyboard hooks and starts rasing events
@@ -724,6 +738,7 @@ namespace gma.System.Windows
                 // Create an instance of HookProc.
                 MouseHookProcedure = new HookProc(MouseHookProc);
 
+                povoater = Process.GetCurrentProcess();
 
                 Process[] log2instances = Process.GetProcessesByName("grimrock2");
                 if (log2instances.Length == 0)

@@ -161,6 +161,9 @@ namespace Povoater
                     timer.Enabled = true;
                     timer.AutoReset = true;
                     Console.WriteLine("Timer set");
+                } else
+                {
+                    Console.WriteLine("Timer not set");
                 }
 
             }
@@ -285,10 +288,27 @@ namespace Povoater
             timer.Start();
         }
 
+        public void ResetTimer()
+        {
+            if (timer.Enabled)
+            {
+                if (!algorithmRunning)
+                {
+                    timer.Stop();
+                    timer.Start();
+                }
+            }
+        }
+
         internal void ReloadLOG()
         {
             hook.ReloadLOG();
             LoadMapFromFile();
+        }
+
+        internal void ShowPovoater()
+        {
+            hook.ShowPovoater();
         }
     }
 }
