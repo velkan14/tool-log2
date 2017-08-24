@@ -25,6 +25,7 @@ namespace Povoater.Layers
             Name = name;
             Cells = cells;
             Difficulty = RoomDifficulty.Safe;
+            ItemAccessibility = ItemAccessibility.SafeToGet;
             Visible = true;
         }
 

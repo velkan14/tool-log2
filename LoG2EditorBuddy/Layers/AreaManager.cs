@@ -34,11 +34,11 @@ namespace Povoater.Layers
         private static Pen penHard = new Pen(new SolidBrush(Color.FromArgb(85, 0, 0)), 2);*/
 
         private static Brush selectionBrushAddEasy = new SolidBrush(Color.FromArgb(128, 72, 145, 220));
-        private static Pen penEasy = new Pen(new SolidBrush(Color.FromArgb(51, 153, 255)), 2);
+        private static Pen penEasy = new Pen(new SolidBrush(Color.FromArgb(51, 153, 255)), 1);
         private static Brush selectionBrushAddMedium = new SolidBrush(Color.FromArgb(128, 220, 214, 72));
-        private static Pen penMedium = new Pen(new SolidBrush(Color.FromArgb(255, 247, 51)), 2);
+        private static Pen penMedium = new Pen(new SolidBrush(Color.FromArgb(255, 247, 51)), 1);
         private static Brush selectionBrushAddHard = new SolidBrush(Color.FromArgb(128, 220, 72, 72));
-        private static Pen penHard = new Pen(new SolidBrush(Color.FromArgb(255, 51, 51)), 2);
+        private static Pen penHard = new Pen(new SolidBrush(Color.FromArgb(255, 51, 51)), 1);
 
 
         public AreaManager(Map map, Panel gridPanel)

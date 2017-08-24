@@ -66,6 +66,24 @@ namespace Povoater
             }
         }
 
+        public bool HasNextMap()
+        {
+            if (IndexMap == suggestionsMap.Count - 1)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public bool HasPreviousMap()
+        {
+            if (IndexMap == 0)
+            {
+                return false;
+            }
+            return true;
+        }
+
         private void AddSuggestion(Map map)
         {
             if (suggestionsMap.Count > 2)

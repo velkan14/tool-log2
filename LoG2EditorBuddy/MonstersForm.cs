@@ -262,6 +262,7 @@ namespace Povoater
             ReDrawMap();
         }
 
+
         private void gridPanel_MouseClick(object sender, MouseEventArgs e)
         {
             int durationMilliseconds = 10000;
@@ -283,6 +284,11 @@ namespace Povoater
             {
                 trackBar_history.Maximum = core.CountSuggestions - 1;
                 trackBar_history.Value = core.IndexMap;
+
+                if (!core.HasNextMap()) button_next.Enabled = false;
+                else button_next.Enabled = true;
+                if (!core.HasPreviousMap()) button_previous.Enabled = false;
+                else button_previous.Enabled = true;
             }));
         }
 
