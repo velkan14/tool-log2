@@ -222,14 +222,16 @@ namespace Povoater
                 guidelineAlgorithm = new GuidelinePool(monsters, OriginalMap, callback, monsters.AreasManager, numberMonsters, numberItens, hordesPercentage / 100.0);
             }
 
-            if (convergenceAlgorithm != null && convergenceAlgorithm.HasSolution)
+            convergenceAlgorithm = new ConvergencePool(monsters, OriginalMap, callback);
+
+            /*if (convergenceAlgorithm != null && convergenceAlgorithm.HasSolution)
             {
                 convergenceAlgorithm = new ConvergencePool(monsters, OriginalMap, callback, convergenceAlgorithm.Solution);
             }
             else
             {
                 convergenceAlgorithm = new ConvergencePool(monsters, OriginalMap, callback);
-            }
+            }*/
 
             mixAlgorithm = new MixPool(monsters, OriginalMap, new AlgorithmRunComplete(MixRunCompleteCallback))
             {

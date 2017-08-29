@@ -58,9 +58,9 @@ namespace Povoater.Algorithm
             originalMap = currentMap.CloneJson() as Map;
 
             InitialPopulation = 30;
-            GenerationLimit = 30;
-            MutationPercentage = 0.8;
-            CrossOverPercentage = 0.4;
+            GenerationLimit = 50;
+            MutationPercentage = 0.2;
+            CrossOverPercentage = 0.8;
             ElitismPercentage = 10;
 
 

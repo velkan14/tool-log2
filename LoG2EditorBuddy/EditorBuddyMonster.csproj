@@ -136,7 +136,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Algorithm\CellStruct.cs" />
-    <Compile Include="Algorithm\ConvergencePool.cs" />
+    <Compile Include="Algorithm\Pool\ConvergencePool.cs" />
     <Compile Include="Algorithm\Fitness\Guideline.cs" />
     <Compile Include="Algorithm\Operator\CrossoverIndex.cs" />
     <Compile Include="Algorithm\Fitness\ConvergenceFitness.cs" />
@@ -147,11 +147,11 @@
     <Compile Include="Algorithm\Stuff\CustomCrossover.cs" />
     <Compile Include="Algorithm\Stuff\CustomSwapMutate.cs" />
     <Compile Include="Algorithm\Stuff\CrossoverT.cs" />
-    <Compile Include="Algorithm\InnovationPool.cs" />
+    <Compile Include="Algorithm\Pool\InnovationPool.cs" />
     <Compile Include="Algorithm\Stuff\MazeSolver.cs" />
-    <Compile Include="Algorithm\MixPool.cs" />
+    <Compile Include="Algorithm\Pool\MixPool.cs" />
     <Compile Include="Algorithm\Stuff\NoveltyAlgorithmTestClass.cs" />
-    <Compile Include="Algorithm\GuidelinePool.cs" />
+    <Compile Include="Algorithm\Pool\GuidelinePool.cs" />
     <Compile Include="Algorithm\Stuff\ObjectiveAlgorithmTestClass.cs" />
     <Compile Include="Algorithm\Stuff\SearchUtils.cs" />
     <Compile Include="Controls\TrianglePicker.cs">

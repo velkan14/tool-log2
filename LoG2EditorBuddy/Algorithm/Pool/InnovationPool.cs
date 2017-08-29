@@ -83,9 +83,9 @@ namespace Povoater
             originalMap = currentMap.CloneJson() as Map;
 
             InitialPopulation = 30;
-            GenerationLimit = 30;
-            MutationPercentage = 0.35;
-            CrossOverPercentage = 0.4;
+            GenerationLimit = 50;
+            MutationPercentage = 0.2;
+            CrossOverPercentage = 0.8;
             ElitismPercentage = 10;
 
             running = false;
@@ -128,8 +128,11 @@ namespace Povoater
 
             //add the operators
             ga.Operators.Add(elite);
-            ga.Operators.Add(mutate);
-            ga.Operators.Add(swap);
+            //ga.Operators.Add(mutate);
+            //ga.Operators.Add(swap);
+
+            ga.Operators.Add(new BinaryMutate(MutationPercentage));
+            ga.Operators.Add(new CrossoverIndex(CrossOverPercentage, ChromosomeUtils.NUMBER_GENES, true, GAF.Operators.CrossoverType.DoublePoint, ReplacementMethod.GenerationalReplacement));
             
 
             //run the GA
