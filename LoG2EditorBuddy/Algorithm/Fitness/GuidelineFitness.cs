@@ -219,6 +219,9 @@ namespace Povoater.Algorithm.Fitness
             /* Percentages of all fitness */
             totalFitness = (0.2 * maxMonstersFitness + 0.4 * totalFitness + 0.4 * hordesFit) * (0.8 * totalItensFitness + 0.2 * maxItensFitness);
 
+
+            if (Double.IsNaN(totalFitness)) { Logger.AppendText("Error: NaN Guidline"); }
+
             return totalFitness;
         }
 

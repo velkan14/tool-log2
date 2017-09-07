@@ -12,7 +12,7 @@ namespace Povoater.LoG2API
 {
     static class ChromosomeUtils
     {
-        public static int NUMBER_GENES = 8;
+        public static int NUMBER_GENES = 6;
 
         public static Chromosome ChromosomeFromMap(Map map)
         {
@@ -26,61 +26,61 @@ namespace Povoater.LoG2API
 
                 if (c.Monster == null)
                 {
-                    //Nothing 000
+                    type = 18;
                 }
                 else if (c.Exists("turtle"))
                 {
-                    type = 1;
+                    type = 0;
                 }
                 else if (c.Exists("mummy"))
                 {
-                    type = 14;
+                    type = 3;
                 }
                 else if (c.Exists("skeleton_trooper"))
                 {
-                    type = 27;
+                    type = 6;
                 }
 
                 //------ Check weapons ------
                 if (c.Exists("rapier"))
                 {
-                    type = 39;
+                    type = 9;
                 }
                 else if (c.Exists("battle_axe"))
                 {
-                    type = 42;
+                    type = 10;
                 }
 
                 //------ Check Resources ------
                 if (c.Exists("potion_healing"))
                 {
-                    type = 45;
+                    type = 11;
                 }
                 else if (c.Exists("borra"))
                 {
-                    type = 48;
+                    type = 12;
                 }
                 else if (c.Exists("bread"))
                 {
-                    type = 51;
+                    type = 13;
                 }
 
                 //------ Check Armor ------
                 if (c.Exists("leather_cap"))
                 {
-                    type = 54;
+                    type = 14;
                 }
                 else if (c.Exists("leather_brigandine"))
                 {
-                    type = 57;
+                    type = 15;
                 }
                 else if (c.Exists("leather_pants"))
                 {
-                    type = 60;
+                    type = 16;
                 }
                 else if (c.Exists("leather_boots"))
                 {
-                    type = 63;
+                    type = 17;
                 }
 
                 string s = IntToBinaryString(type).PadLeft(NUMBER_GENES, '0');
@@ -114,62 +114,62 @@ namespace Povoater.LoG2API
 
                 int j = Convert.ToInt32(s, 2);
 
-                if (j == 1 || j == 2 || j == 3 || j == 4 || j == 5 || j == 6 || j == 7 || j == 8 || j == 9 || j == 10 || j == 11 || j == 12 || j == 13)
+                if (j == 0 || j == 1 || j == 2)
                 {
                     //Turtle
                     cells[i].Monster = new Monster("turtle", cells[i].X, cells[i].Y, 0, 0, "turtle_" + i);
                 }
-                else if (j == 14 || j == 15 || j == 16 || j == 17 || j == 18 || j == 19 || j == 20 || j == 21 || j == 22 || j == 23 || j == 24 || j == 25 || j == 26)
+                else if (j == 3 || j == 4 || j == 5)
                 {
                     //Mummy
                     cells[i].Monster = new Monster("mummy", cells[i].X, cells[i].Y, 0, 0, "mummy_" + i);
                 }
-                else if (j == 27 || j == 28 || j == 29 || j == 30 || j == 31 || j == 32 || j == 33 || j == 34 || j == 35 || j == 36 || j == 37 || j == 38)
+                else if (j == 6 || j == 7 || j == 8)
                 {
                     //Skeleton
                     cells[i].Monster = new Monster("skeleton_trooper", cells[i].X, cells[i].Y, 0, 0, "skeleton_trooper_" + i);
                 }
-                else if (j == 39 || j == 40 || j == 41)
+                else if (j == 9)
                 {
                     //Rapier
                     cells[i].AddElement(new Weapon("rapier", cells[i].X, cells[i].Y, 0, 0, "rapier_" + i));
                 }
-                else if (j == 42 || j == 43 || j == 44)
+                else if (j == 10)
                 {
                     //Battle Axe
                     cells[i].AddElement(new Weapon("battle_axe", cells[i].X, cells[i].Y, 0, 0, "battle_axe_" + i));
                 }
-                else if (j == 45 || j == 46 || j == 47)
+                else if (j == 11)
                 {
                     //Potion
                     cells[i].AddElement(new Potion("potion_healing", cells[i].X, cells[i].Y, 0, 0, "potion_healing_" + i));
                 }
-                else if (j == 48 || j == 49 || j == 50)
+                else if (j == 12)
                 {
                     //Borra
                     cells[i].AddElement(new Food("borra", cells[i].X, cells[i].Y, 0, 0, "borra_" + i));
                 }
-                else if (j == 51 || j == 52 || j == 53)
+                else if (j == 13)
                 {
                     //Bread
                     cells[i].AddElement(new Food("bread", cells[i].X, cells[i].Y, 0, 0, "bread_" + i));
                 }
-                else if (j == 54 || j == 55 || j == 56)
+                else if (j == 14)
                 {
                     //Leather cap
                     cells[i].AddElement(new Armor("leather_cap", cells[i].X, cells[i].Y, 0, 0, "leather_cap_" + i));
                 }
-                else if (j == 57 || j == 58 || j == 59)
+                else if (j == 15)
                 {
                     //Leather brigandine
                     cells[i].AddElement(new Armor("leather_brigandine", cells[i].X, cells[i].Y, 0, 0, "leather_brigandine_" + i));
                 }
-                else if (j == 60 || j == 61 || j == 62)
+                else if (j == 16)
                 {
                     //Leather pants
                     cells[i].AddElement(new Armor("leather_pants", cells[i].X, cells[i].Y, 0, 0, "leather_pants_" + i));
                 }
-                else if (j == 63 || j == 64 || j == 65)
+                else if (j == 17)
                 {
                     //Leather boots
                     cells[i].AddElement(new Armor("leather_boots", cells[i].X, cells[i].Y, 0, 0, "leather_boots_" + i));

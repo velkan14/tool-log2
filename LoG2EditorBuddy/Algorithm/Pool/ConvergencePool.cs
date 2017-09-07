@@ -41,48 +41,14 @@ namespace Povoater.Algorithm
 
             InitialPopulation = 30;
             GenerationLimit = 30;
-            MutationPercentage = 0.35;
-            CrossOverPercentage = 0.4;
-            ElitismPercentage = 10;
-
-            running = false;
-            HasSolution = false;
-
-
-            cells = originalMap.SpawnCells;
-
-            Chromosome chrom = ChromosomeUtils.ChromosomeFromMap(originalMap);
-
-            string binaryString = chrom.ToBinaryString();
-
-            fitness = new ConvergenceFitness(cells, binaryString);
-
-            population = new Population(InitialPopulation, cells.Count * ChromosomeUtils.NUMBER_GENES, true, true);
-
-            population.Solutions.Clear();
-
-            for (int i = 0; i < InitialPopulation; i++)
-            {
-                population.Solutions.Add(new Chromosome(binaryString));
-            }
-        }
-
-        public ConvergencePool(Monsters monsters, Map currentMap, Delegate callback, Population pop)
-        {
-            this.monsters = monsters;
-            this.callback = callback;
-
-            originalMap = currentMap.CloneJson() as Map;
-
-            InitialPopulation = 30;
-            GenerationLimit = 50;
-            MutationPercentage = 0.2;
+            MutationPercentage = 0.4;
             CrossOverPercentage = 0.8;
             ElitismPercentage = 10;
 
             running = false;
             HasSolution = false;
 
+
             cells = originalMap.SpawnCells;
 
             Chromosome chrom = ChromosomeUtils.ChromosomeFromMap(originalMap);
@@ -91,11 +57,18 @@ namespace Povoater.Algorithm
 
             fitness = new ConvergenceFitness(cells, binaryString);
 
-            population = new Population(InitialPopulation, cells.Count * ChromosomeUtils.NUMBER_GENES, true, true);
+            population = new Population(InitialPopulation, cells.Count * ChromosomeUtils.NUMBER_GENES, true, true, ParentSelectionMethod.FitnessProportionateSelection);
 
             population.Solutions.Clear();
 
-            population.Solutions.AddRange(pop.GetTop(InitialPopulation));
+            for (int i = 0; i < 5; i++)
+            {
+                population.Solutions.Add(new Chromosome(binaryString));
+            }
+            for (int i = 0; i < 25; i++)
+            {
+                population.Solutions.Add(new Chromosome(cells.Count * ChromosomeUtils.NUMBER_GENES));
+            }
         }
 
         public void Run()

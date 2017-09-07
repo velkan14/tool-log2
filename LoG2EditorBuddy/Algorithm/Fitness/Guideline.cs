@@ -64,9 +64,11 @@ namespace Povoater.Algorithm.Fitness
                 {
                     if (HasMonster(c.X, c.Y, listCells))
                     {
-                        monsterDifficulty += GetMonsterDifficulty(c, area, listCells);
-                        numberMonsters++;
                         int distanceToMonster = Distance(c, listCells, HasMonster, false);
+
+                        monsterDifficulty += GetMonsterDifficulty(c, area, listCells, distanceToMonster);
+                        numberMonsters++;
+                        
                         if (distanceToMonster <= 1) numberHordes++;
                     }
                     else if (HasItem(c.X, c.Y, listCells))
@@ -101,6 +103,7 @@ namespace Povoater.Algorithm.Fitness
             }
 
             double maxMonstersFitness = 0.0;
+            //maxMonstersFitness = Function(numberMonsters, MaxMonsters, 0, cells.Count);
             if (MaxMonsters == 0)
             {
                 maxMonstersFitness = FunctionZero(numberMonsters);
@@ -124,6 +127,9 @@ namespace Povoater.Algorithm.Fitness
             else hordesFit = Function((double)numberHordes / (double)numberMonsters, HordesPercentage, 0.0, 1.0);
 
             totalFitness = maxMonstersFitness * monsterFit * (0.5 * maxItensFitness + 0.5 * itemFit);
+
+            if (Double.IsNaN(totalFitness)) { Logger.AppendText("Error: NaN Guidline"); }
+
             return totalFitness;
         }
 
@@ -157,16 +163,17 @@ namespace Povoater.Algorithm.Fitness
             return distanceToEntrance;
         }
 
-        private double GetMonsterDifficulty(Cell cell, Area area, List<CellStruct> listCells)
+        private double GetMonsterDifficulty(Cell cell, Area area, List<CellStruct> listCells, int distanceToMonster)
         {
             double distance = 0.0;
             double type = 0.0;
             double horde = 0.0;
+
             CellStruct c = listCells.FirstOrDefault(x => x.x == cell.X && x.y == cell.Y);
 
             int distanceToStart = DistanceStartTarget(area.StartCell, cell, listCells);
             if (distanceToStart > area.Size)
-                Console.WriteLine(" ");
+                Logger.AppendText("OMG!!!");
 
             distance = Function(distanceToStart, 0, 0, area.Size);
 
@@ -182,8 +189,6 @@ namespace Povoater.Algorithm.Fitness
             {
                 type = 0.2;
             }
-
-            int distanceToMonster = Distance(cell, listCells, HasMonster, false);
 
             if(distanceToMonster < 4) horde = Function(distanceToMonster, 1, 0, 3);
 

@@ -46,9 +46,9 @@ namespace Povoater.Algorithm
         ConvergenceFitness convergenceFitness;
         Guideline guidelineFitness;
 
-        double guidelineP = 0.0;
-        double userP = 0.0;
-        double innovationP = 0.0;
+        double guidelineLevel = 0.0;
+        double ConvergenceLevel = 0.0;
+        double innovationLevel = 0.0;
 
         public MixPool(Monsters monsters, Map currentMap, Delegate callback)
         {
@@ -59,17 +59,9 @@ namespace Povoater.Algorithm
 
             InitialPopulation = 30;
             GenerationLimit = 50;
-            MutationPercentage = 0.2;
+            MutationPercentage = 0.4;
             CrossOverPercentage = 0.8;
             ElitismPercentage = 10;
-
-
-            /*GuidelinePercentage = 1.0f;
-            InnovationPercentage = 0.4f;
-            UserPercentage = 0.4f;
-
-            MaxMonsters = 7;
-            MaxItens = 5;*/
 
             running = false;
             HasSolution = false;
@@ -90,9 +82,9 @@ namespace Povoater.Algorithm
             guidelineFitness = new Guideline(cells, areaManager, MaxMonsters, MaxItens, HordesPercentage);
 
             double total = GuidelinePercentage + UserPercentage + InnovationPercentage;
-            guidelineP = GuidelinePercentage / total;
-            userP = UserPercentage / total;
-            innovationP = InnovationPercentage / total;
+            guidelineLevel = GuidelinePercentage / total;
+            ConvergenceLevel = UserPercentage / total;
+            innovationLevel = InnovationPercentage / total;
             
             //we can create an empty population as we will be creating the 
             //initial solutions manually.
@@ -130,14 +122,17 @@ namespace Povoater.Algorithm
         protected double CalculateFitness(Chromosome chromosome)
         {
             double totalFitness = 0.0;
+            double convFit = 0.0;
+            double innoFit = 0.0;
+            double guidFit = 0.0;
 
-            double convFit = convergenceFitness.CalculateFitness(chromosome);
-            double innoFit = 1.0 - convFit;
-            double guidFit = guidelineFitness.CalculateFitness(chromosome);
+            convFit = convergenceFitness.CalculateFitness(chromosome);
+            innoFit = 1.0 - convFit;
+            if (guidelineLevel != 0.0) guidFit = guidelineFitness.CalculateFitness(chromosome);
             
-            totalFitness =  guidelineP * guidFit +
-                            /*0.2**/userP * convFit +
-                            /*0.5**/innovationP * innoFit;
+            totalFitness =  guidelineLevel * guidFit +
+                            ConvergenceLevel * convFit +
+                            innovationLevel * innoFit;
 
             return totalFitness;
         }

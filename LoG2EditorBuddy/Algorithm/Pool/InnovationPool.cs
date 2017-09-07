@@ -65,48 +65,7 @@ namespace Povoater
 
             //we can create an empty population as we will be creating the 
             //initial solutions manually.
-            population = new Population(InitialPopulation, cells.Count * ChromosomeUtils.NUMBER_GENES, true, true);
-
-            population.Solutions.Clear();
-
-            for (int i = 0; i < InitialPopulation; i++)
-            {
-                population.Solutions.Add(new Chromosome(binaryString));
-            }
-        }
-
-        public InnovationPool(Monsters monsters, Map currentMap, Delegate callback, Population pop)
-        {
-            this.monsters = monsters;
-            this.callback = callback;
-
-            originalMap = currentMap.CloneJson() as Map;
-
-            InitialPopulation = 30;
-            GenerationLimit = 50;
-            MutationPercentage = 0.2;
-            CrossOverPercentage = 0.8;
-            ElitismPercentage = 10;
-
-            running = false;
-            HasSolution = false;
-
-            cells = originalMap.SpawnCells;
-
-            Chromosome chrom = ChromosomeUtils.ChromosomeFromMap(originalMap);
-
-            string binaryString = chrom.ToBinaryString();
-
-
-            fitness = new ConvergenceFitness(cells, binaryString);
-
-            //we can create an empty population as we will be creating the 
-            //initial solutions manually.
-            population = new Population(InitialPopulation, cells.Count * ChromosomeUtils.NUMBER_GENES, true, true);
-
-            population.Solutions.Clear();
-
-            population.Solutions.AddRange(pop.GetTop(InitialPopulation));
+            population = new Population(InitialPopulation, cells.Count * ChromosomeUtils.NUMBER_GENES, true, true, ParentSelectionMethod.FitnessProportionateSelection);
         }
 
         public void Run()

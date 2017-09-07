@@ -50,9 +50,9 @@ namespace Povoater.Algorithm
             originalMap = currentMap.CloneJson() as Map;
 
             InitialPopulation = 30;
-            GenerationLimit = 30;
-            MutationPercentage = 0.8;
-            CrossOverPercentage = 0.7;
+            GenerationLimit = 50;
+            MutationPercentage = 0.4;
+            CrossOverPercentage = 0.8;
             ElitismPercentage = 10;
 
             running = false;
@@ -64,7 +64,7 @@ namespace Povoater.Algorithm
 
             //we can create an empty population as we will be creating the 
             //initial solutions manually.
-            population = new Population(InitialPopulation, cells.Count * ChromosomeUtils.NUMBER_GENES, true, true);
+            population = new Population(InitialPopulation, cells.Count * ChromosomeUtils.NUMBER_GENES, true, true, ParentSelectionMethod.FitnessProportionateSelection);
         }
 
         public GuidelinePool(Monsters monsters, Map currentMap, Delegate callback, AreaManager areaManager, int maxMonsters, int maxItens, double hordesPercentage, Population pop)

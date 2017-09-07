@@ -64,18 +64,102 @@ namespace Povoater.Algorithm.Fitness
             numberOfItens = numberOfArmor + numberOfResource + numberOfWeapon;
         }
 
+        /*        public double CalculateFitness(Chromosome chromosome)
+                {
+                    double fitness = 0.0; // Value between 0 and 1. 1 is the fittest
+
+                    int numberSkeletons = 0;
+                    int numberMummy = 0;
+                    int numberTurtle = 0;
+                    int numberArmor = 0;
+                    int numberResource = 0;
+                    int numberWeapon = 0;
+
+                    List<CellStruct> listThing = new List<CellStruct>();
+
+                    string binaryString = chromosome.ToBinaryString();
+
+                    for (int i = 0; i < cells.Count; i++)
+                    {
+                        string s = binaryString.Substring(i * ChromosomeUtils.NUMBER_GENES, ChromosomeUtils.NUMBER_GENES);
+
+                        int type = Convert.ToInt32(s, 2);
+                        CellStruct tmp = new CellStruct(type, cells[i].X, cells[i].Y);
+
+                        if (HasMonster(tmp) || HasItem(tmp))
+                        {
+                            listThing.Add(tmp);
+                        }
+
+                        if (HasSkeleton(tmp))
+                        {
+                            numberSkeletons++;
+                        }
+                        else if (HasMummy(tmp))
+                        {
+                            numberMummy++;
+                        }
+                        else if (HasTurtle(tmp))
+                        {
+                            numberTurtle++;
+                        }
+                        else if (HasArmor(tmp))
+                        {
+                            numberArmor++;
+                        }
+                        else if (HasResource(tmp))
+                        {
+                            numberResource++;
+                        }
+                        else if (HasWeapon(tmp))
+                        {
+                            numberWeapon++;
+                        }
+                    }
+
+                    int positionType = 0;
+                    int positionEqual = 0;
+                    foreach (CellStruct c in listThing)
+                    {
+                        CellStruct originalCell = mapCells.FirstOrDefault(k => k.x == c.x && k.y == c.y);
+
+                        if (AreEquals(c, originalCell))
+                        {
+                            positionEqual++;
+                        }
+                        if (SameType(c, originalCell))
+                        {
+                            positionType++;
+                        }
+                    }
+
+                    int numberItens = numberResource + numberArmor + numberWeapon;
+                    int numberMonsters = numberSkeletons + numberMummy + numberTurtle;
+
+                    double fitnessNumber = Function(numberMonsters, numberOfMonsters, 0, cells.Count) *
+                                           Function(numberItens, numberOfItens, 0, cells.Count);
+
+                    double fitnessPosition = 0.5 * Function(positionEqual, numberOfItens + numberOfMonsters, 0, cells.Count) + 
+                                             0.5 * Function(positionType, numberOfItens + numberOfMonsters, 0, cells.Count);
+
+                    double fitnessType = Function(numberArmor, numberOfArmor, 0, cells.Count) *
+                              Function(numberMummy, numberOfMummy, 0, cells.Count) *
+                              Function(numberResource, numberOfResource, 0, cells.Count) *
+                              Function(numberSkeletons, numberOfSkeletons, 0, cells.Count) *
+                              Function(numberTurtle, numberOfTurtle, 0, cells.Count) *
+                              Function(numberWeapon, numberOfWeapon, 0, cells.Count);
+
+                    fitness = 0.5 * fitnessNumber + 0.25 * fitnessPosition + 0.25 * fitnessType;
+
+
+                    return fitness;
+                }*/
+
         public double CalculateFitness(Chromosome chromosome)
         {
             double fitness = 0.0; // Value between 0 and 1. 1 is the fittest
 
-            int numberSkeletons = 0;
-            int numberMummy = 0;
-            int numberTurtle = 0;
-            int numberArmor = 0;
-            int numberResource = 0;
-            int numberWeapon = 0;
-
-            List<CellStruct> listThing = new List<CellStruct>();
+            List<CellStruct> thisCells = new List<CellStruct>();
 
             string binaryString = chromosome.ToBinaryString();
 
@@ -86,72 +170,25 @@ namespace Povoater.Algorithm.Fitness
                 int type = Convert.ToInt32(s, 2);
                 CellStruct tmp = new CellStruct(type, cells[i].X, cells[i].Y);
 
-                if (HasMonster(tmp) || HasItem(tmp))
-                {
-                    listThing.Add(tmp);
-                }
-
-                if (HasSkeleton(tmp))
-                {
-                    numberSkeletons++;
-                }
-                else if (HasMummy(tmp))
-                {
-                    numberMummy++;
-                }
-                else if (HasTurtle(tmp))
-                {
-                    numberTurtle++;
-                }
-                else if (HasArmor(tmp))
-                {
-                    numberArmor++;
-                }
-                else if (HasResource(tmp))
-                {
-                    numberResource++;
-                }
-                else if (HasWeapon(tmp))
-                {
-                    numberWeapon++;
-                }
+                thisCells.Add(tmp);
             }
-            
-            int positionType = 0;
-            int positionEqual = 0;
-            foreach (CellStruct c in listThing)
+
+            double equal = 0.0;
+
+            foreach (CellStruct c in thisCells)
             {
                 CellStruct originalCell = mapCells.FirstOrDefault(k => k.x == c.x && k.y == c.y);
-
-                if (AreEquals(c, originalCell))
-                {
-                    positionEqual++;
+                if (AreEquals(c, originalCell)){
+                    equal += 1.0;
                 }
-                if (SameType(c, originalCell))
+                else if (SameType(c, originalCell))
                 {
-                    positionType++;
+                    equal += 0.5;
                 }
             }
+            fitness = Function(equal, cells.Count, 0, cells.Count);
 
-            int numberItens = numberResource + numberArmor + numberWeapon;
-            int numberMonsters = numberSkeletons + numberMummy + numberTurtle;
-
-            double fitnessNumber = Function(numberMonsters, numberOfMonsters, 0, cells.Count) *
-                                   Function(numberItens, numberOfItens, 0, cells.Count);
-
-            double fitnessPosition = 0.5 * Function(positionEqual, numberOfItens + numberOfMonsters, 0, cells.Count) + 
-                                     0.5 * Function(positionType, numberOfItens + numberOfMonsters, 0, cells.Count);
-
-            double fitnessType = Function(numberArmor, numberOfArmor, 0, cells.Count) *
-                      Function(numberMummy, numberOfMummy, 0, cells.Count) *
-                      Function(numberResource, numberOfResource, 0, cells.Count) *
-                      Function(numberSkeletons, numberOfSkeletons, 0, cells.Count) *
-                      Function(numberTurtle, numberOfTurtle, 0, cells.Count) *
-                      Function(numberWeapon, numberOfWeapon, 0, cells.Count);
-
-            fitness = 0.5 * fitnessNumber + 0.25 * fitnessPosition + 0.25 * fitnessType;
-
-
+            if(Double.IsNaN(fitness)){ Logger.AppendText("Error: NaN Conv"); }
             return fitness;
         }
 
@@ -172,7 +209,8 @@ namespace Povoater.Algorithm.Fitness
                HasMummy(c) && HasMummy(originalCell) ||
                HasArmor(c) && HasArmor(originalCell) ||
                HasResource(c) && HasResource(originalCell) ||
-               HasWeapon(c) && HasWeapon(originalCell))
+               HasWeapon(c) && HasWeapon(originalCell) ||
+               IsEmpty(c) && IsEmpty(originalCell))
             {
                 return true;
             }
@@ -191,6 +229,10 @@ namespace Povoater.Algorithm.Fitness
         private double Function(double x, double n, double min, double max)
         {
             double result = 0.0;
+            if(x == n)
+            {
+                return 1.0;
+            }
             if (x < n)
             {
                 result = (1 / (n - min)) * x + (-min / (n - min));

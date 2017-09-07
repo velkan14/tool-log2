@@ -10,7 +10,7 @@ namespace Povoater.Algorithm
     {
         public static bool IsEmpty(CellStruct cell)
         {
-            if(cell.type == 0 || cell.type > 65)
+            if(cell.type > 17)
             {
                 return true;
             }
@@ -29,47 +29,47 @@ namespace Povoater.Algorithm
         public static bool HasItem(CellStruct cell)
         {
             int j = cell.type;
-            if (j == 39 || j == 40 || j == 41)
+            if (j == 9)
             {
                 //Rapier
                 return true;
             }
-            else if (j == 42 || j == 43 || j == 44)
+            else if (j == 10)
             {
                 //Battle Axe
                 return true;
             }
-            else if (j == 45 || j == 46 || j == 47)
+            else if (j == 11)
             {
                 //Potion
                 return true;
             }
-            else if (j == 48 || j == 49 || j == 50)
+            else if (j == 12)
             {
                 //Borra
                 return true;
             }
-            else if (j == 51 || j == 52 || j == 53)
+            else if (j == 13)
             {
                 //Bread
                 return true;
             }
-            else if (j == 54 || j == 55 || j == 56)
+            else if (j == 14)
             {
                 //Leather cap
                 return true;
             }
-            else if (j == 57 || j == 58 || j == 59)
+            else if (j == 15)
             {
                 //Leather brigandine
                 return true;
             }
-            else if (j == 60 || j == 61 || j == 62)
+            else if (j == 16)
             {
                 //Leather pants
                 return true;
             }
-            else if (j == 63 || j == 64 || j == 65)
+            else if (j == 17)
             {
                 //Leather boots
                 return true;
@@ -90,12 +90,12 @@ namespace Povoater.Algorithm
         {
             int j = cell.type;
 
-            if (j == 39 || j == 40 || j == 41)
+            if (j == 9)
             {
                 //Rapier
                 return true;
             }
-            else if (j == 42 || j == 43 || j == 44)
+            else if (j == 10)
             {
                 //Battle Axe
                 return true;
@@ -116,17 +116,17 @@ namespace Povoater.Algorithm
         {
             int j = cell.type;
 
-            if (j == 45 || j == 46 || j == 47)
+            if (j == 11)
             {
                 //Potion
                 return true;
             }
-            else if (j == 48 || j == 49 || j == 50)
+            else if (j ==  12)
             {
                 //Borra
                 return true;
             }
-            else if (j == 51 || j == 52 || j == 53)
+            else if (j == 13)
             {
                 //Bread
                 return true;
@@ -147,22 +147,22 @@ namespace Povoater.Algorithm
         {
             int j = cell.type;
 
-            if (j == 54 || j == 55 || j == 56)
+            if (j == 14)
             {
                 //Leather cap
                 return true;
             }
-            else if (j == 57 || j == 58 || j == 59)
+            else if (j == 15)
             {
                 //Leather brigandine
                 return true;
             }
-            else if (j == 60 || j == 61 || j == 62)
+            else if (j == 16)
             {
                 //Leather pants
                 return true;
             }
-            else if (j == 63 || j == 64 || j == 65)
+            else if (j == 17)
             {
                 //Leather boots
                 return true;
@@ -183,17 +183,17 @@ namespace Povoater.Algorithm
         {
             int j = cell.type;
 
-            if (j == 1 || j == 2 || j == 3 || j == 4 || j == 5 || j == 6 || j == 7 || j == 8 || j == 9 || j == 10 || j == 11 || j == 12 || j == 13)
+            if (j == 0 || j == 1 || j == 2)
             {
                 //Turtle
                 return true;
             }
-            else if (j == 14 || j == 15 || j == 16 || j == 17 || j == 18 || j == 19 || j == 20 || j == 21 || j == 22 || j == 23 || j == 24 || j == 25 || j == 26)
+            else if (j == 3 || j == 4 || j == 5)
             {
                 //Mummy
                 return true;
             }
-            else if (j == 27 || j == 28 || j == 29 || j == 30 || j == 31 || j == 32 || j == 33 || j == 34 || j == 35 || j == 36 || j == 37 || j == 38)
+            else if (j == 6 || j == 7 || j == 8)
             {
                 //Skeleton
                 return true;
@@ -211,7 +211,7 @@ namespace Povoater.Algorithm
         {
             int j = cell.type;
 
-            if (j == 1 || j == 2 || j == 3 || j == 4 || j == 5 || j == 6 || j == 7 || j == 8 || j == 9 || j == 10 || j == 11 || j == 12 || j == 13)
+            if (j == 0 || j == 1 || j == 2)
             {
                 //Turtle
                 return true;
@@ -230,7 +230,7 @@ namespace Povoater.Algorithm
         {
             int j = cell.type;
 
-            if (j == 14 || j == 15 || j == 16 || j == 17 || j == 18 || j == 19 || j == 20 || j == 21 || j == 22 || j == 23 || j == 24 || j == 25 || j == 26)
+            if (j == 3 || j == 4 || j == 5)
             {
                 //Mummy
                 return true;
@@ -249,7 +249,7 @@ namespace Povoater.Algorithm
         {
             int j = cell.type;
 
-            if (j == 27 || j == 28 || j == 29 || j == 30 || j == 31 || j == 32 || j == 33 || j == 34 || j == 35 || j == 36 || j == 37 || j == 38)
+            if (j == 6 || j == 7 || j == 8)
             {
                 //Skeleton
                 return true;
