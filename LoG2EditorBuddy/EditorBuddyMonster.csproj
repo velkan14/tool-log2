@@ -136,6 +136,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Algorithm\CellStruct.cs" />
+    <Compile Include="Algorithm\Math.cs" />
     <Compile Include="Algorithm\Pool\ConvergencePool.cs" />
     <Compile Include="Algorithm\Fitness\Guideline.cs" />
     <Compile Include="Algorithm\Operator\CrossoverIndex.cs" />

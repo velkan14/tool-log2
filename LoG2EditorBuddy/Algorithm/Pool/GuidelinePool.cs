@@ -67,37 +67,16 @@ namespace Povoater.Algorithm
             population = new Population(InitialPopulation, cells.Count * ChromosomeUtils.NUMBER_GENES, true, true, ParentSelectionMethod.FitnessProportionateSelection);
         }
 
-        public GuidelinePool(Monsters monsters, Map currentMap, Delegate callback, AreaManager areaManager, int maxMonsters, int maxItens, double hordesPercentage, Population pop)
+        public GuidelinePool(Monsters monsters, Map currentMap, Delegate callback, AreaManager areaManager, int maxMonsters, int maxItens, double hordesPercentage, Population pop) : this(monsters, currentMap, callback, areaManager, maxMonsters, maxItens, hordesPercentage)
         {
-            this.monsters = monsters;
-            this.callback = callback;
-
-            this.MaxMonsters = maxMonsters;
-            this.MaxItens = maxItens;
-            this.HordesPercentage = hordesPercentage;
-
-            originalMap = currentMap.CloneJson() as Map;
-
-            InitialPopulation = 30;
-            GenerationLimit = 50;
-            MutationPercentage = 0.2;
-            CrossOverPercentage = 0.8;
-            ElitismPercentage = 10;
-
-            running = false;
-            HasSolution = false;
-
-            cells = originalMap.SpawnCells;
-
-            fitness = new Guideline(cells, areaManager, MaxMonsters, MaxItens, HordesPercentage);
-
-            //we can create an empty population as we will be creating the 
-            //initial solutions manually.
-            population = new Population(InitialPopulation, cells.Count * ChromosomeUtils.NUMBER_GENES, true, true);
-
             population.Solutions.Clear();
 
-            population.Solutions.AddRange(pop.GetTop(InitialPopulation));
+            population.Solutions.AddRange(pop.GetTop(10));
+
+            for(int i = 0; i < 20; i++)
+            {
+                population.Solutions.Add(new Chromosome(cells.Count * ChromosomeUtils.NUMBER_GENES));
+            }
         }
 
         public void Run()

@@ -186,7 +186,7 @@ namespace Povoater.Algorithm.Fitness
                     equal += 0.5;
                 }
             }
-            fitness = Function(equal, cells.Count, 0, cells.Count);
+            fitness = Math.Function(equal, cells.Count, 0, cells.Count);
 
             if(Double.IsNaN(fitness)){ Logger.AppendText("Error: NaN Conv"); }
             return fitness;
@@ -226,7 +226,7 @@ namespace Povoater.Algorithm.Fitness
             return System.Math.Max(0.0, -System.Math.Abs((x / n) - 1.0) + 1.0);
         }
 
-        private double Function(double x, double n, double min, double max)
+        /*private double Function(double x, double n, double min, double max)
         {
             double result = 0.0;
             if(x == n)
@@ -243,6 +243,6 @@ namespace Povoater.Algorithm.Fitness
             }
 
             return System.Math.Max(0.0, result);
-        }
+        }*/
     }
 }

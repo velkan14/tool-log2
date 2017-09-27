@@ -55,12 +55,9 @@ namespace Povoater.Algorithm.Fitness
 
             foreach (Area area in areaManager.AreaList)
             {
-                Cell startCell = area.StartCell;
-                List<Cell> cellsArea = area.Cells;
                 double monsterDifficulty = 0.0;
-                double areaMonsterFit = 0.0;
 
-                foreach (Cell c in cellsArea)
+                foreach (Cell c in area.Cells)
                 {
                     if (HasMonster(c.X, c.Y, listCells))
                     {
@@ -69,7 +66,7 @@ namespace Povoater.Algorithm.Fitness
                         monsterDifficulty += GetMonsterDifficulty(c, area, listCells, distanceToMonster);
                         numberMonsters++;
                         
-                        if (distanceToMonster <= 1) numberHordes++;
+                        if (distanceToMonster < 2) numberHordes++;
                     }
                     else if (HasItem(c.X, c.Y, listCells))
                     {
@@ -78,57 +75,26 @@ namespace Povoater.Algorithm.Fitness
                     }
                 }
 
-                double size = area.Size / 9.0;
-                switch (area.Difficulty)
-                {
-                    case RoomDifficulty.Safe:
-                        {
-                            areaMonsterFit = Function(monsterDifficulty, 0, 0, size);
-                        }
-                        break;
-                    case RoomDifficulty.Medium:
-                        {
-                            areaMonsterFit = Function(monsterDifficulty, size / 2.0, 0, size);
-                        }
-                        break;
-                    case RoomDifficulty.Hard:
-                        {
-                            areaMonsterFit = Function(monsterDifficulty, size, 0, size);
-                        }
-                        break;
-                }
-
-                monsterFit += (1.0 / areaManager.AreaList.Count) * areaMonsterFit;
-                //monsterFit *= areaMonsterFit;
+                monsterFit += (1.0 / areaManager.AreaList.Count) * 
+                    Math.Function(monsterDifficulty, area.GetDesireDifficulty(), 0.0, area.Size);
             }
 
-            double maxMonstersFitness = 0.0;
-            //maxMonstersFitness = Function(numberMonsters, MaxMonsters, 0, cells.Count);
-            if (MaxMonsters == 0)
+            double maxMonstersFitness = Math.Function(numberMonsters, MaxMonsters, 0, cells.Count);
+
+            double maxItensFitness = Math.Function(numberItems, MaxItens, 0, cells.Count);
+
+            double hordesFit = 1.0;
+
+            if(numberMonsters > 0)
             {
-                maxMonstersFitness = FunctionZero(numberMonsters);
+                double percentageOfHordes = numberHordes / numberMonsters;
+                hordesFit = Math.Function(percentageOfHordes, HordesPercentage, 0.0, 1.0);
             }
-            else
-            {
-                maxMonstersFitness = FunctionNBest(numberMonsters, MaxMonsters);
-            }
-            double maxItensFitness = 0.0;
-            if (MaxItens == 0)
-            {
-                maxItensFitness = FunctionZero(numberItems);
-            }
-            else
-            {
-                maxItensFitness = FunctionNBest(numberItems, MaxItens);
-            }
-            double hordesFit = 0.0;
 
-            if (numberHordes == 0 && HordesPercentage == 0) hordesFit = 1.0;
-            else hordesFit = Function((double)numberHordes / (double)numberMonsters, HordesPercentage, 0.0, 1.0);
+            totalFitness = (0.34 * maxMonstersFitness + 0.33 * monsterFit + 0.33 * hordesFit) * (0.5 * maxItensFitness + 0.5 * itemFit);
 
-            totalFitness = maxMonstersFitness * monsterFit * (0.5 * maxItensFitness + 0.5 * itemFit);
-
-            if (Double.IsNaN(totalFitness)) { Logger.AppendText("Error: NaN Guidline"); }
+            if (Double.IsNaN(totalFitness))
+            { Logger.AppendText("Error: NaN Guidline"); }
 
             return totalFitness;
         }
@@ -145,17 +111,17 @@ namespace Povoater.Algorithm.Fitness
             {
                 case ItemAccessibility.SafeToGet:
                     {
-                        closeToMonster = Function(distanceToMonster, area.Size, 0, area.Size);
+                        //closeToMonster = Function(distanceToMonster, area.Size, 0, area.Size);
 
                         if (distanceToStart > area.Size) distanceToEntrance = 1.0;
-                        else distanceToEntrance = Function(distanceToStart, 0, 0, area.Size);
+                        else distanceToEntrance = Math.Function(distanceToStart, 0, 0, area.Size);
                         break;
                     }
                 case ItemAccessibility.HardToGet:
                     {
-                        closeToMonster = Function(distanceToMonster, 0, 0, area.Size);
+                        //closeToMonster = Function(distanceToMonster, 0, 0, area.Size);
                         if (distanceToStart > area.Size) distanceToEntrance = 0.0;
-                        else distanceToEntrance = Function(distanceToStart, area.Size, 0, area.Size);
+                        else distanceToEntrance = Math.Function(distanceToStart, area.Size, 0, area.Size);
                         break;
                     }
             }
@@ -175,7 +141,7 @@ namespace Povoater.Algorithm.Fitness
             if (distanceToStart > area.Size)
                 Logger.AppendText("OMG!!!");
 
-            distance = Function(distanceToStart, 0, 0, area.Size);
+            distance = Math.Function(distanceToStart, 0, 0, area.Size);
 
             if(HasSkeleton(c))
             {
@@ -190,71 +156,9 @@ namespace Povoater.Algorithm.Fitness
                 type = 0.2;
             }
 
-            if(distanceToMonster < 4) horde = Function(distanceToMonster, 1, 0, 3);
+            if(distanceToMonster < 4) horde = Math.Function(distanceToMonster, 1, 0, 3);
 
-            return 0.7 * type + 0.2 * distance + 0.1 * horde;
-        }
-
-        private static int FloodFill(Cell startCell, List<CellStruct> listCells, HasSomething has, bool checkFirst)
-        {
-            int tileTraversed = 0;
-
-            for (int i = 0; i < listCells.Count; i++)
-            {
-                listCells[i].visited = false;
-            }
-
-            if (checkFirst)
-            {
-                if (has(startCell.X, startCell.Y, listCells)) return 0;
-            }
-
-
-            ListQueue<CellStruct> queue = new ListQueue<CellStruct>();
-            CellStruct firstCell = listCells.FirstOrDefault(c => c.x == startCell.X && c.y == startCell.Y);
-            firstCell.visited = true;
-            queue.Enqueue(firstCell);
-
-            while (queue.Count != 0)
-            {
-                CellStruct node = queue.Dequeue();
-                tileTraversed++;
-
-                //west
-                if (HasCellUnvisited(node.x - 1, node.y, listCells))
-                {
-                    if (has(node.x - 1, node.y, listCells)) return tileTraversed;
-
-                    CellStruct openNode = listCells.FirstOrDefault(c => c.x == node.x - 1 && c.y == node.y);
-                    openNode.visited = true;
-                    queue.Enqueue(openNode);
-                }
-                //east
-                if (HasCellUnvisited(node.x + 1, node.y, listCells))
-                {
-                    if (has(node.x + 1, node.y, listCells)) return tileTraversed;
-                    CellStruct openNode = listCells.FirstOrDefault(c => c.x == node.x + 1 && c.y == node.y);
-                    openNode.visited = true;
-                    queue.Enqueue(openNode);
-                }
-                //north
-                if (HasCellUnvisited(node.x, node.y - 1, listCells))
-                {
-                    if (has(node.x, node.y - 1, listCells)) return tileTraversed;
-                    CellStruct openNode = listCells.FirstOrDefault(c => c.x == node.x && c.y == node.y - 1);
-                    openNode.visited = true;
-                    queue.Enqueue(openNode);
-                }
-                //south
-                if (HasCellUnvisited(node.x, node.y + 1, listCells))
-                {
-                    if (has(node.x, node.y + 1, listCells)) return tileTraversed;
-                    CellStruct openNode = listCells.FirstOrDefault(c => c.x == node.x && c.y == node.y + 1);
-                    openNode.visited = true;
-                    queue.Enqueue(openNode);
-                }
-            }
-            return tileTraversed;
+            return  0.5 * type + 0.25 * distance + 0.25 * horde;
         }
 
         private static int DistanceStartTarget(Cell start, Cell target, List<CellStruct> listCells)
@@ -395,30 +299,6 @@ namespace Povoater.Algorithm.Fitness
             return false;
         }
 
-        /**------------ FITNESS -------------**/
-
-        /* Para quando x <= n */
-        private double FunctionRising(double x, double n)
-        {
-            return System.Math.Min(System.Math.Abs(x / n), 1.0);
-        }
-
-        private double FunctionMedium(double x, double n)
-        {
-            return System.Math.Max(0.0, -System.Math.Abs(((2.0 * x) / n) - 1.0) + 1.0);
-        }
-
-        private double FunctionDecreasing(double x, double n)
-        {
-            return System.Math.Abs((x / n) - 1.0);
-        }
-
-        //Para quando x for maior que n.
-        private double FunctionNBest(double x, double n)
-        {
-            return System.Math.Max(0.0, -System.Math.Abs((x / n) - 1.0) + 1.0);
-        }
-
         private double GetMonsterMultiplier(int numberMonsters)
         {
             if (numberMonsters == 1) return 1.0;
@@ -464,27 +344,27 @@ namespace Povoater.Algorithm.Fitness
             return System.Math.Ceiling((double)(areaSize * difficulty / GetMonstersArea(areaManager.AreaList)) * MaxMonsters);
         }
 
-        private double FunctionZero(double x)
-        {
-            if (x < 0.0) return System.Math.Exp(2.0 * x);
-            return System.Math.Exp(-2.0 * x);
-        }
-
-        private double Function(double x, double n, double min, double max)
+        /*private double Function(double x, double n, double min, double max)
         {
             double result = 0.0;
 
-            if (n == x) return 1.0;
-
-            if(x < n)
+            if (n == x)
+            {
+                result = 1.0;
+            }
+            else if (x < n)
             {
                 result = (1 / (n - min)) * x + (-min / (n - min));
-            } else
+            }
+            else
             {
                 result = (1 / (n - max)) * x + (-max / (n - max));
             }
 
+            if (Double.IsNaN(result))
+            { Logger.AppendText("Error: NaN Guidline"); }
+
             return System.Math.Max(0.0, result);
-        }
+        }*/
     }
 }

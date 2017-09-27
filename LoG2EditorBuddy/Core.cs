@@ -211,7 +211,7 @@ namespace Povoater
             else
             {
                 innovationAlgorithm = new InnovationPool(monsters, OriginalMap, callback);
-            }
+            }*/
 
             if (guidelineAlgorithm != null && guidelineAlgorithm.HasSolution)
             {
@@ -222,7 +222,7 @@ namespace Povoater
                 guidelineAlgorithm = new GuidelinePool(monsters, OriginalMap, callback, monsters.AreasManager, numberMonsters, numberItens, hordesPercentage / 100.0);
             }
 
-            if (convergenceAlgorithm != null && convergenceAlgorithm.HasSolution)
+            /*if (convergenceAlgorithm != null && convergenceAlgorithm.HasSolution)
             {
                 convergenceAlgorithm = new ConvergencePool(monsters, OriginalMap, callback, convergenceAlgorithm.Solution);
             }
@@ -231,7 +231,7 @@ namespace Povoater
                 convergenceAlgorithm = new ConvergencePool(monsters, OriginalMap, callback);
             }*/
 
-            guidelineAlgorithm = new GuidelinePool(monsters, OriginalMap, callback, monsters.AreasManager, numberMonsters, numberItens, hordesPercentage / 100.0);
+            //guidelineAlgorithm = new GuidelinePool(monsters, OriginalMap, callback, monsters.AreasManager, numberMonsters, numberItens, hordesPercentage / 100.0);
             innovationAlgorithm = new InnovationPool(monsters, OriginalMap, callback);
             convergenceAlgorithm = new ConvergencePool(monsters, OriginalMap, callback);
 

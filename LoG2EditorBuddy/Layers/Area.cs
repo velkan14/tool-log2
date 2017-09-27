@@ -37,6 +37,31 @@ namespace Povoater.Layers
             }
             return false;
         }
+
+        public double GetMaxDifficulty()
+        {
+            return Size / 9.0;
+        }
+
+        public double GetDesireDifficulty()
+        {
+            switch (Difficulty)
+            {
+                case RoomDifficulty.Safe:
+                    {
+                        return 0.0;
+                    }
+                case RoomDifficulty.Medium:
+                    {
+                        return GetMaxDifficulty() / 2.0;
+                    }
+                case RoomDifficulty.Hard:
+                    {
+                        return GetMaxDifficulty();
+                    }
+            }
+            return 0;
+        }
        
     }
 }
