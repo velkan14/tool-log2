@@ -19,6 +19,12 @@ namespace Povoater.Algorithm.Fitness
         public int MaxItens { get; set; }
         public double HordesPercentage { get; set; }
 
+        public double MaxMonstersLever { get; set; }
+        public double MaxItemsLever { get; set; }
+        public double AmountHordesLever { get; set; }
+        public double DangerLever { get; set; }
+        public double AccessibilityLever { get; set; }
+
 
         private delegate bool HasSomething(int x, int y, List<CellStruct> listCells);
 
@@ -91,7 +97,12 @@ namespace Povoater.Algorithm.Fitness
                 hordesFit = Math.Function(percentageOfHordes, HordesPercentage, 0.0, 1.0);
             }
 
-            totalFitness = (0.34 * maxMonstersFitness + 0.33 * monsterFit + 0.33 * hordesFit) * (0.5 * maxItensFitness + 0.5 * itemFit);
+            //totalFitness = (0.34 * maxMonstersFitness + 0.33 * monsterFit + 0.33 * hordesFit) * (0.5 * maxItensFitness + 0.5 * itemFit);
+            totalFitness = MaxMonstersLever * maxMonstersFitness +
+                            MaxItemsLever * maxItensFitness +
+                            AmountHordesLever * hordesFit +
+                            DangerLever * monsterFit +
+                            AccessibilityLever * itemFit;
 
             if (Double.IsNaN(totalFitness))
             { Logger.AppendText("Error: NaN Guidline"); }

@@ -98,6 +98,18 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.groupBox_lever = new System.Windows.Forms.GroupBox();
+            this.label17 = new System.Windows.Forms.Label();
+            this.trackBar_lever_accessibility = new System.Windows.Forms.TrackBar();
+            this.label16 = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.trackBar_lever_danger = new System.Windows.Forms.TrackBar();
+            this.trackBar_lever_ah = new System.Windows.Forms.TrackBar();
+            this.trackBar_lever_ni = new System.Windows.Forms.TrackBar();
+            this.trackBar_lever_nm = new System.Windows.Forms.TrackBar();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.nameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.difficultyDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewComboBoxColumn();
@@ -116,6 +128,13 @@
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_history)).BeginInit();
             this.groupBox_label.SuspendLayout();
+            this.groupBox_lever.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar_lever_accessibility)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar_lever_danger)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar_lever_ah)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar_lever_ni)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar_lever_nm)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.areaBindingSource)).BeginInit();
             this.SuspendLayout();
@@ -352,7 +371,7 @@
             this.groupBox_objectives.Controls.Add(this.label_maxmonsters);
             this.groupBox_objectives.Location = new System.Drawing.Point(975, 36);
             this.groupBox_objectives.Name = "groupBox_objectives";
-            this.groupBox_objectives.Size = new System.Drawing.Size(265, 330);
+            this.groupBox_objectives.Size = new System.Drawing.Size(265, 282);
             this.groupBox_objectives.TabIndex = 7;
             this.groupBox_objectives.TabStop = false;
             this.groupBox_objectives.Text = "Parameters ";
@@ -416,7 +435,7 @@
             this.dataGridView.Name = "dataGridView";
             this.dataGridView.RowHeadersWidth = 20;
             this.dataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView.Size = new System.Drawing.Size(253, 194);
+            this.dataGridView.Size = new System.Drawing.Size(253, 148);
             this.dataGridView.TabIndex = 20;
             this.dataGridView.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellValueChanged);
             this.dataGridView.CurrentCellDirtyStateChanged += new System.EventHandler(this.dataGridView_CurrentCellDirtyStateChanged);
@@ -533,7 +552,7 @@
             this.groupBox_selection.Controls.Add(this.button_invert);
             this.groupBox_selection.Controls.Add(this.button_clear);
             this.groupBox_selection.Enabled = false;
-            this.groupBox_selection.Location = new System.Drawing.Point(975, 372);
+            this.groupBox_selection.Location = new System.Drawing.Point(974, 458);
             this.groupBox_selection.Name = "groupBox_selection";
             this.groupBox_selection.Size = new System.Drawing.Size(265, 79);
             this.groupBox_selection.TabIndex = 12;
@@ -740,6 +759,7 @@
             // 
             // groupBox_label
             // 
+            this.groupBox_label.Controls.Add(this.pictureBox2);
             this.groupBox_label.Controls.Add(this.label12);
             this.groupBox_label.Controls.Add(this.label11);
             this.groupBox_label.Controls.Add(this.label10);
@@ -751,9 +771,9 @@
             this.groupBox_label.Controls.Add(this.label3);
             this.groupBox_label.Controls.Add(this.label1);
             this.groupBox_label.Controls.Add(this.pictureBox1);
-            this.groupBox_label.Location = new System.Drawing.Point(1067, 457);
+            this.groupBox_label.Location = new System.Drawing.Point(976, 547);
             this.groupBox_label.Name = "groupBox_label";
-            this.groupBox_label.Size = new System.Drawing.Size(95, 224);
+            this.groupBox_label.Size = new System.Drawing.Size(264, 129);
             this.groupBox_label.TabIndex = 30;
             this.groupBox_label.TabStop = false;
             this.groupBox_label.Text = "Legend";
@@ -761,7 +781,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(36, 204);
+            this.label12.Location = new System.Drawing.Point(181, 104);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(34, 13);
             this.label12.TabIndex = 10;
@@ -770,7 +790,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(36, 185);
+            this.label11.Location = new System.Drawing.Point(181, 84);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(30, 13);
             this.label11.TabIndex = 9;
@@ -779,7 +799,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(36, 165);
+            this.label10.Location = new System.Drawing.Point(181, 63);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(34, 13);
             this.label10.TabIndex = 8;
@@ -788,7 +808,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(37, 143);
+            this.label8.Location = new System.Drawing.Point(181, 45);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(48, 13);
             this.label8.TabIndex = 7;
@@ -797,7 +817,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(36, 125);
+            this.label7.Location = new System.Drawing.Point(181, 24);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(37, 13);
             this.label7.TabIndex = 6;
@@ -848,12 +868,156 @@
             this.label1.TabIndex = 1;
             this.label1.Text = "Turtle";
             // 
+            // groupBox_lever
+            // 
+            this.groupBox_lever.Controls.Add(this.label17);
+            this.groupBox_lever.Controls.Add(this.trackBar_lever_accessibility);
+            this.groupBox_lever.Controls.Add(this.label16);
+            this.groupBox_lever.Controls.Add(this.label15);
+            this.groupBox_lever.Controls.Add(this.label14);
+            this.groupBox_lever.Controls.Add(this.label13);
+            this.groupBox_lever.Controls.Add(this.trackBar_lever_danger);
+            this.groupBox_lever.Controls.Add(this.trackBar_lever_ah);
+            this.groupBox_lever.Controls.Add(this.trackBar_lever_ni);
+            this.groupBox_lever.Controls.Add(this.trackBar_lever_nm);
+            this.groupBox_lever.Location = new System.Drawing.Point(975, 324);
+            this.groupBox_lever.Name = "groupBox_lever";
+            this.groupBox_lever.Size = new System.Drawing.Size(265, 128);
+            this.groupBox_lever.TabIndex = 31;
+            this.groupBox_lever.TabStop = false;
+            this.groupBox_lever.Text = "Parameters Level";
+            this.groupBox_lever.Visible = false;
+            // 
+            // label17
+            // 
+            this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label17.Location = new System.Drawing.Point(201, 73);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(60, 52);
+            this.label17.TabIndex = 9;
+            this.label17.Text = "Item Accessibility";
+            this.label17.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // trackBar_lever_accessibility
+            // 
+            this.trackBar_lever_accessibility.Location = new System.Drawing.Point(212, 18);
+            this.trackBar_lever_accessibility.Maximum = 100;
+            this.trackBar_lever_accessibility.Name = "trackBar_lever_accessibility";
+            this.trackBar_lever_accessibility.Orientation = System.Windows.Forms.Orientation.Vertical;
+            this.trackBar_lever_accessibility.Size = new System.Drawing.Size(45, 62);
+            this.trackBar_lever_accessibility.TabIndex = 8;
+            this.trackBar_lever_accessibility.TickFrequency = 50;
+            this.trackBar_lever_accessibility.Value = 100;
+            this.trackBar_lever_accessibility.ValueChanged += new System.EventHandler(this.updateCore);
+            this.trackBar_lever_accessibility.MouseDown += new System.Windows.Forms.MouseEventHandler(this.MouseClick);
+            // 
+            // label16
+            // 
+            this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label16.Location = new System.Drawing.Point(150, 73);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(55, 52);
+            this.label16.TabIndex = 7;
+            this.label16.Text = "Danger Level";
+            this.label16.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label15
+            // 
+            this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label15.Location = new System.Drawing.Point(102, 73);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(55, 52);
+            this.label15.TabIndex = 6;
+            this.label15.Text = "Amount of Hordes";
+            this.label15.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label14
+            // 
+            this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label14.Location = new System.Drawing.Point(51, 73);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(55, 52);
+            this.label14.TabIndex = 5;
+            this.label14.Text = "Number of Items";
+            this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label13
+            // 
+            this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label13.Location = new System.Drawing.Point(3, 73);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(49, 52);
+            this.label13.TabIndex = 4;
+            this.label13.Text = "Number of Monsters";
+            this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // trackBar_lever_danger
+            // 
+            this.trackBar_lever_danger.Location = new System.Drawing.Point(165, 18);
+            this.trackBar_lever_danger.Maximum = 100;
+            this.trackBar_lever_danger.Name = "trackBar_lever_danger";
+            this.trackBar_lever_danger.Orientation = System.Windows.Forms.Orientation.Vertical;
+            this.trackBar_lever_danger.Size = new System.Drawing.Size(45, 62);
+            this.trackBar_lever_danger.TabIndex = 3;
+            this.trackBar_lever_danger.TickFrequency = 50;
+            this.trackBar_lever_danger.Value = 100;
+            this.trackBar_lever_danger.ValueChanged += new System.EventHandler(this.updateCore);
+            this.trackBar_lever_danger.MouseDown += new System.Windows.Forms.MouseEventHandler(this.MouseClick);
+            // 
+            // trackBar_lever_ah
+            // 
+            this.trackBar_lever_ah.Location = new System.Drawing.Point(113, 19);
+            this.trackBar_lever_ah.Maximum = 100;
+            this.trackBar_lever_ah.Name = "trackBar_lever_ah";
+            this.trackBar_lever_ah.Orientation = System.Windows.Forms.Orientation.Vertical;
+            this.trackBar_lever_ah.Size = new System.Drawing.Size(45, 61);
+            this.trackBar_lever_ah.TabIndex = 2;
+            this.trackBar_lever_ah.TickFrequency = 50;
+            this.trackBar_lever_ah.Value = 100;
+            this.trackBar_lever_ah.ValueChanged += new System.EventHandler(this.updateCore);
+            this.trackBar_lever_ah.MouseDown += new System.Windows.Forms.MouseEventHandler(this.MouseClick);
+            // 
+            // trackBar_lever_ni
+            // 
+            this.trackBar_lever_ni.Location = new System.Drawing.Point(65, 18);
+            this.trackBar_lever_ni.Maximum = 100;
+            this.trackBar_lever_ni.Name = "trackBar_lever_ni";
+            this.trackBar_lever_ni.Orientation = System.Windows.Forms.Orientation.Vertical;
+            this.trackBar_lever_ni.Size = new System.Drawing.Size(45, 62);
+            this.trackBar_lever_ni.TabIndex = 1;
+            this.trackBar_lever_ni.TickFrequency = 50;
+            this.trackBar_lever_ni.Value = 100;
+            this.trackBar_lever_ni.ValueChanged += new System.EventHandler(this.updateCore);
+            this.trackBar_lever_ni.MouseDown += new System.Windows.Forms.MouseEventHandler(this.MouseClick);
+            // 
+            // trackBar_lever_nm
+            // 
+            this.trackBar_lever_nm.Location = new System.Drawing.Point(8, 18);
+            this.trackBar_lever_nm.Maximum = 100;
+            this.trackBar_lever_nm.Name = "trackBar_lever_nm";
+            this.trackBar_lever_nm.Orientation = System.Windows.Forms.Orientation.Vertical;
+            this.trackBar_lever_nm.Size = new System.Drawing.Size(45, 62);
+            this.trackBar_lever_nm.TabIndex = 0;
+            this.trackBar_lever_nm.TickFrequency = 50;
+            this.trackBar_lever_nm.Value = 100;
+            this.trackBar_lever_nm.ValueChanged += new System.EventHandler(this.updateCore);
+            this.trackBar_lever_nm.MouseDown += new System.Windows.Forms.MouseEventHandler(this.MouseClick);
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Image = global::Povoater.Properties.Resources.legend2;
+            this.pictureBox2.Location = new System.Drawing.Point(151, 19);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(24, 106);
+            this.pictureBox2.TabIndex = 11;
+            this.pictureBox2.TabStop = false;
+            // 
             // pictureBox1
             // 
-            this.pictureBox1.Image = global::Povoater.Properties.Resources.legend;
+            this.pictureBox1.Image = global::Povoater.Properties.Resources.legend1;
             this.pictureBox1.Location = new System.Drawing.Point(6, 19);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(24, 200);
+            this.pictureBox1.Size = new System.Drawing.Size(24, 106);
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 
@@ -891,6 +1055,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1244, 683);
+            this.Controls.Add(this.groupBox_lever);
             this.Controls.Add(this.groupBox_label);
             this.Controls.Add(this.groupBox_objectives);
             this.Controls.Add(this.textBox_logger);
@@ -928,6 +1093,14 @@
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_history)).EndInit();
             this.groupBox_label.ResumeLayout(false);
             this.groupBox_label.PerformLayout();
+            this.groupBox_lever.ResumeLayout(false);
+            this.groupBox_lever.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar_lever_accessibility)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar_lever_danger)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar_lever_ah)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar_lever_ni)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar_lever_nm)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.areaBindingSource)).EndInit();
             this.ResumeLayout(false);
@@ -1012,5 +1185,17 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.GroupBox groupBox_lever;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.TrackBar trackBar_lever_danger;
+        private System.Windows.Forms.TrackBar trackBar_lever_ah;
+        private System.Windows.Forms.TrackBar trackBar_lever_ni;
+        private System.Windows.Forms.TrackBar trackBar_lever_nm;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.TrackBar trackBar_lever_accessibility;
+        private System.Windows.Forms.PictureBox pictureBox2;
     }
 }

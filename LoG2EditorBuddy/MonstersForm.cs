@@ -96,7 +96,13 @@ namespace Povoater
         private int NumberMonsters { get { return Convert.ToInt32(numericUpDown_maxmonsters.Value); } }
         private int NumberItens { get { return Convert.ToInt32(numericUpDown_numberItens.Value); } }
         private int HordesPercentage { get { return trackBar_hordes.Value; } }
-        
+
+        private int MaxMonstersLever { get { if (AdvanceMode) return Convert.ToInt32(trackBar_lever_nm.Value); else return 100;} }
+        private int MaxItemsLever { get { if (AdvanceMode) return Convert.ToInt32(trackBar_lever_ni.Value); else return 100; } }
+        private int AmountHordesLever { get { if (AdvanceMode) return Convert.ToInt32(trackBar_lever_ah.Value); else return 100; } }
+        private int DangerLever { get { if (AdvanceMode) return Convert.ToInt32(trackBar_lever_danger.Value); else return 100; } }
+        private int AccessibilityLever { get { if (AdvanceMode) return Convert.ToInt32(trackBar_lever_accessibility.Value); else return 100; } }
+
         public bool Redraw { get; set; }
         public bool RedrawMap { get; set; }
 
@@ -107,7 +113,20 @@ namespace Povoater
 
         private void Monsters_Load(object sender, EventArgs e)
         {
-            core = new Core(this, InnovationPercentage, GuidelinePercentage, UserPercentage, NumberMonsters, NumberItens, HordesPercentage);
+            core = new Core(this)
+            {
+                InnovationPercentage = this.InnovationPercentage,
+                GuidelinePercentage = this.GuidelinePercentage,
+                UserPercentage = this.UserPercentage,
+                NumberMonsters = this.NumberMonsters,
+                NumberItens = this.NumberItens,
+                HordesPercentage = this.HordesPercentage,
+                LeverMaxMonster = this.MaxMonstersLever,
+                LeverMaxItem = this.MaxItemsLever,
+                LeverAmountHordes = this.AmountHordesLever,
+                LeverDanger = DangerLever,
+                LeverAccessibility = this.AccessibilityLever
+    };
 
             notifyIcon = new NotifyIcon();
             notifyIcon.Icon = Icon.ExtractAssociatedIcon(Assembly.GetExecutingAssembly().Location);
@@ -515,6 +534,8 @@ namespace Povoater
                 label_off1.Visible = true;
                 label_off2.Visible = true;
                 label_off3.Visible = true;
+
+                groupBox_lever.Visible = true;
             }
             else
             {
@@ -530,6 +551,8 @@ namespace Povoater
                 label_off1.Visible = false;
                 label_off2.Visible = false;
                 label_off3.Visible = false;
+
+                groupBox_lever.Visible = false;
             }
         }
 
@@ -542,6 +565,12 @@ namespace Povoater
             core.NumberItens = NumberItens;
             core.NumberMonsters = NumberMonsters;
             core.HordesPercentage = HordesPercentage;
+
+            core.LeverMaxMonster = this.MaxMonstersLever;
+            core.LeverMaxItem = this.MaxItemsLever;
+            core.LeverAmountHordes = this.AmountHordesLever;
+            core.LeverDanger = DangerLever;
+            core.LeverAccessibility = this.AccessibilityLever;
 
         }
 

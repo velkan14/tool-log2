@@ -50,6 +50,12 @@ namespace Povoater.Algorithm
         double ConvergenceLevel = 0.0;
         double innovationLevel = 0.0;
 
+        public double LeverMaxMonster { get; set; }
+        public double LeverMaxItem { get; set; }
+        public double LeverAmountHordes { get; set; }
+        public double LeverDanger { get; set; }
+        public double LeverAccessibility { get; set; }
+
         public MixPool(Monsters monsters, Map currentMap, Delegate callback)
         {
             this.monsters = monsters;
@@ -79,7 +85,14 @@ namespace Povoater.Algorithm
             string binaryString = chrom.ToBinaryString();
 
             convergenceFitness = new ConvergenceFitness(cells, binaryString);
-            guidelineFitness = new Guideline(cells, areaManager, MaxMonsters, MaxItens, HordesPercentage);
+            guidelineFitness = new Guideline(cells, areaManager, MaxMonsters, MaxItens, HordesPercentage)
+            {
+                MaxItemsLever = LeverMaxItem,
+                MaxMonstersLever = LeverMaxMonster,
+                AmountHordesLever = LeverAmountHordes,
+                DangerLever = LeverDanger,
+                AccessibilityLever = LeverAccessibility
+            };
 
             double total = GuidelinePercentage + UserPercentage + InnovationPercentage;
             guidelineLevel = GuidelinePercentage / total;

@@ -193,9 +193,19 @@ namespace Povoater.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap legend {
+        internal static System.Drawing.Bitmap legend1 {
             get {
-                object obj = ResourceManager.GetObject("legend", resourceCulture);
+                object obj = ResourceManager.GetObject("legend1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap legend2 {
+            get {
+                object obj = ResourceManager.GetObject("legend2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

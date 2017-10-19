@@ -35,6 +35,12 @@ namespace Povoater.Algorithm
         public int MaxItens { get; set; }
         public double HordesPercentage { get; set; }
 
+        public double LeverMaxMonster { get; set; }
+        public double LeverMaxItem { get; set; }
+        public double LeverAmountHordes { get; set; }
+        public double LeverDanger { get; set; }
+        public double LeverAccessibility { get; set; }
+
         Population population;
         Guideline fitness;
 
@@ -60,7 +66,14 @@ namespace Povoater.Algorithm
 
             cells = originalMap.SpawnCells;
 
-            fitness = new Guideline(cells, areaManager, MaxMonsters, MaxItens, HordesPercentage);
+            fitness = new Guideline(cells, areaManager, MaxMonsters, MaxItens, HordesPercentage)
+            {
+                MaxItemsLever = LeverMaxItem,
+                MaxMonstersLever = LeverMaxMonster,
+                AmountHordesLever = LeverAmountHordes,
+                DangerLever = LeverDanger,
+                AccessibilityLever = LeverAccessibility
+            };
 
             //we can create an empty population as we will be creating the 
             //initial solutions manually.
@@ -83,6 +96,7 @@ namespace Povoater.Algorithm
         {
             if (running) return;
 
+            Logger.AppendText("MM: " + LeverMaxMonster + " MI: " + LeverMaxItem);
             //create the elite operator
             var elite = new Elite(ElitismPercentage);
 

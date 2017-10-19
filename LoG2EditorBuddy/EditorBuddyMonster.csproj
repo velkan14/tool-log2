@@ -328,7 +328,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="icon.ico" />
-    <None Include="img\legend.png" />
+    <None Include="img\legend2.png" />
+    <None Include="img\legend1.png" />
     <None Include="img\visible.png" />
     <None Include="img\icons.png" />
     <None Include="img\eyeclosed.png" />

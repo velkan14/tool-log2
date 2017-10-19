@@ -48,6 +48,12 @@ namespace Povoater
         public int NumberItens { get; set; }
         public int HordesPercentage { get; set; }
 
+        public int LeverMaxMonster { get; set; }
+        public int LeverMaxItem { get; set; }
+        public int LeverAmountHordes { get; set; }
+        public int LeverDanger { get; set; }
+        public int LeverAccessibility { get; set; }
+
         public void NextMap()
         {
             IndexMap++;
@@ -111,15 +117,9 @@ namespace Povoater
             RunAlgorithm(innovationPercentage, guidelinePercentage, userPercentage, numberMonsters, numberItens, hordesPercentage);
         }
 
-        public Core(Monsters window, int innovationPercentage, int guidelinePercentage, int userPercentage, int numberMonsters, int numberItens, int hordesPercentage)
+        public Core(Monsters window)
         {
             this.monsters = window;
-            InnovationPercentage = innovationPercentage;
-            GuidelinePercentage = guidelinePercentage;
-            UserPercentage = userPercentage;
-            NumberMonsters = numberMonsters;
-            NumberItens = numberItens;
-            HordesPercentage = hordesPercentage;
 
             hook = new Hook(this);
             fileWatcher = new FileWatcher(this);
@@ -200,6 +200,8 @@ namespace Povoater
 
         private void RunAlgorithm(int innovationPercentage, int guidelinePercentage, int userPercentage, int numberMonsters, int numberItens, int hordesPercentage)
         {
+            int total = LeverAccessibility + LeverAmountHordes + LeverDanger + LeverMaxItem + LeverMaxMonster;
+            Logger.AppendText("Total: " + total);
             AlgorithmRunComplete callback = new AlgorithmRunComplete(AlgorithmRunCompleteCallback);
 
             algorithmRunning = true;
@@ -215,11 +217,25 @@ namespace Povoater
 
             if (guidelineAlgorithm != null && guidelineAlgorithm.HasSolution)
             {
-                guidelineAlgorithm = new GuidelinePool(monsters, OriginalMap, callback, monsters.AreasManager, numberMonsters, numberItens, hordesPercentage / 100.0, guidelineAlgorithm.Solution);
+                guidelineAlgorithm = new GuidelinePool(monsters, OriginalMap, callback, monsters.AreasManager, numberMonsters, numberItens, hordesPercentage / 100.0, guidelineAlgorithm.Solution)
+                {
+                    LeverAccessibility = (double)this.LeverAccessibility / (double)total,
+                    LeverAmountHordes = (double)this.LeverAmountHordes / (double)total,
+                    LeverDanger = (double)this.LeverDanger / (double)total,
+                    LeverMaxItem = (double)this.LeverMaxItem / (double)total,
+                    LeverMaxMonster = (double)this.LeverMaxMonster / (double)total
+                };
             }
             else
             {
-                guidelineAlgorithm = new GuidelinePool(monsters, OriginalMap, callback, monsters.AreasManager, numberMonsters, numberItens, hordesPercentage / 100.0);
+                guidelineAlgorithm = new GuidelinePool(monsters, OriginalMap, callback, monsters.AreasManager, numberMonsters, numberItens, hordesPercentage / 100.0)
+                {
+                    LeverAccessibility = (double)this.LeverAccessibility / (double)total,
+                    LeverAmountHordes = (double)this.LeverAmountHordes / (double)total,
+                    LeverDanger = (double)this.LeverDanger / (double)total,
+                    LeverMaxItem = (double)this.LeverMaxItem / (double)total,
+                    LeverMaxMonster = (double)this.LeverMaxMonster / (double)total
+                };
             }
 
             /*if (convergenceAlgorithm != null && convergenceAlgorithm.HasSolution)
@@ -239,10 +255,16 @@ namespace Povoater
             {
                 MaxMonsters = numberMonsters,
                 MaxItens = numberItens,
-                HordesPercentage = hordesPercentage / 100.0,
-                UserPercentage = userPercentage / 100.0,
-                InnovationPercentage = innovationPercentage / 100.0,
-                GuidelinePercentage = guidelinePercentage / 100.0
+                HordesPercentage = (double)hordesPercentage / 100.0,
+                UserPercentage = (double)userPercentage / 100.0,
+                InnovationPercentage = (double)innovationPercentage / 100.0,
+                GuidelinePercentage = (double)guidelinePercentage / 100.0,
+                LeverAccessibility = (double)this.LeverAccessibility / (double)total,
+                LeverAmountHordes = (double)this.LeverAmountHordes / (double)total,
+                LeverDanger = (double)this.LeverDanger / (double)total,
+                LeverMaxItem = (double)this.LeverMaxItem / (double)total,
+                LeverMaxMonster = (double)this.LeverMaxMonster / (double)total
+
             };
 
             ThreadPool.QueueUserWorkItem(new WaitCallback(_ =>
