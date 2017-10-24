@@ -95,8 +95,7 @@ namespace Povoater.Algorithm
         public void Run()
         {
             if (running) return;
-
-            Logger.AppendText("MM: " + LeverMaxMonster + " MI: " + LeverMaxItem);
+            
             //create the elite operator
             var elite = new Elite(ElitismPercentage);
 

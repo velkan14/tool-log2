@@ -93,7 +93,7 @@ namespace Povoater.Algorithm.Fitness
 
             if(numberMonsters > 0)
             {
-                double percentageOfHordes = numberHordes / numberMonsters;
+                double percentageOfHordes = (double)numberHordes / (double)numberMonsters;
                 hordesFit = Math.Function(percentageOfHordes, HordesPercentage, 0.0, 1.0);
             }
 

@@ -201,7 +201,7 @@ namespace Povoater
         private void RunAlgorithm(int innovationPercentage, int guidelinePercentage, int userPercentage, int numberMonsters, int numberItens, int hordesPercentage)
         {
             int total = LeverAccessibility + LeverAmountHordes + LeverDanger + LeverMaxItem + LeverMaxMonster;
-            Logger.AppendText("Total: " + total);
+            
             AlgorithmRunComplete callback = new AlgorithmRunComplete(AlgorithmRunCompleteCallback);
 
             algorithmRunning = true;

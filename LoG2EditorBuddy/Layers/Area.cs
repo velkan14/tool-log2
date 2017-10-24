@@ -53,11 +53,11 @@ namespace Povoater.Layers
                     }
                 case RoomDifficulty.Medium:
                     {
-                        return GetMaxDifficulty() / 2.0;
+                        return GetMaxDifficulty() / 3.0;
                     }
                 case RoomDifficulty.Hard:
                     {
-                        return GetMaxDifficulty();
+                        return GetMaxDifficulty()/1.5;
                     }
             }
             return 0;
