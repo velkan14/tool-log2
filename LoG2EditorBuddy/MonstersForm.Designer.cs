@@ -54,6 +54,10 @@
             this.label_low = new System.Windows.Forms.Label();
             this.numericUpDown_numberItens = new System.Windows.Forms.NumericUpDown();
             this.dataGridView = new System.Windows.Forms.DataGridView();
+            this.nameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.difficultyDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.itemAccessibilityDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.areaBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.label_maxitens = new System.Windows.Forms.Label();
             this.numericUpDown_maxmonsters = new System.Windows.Forms.NumericUpDown();
             this.trackBar_hordes = new System.Windows.Forms.TrackBar();
@@ -88,6 +92,7 @@
             this.toggleSwitch_advanceMode = new JCS.ToggleSwitch();
             this.toggleSwitch_view = new JCS.ToggleSwitch();
             this.groupBox_label = new System.Windows.Forms.GroupBox();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.label12 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
@@ -98,6 +103,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.groupBox_lever = new System.Windows.Forms.GroupBox();
             this.label17 = new System.Windows.Forms.Label();
             this.trackBar_lever_accessibility = new System.Windows.Forms.TrackBar();
@@ -109,12 +115,7 @@
             this.trackBar_lever_ah = new System.Windows.Forms.TrackBar();
             this.trackBar_lever_ni = new System.Windows.Forms.TrackBar();
             this.trackBar_lever_nm = new System.Windows.Forms.TrackBar();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.nameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.difficultyDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.itemAccessibilityDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.areaBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.printToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_innovation)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_userplacement)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_objective)).BeginInit();
@@ -122,21 +123,21 @@
             this.groupBox_objectives.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_numberItens)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.areaBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_maxmonsters)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_hordes)).BeginInit();
             this.groupBox_selection.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_history)).BeginInit();
             this.groupBox_label.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox_lever.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_lever_accessibility)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_lever_danger)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_lever_ah)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_lever_ni)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_lever_nm)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.areaBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // label_innovation
@@ -442,6 +443,35 @@
             this.dataGridView.SelectionChanged += new System.EventHandler(this.dataGridView_SelectionChanged);
             this.dataGridView.MouseClick += new System.Windows.Forms.MouseEventHandler(this.MouseClick);
             // 
+            // nameDataGridViewTextBoxColumn
+            // 
+            this.nameDataGridViewTextBoxColumn.DataPropertyName = "Name";
+            this.nameDataGridViewTextBoxColumn.HeaderText = "Name";
+            this.nameDataGridViewTextBoxColumn.Name = "nameDataGridViewTextBoxColumn";
+            this.nameDataGridViewTextBoxColumn.Width = 58;
+            // 
+            // difficultyDataGridViewTextBoxColumn
+            // 
+            this.difficultyDataGridViewTextBoxColumn.DataPropertyName = "Difficulty";
+            this.difficultyDataGridViewTextBoxColumn.HeaderText = "Danger Level";
+            this.difficultyDataGridViewTextBoxColumn.Name = "difficultyDataGridViewTextBoxColumn";
+            this.difficultyDataGridViewTextBoxColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.difficultyDataGridViewTextBoxColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.difficultyDataGridViewTextBoxColumn.Width = 75;
+            // 
+            // itemAccessibilityDataGridViewTextBoxColumn
+            // 
+            this.itemAccessibilityDataGridViewTextBoxColumn.DataPropertyName = "ItemAccessibility";
+            this.itemAccessibilityDataGridViewTextBoxColumn.HeaderText = "Item Accessibility";
+            this.itemAccessibilityDataGridViewTextBoxColumn.Name = "itemAccessibilityDataGridViewTextBoxColumn";
+            this.itemAccessibilityDataGridViewTextBoxColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.itemAccessibilityDataGridViewTextBoxColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.itemAccessibilityDataGridViewTextBoxColumn.Width = 98;
+            // 
+            // areaBindingSource
+            // 
+            this.areaBindingSource.DataSource = typeof(Povoater.Layers.Area);
+            // 
             // label_maxitens
             // 
             this.label_maxitens.AutoSize = true;
@@ -642,6 +672,7 @@
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.printToolStripMenuItem,
             this.creditsToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
             this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
@@ -650,7 +681,7 @@
             // creditsToolStripMenuItem
             // 
             this.creditsToolStripMenuItem.Name = "creditsToolStripMenuItem";
-            this.creditsToolStripMenuItem.Size = new System.Drawing.Size(111, 22);
+            this.creditsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.creditsToolStripMenuItem.Text = "Credits";
             this.creditsToolStripMenuItem.Click += new System.EventHandler(this.creditsToolStripMenuItem_Click);
             // 
@@ -778,6 +809,15 @@
             this.groupBox_label.TabStop = false;
             this.groupBox_label.Text = "Legend";
             // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Image = global::Povoater.Properties.Resources.legend2;
+            this.pictureBox2.Location = new System.Drawing.Point(151, 19);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(24, 106);
+            this.pictureBox2.TabIndex = 11;
+            this.pictureBox2.TabStop = false;
+            // 
             // label12
             // 
             this.label12.AutoSize = true;
@@ -867,6 +907,15 @@
             this.label1.Size = new System.Drawing.Size(34, 13);
             this.label1.TabIndex = 1;
             this.label1.Text = "Turtle";
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::Povoater.Properties.Resources.legend1;
+            this.pictureBox1.Location = new System.Drawing.Point(6, 19);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(24, 106);
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
             // 
             // groupBox_lever
             // 
@@ -1003,52 +1052,13 @@
             this.trackBar_lever_nm.ValueChanged += new System.EventHandler(this.updateCore);
             this.trackBar_lever_nm.MouseDown += new System.Windows.Forms.MouseEventHandler(this.MouseClick);
             // 
-            // pictureBox2
+            // printToolStripMenuItem
             // 
-            this.pictureBox2.Image = global::Povoater.Properties.Resources.legend2;
-            this.pictureBox2.Location = new System.Drawing.Point(151, 19);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(24, 106);
-            this.pictureBox2.TabIndex = 11;
-            this.pictureBox2.TabStop = false;
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = global::Povoater.Properties.Resources.legend1;
-            this.pictureBox1.Location = new System.Drawing.Point(6, 19);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(24, 106);
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
-            // 
-            // nameDataGridViewTextBoxColumn
-            // 
-            this.nameDataGridViewTextBoxColumn.DataPropertyName = "Name";
-            this.nameDataGridViewTextBoxColumn.HeaderText = "Name";
-            this.nameDataGridViewTextBoxColumn.Name = "nameDataGridViewTextBoxColumn";
-            this.nameDataGridViewTextBoxColumn.Width = 58;
-            // 
-            // difficultyDataGridViewTextBoxColumn
-            // 
-            this.difficultyDataGridViewTextBoxColumn.DataPropertyName = "Difficulty";
-            this.difficultyDataGridViewTextBoxColumn.HeaderText = "Danger Level";
-            this.difficultyDataGridViewTextBoxColumn.Name = "difficultyDataGridViewTextBoxColumn";
-            this.difficultyDataGridViewTextBoxColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.difficultyDataGridViewTextBoxColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.difficultyDataGridViewTextBoxColumn.Width = 75;
-            // 
-            // itemAccessibilityDataGridViewTextBoxColumn
-            // 
-            this.itemAccessibilityDataGridViewTextBoxColumn.DataPropertyName = "ItemAccessibility";
-            this.itemAccessibilityDataGridViewTextBoxColumn.HeaderText = "Item Accessibility";
-            this.itemAccessibilityDataGridViewTextBoxColumn.Name = "itemAccessibilityDataGridViewTextBoxColumn";
-            this.itemAccessibilityDataGridViewTextBoxColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.itemAccessibilityDataGridViewTextBoxColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.itemAccessibilityDataGridViewTextBoxColumn.Width = 98;
-            // 
-            // areaBindingSource
-            // 
-            this.areaBindingSource.DataSource = typeof(Povoater.Layers.Area);
+            this.printToolStripMenuItem.Enabled = false;
+            this.printToolStripMenuItem.Name = "printToolStripMenuItem";
+            this.printToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.printToolStripMenuItem.Text = "Print";
+            this.printToolStripMenuItem.Click += new System.EventHandler(this.printToolStripMenuItem_Click);
             // 
             // Monsters
             // 
@@ -1085,6 +1095,7 @@
             this.groupBox_objectives.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_numberItens)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.areaBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_maxmonsters)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_hordes)).EndInit();
             this.groupBox_selection.ResumeLayout(false);
@@ -1093,6 +1104,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_history)).EndInit();
             this.groupBox_label.ResumeLayout(false);
             this.groupBox_label.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.groupBox_lever.ResumeLayout(false);
             this.groupBox_lever.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_lever_accessibility)).EndInit();
@@ -1100,9 +1113,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_lever_ah)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_lever_ni)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_lever_nm)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.areaBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1197,5 +1207,6 @@
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.TrackBar trackBar_lever_accessibility;
         private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.ToolStripMenuItem printToolStripMenuItem;
     }
 }

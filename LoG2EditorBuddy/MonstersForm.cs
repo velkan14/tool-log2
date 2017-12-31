@@ -10,6 +10,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -173,6 +174,8 @@ namespace Povoater
                 trackBar_history.Enabled = true;
 
                 gridPanel.Enabled = true;
+
+                printToolStripMenuItem.Enabled = true;
             }));
         }
 
@@ -588,6 +591,24 @@ namespace Povoater
         {
             Console.WriteLine("Show");
             core.ShowPovoater();
+        }
+
+        private void printToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Bitmap image = lastImage.Clone() as Bitmap;
+
+            SaveFileDialog dialog = new SaveFileDialog();
+            dialog.AddExtension = true;
+            dialog.DefaultExt = "png";
+            dialog.OverwritePrompt = true;
+            dialog.ValidateNames = true;
+            dialog.Filter = "Png Files | *.png";
+
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                image.Save(dialog.FileName, ImageFormat.Png);
+            }
+
         }
     }
 }
